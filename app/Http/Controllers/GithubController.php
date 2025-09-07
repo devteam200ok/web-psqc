@@ -37,9 +37,9 @@ class GithubController extends Controller
                 try {
                     $joinedEmail = $github_user->email ?: '(이메일 비공개)';
                     Mail::raw("새로 가입한 고객 이메일: {$joinedEmail}", function ($message) use ($joinedEmail) {
-                        $message->from('info@devteam-test.com', 'DevTeam Test');   // SES 검증된 발신자
+                        $message->from('info@dweb-psqc.com', 'Web PSQC');   // SES 검증된 발신자
                         $message->to('devteam.200.ok@gmail.com', 'DevTeam Admin');  // 너한테 알림
-                        $message->subject('🎉 새로운 고객이 GitHub로 가입했어요! 축하해 🎈');
+                        $message->subject('[Web PSQC]🎉 새로운 고객이 GitHub로 가입했어요! 축하해 🎈');
                     });
                 } catch (\Throwable $e) {
                     report($e); // 메일 실패해도 흐름 막지 않음

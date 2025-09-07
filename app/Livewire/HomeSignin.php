@@ -69,11 +69,9 @@ class HomeSignin extends Component
         // ✅ Send notification email to admin via SES (new customer registration)
         try {
             Mail::raw("New customer email: {$this->email}", function ($message) {
-                $message->from('info@web-psqc.com', 'Web-PSQC');   // SES verified sender
-                $message->to('devteam.200.ok@gmail.com', 'Web-PSQC Admin');  // Recipient
-                $message->subject('🎉 New Customer Registration! 🎈');
-                // (Optional) Add replyTo if you want to reply directly to the new user
-                // $message->replyTo($this->email, $this->name);
+                $message->from('info@dweb-psqc.com', 'Web PSQC');   // SES 검증된 발신자
+                $message->to('devteam.200.ok@gmail.com', 'DevTeam Admin');  // 너한테 알림
+                $message->subject('[Web PSQC]🎉 새로운 고객이 Email로 가입했어요! 축하해 🎈');
             });
         } catch (\Throwable $e) {
             report($e); // Don't block registration flow even if email fails
