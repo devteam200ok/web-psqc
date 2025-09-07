@@ -12,6 +12,29 @@ use Illuminate\Support\Facades\Cache;
 
 class NucleiTestService
 {
+    private function ensureNucleiEnv(): array
+    {
+        // 1) HOME 고정: 서버 표준 경로 또는 Laravel storage 밑에 고정하세요.
+        $nucleiHome = env('NUCLEI_HOME', '/var/www/.nuclei'); // 또는 storage_path('.nuclei')
+        $templates  = env('NUCLEI_TEMPLATES', $nucleiHome . '/templates');
+        $configDir  = $nucleiHome;              // nuclei는 기본적으로 $HOME/.nuclei를 씁니다.
+        $cacheDir   = $nucleiHome . '/cache';   // 임의 캐시 경로
+
+        foreach ([$nucleiHome, $templates, $cacheDir] as $dir) {
+            if (!is_dir($dir)) {
+                @mkdir($dir, 0775, true);
+            }
+        }
+
+        // ignore 파일이 없으면 빈 파일 생성
+        $ignoreFile = $nucleiHome . '/.nuclei-ignore';
+        if (!file_exists($ignoreFile)) {
+            @touch($ignoreFile);
+        }
+
+        return [$nucleiHome, $templates, $configDir, $cacheDir, $ignoreFile];
+    }
+
     private function testConnection(string $url): bool
     {
         try {
@@ -89,140 +112,127 @@ class NucleiTestService
 
     private function performNucleiTest($url, $test): array
     {
-        $startTime = time();
-        
-        // Nuclei 실행 파일 경로 확인
-        $possiblePaths = [
-            '/usr/local/bin/nuclei',
-            '/home/ubuntu/go/bin/nuclei',
-            '/usr/bin/nuclei',
-            'nuclei'
-        ];
-        
+        $startTime = microtime(true);
+
+        // nuclei 바이너리 탐색
+        $possiblePaths = ['/usr/local/bin/nuclei','/usr/bin/nuclei','/home/ubuntu/go/bin/nuclei','nuclei'];
         $nucleiPath = null;
-        foreach ($possiblePaths as $path) {
-            if ($path === 'nuclei' || (file_exists($path) && is_executable($path))) {
-                $nucleiPath = $path;
-                break;
-            }
+        foreach ($possiblePaths as $p) {
+            if ($p === 'nuclei' || (file_exists($p) && is_executable($p))) { $nucleiPath = $p; break; }
         }
-        
-        if (!$nucleiPath) {
-            throw new \RuntimeException("Nuclei 실행 파일을 찾을 수 없습니다.");
-        }
+        if (!$nucleiPath) throw new \RuntimeException("Nuclei 실행 파일을 찾을 수 없습니다.");
 
-        // Nuclei 설정 디렉토리 생성 (존재하지 않으면)
-        $nucleiConfigDir = '/tmp/.nuclei';
-        $nucleiCacheDir = '/tmp/.nuclei-cache';
-        
-        if (!is_dir($nucleiConfigDir)) {
-            mkdir($nucleiConfigDir, 0777, true);
-        }
-        if (!is_dir($nucleiCacheDir)) {
-            mkdir($nucleiCacheDir, 0777, true);
-        }
+        // 환경 정리
+        [$nucleiHome, $templatesDir, $nucleiConfigDir, $nucleiCacheDir, $ignoreFile] = $this->ensureNucleiEnv();
 
-        // 최신 템플릿 리스트 파일 (사전에 준비된 파일)
-        $templateList = '/tmp/nuclei-templates-2024-2025.txt';
-        if (!file_exists($templateList)) {
-            // 템플릿 리스트가 없으면 기본 템플릿 사용
-            $templates = [];
-        } else {
-            $templates = [];
-            foreach (file($templateList, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $tpl) {
-                $templates[] = "-t";
-                $templates[] = $tpl;
-            }
-        }
+        // 템플릿 리스트 파일
+        $templateListFile = env('NUCLEI_TEMPLATE_LIST', '/var/www/.nuclei/nuclei-templates-2024-2025.txt');
 
-        // Nuclei 커맨드 구성
-        $cmd = array_merge([
+        // 실행 커맨드 구성
+        $cmd = [
             $nucleiPath,
-            '-target', $url,
+            '-u', $url,
             '-severity', 'critical,high,medium,low',
             '-jsonl',
             '-silent',
-            '-duc',
-            '-ni',
+            '-duc',          // display uncolorized cve? (원래 쓰던 옵션 유지)
+            '-ni',           // no interactsh
             '-no-color',
             '-timeout', '10',
             '-retries', '0',
             '-rate-limit', '20',
             '-c', '10',
-        ], $templates);
+        ];
 
+        // 템플릿 지정: 리스트 있으면 목록 기반, 없으면 디렉터리 전체
+        $templateArgs = [];
+        if (file_exists($templateListFile)) {
+            foreach (file($templateListFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $tpl) {
+                $tpl = trim($tpl);
+                if ($tpl !== '') {
+                    $templateArgs[] = '-t';
+                    $templateArgs[] = $tpl;
+                }
+            }
+        }
+
+        if (empty($templateArgs)) {
+            // 리스트가 없거나 비면, 설치된 템플릿 디렉터리 전체를 사용
+            $templateArgs = ['-templates', $templatesDir];
+        }
+        $cmd = array_merge($cmd, $templateArgs);
+
+        // 환경 변수
         $env = [
-            'HOME' => '/tmp',
+            'HOME' => $nucleiHome,                  // 가장 중요!
             'NUCLEI_CONFIG_DIR' => $nucleiConfigDir,
             'NUCLEI_CACHE_DIR'  => $nucleiCacheDir,
             'PATH' => getenv('PATH'),
         ];
 
-        // 프로세스 실행
-        $process = new Process($cmd, null, $env, null, 150);
+        // 실행
+        $process = new Process($cmd, base_path(), $env, null, 180);
         $process->run();
 
-        $duration = time() - $startTime;
+        $duration = (int) round((microtime(true) - $startTime), 0);
         $stdout = $process->getOutput();
         $stderr = $process->getErrorOutput();
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException("Nuclei 실행 실패: " . $stderr);
+            // 흔한 원인 힌트 붙이기
+            $hint = [];
+            if (str_contains($stderr, 'no templates provided')) {
+                $hint[] = '템플릿이 비었습니다. `nuclei -update-templates` 후 템플릿 경로를 확인하세요.';
+            }
+            if (str_contains($stderr, '.nuclei-ignore') || str_contains($stderr, 'permission')) {
+                $hint[] = "HOME({$nucleiHome}) 권한/경로를 확인하세요. {$ignoreFile} 존재해야 합니다.";
+            }
+            $hintMsg = $hint ? ' | HINT: ' . implode(' / ', $hint) : '';
+            throw new \RuntimeException("Nuclei 실행 실패: {$stderr}{$hintMsg}");
         }
 
         // JSONL 파싱
-        $vulnerabilities = [
-            'critical' => [],
-            'high' => [],
-            'medium' => [],
-            'low' => [],
-            'info' => []
-        ];
-        
+        $buckets = ['critical'=>[], 'high'=>[], 'medium'=>[], 'low'=>[], 'info'=>[]];
         $templateDetails = [];
 
         foreach (explode("\n", trim($stdout)) as $line) {
-            if (!$line) continue;
-            
+            if ($line === '') continue;
             $data = json_decode($line, true);
             if (!$data || !isset($data['info'])) continue;
 
-            $severity = strtolower($data['info']['severity'] ?? 'info');
+            $severity   = strtolower($data['info']['severity'] ?? 'info');
             $templateId = $data['template-id'] ?? '';
-            $name = $data['info']['name'] ?? '';
-            $desc = $data['info']['description'] ?? '';
-            $matched = $data['matched-at'] ?? $url;
-            $reference = $data['info']['reference'] ?? [];
+            $name       = $data['info']['name'] ?? '';
+            $desc       = $data['info']['description'] ?? '';
+            $matched    = $data['matched-at'] ?? $url;
+            $reference  = (array)($data['info']['reference'] ?? []);
 
-            $vuln = [
+            $v = [
                 'template_id' => $templateId,
-                'name' => $name,
+                'name'        => $name,
                 'description' => $desc,
-                'matched_at' => $matched,
-                'severity' => $severity,
-                'reference' => $reference
+                'matched_at'  => $matched,
+                'severity'    => $severity,
+                'reference'   => $reference,
             ];
-            
-            if (isset($vulnerabilities[$severity])) {
-                $vulnerabilities[$severity][] = $vuln;
-            }
-            
-            // 템플릿 정보 수집
+
+            if (isset($buckets[$severity])) $buckets[$severity][] = $v;
+
             if (!isset($templateDetails[$templateId])) {
                 $templateDetails[$templateId] = [
-                    'id' => $templateId,
-                    'name' => $name,
-                    'severity' => $severity,
-                    'description' => $desc
+                    'id'          => $templateId,
+                    'name'        => $name,
+                    'severity'    => $severity,
+                    'description' => $desc,
                 ];
             }
         }
 
         return [
-            'vulnerabilities' => $vulnerabilities,
-            'template_details' => $templateDetails,
-            'duration' => $duration,
-            'raw_output' => $stdout
+            'vulnerabilities' => $buckets,
+            'template_details'=> $templateDetails,
+            'duration'        => $duration,
+            'raw_output'      => $stdout,
         ];
     }
 
@@ -352,31 +362,47 @@ class NucleiTestService
     public function getTemplateInfo(): array
     {
         return Cache::remember('nuclei_templates_2024_2025', 86400, function () {
-            $templateFile = "/tmp/nuclei-templates-2024-2025.txt";
-            $result = [];
+            $nucleiHome       = env('NUCLEI_HOME', '/var/www/.nuclei');
+            $templateListFile = env('NUCLEI_TEMPLATE_LIST', $nucleiHome . '/nuclei-templates-2024-2025.txt');
+            $templatesDir     = env('NUCLEI_TEMPLATES', $nucleiHome . '/templates');
 
-            if (file_exists($templateFile)) {
-                foreach (file($templateFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $path) {
-                    if (!file_exists($path)) continue;
+            $paths = [];
 
-                    try {
-                        $yaml = Yaml::parseFile($path);
+            if (file_exists($templateListFile)) {
+                foreach (file($templateListFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $p) {
+                    $p = trim($p);
+                    if ($p) $paths[] = $p;
+                }
+            }
 
-                        $result[] = [
-                            'id'          => $yaml['id'] ?? basename($path, '.yaml'),
-                            'name'        => $yaml['info']['name'] ?? '',
-                            'severity'    => $yaml['info']['severity'] ?? 'info',
-                            'description' => $yaml['info']['description'] ?? '',
-                            'reference'   => (array)($yaml['info']['reference'] ?? []),
-                            'author'      => $yaml['info']['author'] ?? '',
-                            'path'        => $path,
-                        ];
-                    } catch (\Throwable $e) {
-                        Log::warning("Failed to parse template: " . $path);
+            // 리스트가 없으면 디렉터리 전체를 스캔(최상위만; 너무 크면 필요 시 제한)
+            if (empty($paths) && is_dir($templatesDir)) {
+                $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($templatesDir));
+                foreach ($it as $f) {
+                    if ($f->isFile() && str_ends_with($f->getFilename(), '.yaml')) {
+                        $paths[] = $f->getPathname();
                     }
                 }
             }
 
+            $result = [];
+            foreach ($paths as $path) {
+                if (!file_exists($path)) continue;
+                try {
+                    $yaml = Yaml::parseFile($path);
+                    $result[] = [
+                        'id'          => $yaml['id'] ?? basename($path, '.yaml'),
+                        'name'        => $yaml['info']['name'] ?? '',
+                        'severity'    => $yaml['info']['severity'] ?? 'info',
+                        'description' => $yaml['info']['description'] ?? '',
+                        'reference'   => (array)($yaml['info']['reference'] ?? []),
+                        'author'      => $yaml['info']['author'] ?? '',
+                        'path'        => $path,
+                    ];
+                } catch (\Throwable $e) {
+                    Log::warning("Failed to parse template: " . $path);
+                }
+            }
             return $result;
         });
     }
