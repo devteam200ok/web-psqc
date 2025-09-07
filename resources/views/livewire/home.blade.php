@@ -322,7 +322,7 @@
                 <div class="col-md-6 mb-4 mb-md-0">
                     <!-- Desktop title -->
                     <h1 class="hero-title d-none d-md-block mb-4">
-                        Achieve Top 2% Web Quality<br>Trusted by Global Standards
+                        aAchieve Top 2% Web Quality<br>Trusted by Global Standards
                     </h1>
                     <!-- Mobile title -->
                     <h2 class="h1 d-md-none mb-4">
@@ -406,7 +406,7 @@
     <section class="py-5 bg-white" id="test">
         <div class="container px-3 my-5">
             <div class="text-center mb-5">
-                <h2 class="fw-bold mb-3" style="font-size:1.8rem">16 Professional Web Tests </h2>
+                <h2 class="fw-bold mb-3" style="font-size:1.8rem">16 Professional Web Tests</h2>
                 <p class="text-muted mb-4" style="font-size:1rem">
                     Industry-standard tooling, integrated into a single PSQC workflow to measure overall web quality.
                 </p>
