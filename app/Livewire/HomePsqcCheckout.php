@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class HomePsqcCheckout extends Component
 {
     public PsqcCertification $certification;
-    public $amount = 59000; // 인증서 발급 비용 (원)
+    public $amount = 59; // 인증서 발급 비용 (원)
     public $orderId;
     public $testDetails = [];
 

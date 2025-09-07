@@ -13,27 +13,27 @@ class PlanController extends Controller
 {
     protected $planTemplates = [
         'starter' => [
-            'name' => 'Starter', 'price' => 29000, 'is_subscription' => true,
+            'name' => 'Starter', 'price' => 29, 'is_subscription' => true,
             'monthly_limit' => 600, 'daily_limit' => 60, 'total_limit' => null,
             'validity_days' => null, 'refund_days' => 7,
         ],
         'pro' => [
-            'name' => 'Pro', 'price' => 69000, 'is_subscription' => true,
+            'name' => 'Pro', 'price' => 69, 'is_subscription' => true,
             'monthly_limit' => 1500, 'daily_limit' => 150, 'total_limit' => null,
             'validity_days' => null, 'refund_days' => 7,
         ],
         'agency' => [
-            'name' => 'Agency', 'price' => 199000, 'is_subscription' => true,
+            'name' => 'Agency', 'price' => 199, 'is_subscription' => true,
             'monthly_limit' => 6000, 'daily_limit' => 600, 'total_limit' => null,
             'validity_days' => null, 'refund_days' => 7,
         ],
         'test1' => [
-            'name' => 'Test1', 'price' => 4900, 'is_subscription' => false,
+            'name' => 'Test1', 'price' => 49, 'is_subscription' => false,
             'monthly_limit' => null, 'daily_limit' => 30, 'total_limit' => 30,
             'validity_days' => 1, 'refund_days' => 0,
         ],
         'test7' => [
-            'name' => 'Test7', 'price' => 19000, 'is_subscription' => false,
+            'name' => 'Test7', 'price' => 19, 'is_subscription' => false,
             'monthly_limit' => null, 'daily_limit' => null, 'total_limit' => 150,
             'validity_days' => 7, 'refund_days' => 3,
         ],
@@ -43,7 +43,7 @@ class PlanController extends Controller
             'validity_days' => 30, 'refund_days' => 7,
         ],
         'test90' => [
-            'name' => 'Test90', 'price' => 119000, 'is_subscription' => false,
+            'name' => 'Test90', 'price' => 119, 'is_subscription' => false,
             'monthly_limit' => null, 'daily_limit' => null, 'total_limit' => 1300,
             'validity_days' => 90, 'refund_days' => 30,
         ],

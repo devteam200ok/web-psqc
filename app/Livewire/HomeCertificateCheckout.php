@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeCertificateCheckout extends Component
 {
     public Certificate $certificate;
-    public $amount = 19000; // 인증서 발급 비용 (원)
+    public $amount = 19; // 인증서 발급 비용 (원)
     public $orderId;
 
     public function mount(Certificate $certificate)

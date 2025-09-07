@@ -13,7 +13,7 @@ class ClientPlan extends Component
     protected $planTemplates = [
         'starter' => [
             'name' => 'Starter',
-            'price' => 29000,
+            'price' => 29,
             'is_subscription' => true,
             'description' => 'Basic plan for individuals and small teams',
             'features' => [
@@ -25,7 +25,7 @@ class ClientPlan extends Component
         ],
         'pro' => [
             'name' => 'Pro',
-            'price' => 69000,
+            'price' => 69,
             'is_subscription' => true,
             'description' => 'Professional plan for medium-sized teams',
             'features' => [
@@ -38,7 +38,7 @@ class ClientPlan extends Component
         ],
         'agency' => [
             'name' => 'Agency',
-            'price' => 199000,
+            'price' => 199,
             'is_subscription' => true,
             'description' => 'Premium plan for large agencies',
             'features' => [

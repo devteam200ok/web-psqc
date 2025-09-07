@@ -22,7 +22,7 @@ class ClientPurchase extends Component
     protected $planTemplates = [
         'starter' => [
             'name' => 'Starter',
-            'price' => 29000,
+            'price' => 29,
             'is_subscription' => true,
             'monthly_limit' => 600,
             'daily_limit' => 60,
@@ -33,7 +33,7 @@ class ClientPurchase extends Component
         ],
         'pro' => [
             'name' => 'Pro',
-            'price' => 69000,
+            'price' => 69,
             'is_subscription' => true,
             'monthly_limit' => 1500,
             'daily_limit' => 150,
@@ -44,7 +44,7 @@ class ClientPurchase extends Component
         ],
         'agency' => [
             'name' => 'Agency',
-            'price' => 199000,
+            'price' => 199,
             'is_subscription' => true,
             'monthly_limit' => 6000,
             'daily_limit' => 600,
@@ -55,7 +55,7 @@ class ClientPurchase extends Component
         ],
         'test1' => [
             'name' => 'Test1',
-            'price' => 4900,
+            'price' => 49,
             'is_subscription' => false,
             'monthly_limit' => null,
             'daily_limit' => 30,
@@ -67,7 +67,7 @@ class ClientPurchase extends Component
         ],
         'test7' => [
             'name' => 'Test7',
-            'price' => 19000,
+            'price' => 19,
             'is_subscription' => false,
             'monthly_limit' => null,
             'daily_limit' => null,
@@ -91,7 +91,7 @@ class ClientPurchase extends Component
         ],
         'test90' => [
             'name' => 'Test90',
-            'price' => 119000,
+            'price' => 119,
             'is_subscription' => false,
             'monthly_limit' => null,
             'daily_limit' => null,
