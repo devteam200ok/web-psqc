@@ -22,7 +22,7 @@ class HomeContentLinks extends Component
     }
 
     /**
-     * 테스트 타입 반환
+     * Return test type
      */
     protected function getTestType(): string
     {
@@ -30,7 +30,7 @@ class HomeContentLinks extends Component
     }
 
     /**
-     * 테스트 설정 반환
+     * Return test configuration
      */
     protected function getTestConfig(): array
     {
@@ -42,7 +42,7 @@ class HomeContentLinks extends Component
     }
 
     /**
-     * 링크 검증 테스트 실행
+     * Run link validation test
      */
     public function runTest()
     {
@@ -57,26 +57,26 @@ class HomeContentLinks extends Component
         }
         
         if ($this->isDuplicateRecentTest($this->url)) {
-            $this->addError('url', '동일한 URL에 대한 테스트가 최근 1분 내에 실행되었습니다.');
+            $this->addError('url', 'A test for the same URL was executed within the last minute.');
             return;
         }
 
-        // 사용량 체크
+        // Check usage
         if (Auth::check()) {
             if (!$this->canUseService()) {
-                session()->flash('error', '사용 가능한 횟수를 초과했습니다.');
+                session()->flash('error', 'You have exceeded your available usage limit.');
                 return;
             }
         } else {
             if (!$this->hasUsageRemaining()) {
-                session()->flash('error', '사용량이 초과되었습니다. 로그인 후 이용해주세요.');
+                session()->flash('error', 'Usage limit exceeded. Please log in to continue.');
                 return;
             }
         }
 
         $this->isLoading = true;
 
-        // WebTest 생성
+        // Create WebTest
         $test = WebTest::create([
             'user_id' => Auth::id(),
             'test_type' => $this->getTestType(),
@@ -86,7 +86,7 @@ class HomeContentLinks extends Component
             'test_config' => $this->getTestConfig()
         ]);
 
-        // 사용량 차감
+        // Deduct usage
         if (Auth::check()) {
             $domain = parse_url($this->url, PHP_URL_HOST) ?? $this->url;
             $this->consumeService($domain, $this->getTestType());
@@ -126,7 +126,7 @@ class HomeContentLinks extends Component
     }
 
     /**
-     * 링크 검증 결과의 등급별 색상 클래스 반환
+     * Return grade badge class for link validation results
      */
     public function getGradeBadgeClass($grade): string
     {
@@ -142,7 +142,7 @@ class HomeContentLinks extends Component
     }
 
     /**
-     * HTTP 상태별 색상 클래스 반환
+     * Return color class by HTTP status
      */
     public function getStatusBadgeClass($status): string
     {
@@ -162,7 +162,7 @@ class HomeContentLinks extends Component
     }
 
     /**
-     * 오류율별 색상 클래스 반환
+     * Return color class by error rate
      */
     public function getErrorRateBadgeClass($errorRate): string
     {

@@ -22,7 +22,7 @@ class HomeQualityAccessibility extends Component
     }
 
     /**
-     * 테스트 타입 반환
+     * Return test type
      */
     protected function getTestType(): string
     {
@@ -30,7 +30,7 @@ class HomeQualityAccessibility extends Component
     }
 
     /**
-     * 테스트 설정 반환
+     * Return test configuration
      */
     protected function getTestConfig(): array
     {
@@ -42,7 +42,7 @@ class HomeQualityAccessibility extends Component
     }
 
     /**
-     * 접근성 테스트 실행
+     * Run accessibility test
      */
     public function runTest()
     {
@@ -57,26 +57,26 @@ class HomeQualityAccessibility extends Component
         }
         
         if ($this->isDuplicateRecentTest($this->url)) {
-            $this->addError('url', '동일한 URL에 대한 테스트가 최근 1분 내에 실행되었습니다.');
+            $this->addError('url', 'A test for this URL was already executed within the last minute.');
             return;
         }
 
-        // 사용량 체크
+        // Check usage
         if (Auth::check()) {
             if (!$this->canUseService()) {
-                session()->flash('error', '사용 가능한 횟수를 초과했습니다.');
+                session()->flash('error', 'You have exceeded your available usage limit.');
                 return;
             }
         } else {
             if (!$this->hasUsageRemaining()) {
-                session()->flash('error', '사용량이 초과되었습니다. 로그인 후 이용해주세요.');
+                session()->flash('error', 'Usage limit exceeded. Please log in to continue.');
                 return;
             }
         }
 
         $this->isLoading = true;
 
-        // WebTest 생성
+        // Create WebTest record
         $test = WebTest::create([
             'user_id' => Auth::id(),
             'test_type' => $this->getTestType(),
@@ -86,7 +86,7 @@ class HomeQualityAccessibility extends Component
             'test_config' => $this->getTestConfig()
         ]);
 
-        // 사용량 차감
+        // Deduct usage
         if (Auth::check()) {
             $domain = parse_url($this->url, PHP_URL_HOST) ?? $this->url;
             $this->consumeService($domain, $this->getTestType());
@@ -126,28 +126,28 @@ class HomeQualityAccessibility extends Component
     }
 
     /**
-     * 접근성 테스트 정보 텍스트
+     * Accessibility test information text
      */
     public function getTestInformation(): array
     {
         return [
-            'title' => '웹 접근성 심화 테스트 (axe-core 기반)',
-            'description' => 'WCAG 2.1 규칙 기반으로 웹사이트의 접근성을 자동으로 검사합니다.',
+            'title' => 'Web Accessibility Advanced Test (axe-core based)',
+            'description' => 'Automatically checks website accessibility based on WCAG 2.1 standards.',
             'details' => [
-                '• axe-core CLI를 사용한 국제 표준 준수 검사',
-                '• WCAG 2.1 Level A, AA 규칙 및 모범 사례 검증',
-                '• Critical, Serious, Moderate, Minor 4단계 중요도 분류',
-                '• 키보드 탐색, 스크린 리더 호환성, ARIA 속성 검증',
-                '• 색상 대비, 대체 텍스트, 레이블링 점검',
-                '• 랜드마크, 헤딩 구조, 포커스 관리 분석'
+                '• International standard compliance check using axe-core CLI',
+                '• Verification against WCAG 2.1 Level A and AA rules and best practices',
+                '• Four severity levels: Critical, Serious, Moderate, Minor',
+                '• Keyboard navigation, screen reader compatibility, ARIA attribute validation',
+                '• Color contrast, alternative text, labeling verification',
+                '• Landmark, heading structure, and focus management analysis'
             ],
-            'test_duration' => '약 30초 ~ 2분',
-            'test_method' => 'Puppeteer 기반 헤드리스 브라우저로 페이지를 렌더링한 후, axe-core 엔진으로 접근성 규칙을 검사합니다.'
+            'test_duration' => 'Approx. 30 seconds to 2 minutes',
+            'test_method' => 'The page is rendered with a Puppeteer-based headless browser, then accessibility rules are validated using the axe-core engine.'
         ];
     }
 
     /**
-     * 등급 기준 정보
+     * Grade criteria information
      */
     public function getGradeCriteria(): array
     {
@@ -155,53 +155,53 @@ class HomeQualityAccessibility extends Component
             'A+' => [
                 'score' => '90~100',
                 'criteria' => [
-                    'Critical: 0건',
-                    'Serious: 0건',
-                    '전체 위반: 3건 이하',
-                    '키보드/ARIA/대체텍스트/대비 모두 양호'
+                    'Critical: 0',
+                    'Serious: 0',
+                    'Total violations: 3 or fewer',
+                    'Keyboard/ARIA/Alt-text/Contrast all valid'
                 ]
             ],
             'A' => [
                 'score' => '80~89',
                 'criteria' => [
-                    'Critical: 0건',
-                    'Serious: 3건 이하',
-                    '전체 위반: 8건 이하',
-                    '주요 Landmark/Label 대체로 양호'
+                    'Critical: 0',
+                    'Serious: 3 or fewer',
+                    'Total violations: 8 or fewer',
+                    'Majority of Landmarks/Labels valid'
                 ]
             ],
             'B' => [
                 'score' => '70~79',
                 'criteria' => [
-                    'Critical: 1건 이하',
-                    'Serious: 6건 이하',
-                    '전체 위반: 15건 이하',
-                    '일부 contrast/label 개선 필요'
+                    'Critical: up to 1',
+                    'Serious: up to 6',
+                    'Total violations: 15 or fewer',
+                    'Some contrast/label improvements needed'
                 ]
             ],
             'C' => [
                 'score' => '60~69',
                 'criteria' => [
-                    'Critical: 3건 이하',
-                    'Serious: 10건 이하',
-                    '전체 위반: 25건 이하',
-                    '포커스/ARIA 구조 보완 필요'
+                    'Critical: up to 3',
+                    'Serious: up to 10',
+                    'Total violations: 25 or fewer',
+                    'Focus/ARIA structure improvements needed'
                 ]
             ],
             'D' => [
                 'score' => '50~59',
                 'criteria' => [
-                    'Critical: 6건 이하 또는 Serious: 18건 이하',
-                    '전체 위반: 40건 이하',
-                    '키보드 트랩/레이블 누락 다수'
+                    'Critical: up to 6 OR Serious: up to 18',
+                    'Total violations: 40 or fewer',
+                    'Multiple keyboard traps/label omissions'
                 ]
             ],
             'F' => [
                 'score' => '0~49',
                 'criteria' => [
-                    '위 기준 초과',
-                    'Critical/Serious 다수',
-                    '스크린리더/키보드 이용 곤란 수준'
+                    'Exceeds above criteria',
+                    'Multiple Critical/Serious issues',
+                    'Severe accessibility barriers for screen reader/keyboard use'
                 ]
             ]
         ];

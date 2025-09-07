@@ -1,10 +1,10 @@
 @section('title')
-    <title>🔗 링크 검증 테스트 - 깨진 링크 · 리다이렉트 체인 · 앵커 유효성 분석 - DevTeam Test</title>
+    <title>🔗 Link Validation Test - Broken Links · Redirect Chains · Anchor Validity Analysis - Web-PSQC</title>
     <meta name="description"
-        content="웹사이트의 모든 내부·외부·이미지 링크를 크롤링하여 깨진 링크와 오류를 탐지합니다. 404/500 상태 코드, 리다이렉트 체인, 앵커 유효성을 분석해 웹 품질과 사용자 경험을 평가합니다.">
+        content="Crawl all internal, external, and image links on your website to detect broken links and errors. Analyze 404/500 status codes, redirect chains, and anchor validity to evaluate web quality and user experience.">
     <meta name="keywords"
-        content="링크 검증, Broken Link Checker, 깨진 링크 탐지, 404 오류 검사, 앵커 링크 유효성, 리다이렉트 체인 분석, HTTP 상태 코드 점검, 웹사이트 품질 평가, DevTeam Test">
-    <meta name="author" content="DevTeam Co., Ltd.">
+        content="link validation, Broken Link Checker, broken link detection, 404 error check, anchor link validity, redirect chain analysis, HTTP status code inspection, website quality evaluation, Web-PSQC">
+    <meta name="author" content="Web-PSQC Co., Ltd.">
     <meta name="robots" content="index,follow">
 
     <link rel="canonical" href="{{ url()->current() }}" />
@@ -12,21 +12,21 @@
     <!-- Open Graph -->
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevTeam Test" />
-    <meta property="og:title" content="🔗 링크 검증 테스트 - 깨진 링크 · 리다이렉트 체인 · 앵커 유효성 분석 - DevTeam Test" />
+    <meta property="og:site_name" content="Web-PSQC" />
+    <meta property="og:title" content="🔗 Link Validation Test - Broken Links · Redirect Chains · Anchor Validity Analysis - Web-PSQC" />
     <meta property="og:description"
-        content="내부/외부/이미지 링크 상태를 점검하여 깨진 링크를 찾고, 리다이렉트 체인과 앵커 유효성을 분석해 사이트 품질을 평가합니다. 오류율 기반 등급과 A+ 인증서 발급 지원." />
+        content="Check internal/external/image link status to find broken links, analyze redirect chains and anchor validity to evaluate site quality. Error rate-based grading and A+ certificate issuance support." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="DevTeam Test 링크 검증 결과" />
+        <meta property="og:image:alt" content="Web-PSQC Link Validation Results" />
     @endif
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="🔗 링크 검증 테스트 - 깨진 링크 · 리다이렉트 체인 · 앵커 유효성 분석" />
+    <meta name="twitter:title" content="🔗 Link Validation Test - Broken Links · Redirect Chains · Anchor Validity Analysis" />
     <meta name="twitter:description"
-        content="모든 링크 상태를 검사하여 깨진 링크와 오류를 탐지하고, 리다이렉트 체인과 앵커 유효성을 분석해 웹사이트 품질을 평가합니다. DevTeam Test로 A+ 인증서를 발급받으세요." />
+        content="Check all link statuses to detect broken links and errors, analyze redirect chains and anchor validity to evaluate website quality. Get your A+ certificate with Web-PSQC." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -36,14 +36,14 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => '링크 검증 테스트 - 깨진 링크 · 리다이렉트 체인 · 앵커 유효성 분석',
+    'name' => 'Link Validation Test - Broken Links · Redirect Chains · Anchor Validity Analysis',
     'url' => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
-        'name' => 'DevTeam Test',
+        'name' => 'Web-PSQC',
         'url' => url('/'),
     ],
-    'description' => '웹사이트의 모든 내부·외부·이미지 링크를 크롤링하여 깨진 링크와 오류를 탐지합니다. 404/500 상태 코드, 리다이렉트 체인, 앵커 유효성을 분석해 웹 품질과 사용자 경험을 평가합니다.',
+    'description' => 'Crawl all internal, external, and image links on your website to detect broken links and errors. Analyze 404/500 status codes, redirect chains, and anchor validity to evaluate web quality and user experience.',
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
 @endsection
@@ -53,8 +53,8 @@
 @endsection
 
 <div class="page-wrapper">
-    {{-- 헤더 (공통 컴포넌트) --}}
-    <x-test-shared.header title="🔗 링크 검증" subtitle="내부/외부/이미지 링크 + 앵커 상태 검사" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    {{-- Header (Common Component) --}}
+    <x-test-shared.header title="🔗 Link Validation" subtitle="Internal/External/Image Links + Anchor Status Check" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">
@@ -62,13 +62,13 @@
             @include('inc.component.message')
             <div class="row">
                 <div class="col-xl-8 d-block mb-2">
-                    {{-- URL 폼 (개별 컴포넌트) --}}
+                    {{-- URL Form (Individual Component) --}}
                     <div class="card mb-3">
                         <div class="card-body">
-                            <!-- URL 입력 폼 -->
+                            <!-- URL Input Form -->
                             <div class="row mb-4">
                                 <div class="col-xl-12">
-                                    <label class="form-label">홈페이지 주소</label>
+                                    <label class="form-label">Website URL</label>
                                     <div class="input-group">
                                         <input type="url" wire:model="url" wire:keydown.enter="runTest"
                                             class="form-control @error('url') is-invalid @enderror"
@@ -79,9 +79,9 @@
                                             @if ($isLoading)
                                                 <span class="spinner-border spinner-border-sm me-2"
                                                     role="status"></span>
-                                                진행 중...
+                                                Running...
                                             @else
-                                                테스트
+                                                Test
                                             @endif
                                         </button>
                                     </div>
@@ -92,9 +92,9 @@
                                     @if ($hasProOrAgencyPlan)
                                         <div class="mt-2">
                                             <a href="javascript:void(0)" wire:click="toggleScheduleForm"
-                                                class="text-primary me-3">검사 예약</a>
+                                                class="text-primary me-3">Schedule Test</a>
                                             <a href="javascript:void(0)" wire:click="toggleRecurringForm"
-                                                class="text-primary">스케쥴 등록</a>
+                                                class="text-primary">Add Schedule</a>
                                         </div>
                                     @endif
                                 </div>
@@ -103,19 +103,19 @@
                     </div>
 
                     @if ($hasProOrAgencyPlan)
-                        {{-- 검사 예약 폼 (공통 컴포넌트) --}}
+                        {{-- Schedule Form (Common Component) --}}
                         <x-test-shared.schedule-form :show-schedule-form="$showScheduleForm" :schedule-date="$scheduleDate" :schedule-hour="$scheduleHour"
                             :schedule-minute="$scheduleMinute" />
 
-                        {{-- 스케쥴 등록 폼 (공통 컴포넌트) --}}
+                        {{-- Recurring Schedule Form (Common Component) --}}
                         <x-test-shared.recurring-schedule-form :show-recurring-form="$showRecurringForm" :recurring-start-date="$recurringStartDate" :recurring-end-date="$recurringEndDate"
                             :recurring-hour="$recurringHour" :recurring-minute="$recurringMinute" />
                     @endif
 
-                    {{-- 테스트 상태 (공통 컴포넌트) --}}
+                    {{-- Test Status (Common Component) --}}
                     <x-test-shared.test-status :current-test="$currentTest" :selected-history-test="$selectedHistoryTest" />
 
-                    {{-- 개별 테스트만의 고유 내용 --}}
+                    {{-- Unique content for individual test --}}
                     <div class="card">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
@@ -140,75 +140,74 @@
                             <div class="tab-content">
                                 <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                     id="tabs-information">
-                                    <h3>Playwright 기반 링크 검증 도구</h3>
+                                    <h3>Playwright-based Link Validation Tool</h3>
                                     <div class="text-muted small mt-1">
-                                        <strong>측정 도구:</strong> Playwright + Node.js 기반 커스텀 크롤러<br>
-                                        <strong>테스트 목적:</strong> 웹사이트의 모든 링크 상태를 검사하여 사용자 경험을 해치는 깨진 링크, 잘못된 리다이렉트, 존재하지 않는 앵커 등을 찾아냅니다.
+                                        <strong>Measurement Tool:</strong> Custom crawler based on Playwright + Node.js<br>
+                                        <strong>Test Purpose:</strong> Check the status of all links on your website to identify broken links, incorrect redirects, and non-existent anchors that harm user experience.
                                         <br><br>
-                                        <strong>검사 항목:</strong><br>
-                                        • 내부 링크: 동일 도메인 내 모든 페이지 링크의 HTTP 상태<br>
-                                        • 외부 링크: 외부 도메인으로 연결되는 링크의 유효성<br>
-                                        • 이미지 링크: img 태그의 src 속성에 있는 이미지 리소스 상태<br>
-                                        • 앵커 링크: 동일 페이지 내 #id 형태의 앵커 존재 여부<br>
-                                        • 리다이렉트 체인: 각 링크의 리다이렉트 단계 수와 최종 도착지<br>
+                                        <strong>Test Items:</strong><br>
+                                        • Internal Links: HTTP status of all page links within the same domain<br>
+                                        • External Links: Validity of links connecting to external domains<br>
+                                        • Image Links: Status of image resources in img tag src attributes<br>
+                                        • Anchor Links: Existence of anchors in #id format within the same page<br>
+                                        • Redirect Chains: Number of redirect steps and final destination for each link<br>
                                         <br>
-                                        <strong>DevTeam Test</strong>는 Playwright로 실제 브라우저를 구동하여 JavaScript로 생성되는 동적 콘텐츠의 링크까지 
-                                        완벽하게 검사합니다. OAuth/SSO 관련 리다이렉트는 정상으로 간주하여 등급 산정에서 제외합니다.
+                                        <strong>Web-PSQC</strong> uses Playwright to run real browsers and perfectly inspect even dynamic content links generated by JavaScript. OAuth/SSO-related redirects are considered normal and excluded from grading.
                                         <br><br>
-                                        테스트는 약 <strong>30초~4분</strong> 정도 소요되며, 페이지의 링크 수에 따라 달라집니다.
+                                        The test takes approximately <strong>30 seconds to 4 minutes</strong>, depending on the number of links on the page.
                                     </div>
-                                    {{-- 등급 기준 안내 --}}
+                                    {{-- Grading Criteria Guide --}}
                                     <div class="table-responsive mt-3">
                                         <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                             <thead>
                                                 <tr>
-                                                    <th>등급</th>
-                                                    <th>점수</th>
-                                                    <th>기준</th>
+                                                    <th>Grade</th>
+                                                    <th>Score</th>
+                                                    <th>Criteria</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td><span class="badge badge-a-plus">A+</span></td>
                                                     <td>90~100</td>
-                                                    <td>• 내부/외부/이미지 링크 오류율: 0%<br>
-                                                        • 리다이렉트 체인 ≤1단계<br>
-                                                        • 앵커 링크 100% 정상</td>
+                                                    <td>• Internal/External/Image link error rate: 0%<br>
+                                                        • Redirect chains ≤1 step<br>
+                                                        • 100% normal anchor links</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-a">A</span></td>
                                                     <td>80~89</td>
-                                                    <td>• 전체 오류율 ≤1%<br>
-                                                        • 리다이렉트 체인 ≤2단계<br>
-                                                        • 앵커 링크 대부분 정상</td>
+                                                    <td>• Overall error rate ≤1%<br>
+                                                        • Redirect chains ≤2 steps<br>
+                                                        • Most anchor links normal</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-b">B</span></td>
                                                     <td>70~79</td>
-                                                    <td>• 전체 오류율 ≤3%<br>
-                                                        • 리다이렉트 체인 ≤3단계<br>
-                                                        • 일부 앵커 링크 불량</td>
+                                                    <td>• Overall error rate ≤3%<br>
+                                                        • Redirect chains ≤3 steps<br>
+                                                        • Some anchor link issues</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-c">C</span></td>
                                                     <td>60~69</td>
-                                                    <td>• 전체 오류율 ≤5%<br>
-                                                        • 다수 링크 경고 (타임아웃/SSL 문제)<br>
-                                                        • 앵커 링크 오류 빈번</td>
+                                                    <td>• Overall error rate ≤5%<br>
+                                                        • Multiple link warnings (timeout/SSL issues)<br>
+                                                        • Frequent anchor link errors</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-d">D</span></td>
                                                     <td>50~59</td>
-                                                    <td>• 전체 오류율 ≤10%<br>
-                                                        • 리다이렉트 루프 또는 긴 체인<br>
-                                                        • 이미지 링크 다수 깨짐</td>
+                                                    <td>• Overall error rate ≤10%<br>
+                                                        • Redirect loops or long chains<br>
+                                                        • Many broken image links</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-f">F</span></td>
                                                     <td>0~49</td>
-                                                    <td>• 전체 오류율 10% 이상<br>
-                                                        • 주요 내부 링크 다수 깨짐<br>
-                                                        • 앵커/이미지 전반 불량</td>
+                                                    <td>• Overall error rate 10% or higher<br>
+                                                        • Many major internal links broken<br>
+                                                        • Overall poor anchor/image quality</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -230,38 +229,38 @@
 
                                         <x-test-shared.certificate :current-test="$currentTest" />
 
-                                        <!-- 종합 결과 -->
+                                        <!-- Overall Results -->
                                         <div class="row g-3 mb-4">
                                             <div class="col-12">
                                                 <div class="card">
                                                     <div class="card-body">
-                                                        <h5 class="mb-3">종합 결과</h5>
+                                                        <h5 class="mb-3">Overall Results</h5>
                                                         <div class="row g-3">
                                                             <div class="col-md-4">
-                                                                <div class="text-muted small">전체 오류율</div>
+                                                                <div class="text-muted small">Overall Error Rate</div>
                                                                 <div class="h3 {{ $this->getErrorRateBadgeClass($rates['overallErrorRate'] ?? 0) }}">
                                                                     {{ $rates['overallErrorRate'] ?? 0 }}%
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <div class="text-muted small">최대 리다이렉트 체인</div>
+                                                                <div class="text-muted small">Max Redirect Chain</div>
                                                                 <div class="h3">
-                                                                    {{ $totals['maxRedirectChainEffective'] ?? 0 }}단계
+                                                                    {{ $totals['maxRedirectChainEffective'] ?? 0 }} steps
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <div class="text-muted small">검사한 링크 수</div>
+                                                                <div class="text-muted small">Links Checked</div>
                                                                 <div class="h3">
-                                                                    {{ $totals['httpChecked'] ?? 0 }}개
+                                                                    {{ $totals['httpChecked'] ?? 0 }} links
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="mt-3 text-muted small">
-                                                            평가 사유: {{ $overall['reason'] ?? '' }}
+                                                            Evaluation Reason: {{ $overall['reason'] ?? '' }}
                                                         </div>
                                                         @if (!empty($totals['navError']))
                                                             <div class="mt-2 text-danger small">
-                                                                네비게이션 오류: {{ $totals['navError'] }}
+                                                                Navigation Error: {{ $totals['navError'] }}
                                                             </div>
                                                         @endif
                                                     </div>
@@ -269,23 +268,23 @@
                                             </div>
                                         </div>
 
-                                        <!-- 카테고리별 상세 결과 -->
+                                        <!-- Detailed Results by Category -->
                                         <div class="row g-3 mb-4">
                                             <div class="col-12">
-                                                <h5 class="mb-3">카테고리별 상세</h5>
+                                                <h5 class="mb-3">Details by Category</h5>
                                                 <div class="table-responsive">
                                                     <table class="table table-sm table-vcenter">
                                                         <thead class="table-light">
                                                             <tr>
-                                                                <th>카테고리</th>
-                                                                <th>검사 수</th>
-                                                                <th>오류 수</th>
-                                                                <th>오류율</th>
+                                                                <th>Category</th>
+                                                                <th>Checked</th>
+                                                                <th>Errors</th>
+                                                                <th>Error Rate</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td><strong>내부 링크</strong></td>
+                                                                <td><strong>Internal Links</strong></td>
                                                                 <td>{{ $totals['internalChecked'] ?? 0 }}</td>
                                                                 <td>{{ $totals['internalErrors'] ?? 0 }}</td>
                                                                 <td>
@@ -295,7 +294,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><strong>외부 링크</strong></td>
+                                                                <td><strong>External Links</strong></td>
                                                                 <td>{{ $totals['externalChecked'] ?? 0 }}</td>
                                                                 <td>{{ $totals['externalErrors'] ?? 0 }}</td>
                                                                 <td>
@@ -305,7 +304,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><strong>이미지 링크</strong></td>
+                                                                <td><strong>Image Links</strong></td>
                                                                 <td>{{ $totals['imageChecked'] ?? 0 }}</td>
                                                                 <td>{{ $totals['imageErrors'] ?? 0 }}</td>
                                                                 <td>
@@ -315,7 +314,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><strong>앵커 링크</strong></td>
+                                                                <td><strong>Anchor Links</strong></td>
                                                                 <td>{{ $totals['anchorChecked'] ?? 0 }}</td>
                                                                 <td>{{ $totals['anchorErrors'] ?? 0 }}</td>
                                                                 <td>
@@ -330,17 +329,17 @@
                                             </div>
                                         </div>
 
-                                        <!-- 오류 샘플 -->
+                                        <!-- Error Samples -->
                                         <div class="row g-3 mb-4">
                                             <div class="col-md-6">
                                                 <div class="card h-100">
                                                     <div class="card-header">
-                                                        <h5 class="card-title mb-0">링크 오류 샘플</h5>
+                                                        <h5 class="card-title mb-0">Link Error Samples</h5>
                                                     </div>
                                                     <div class="card-body small">
                                                         @php $linkSamples = $samples['links'] ?? []; @endphp
                                                         @if (empty($linkSamples))
-                                                            <div class="text-muted">오류 없음</div>
+                                                            <div class="text-muted">No errors</div>
                                                         @else
                                                             <ul class="mb-0">
                                                                 @foreach (array_slice($linkSamples, 0, 10) as $sample)
@@ -349,8 +348,8 @@
                                                                             <code>{{ $sample['url'] ?? '' }}</code>
                                                                         </div>
                                                                         <div class="text-muted">
-                                                                            상태: {{ $sample['status'] ?? 0 }} • 
-                                                                            체인: {{ $sample['chain'] ?? 0 }} • 
+                                                                            Status: {{ $sample['status'] ?? 0 }} • 
+                                                                            Chain: {{ $sample['chain'] ?? 0 }} • 
                                                                             {{ $sample['error'] ?? '' }}
                                                                         </div>
                                                                     </li>
@@ -364,12 +363,12 @@
                                             <div class="col-md-6">
                                                 <div class="card h-100">
                                                     <div class="card-header">
-                                                        <h5 class="card-title mb-0">이미지 오류 샘플</h5>
+                                                        <h5 class="card-title mb-0">Image Error Samples</h5>
                                                     </div>
                                                     <div class="card-body small">
                                                         @php $imgSamples = $samples['images'] ?? []; @endphp
                                                         @if (empty($imgSamples))
-                                                            <div class="text-muted">오류 없음</div>
+                                                            <div class="text-muted">No errors</div>
                                                         @else
                                                             <ul class="mb-0">
                                                                 @foreach (array_slice($imgSamples, 0, 10) as $sample)
@@ -378,8 +377,8 @@
                                                                             <code>{{ $sample['url'] ?? '' }}</code>
                                                                         </div>
                                                                         <div class="text-muted">
-                                                                            상태: {{ $sample['status'] ?? 0 }} • 
-                                                                            체인: {{ $sample['chain'] ?? 0 }} • 
+                                                                            Status: {{ $sample['status'] ?? 0 }} • 
+                                                                            Chain: {{ $sample['chain'] ?? 0 }} • 
                                                                             {{ $sample['error'] ?? '' }}
                                                                         </div>
                                                                     </li>
@@ -393,12 +392,12 @@
                                             <div class="col-12">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h5 class="card-title mb-0">앵커 오류 샘플 (동일 페이지 #id)</h5>
+                                                        <h5 class="card-title mb-0">Anchor Error Samples (Same Page #id)</h5>
                                                     </div>
                                                     <div class="card-body small">
                                                         @php $anchorSamples = $samples['anchors'] ?? []; @endphp
                                                         @if (empty($anchorSamples))
-                                                            <div class="text-muted">오류 없음</div>
+                                                            <div class="text-muted">No errors</div>
                                                         @else
                                                             <ul class="mb-0">
                                                                 @foreach (array_slice($anchorSamples, 0, 10) as $sample)
@@ -413,39 +412,39 @@
                                             </div>
                                         </div>
 
-                                        <!-- 측정 지표 설명 -->
+                                        <!-- Measurement Metrics Explanation -->
                                         <div class="alert alert-info d-block">
-                                            <h6>📊 측정 지표 설명</h6>
-                                            <p class="mb-2"><strong>오류율:</strong> (오류 링크 수 ÷ 전체 링크 수) × 100으로 계산된 백분율입니다.</p>
-                                            <p class="mb-2"><strong>리다이렉트 체인:</strong> 최종 목적지에 도달하기까지 거치는 리다이렉트 횟수입니다. 짧을수록 좋습니다.</p>
-                                            <p class="mb-2"><strong>HTTP 상태 코드:</strong> 200번대(정상), 300번대(리다이렉트), 400번대(클라이언트 오류), 500번대(서버 오류)</p>
-                                            <p class="mb-0"><strong>앵커 링크:</strong> 페이지 내 특정 위치로 이동하는 #id 형태의 링크입니다.</p>
+                                            <h6>📊 Measurement Metrics Explanation</h6>
+                                            <p class="mb-2"><strong>Error Rate:</strong> Percentage calculated as (Error Links ÷ Total Links) × 100.</p>
+                                            <p class="mb-2"><strong>Redirect Chain:</strong> Number of redirects to reach the final destination. Shorter is better.</p>
+                                            <p class="mb-2"><strong>HTTP Status Code:</strong> 200s (Success), 300s (Redirect), 400s (Client Error), 500s (Server Error)</p>
+                                            <p class="mb-0"><strong>Anchor Link:</strong> Links in #id format that navigate to specific locations within a page.</p>
                                         </div>
 
-                                        <!-- 개선 방안 -->
+                                        <!-- Improvement Recommendations -->
                                         <div class="alert alert-info d-block">
-                                            <h6>💡 개선 방안</h6>
+                                            <h6>💡 Improvement Recommendations</h6>
                                             @if ($rates['overallErrorRate'] > 0)
-                                                <p class="mb-2">• <strong>깨진 링크 수정:</strong> 404 오류를 반환하는 링크들을 올바른 URL로 수정하거나 제거하세요.</p>
+                                                <p class="mb-2">• <strong>Fix Broken Links:</strong> Correct or remove links returning 404 errors to proper URLs.</p>
                                             @endif
                                             @if ($totals['maxRedirectChainEffective'] > 2)
-                                                <p class="mb-2">• <strong>리다이렉트 체인 단축:</strong> 여러 단계의 리다이렉트를 최종 목적지로 직접 연결하세요.</p>
+                                                <p class="mb-2">• <strong>Shorten Redirect Chains:</strong> Connect multi-step redirects directly to final destinations.</p>
                                             @endif
                                             @if ($rates['imageErrorRate'] > 0)
-                                                <p class="mb-2">• <strong>이미지 경로 확인:</strong> 존재하지 않는 이미지 파일의 경로를 수정하거나 대체 이미지를 제공하세요.</p>
+                                                <p class="mb-2">• <strong>Check Image Paths:</strong> Fix paths to non-existent image files or provide alternative images.</p>
                                             @endif
                                             @if ($rates['anchorErrorRate'] > 0)
-                                                <p class="mb-2">• <strong>앵커 ID 매칭:</strong> href="#section"에 대응하는 id="section" 요소가 페이지에 존재하는지 확인하세요.</p>
+                                                <p class="mb-2">• <strong>Match Anchor IDs:</strong> Ensure id="section" elements exist on the page for href="#section" links.</p>
                                             @endif
                                             @if ($rates['externalErrorRate'] > 5)
-                                                <p class="mb-2">• <strong>외부 링크 모니터링:</strong> 외부 사이트가 변경되거나 삭제될 수 있으므로 정기적으로 확인하세요.</p>
+                                                <p class="mb-2">• <strong>Monitor External Links:</strong> Check regularly as external sites may change or be deleted.</p>
                                             @endif
-                                            <p class="mb-0">• <strong>정기적인 검사:</strong> 웹사이트의 링크 상태는 시간이 지나면서 변할 수 있으므로 주기적으로 검사하세요.</p>
+                                            <p class="mb-0">• <strong>Regular Checks:</strong> Periodically test as website link status can change over time.</p>
                                         </div>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 링크 검증 결과를 확인할 수 있습니다.</p>
+                                            <h5>No Results Yet</h5>
+                                            <p class="mb-0">Run the test to view link validation results.</p>
                                         </div>
                                     @endif
                                 </div>
@@ -455,15 +454,15 @@
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5 class="mb-0">Raw JSON Data</h5>
                                             <button type="button" class="btn btn-outline-primary btn-sm"
-                                                onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                                복사
+                                                onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                                Copy
                                             </button>
                                         </div>
                                         <pre class="json-dump" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 Raw JSON 데이터를 확인할 수 있습니다.</p>
+                                            <h5>No Results Yet</h5>
+                                            <p class="mb-0">Run the test to view Raw JSON data.</p>
                                         </div>
                                     @endif
                                 </div>
@@ -473,11 +472,11 @@
                 </div>
 
                 <div class="col-xl-4 mb-2">
-                    {{-- 사이드바 (공통 컴포넌트) --}}
+                    {{-- Sidebar (Common Component) --}}
                     <x-test-shared.sidebar :side-tab-active="$sideTabActive" :test-history="$testHistory" :selected-history-test="$selectedHistoryTest" :user-domains="$userDomains"
                         :scheduled-tests="$scheduledTests" :has-pro-or-agency-plan="$hasProOrAgencyPlan" />
 
-                    {{-- 도메인 인증 모달 (공통 컴포넌트) --}}
+                    {{-- Domain Verification Modal (Common Component) --}}
                     <x-test-shared.domain-verification-modal :show-verification-modal="$showVerificationModal" :current-verification-domain="$currentVerificationDomain" :verification-message="$verificationMessage"
                         :verification-message-type="$verificationMessageType" />
                 </div>

@@ -22,7 +22,7 @@ class HomeContentStructure extends Component
     }
 
     /**
-     * 테스트 타입 반환
+     * Return test type
      */
     protected function getTestType(): string
     {
@@ -30,7 +30,7 @@ class HomeContentStructure extends Component
     }
 
     /**
-     * 테스트 설정 반환
+     * Return test configuration
      */
     protected function getTestConfig(): array
     {
@@ -44,7 +44,7 @@ class HomeContentStructure extends Component
     }
 
     /**
-     * 구조화 데이터 테스트 실행
+     * Run structured data test
      */
     public function runTest()
     {
@@ -59,26 +59,26 @@ class HomeContentStructure extends Component
         }
         
         if ($this->isDuplicateRecentTest($this->url)) {
-            $this->addError('url', '동일한 URL에 대한 테스트가 최근 1분 내에 실행되었습니다.');
+            $this->addError('url', 'A test for the same URL was executed within the last minute.');
             return;
         }
 
-        // 사용량 체크
+        // Check usage
         if (Auth::check()) {
             if (!$this->canUseService()) {
-                session()->flash('error', '사용 가능한 횟수를 초과했습니다.');
+                session()->flash('error', 'You have exceeded your available usage limit.');
                 return;
             }
         } else {
             if (!$this->hasUsageRemaining()) {
-                session()->flash('error', '사용량이 초과되었습니다. 로그인 후 이용해주세요.');
+                session()->flash('error', 'Usage limit exceeded. Please log in to continue.');
                 return;
             }
         }
 
         $this->isLoading = true;
 
-        // WebTest 생성
+        // Create WebTest
         $test = WebTest::create([
             'user_id' => Auth::id(),
             'test_type' => $this->getTestType(),
@@ -88,7 +88,7 @@ class HomeContentStructure extends Component
             'test_config' => $this->getTestConfig()
         ]);
 
-        // 사용량 차감
+        // Deduct usage
         if (Auth::check()) {
             $domain = parse_url($this->url, PHP_URL_HOST) ?? $this->url;
             $this->consumeService($domain, $this->getTestType());
@@ -128,40 +128,40 @@ class HomeContentStructure extends Component
     }
 
     /**
-     * 테스트 정보 텍스트 반환
+     * Return test information text
      */
     public function getTestInformation(): array
     {
         return [
-            'title' => 'JSON-LD / Schema.org 구조화 데이터 검증',
-            'description' => '검색엔진이 웹페이지의 콘텐츠를 더 잘 이해하고 Rich Results(리치 스니펫)로 표시할 수 있도록 하는 구조화 데이터를 검증합니다.',
+            'title' => 'JSON-LD / Schema.org Structured Data Validation',
+            'description' => 'Validates structured data that helps search engines better understand your pages and display Rich Results (rich snippets).',
             'details' => [
-                'JSON-LD 형식 파싱 및 유효성 검사',
-                'Schema.org 타입별 필수 필드 검증',
-                'Google Rich Results 지원 타입 감지',
-                'Microdata 및 RDFa 존재 여부 확인',
-                '오류, 경고 및 개선 권장사항 제공',
-                '예시 JSON-LD 스니펫 제공'
+                'Parse and validate JSON-LD format',
+                'Verify required fields by Schema.org type',
+                'Detect Google Rich Results–supported types',
+                'Check presence of Microdata and RDFa',
+                'Provide errors, warnings, and improvement suggestions',
+                'Include example JSON-LD snippets'
             ],
             'test_items' => [
-                'Organization, WebSite, BreadcrumbList 등 기본 스키마',
-                'Article, Product, FAQPage 등 콘텐츠별 스키마',
-                'Event, JobPosting, LocalBusiness 등 특수 스키마',
-                'AggregateRating, Review 등 평가 관련 스키마',
-                'VideoObject, Recipe, Course 등 미디어 스키마'
+                'Core schemas such as Organization, WebSite, BreadcrumbList',
+                'Content-specific schemas such as Article, Product, FAQPage',
+                'Specialized schemas such as Event, JobPosting, LocalBusiness',
+                'Rating-related schemas such as AggregateRating, Review',
+                'Media schemas such as VideoObject, Recipe, Course'
             ],
             'benefits' => [
-                '검색 결과에서 Rich Snippets 노출 가능',
-                '클릭률(CTR) 향상',
-                '검색엔진 콘텐츠 이해도 개선',
-                'Voice Search 및 AI 검색 최적화',
-                '지식 그래프(Knowledge Graph) 등록 가능성 증가'
+                'Eligibility for Rich Snippets in search results',
+                'Improved click-through rate (CTR)',
+                'Better search engine understanding of content',
+                'Optimization for Voice Search and AI Search',
+                'Higher likelihood of Knowledge Graph inclusion'
             ]
         ];
     }
 
     /**
-     * 등급 기준 정보 반환
+     * Return grade criteria information
      */
     public function getGradeCriteria(): array
     {
@@ -170,60 +170,60 @@ class HomeContentStructure extends Component
                 'label' => 'A+',
                 'score' => '90-100',
                 'criteria' => [
-                    'JSON-LD 완벽 구현',
-                    'Rich Results 100% 인식',
-                    '오류 0개, 경고 0개',
-                    '모든 필수 필드 완비',
-                    '적절한 스키마 타입 적용'
+                    'Perfect JSON-LD implementation',
+                    '100% Rich Results recognition',
+                    '0 errors, 0 warnings',
+                    'All required fields present',
+                    'Appropriate schema types applied'
                 ]
             ],
             'A' => [
                 'label' => 'A',
                 'score' => '80-89',
                 'criteria' => [
-                    '주요 스키마 정상',
-                    'JSON-LD 기반 구현',
-                    'Rich Snippets 대부분 인식',
-                    '오류 0개, 경고 ≤2개'
+                    'Key schemas valid',
+                    'Implemented with JSON-LD',
+                    'Most Rich Snippets recognized',
+                    '0 errors, ≤2 warnings'
                 ]
             ],
             'B' => [
                 'label' => 'B',
                 'score' => '70-79',
                 'criteria' => [
-                    '핵심 스키마 일부 누락',
-                    'Rich Snippets 제한적 인식',
-                    '오류 ≤1개, 경고 ≤5개'
+                    'Some core schemas missing',
+                    'Limited Rich Snippet recognition',
+                    '≤1 error, ≤5 warnings'
                 ]
             ],
             'C' => [
                 'label' => 'C',
                 'score' => '60-69',
                 'criteria' => [
-                    '구조화 데이터 불완전',
-                    'Rich Snippets 불안정',
-                    '오류 ≤3개, 경고 다수',
-                    'JSON-LD 미사용 시 상한 C'
+                    'Structured data incomplete',
+                    'Unstable Rich Snippets',
+                    '≤3 errors, many warnings',
+                    'C is the ceiling when JSON-LD is not used'
                 ]
             ],
             'D' => [
                 'label' => 'D',
                 'score' => '50-59',
                 'criteria' => [
-                    '구조화 데이터 불일치/중복',
-                    'Rich Snippets 미인식',
-                    '오류 ≥4개 (≤10개)',
-                    '잘못된 타입 적용'
+                    'Structured data inconsistent/duplicated',
+                    'Rich Snippets not recognized',
+                    '≥4 errors (up to 10)',
+                    'Incorrect schema types applied'
                 ]
             ],
             'F' => [
                 'label' => 'F',
                 'score' => '0-49',
                 'criteria' => [
-                    '구조화 데이터 미구현',
-                    'JSON-LD/마이크로데이터 전무',
-                    '오류 전면적 발생',
-                    'Rich Snippets 불가'
+                    'No structured data implemented',
+                    'No JSON-LD/Microdata present',
+                    'Widespread errors',
+                    'Rich Snippets not possible'
                 ]
             ]
         ];

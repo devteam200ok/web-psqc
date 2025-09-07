@@ -87,16 +87,16 @@ class AdminUser extends Component
                 'createUserEmail' => 'required|email|unique:users,email',
             ]);
             $this->createUserEmailCheckResult = true;
-            session()->flash('success', '사용할 수 있는 이메일입니다.');
+            session()->flash('success', 'This email is available.');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            session()->flash('error', '이메일이 확인되지 않았거나 이미 사용 중입니다.');
+            session()->flash('error', 'The email is invalid or already in use.');
         }
     }
 
     public function newUserStore()
     {
         if(!$this->createUserEmailCheckResult){
-            session()->flash('error', '이메일이 확인되지 않았거나 이미 사용 중입니다.');
+            session()->flash('error', 'The email is invalid or already in use.');
             return;
         }
         
@@ -105,12 +105,12 @@ class AdminUser extends Component
                 'createUserName' => 'required|string|max:255',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            session()->flash('error', '이름은 필수입니다.');
+            session()->flash('error', 'Name is required.');
             return;
         }
 
         if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/', $this->createUserPassword)){
-            session()->flash('error', '비밀번호는 8-15자여야 하며, 다음 3가지 유형 중 적어도 1가지를 포함해야 합니다: 소문자, 대문자, 숫자, 특수문자.');
+            session()->flash('error', 'Password must be 8–15 characters and include at least one of the following types: lowercase, uppercase, number, special character.');
             return;
         }
 
@@ -130,7 +130,7 @@ class AdminUser extends Component
         $this->createUserPassword = '';
         $this->createUserRole = 'client';
 
-        session()->flash('success', '계정이 성공적으로 생성되었습니다.');
+        session()->flash('success', 'Account has been created successfully.');
     }
 
     public function userUpdate()
@@ -146,7 +146,7 @@ class AdminUser extends Component
 
         if($this->editUserPassword != ''){
             if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/', $this->editUserPassword)){
-                session()->flash('error', '비밀번호는 8-15자여야 하며, 다음 3가지 유형 중 적어도 1가지를 포함해야 합니다: 소문자, 대문자, 숫자, 특수문자.');
+                session()->flash('error', 'Password must be 8–15 characters and include at least one of the following types: lowercase, uppercase, number, special character.');
                 return;
             }
         }
@@ -166,7 +166,7 @@ class AdminUser extends Component
         $this->editUserRole = '';
         $this->userEdit = 'close';
 
-        session()->flash('success', '계정이 성공적으로 업데이트되었습니다.');
+        session()->flash('success', 'Account has been updated successfully.');
     }
 
     public function loginUser($user_id){
@@ -179,7 +179,7 @@ class AdminUser extends Component
         $user = User::find($user_id);
         $user->delete();
 
-        session()->flash('success', '계정이 성공적으로 삭제되었습니다.');
+        session()->flash('success', 'Account has been deleted successfully.');
     }
 
     public function render()

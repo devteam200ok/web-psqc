@@ -22,7 +22,7 @@ class HomeContentMeta extends Component
     }
 
     /**
-     * 테스트 타입 반환
+     * Return test type
      */
     protected function getTestType(): string
     {
@@ -30,7 +30,7 @@ class HomeContentMeta extends Component
     }
 
     /**
-     * 테스트 설정 반환
+     * Return test configuration
      */
     protected function getTestConfig(): array
     {
@@ -41,7 +41,7 @@ class HomeContentMeta extends Component
     }
 
     /**
-     * 메타데이터 테스트 실행
+     * Run metadata test
      */
     public function runTest()
     {
@@ -56,26 +56,26 @@ class HomeContentMeta extends Component
         }
         
         if ($this->isDuplicateRecentTest($this->url)) {
-            $this->addError('url', '동일한 URL에 대한 테스트가 최근 1분 내에 실행되었습니다.');
+            $this->addError('url', 'A test for the same URL was executed within the last minute.');
             return;
         }
 
-        // 사용량 체크
+        // Check usage
         if (Auth::check()) {
             if (!$this->canUseService()) {
-                session()->flash('error', '사용 가능한 횟수를 초과했습니다.');
+                session()->flash('error', 'You have exceeded your available usage limit.');
                 return;
             }
         } else {
             if (!$this->hasUsageRemaining()) {
-                session()->flash('error', '사용량이 초과되었습니다. 로그인 후 이용해주세요.');
+                session()->flash('error', 'Usage limit exceeded. Please log in to continue.');
                 return;
             }
         }
 
         $this->isLoading = true;
 
-        // WebTest 생성
+        // Create WebTest
         $test = WebTest::create([
             'user_id' => Auth::id(),
             'test_type' => $this->getTestType(),
@@ -85,7 +85,7 @@ class HomeContentMeta extends Component
             'test_config' => $this->getTestConfig()
         ]);
 
-        // 사용량 차감
+        // Deduct usage
         if (Auth::check()) {
             $domain = parse_url($this->url, PHP_URL_HOST) ?? $this->url;
             $this->consumeService($domain, $this->getTestType());
@@ -125,7 +125,7 @@ class HomeContentMeta extends Component
     }
 
     /**
-     * 메타데이터 테스트만의 고유 메서드 - 개선 제안 생성
+     * Metadata-test-specific method — generate improvement suggestions
      */
     public function getImprovementSuggestions(): array
     {
@@ -136,41 +136,41 @@ class HomeContentMeta extends Component
         $suggestions = [];
         $metrics = $this->currentTest->metrics;
 
-        // Title 개선 제안
+        // Title suggestions
         if (!$metrics['title']['is_optimal']) {
             if ($metrics['title']['length'] < 50) {
-                $suggestions[] = '제목을 50-60자 사이로 늘려 검색 결과에서 더 많은 정보를 제공하세요.';
+                $suggestions[] = 'Increase the title to 50–60 characters to provide more context in search results.';
             } elseif ($metrics['title']['length'] > 60) {
-                $suggestions[] = '제목을 60자 이하로 줄여 검색 결과에서 잘리지 않도록 하세요.';
+                $suggestions[] = 'Shorten the title to 60 characters or fewer to avoid truncation in search results.';
             }
         }
 
-        // Description 개선 제안
+        // Description suggestions
         if (!$metrics['description']['is_optimal']) {
             if ($metrics['description']['length'] < 120) {
-                $suggestions[] = '설명을 120-160자 사이로 작성하여 검색 결과에서 충분한 정보를 제공하세요.';
+                $suggestions[] = 'Write the meta description in the 120–160 character range to provide sufficient information.';
             } elseif ($metrics['description']['length'] > 160) {
-                $suggestions[] = '설명을 160자 이하로 줄여 검색 결과에서 완전히 표시되도록 하세요.';
+                $suggestions[] = 'Trim the meta description to 160 characters or fewer so it displays fully.';
             }
         }
 
-        // Open Graph 개선 제안
+        // Open Graph suggestions
         if (!$metrics['open_graph']['is_perfect']) {
             if (!$metrics['open_graph']['has_basic']) {
-                $suggestions[] = 'Open Graph 기본 태그(title, description, image, url)를 추가하세요.';
+                $suggestions[] = 'Add the core Open Graph tags (title, description, image, url).';
             } else {
-                $suggestions[] = 'Open Graph type 태그를 추가하여 소셜 미디어 공유를 최적화하세요.';
+                $suggestions[] = 'Add the Open Graph "type" tag to optimize social sharing.';
             }
         }
 
-        // Canonical 개선 제안
+        // Canonical suggestions
         if (!$metrics['canonical']['exists']) {
-            $suggestions[] = 'Canonical URL을 설정하여 중복 콘텐츠 문제를 방지하세요.';
+            $suggestions[] = 'Set a canonical URL to prevent duplicate content issues.';
         }
 
-        // Twitter Cards 개선 제안
+        // Twitter Cards suggestions
         if (!$metrics['twitter_cards']['has_basic']) {
-            $suggestions[] = 'Twitter Cards 태그를 추가하여 트위터에서의 공유를 개선하세요.';
+            $suggestions[] = 'Add Twitter Cards tags to improve sharing on Twitter.';
         }
 
         return $suggestions;

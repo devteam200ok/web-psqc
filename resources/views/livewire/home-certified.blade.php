@@ -64,7 +64,7 @@
 <div class="page page-center">
     <div class="container container-narrow py-4">
         @include('inc.component.message')
-        <div class="row mt-3 my-3">
+        <div class="row mt-3 my-3"> 
             <div class="col d-flex align-items-center">
                 @php
                     $pdfRel = "certification/{$certificate->code}.pdf";
@@ -72,16 +72,16 @@
                 @if (Storage::disk('local')->exists($pdfRel))
                     <a href="{{ route('cert.pdf.download', ['code' => $certificate->code]) }}"
                         class="btn btn-sm px-2 py-2 btn-secondary" target="_blank" rel="noopener">
-                        인증서 다운로드
+                        Download Certificate
                     </a>
                 @else
                     <button class="btn btn-sm px-2 py-2 btn-primary" wire:click="generateCertificatePdf">
-                        인증서 생성
+                        Generate Certificate
                     </button>
                 @endif
                 <a href="{{ url('/') }}/{{ $url_first }}/{{ $url_second }}?url={{ $currentTest->url }}"
                     class="btn btn-sm px-2 py-2 btn-dark ms-auto" target="_blank" rel="noopener">
-                    테스트 결과 검증
+                    Verify Test Results
                 </a>
             </div>
         </div>
@@ -94,17 +94,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Results Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -209,17 +209,17 @@
                                         $canIssueCertificate = in_array($grade, ['A+', 'A', 'B']);
                                         $fmt = fn($v, $unit = 'ms') => is_numeric($v)
                                             ? number_format($v, 1) . $unit
-                                            : '데이터 없음';
-                                        $fmtPct = fn($v) => is_numeric($v) ? number_format($v, 1) . '%' : '데이터 없음';
+                                            : 'No Data';
+                                        $fmtPct = fn($v) => is_numeric($v) ? number_format($v, 1) . '%' : 'No Data';
                                     @endphp
 
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                Web Performance Certificate
                                             </h1>
-                                            <h2>(글로벌 속도 테스트)</h2>
-                                            <h3>인증번호: {{ $certificate->code }}</h3>
+                                            <h2>(Global Speed Test)</h2>
+                                            <h3>Certificate ID: {{ $certificate->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -233,7 +233,7 @@
                                                         </div>
                                                         @if ($currentTest->overall_score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($currentTest->overall_score, 1) }}점
+                                                                {{ number_format($currentTest->overall_score, 1) }} Points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -242,7 +242,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -255,7 +255,7 @@
                                                 <table class="table table-sm">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>항목</th>
+                                                            <th>Metric</th>
                                                             <th>TTFB</th>
                                                             <th>Load Time</th>
                                                         </tr>
@@ -269,22 +269,22 @@
                                                             <td>{{ $fmt($originLoad) }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>글로벌 평균</strong></td>
+                                                            <td><strong>Global Average</strong></td>
                                                             <td>{{ $fmt($avgTTFB) }}</td>
                                                             <td>{{ $fmt($avgLoad) }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>모든 지역 (최댓값)</strong></td>
+                                                            <td><strong>All Regions (Maximum)</strong></td>
                                                             <td>{{ $fmt($worstTTFB) }}</td>
                                                             <td>{{ $fmt($worstLoad) }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>재방문 성능향상</strong></td>
+                                                            <td><strong>Repeat Visit Improvement</strong></td>
                                                             <td colspan="2">
                                                                 {{ $fmtPct($repeatImprovePct) }}
                                                                 @if ($eligibleRegions)
                                                                     <span class="text-muted">({{ $improvedRegions }}
-                                                                        / {{ $eligibleRegions }} 지역 개선)</span>
+                                                                        / {{ $eligibleRegions }} regions improved)</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -295,43 +295,40 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Test Results Verified</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>글로벌 8개 리전 측정망</strong>을 통해 수행된 웹 성능 시험 결과에 근거합니다.<br>
-                                            모든 데이터는 <u>실제 사용자 환경을 시뮬레이션</u>하여 수집되었으며, 결과의 진위 여부는 QR 검증 시스템을 통해
-                                            누구나 확인할 수 있습니다.
+                                            This certificate is based on web performance test results conducted through <strong>8 global regions measurement network</strong>.<br>
+                                            All data was collected by <u>simulating real user environments</u>, and the authenticity of results can be verified by anyone through our QR verification system.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 시험은 특정 시점의 객관적 측정 결과로, 지속적인 개선과 최적화 여부에 따라 달라질 수 있습니다.
+                                            ※ This test represents objective measurement results at a specific point in time and may vary depending on continuous improvement and optimization efforts.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 전 세계 주요 지역에서 측정한 결과,
-                                                <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>상위 10% 이내의 웹 품질 성능</u>을 입증하였습니다.<br>
-                                                이는 <strong>빠른 응답 속도</strong>와 <strong>글로벌 사용자 친화성</strong>을 갖춘
-                                                우수한 웹사이트임을 보여줍니다.
+                                                🌟 This website achieved a <strong>{{ $grade }}</strong> grade based on measurements across major global regions,
+                                                demonstrating <u>top 10% web quality performance</u>.<br>
+                                                This shows that it is an excellent website with <strong>fast response times</strong> and <strong>global user-friendliness</strong>.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- 국가·지역별 접속 속도 -->
+                                    <!-- Regional Access Speed -->
                                     @if ($currentTest->metrics)
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">국가·지역별 접속 속도</h4>
+                                                <h4 class="mb-3">Regional Access Speed</h4>
                                                 <div class="table-responsive">
                                                     <table class="table table-sm table-vcenter table-nowrap">
                                                         <thead class="table-light">
                                                             <tr>
-                                                                <th>지역</th>
+                                                                <th>Region</th>
                                                                 <th>TTFB</th>
-                                                                <th>로드 타임</th>
-                                                                <th>전송 용량</th>
-                                                                <th>리소스 개수</th>
+                                                                <th>Load Time</th>
+                                                                <th>Transfer Size</th>
+                                                                <th>Resource Count</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -403,45 +400,45 @@
                                         </div>
                                     @endif
 
-                                    <!-- 추가 정보 -->
+                                    <!-- Additional Information -->
                                     <div class="alert alert-info d-block">
-                                        <strong>표시 형식:</strong> <span class="fw-bold">첫 방문</span> 값 → <span
-                                            class="fw-bold">재방문</span> 값 (Δ 차이)<br>
-                                        <span class="text-success">초록 = 개선(재방문 속도 향상)</span> | <span
-                                            class="text-danger">빨강
-                                            = 악화(재방문 속도 저하)</span>
+                                        <strong>Display Format:</strong> <span class="fw-bold">First Visit</span> Value → <span
+                                            class="fw-bold">Repeat Visit</span> Value (Δ Difference)<br>
+                                        <span class="text-success">Green = Improvement (faster repeat visit)</span> | <span
+                                            class="text-danger">Red
+                                            = Degradation (slower repeat visit)</span>
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>TTFB(Time To First Byte):</strong> 사용자가 요청을 보낸
-                                            순간부터 서버에서 첫 번째 응답 바이트를 받기까지 걸리는 시간</p>
-                                        <p class="mb-2"><strong>Load Time:</strong> HTML, CSS, JS, 이미지 등 모든 리소스가
-                                            브라우저에 로드되어 페이지가 완전히 표시되기까지 걸리는 시간</p>
-                                        <p class="mb-0"><strong>재방문 성능:</strong> 브라우저 캐시, Keep-Alive 연결, CDN 캐싱
-                                            등의 효과로 재방문 시 더 빠른 로딩 속도를 보입니다</p>
+                                        <p class="mb-2"><strong>TTFB (Time To First Byte):</strong> Time taken from when the user sends a request 
+                                            until receiving the first response byte from the server</p>
+                                        <p class="mb-2"><strong>Load Time:</strong> Time taken for all resources (HTML, CSS, JS, images, etc.) 
+                                            to load in the browser until the page is completely displayed</p>
+                                        <p class="mb-0"><strong>Repeat Visit Performance:</strong> Faster loading speeds on repeat visits 
+                                            due to browser cache, Keep-Alive connections, CDN caching, and other optimization effects</p>
                                     </div>
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Verification Test를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC's Verification Test.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 국제적 기준에 근거한 웹 품질 측정 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides web quality measurement services based on international standards,
+                                            and certificates can be verified for authenticity through real-time QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Certificate Issue Date:
                                                 {{ $certificate->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certificate->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -449,97 +446,97 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>서울, 도쿄, 시드니, 싱가포르, 프랑크푸르트, 버지니아, 오레곤, 런던 8개 지역</h3>
+                                <h3>8 Global Regions: Seoul, Tokyo, Sydney, Singapore, Frankfurt, Virginia, Oregon, London</h3>
                                 <div class="text-muted small mt-1">
-                                    전 세계 주요 인터넷 거점(Asia, North America, Europe, Oceania)에 분산된 8개 리전을 통해
-                                    실제 글로벌 사용자의 접속 속도를 시뮬레이션합니다.
+                                    Simulates actual global user access speeds through 8 regions distributed across 
+                                    major internet hubs worldwide (Asia, North America, Europe, Oceania).
                                     <br><br>
-                                    • 아시아(서울, 도쿄, 싱가포르) → 동아시아 & 동남아시아 커버<br>
-                                    • 오세아니아(시드니) → 호주 및 태평양 지역<br>
-                                    • 북미(버지니아, 오레곤) → 동부·서부 양대 거점<br>
-                                    • 유럽(프랑크푸르트, 런던) → 서유럽 및 중부 유럽 주요 허브
+                                    • Asia (Seoul, Tokyo, Singapore) → Covers East Asia & Southeast Asia<br>
+                                    • Oceania (Sydney) → Australia and Pacific region<br>
+                                    • North America (Virginia, Oregon) → East and West coast major hubs<br>
+                                    • Europe (Frankfurt, London) → Western and Central Europe key hubs
                                     <br><br>
-                                    이 8개 지역은 Cloudflare, AWS, GCP 등 글로벌 인프라 사업자들이 공통적으로 운영하는 핵심 거점으로,
-                                    전 세계 인터넷 트래픽의 대부분을 대표할 수 있습니다.
+                                    These 8 regions are core hubs commonly operated by global infrastructure providers 
+                                    like Cloudflare, AWS, and GCP, representing the majority of worldwide internet traffic.
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria Guide --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge badge-a-plus">A+</span></td>
                                                 <td>90~100</td>
-                                                <td>Origin: TTFB ≤ 200ms, Load ≤ 1.5s<br>글로벌 평균: TTFB ≤ 800ms, Load
-                                                    ≤ 2.5s<br>모든 지역: TTFB ≤ 1.5s, Load ≤ 3s<br>재방문 성능향상: 80%+</td>
+                                                <td>Origin: TTFB ≤ 200ms, Load ≤ 1.5s<br>Global Average: TTFB ≤ 800ms, Load
+                                                    ≤ 2.5s<br>All Regions: TTFB ≤ 1.5s, Load ≤ 3s<br>Repeat Visit Improvement: 80%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-a">A</span></td>
                                                 <td>80~89</td>
-                                                <td>Origin: TTFB ≤ 400ms, Load ≤ 2.5s<br>글로벌 평균: TTFB ≤ 1.2s, Load ≤
-                                                    3.5s<br>모든 지역: TTFB ≤ 2s, Load ≤ 4s<br>재방문 성능향상: 60%+</td>
+                                                <td>Origin: TTFB ≤ 400ms, Load ≤ 2.5s<br>Global Average: TTFB ≤ 1.2s, Load ≤
+                                                    3.5s<br>All Regions: TTFB ≤ 2s, Load ≤ 4s<br>Repeat Visit Improvement: 60%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-b">B</span></td>
                                                 <td>70~79</td>
-                                                <td>Origin: TTFB ≤ 800ms, Load ≤ 3.5s<br>글로벌 평균: TTFB ≤ 1.6s, Load ≤
-                                                    4.5s<br>모든 지역: TTFB ≤ 2.5s, Load ≤ 5.5s<br>재방문 성능향상: 50%+</td>
+                                                <td>Origin: TTFB ≤ 800ms, Load ≤ 3.5s<br>Global Average: TTFB ≤ 1.6s, Load ≤
+                                                    4.5s<br>All Regions: TTFB ≤ 2.5s, Load ≤ 5.5s<br>Repeat Visit Improvement: 50%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-c">C</span></td>
                                                 <td>60~69</td>
-                                                <td>Origin: TTFB ≤ 1.2s, Load ≤ 4.5s<br>글로벌 평균: TTFB ≤ 2.0s, Load ≤
-                                                    5.5s<br>모든 지역: TTFB ≤ 3.0s, Load ≤ 6.5s<br>재방문 성능향상: 37.5%+</td>
+                                                <td>Origin: TTFB ≤ 1.2s, Load ≤ 4.5s<br>Global Average: TTFB ≤ 2.0s, Load ≤
+                                                    5.5s<br>All Regions: TTFB ≤ 3.0s, Load ≤ 6.5s<br>Repeat Visit Improvement: 37.5%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-d">D</span></td>
                                                 <td>50~59</td>
-                                                <td>Origin: TTFB ≤ 1.6s, Load ≤ 6.0s<br>글로벌 평균: TTFB ≤ 2.5s, Load ≤
-                                                    7.0s<br>모든 지역: TTFB ≤ 3.5s, Load ≤ 8.5s<br>재방문 성능향상: 25%+</td>
+                                                <td>Origin: TTFB ≤ 1.6s, Load ≤ 6.0s<br>Global Average: TTFB ≤ 2.5s, Load ≤
+                                                    7.0s<br>All Regions: TTFB ≤ 3.5s, Load ≤ 8.5s<br>Repeat Visit Improvement: 25%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-f">F</span></td>
                                                 <td>0~49</td>
-                                                <td>위 기준에 미달</td>
+                                                <td>Below the above criteria</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 TTFB와 Load Time의 차이</strong><br>
-                                    - <strong>TTFB(Time To First Byte)</strong>: 사용자가 요청을 보낸 순간부터 서버에서 첫 번째 응답
-                                    바이트를 받기까지 걸리는 시간.<br>
-                                    - <strong>Load Time</strong>: HTML, CSS, JS, 이미지 등 모든 리소스가 브라우저에 로드되어 페이지가
-                                    완전히 표시되기까지 걸리는 시간.<br><br>
+                                    <strong>📌 Difference between TTFB and Load Time</strong><br>
+                                    - <strong>TTFB (Time To First Byte)</strong>: Time from when the user sends a request 
+                                    until receiving the first response byte from the server.<br>
+                                    - <strong>Load Time</strong>: Time for all resources (HTML, CSS, JS, images, etc.) 
+                                    to load in the browser until the page is completely displayed.<br><br>
 
-                                    <strong>🌍 네트워크 왕복(RTT) 구조</strong><br>
-                                    • TCP 핸드셰이크 1회 + TLS 핸드셰이크 1회 + 실제 데이터 요청/응답 1회 → 최소 3번 왕복이 필요합니다.<br>
-                                    • 따라서 <u>물리적으로 오리진 서버에서 먼 지역일수록</u> 지연 시간이 누적됩니다.<br><br>
+                                    <strong>🌍 Network Round-trip (RTT) Structure</strong><br>
+                                    • TCP handshake 1x + TLS handshake 1x + actual data request/response 1x → minimum 3 round trips required.<br>
+                                    • Therefore, <u>regions physically farther from the origin server</u> accumulate more latency.<br><br>
 
-                                    <strong>📊 지역별 최소 지연 시간</strong><br>
-                                    - 동일 대륙(예: 서울→도쿄/싱가포르): TTFB가 수십 ms ~ 200ms 수준.<br>
-                                    - 대륙 간(서울→미국/유럽): 광케이블 왕복 지연만으로도 150~250ms 이상.<br>
-                                    - TLS/데이터 요청까지 포함하면 <u>최소 400~600ms 이상의 TTFB</u>가 발생할 수 있습니다.<br>
-                                    - Load Time은 리소스 크기와 수에 따라 수 초까지 늘어나며, 특히 이미지·JS가 많으면 <u>5초 이상</u>도
-                                    흔합니다.<br><br>
+                                    <strong>📊 Minimum Latency by Region</strong><br>
+                                    - Same continent (e.g., Seoul→Tokyo/Singapore): TTFB typically tens of ms ~ 200ms.<br>
+                                    - Inter-continental (Seoul→US/Europe): Fiber optic round-trip delay alone is 150~250ms+.<br>
+                                    - Including TLS/data requests, <u>minimum TTFB of 400~600ms+</u> can occur.<br>
+                                    - Load Time can extend to several seconds depending on resource size and count, 
+                                    especially with many images/JS files, <u>5+ seconds</u> is common.<br><br>
 
-                                    즉, <span class="fw-bold">오리진과 물리적으로 가장 먼 지역(예: 한국 서버 → 미국 동부/유럽)</span>은
-                                    아무리 최적화해도 <u>최소 수백 ms 이상의 TTFB</u>와 <u>2~5초 이상의 Load Time</u>은 불가피합니다.
-                                    이를 줄이려면 CDN, 캐싱, Edge 서버 배포가 필수입니다.
+                                    Therefore, <span class="fw-bold">regions physically farthest from origin (e.g., Korean server → US East/Europe)</span>
+                                    will inevitably have <u>minimum TTFB of hundreds of ms+</u> and <u>Load Time of 2-5+ seconds</u> 
+                                    regardless of optimization. CDN, caching, and Edge server deployment are essential to reduce this.
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
                                 <pre class="json-dump text-start" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
@@ -556,17 +553,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Results Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -605,10 +602,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                Web Performance Certificate
                                             </h1>
-                                            <h2>(K6 부하 테스트)</h2>
-                                            <h3>인증번호: {{ $certificate->code }}</h3>
+                                            <h2>(K6 Load Test)</h2>
+                                            <h3>Certificate ID: {{ $certificate->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -622,7 +619,7 @@
                                                         </div>
                                                         @if ($currentTest->overall_score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($currentTest->overall_score, 1) }}점
+                                                                {{ number_format($currentTest->overall_score, 1) }} Points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -631,7 +628,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -643,14 +640,14 @@
                                                 <table class="table table-sm">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>항목</th>
-                                                            <th>측정값</th>
+                                                            <th>Metric</th>
+                                                            <th>Value</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
                                                             <td><strong>Virtual Users × Duration</strong></td>
-                                                            <td>{{ $vus }} VUs × {{ $duration }}초</td>
+                                                            <td>{{ $vus }} VUs × {{ $duration }} seconds</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Total Requests</strong></td>
@@ -658,11 +655,11 @@
                                                                 ({{ number_format($requestsPerSec, 1) }} req/s)</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>P95 응답시간</strong></td>
+                                                            <td><strong>P95 Response Time</strong></td>
                                                             <td>{{ number_format($p95Response) }}ms</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>에러율</strong></td>
+                                                            <td><strong>Error Rate</strong></td>
                                                             <td
                                                                 class="{{ $failureRate > 5 ? 'text-danger' : 'text-success' }}">
                                                                 {{ number_format($failureRate, 2) }}%
@@ -675,40 +672,38 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 부하 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Load Test Results Verified</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>K6 부하 테스트</strong>를 통해 수행된 웹 성능 시험 결과에 근거합니다.<br>
-                                            <strong>{{ $vus }}명의 동시 사용자</strong>가
-                                            <strong>{{ $duration }}초</strong> 동안
-                                            실제 사용 패턴을 시뮬레이션하여 측정되었으며, 결과의 진위 여부는 QR 검증 시스템을 통해 누구나 확인할 수 있습니다.
+                                            This certificate is based on web performance test results conducted through <strong>K6 Load Testing</strong>.<br>
+                                            The test simulated real usage patterns with <strong>{{ $vus }} concurrent users</strong> for
+                                            <strong>{{ $duration }} seconds</strong>, and the authenticity of results can be verified by anyone through our QR verification system.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 시험은 특정 시점의 객관적 측정 결과로, 서버 환경과 최적화 여부에 따라 달라질 수 있습니다.
+                                            ※ This test represents objective measurement results at a specific point in time and may vary depending on server environment and optimization status.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 부하 테스트 결과 <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>높은 동시 접속 처리 능력</u>을 입증하였습니다.<br>
-                                                이는 <strong>안정적인 서비스 제공</strong>과 <strong>우수한 서버 성능</strong>을 갖춘 웹사이트임을
-                                                보여줍니다.
+                                                🌟 This website achieved a <strong>{{ $grade }}</strong> grade in load testing,
+                                                demonstrating <u>high concurrent user handling capability</u>.<br>
+                                                This shows that it is a website with <strong>stable service delivery</strong> and <strong>excellent server performance</strong>.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- 상세 성능 지표 -->
+                                    <!-- Detailed Performance Metrics -->
                                     <div class="row mb-4">
                                         <div class="col-12">
-                                            <h4 class="mb-3">상세 성능 지표</h4>
+                                            <h4 class="mb-3">Detailed Performance Metrics</h4>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="table-responsive">
                                                         <table class="table table-sm">
                                                             <thead class="table-light">
                                                                 <tr>
-                                                                    <th colspan="2">응답시간 분석</th>
+                                                                    <th colspan="2">Response Time Analysis</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -746,30 +741,30 @@
                                                         <table class="table table-sm">
                                                             <thead class="table-light">
                                                                 <tr>
-                                                                    <th colspan="2">데이터 전송 및 체크</th>
+                                                                    <th colspan="2">Data Transfer & Checks</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td>수신 데이터</td>
+                                                                    <td>Data Received</td>
                                                                     <td>{{ number_format(($metrics['data_received'] ?? 0) / 1024 / 1024, 2) }}
                                                                         MB</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>송신 데이터</td>
+                                                                    <td>Data Sent</td>
                                                                     <td>{{ number_format(($metrics['data_sent'] ?? 0) / 1024 / 1024, 2) }}
                                                                         MB</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>반복 횟수</td>
+                                                                    <td>Iterations</td>
                                                                     <td>{{ $metrics['iterations'] ?? 0 }}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>체크 통과</td>
+                                                                    <td>Checks Passed</td>
                                                                     <td>{{ $metrics['checks_passes'] ?? 0 }}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>체크 실패</td>
+                                                                    <td>Checks Failed</td>
                                                                     <td>{{ $metrics['checks_fails'] ?? 0 }}</td>
                                                                 </tr>
                                                             </tbody>
@@ -781,43 +776,43 @@
                                     </div>
 
                                     <div class="alert alert-info d-block">
-                                        <strong>표시 형식:</strong> Think Time
-                                        {{ $config['think_time_min'] ?? 3 }}-{{ $config['think_time_max'] ?? 10 }}초
-                                        적용<br>
-                                        <span class="text-success">에러율 1% 미만 = 우수</span> | <span
-                                            class="text-danger">에러율 5% 이상 = 개선 필요</span>
+                                        <strong>Display Format:</strong> Think Time
+                                        {{ $config['think_time_min'] ?? 3 }}-{{ $config['think_time_max'] ?? 10 }} seconds
+                                        applied<br>
+                                        <span class="text-success">Error Rate < 1% = Excellent</span> | <span
+                                            class="text-danger">Error Rate > 5% = Needs Improvement</span>
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>Virtual Users (VUs):</strong> 동시에 접속하는 가상 사용자 수로, 실제
-                                            트래픽 부하를 시뮬레이션</p>
-                                        <p class="mb-2"><strong>P95 응답시간:</strong> 전체 요청의 95%가 이 시간 내에 응답을 받은 시간 (사용자
-                                            경험의 핵심 지표)</p>
-                                        <p class="mb-0"><strong>Think Time:</strong> 실제 사용자의 페이지 간 이동 패턴을 모방한 대기 시간
+                                        <p class="mb-2"><strong>Virtual Users (VUs):</strong> Number of concurrent virtual users 
+                                            that simulate actual traffic load</p>
+                                        <p class="mb-2"><strong>P95 Response Time:</strong> Time within which 95% of all requests received responses 
+                                            (key indicator of user experience)</p>
+                                        <p class="mb-0"><strong>Think Time:</strong> Wait time that mimics real user navigation patterns between pages
                                         </p>
                                     </div>
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 K6 Load Test를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC's K6 Load Test.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 국제적 기준에 근거한 웹 품질 측정 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides web quality measurement services based on international standards,
+                                            and certificates can be verified for authenticity through real-time QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Certificate Issue Date:
                                                 {{ $certificate->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certificate->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -825,89 +820,89 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>K6 부하 테스트 검증 환경</h3>
+                                <h3>K6 Load Testing Verification Environment</h3>
                                 <div class="text-muted small mt-1">
-                                    K6는 Grafana에서 개발한 현대적인 부하 테스트 도구로, JavaScript로 테스트 시나리오를 작성하여
-                                    웹사이트나 API의 성능과 안정성을 검증합니다.
+                                    K6 is a modern load testing tool developed by Grafana that uses JavaScript to create test scenarios
+                                    for verifying website or API performance and stability.
                                     <br><br>
-                                    • <strong>Virtual Users (VUs)</strong>: 동시에 접속하는 가상 사용자 수<br>
-                                    • <strong>Duration</strong>: 테스트를 지속하는 시간<br>
-                                    • <strong>Think Time</strong>: 각 요청 사이의 대기 시간 (실제 사용자의 행동 패턴 시뮬레이션)<br>
-                                    • <strong>P95 응답시간</strong>: 전체 요청 중 95%가 이 시간 내에 응답받은 시간
+                                    • <strong>Virtual Users (VUs)</strong>: Number of concurrent virtual users<br>
+                                    • <strong>Duration</strong>: Test execution time<br>
+                                    • <strong>Think Time</strong>: Wait time between requests (simulates real user behavior patterns)<br>
+                                    • <strong>P95 Response Time</strong>: Time within which 95% of all requests received responses
                                     <br><br>
-                                    평균 응답시간은 일부 매우 빠른 요청에 의해 왜곡될 수 있어, P95가 실제 사용자 경험을 더 정확히 반영합니다.
+                                    Average response time can be skewed by some very fast requests, so P95 more accurately reflects actual user experience.
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria Guide --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>VU/Duration 조건</th>
-                                                <th>성능 기준</th>
+                                                <th>Grade</th>
+                                                <th>VU/Duration Requirements</th>
+                                                <th>Performance Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge badge-a-plus">A+</span></td>
-                                                <td>100 VUs 이상 + 60초 이상</td>
-                                                <td>P95 < 1000ms<br>에러율 < 0.1%<br>안정성: P90 ≤ 평균값의 200%</td>
+                                                <td>100+ VUs + 60+ seconds</td>
+                                                <td>P95 < 1000ms<br>Error Rate < 0.1%<br>Stability: P90 ≤ 200% of Average</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-a">A</span></td>
-                                                <td>50 VUs 이상 + 45초 이상</td>
-                                                <td>P95 < 1200ms<br>에러율 < 0.5%<br>안정성: P90 ≤ 평균값의 240%</td>
+                                                <td>50+ VUs + 45+ seconds</td>
+                                                <td>P95 < 1200ms<br>Error Rate < 0.5%<br>Stability: P90 ≤ 240% of Average</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-b">B</span></td>
-                                                <td>30 VUs 이상 + 30초 이상</td>
-                                                <td>P95 < 1500ms<br>에러율 < 1.0%<br>안정성: P90 ≤ 평균값의 280%</td>
+                                                <td>30+ VUs + 30+ seconds</td>
+                                                <td>P95 < 1500ms<br>Error Rate < 1.0%<br>Stability: P90 ≤ 280% of Average</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-c">C</span></td>
-                                                <td>20 VUs 이상 + 30초 이상</td>
-                                                <td>P95 < 2000ms<br>에러율 < 2.0%<br>안정성: P90 ≤ 평균값의 320%</td>
+                                                <td>20+ VUs + 30+ seconds</td>
+                                                <td>P95 < 2000ms<br>Error Rate < 2.0%<br>Stability: P90 ≤ 320% of Average</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-d">D</span></td>
-                                                <td>10 VUs 이상 + 30초 이상</td>
-                                                <td>P95 < 3000ms<br>에러율 < 5.0%<br>안정성: P90 ≤ 평균값의 400%</td>
+                                                <td>10+ VUs + 30+ seconds</td>
+                                                <td>P95 < 3000ms<br>Error Rate < 5.0%<br>Stability: P90 ≤ 400% of Average</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-f">F</span></td>
                                                 <td>-</td>
-                                                <td>위 기준에 미달</td>
+                                                <td>Below the above criteria</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 K6 부하 테스트의 특징</strong><br>
-                                    - <strong>실제 사용자 패턴 시뮬레이션</strong>: Think Time을 통해 자연스러운 사용자 행동 재현<br>
-                                    - <strong>동시 접속 부하 테스트</strong>: VUs를 통해 실제 트래픽 상황 모방<br>
-                                    - <strong>성능 지표 종합 분석</strong>: 응답시간, 에러율, 처리량 등 다각도 측정<br><br>
+                                    <strong>📌 K6 Load Testing Features</strong><br>
+                                    - <strong>Real User Pattern Simulation</strong>: Natural user behavior reproduction through Think Time<br>
+                                    - <strong>Concurrent Connection Load Testing</strong>: Real traffic situation simulation through VUs<br>
+                                    - <strong>Comprehensive Performance Metrics Analysis</strong>: Multi-angle measurement of response time, error rate, throughput, etc.<br><br>
 
-                                    <strong>🌍 테스트 실행 환경</strong><br>
-                                    • 테스트 리전: {{ ucfirst($config['region'] ?? 'seoul') }}<br>
+                                    <strong>🌍 Test Execution Environment</strong><br>
+                                    • Test Region: {{ ucfirst($config['region'] ?? 'seoul') }}<br>
                                     • Virtual Users: {{ $vus }} VUs<br>
-                                    • Duration: {{ $duration }}초<br>
+                                    • Duration: {{ $duration }} seconds<br>
                                     • Think Time:
-                                    {{ $config['think_time_min'] ?? 3 }}-{{ $config['think_time_max'] ?? 10 }}초<br><br>
+                                    {{ $config['think_time_min'] ?? 3 }}-{{ $config['think_time_max'] ?? 10 }} seconds<br><br>
 
-                                    <strong>📊 성능 기준 해석</strong><br>
-                                    - P95 < 1초: 우수한 사용자 경험<br>
-                                        - P95 < 2초: 양호한 사용자 경험<br>
-                                            - P95 > 3초: 개선 필요<br>
-                                            - 에러율 < 1%: 안정적 서비스<br>
-                                                - 에러율 > 5%: 즉시 개선 필요
+                                    <strong>📊 Performance Criteria Interpretation</strong><br>
+                                    - P95 < 1s: Excellent user experience<br>
+                                    - P95 < 2s: Good user experience<br>
+                                    - P95 > 3s: Needs improvement<br>
+                                    - Error Rate < 1%: Stable service<br>
+                                    - Error Rate > 5%: Immediate improvement required
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
                                 <pre class="json-dump text-start" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
@@ -924,17 +919,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Results Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -966,10 +961,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                Web Performance Certificate
                                             </h1>
-                                            <h2>(모바일 성능 테스트)</h2>
-                                            <h3>인증번호: {{ $certificate->code }}</h3>
+                                            <h2>(Mobile Performance Test)</h2>
+                                            <h3>Certificate ID: {{ $certificate->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -983,7 +978,7 @@
                                                         </div>
                                                         @if ($currentTest->overall_score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($currentTest->overall_score, 1) }}점
+                                                                {{ number_format($currentTest->overall_score, 1) }} Points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -992,7 +987,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -1004,27 +999,27 @@
                                                 <table class="table table-sm">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>항목</th>
-                                                            <th>측정값</th>
+                                                            <th>Metric</th>
+                                                            <th>Value</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><strong>Median 응답시간 평균</strong></td>
+                                                            <td><strong>Average Median Response Time</strong></td>
                                                             <td>{{ $overall['medianAvgMs'] ?? 0 }}ms</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>Long Tasks 평균</strong></td>
+                                                            <td><strong>Average Long Tasks</strong></td>
                                                             <td>{{ $overall['longTasksAvgMs'] ?? 0 }}ms</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>JS 런타임 에러 (자사/외부)</strong></td>
+                                                            <td><strong>JS Runtime Errors (First-party/Third-party)</strong></td>
                                                             <td>{{ $overall['jsErrorsFirstPartyTotal'] ?? 0 }} /
                                                                 {{ $overall['jsErrorsThirdPartyTotal'] ?? 0 }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>렌더 폭 초과</strong></td>
-                                                            <td>{{ !empty($overall['bodyOverflowsViewport']) ? '있음' : '없음' }}
+                                                            <td><strong>Render Width Overflow</strong></td>
+                                                            <td>{{ !empty($overall['bodyOverflowsViewport']) ? 'Present' : 'None' }}
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -1034,43 +1029,41 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 모바일 성능 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Mobile Performance Test Results Verified</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>Playwright 헤드리스 브라우저</strong>를 통해 수행된 모바일 웹 성능 시험 결과에
-                                            근거합니다.<br>
-                                            <strong>6개 대표 모바일 기기</strong> (iOS 3종, Android 3종)에서 CPU ×4 스로틀링 환경으로
-                                            실제 모바일 환경을 시뮬레이션하여 측정되었으며, 결과의 진위 여부는 QR 검증 시스템을 통해 누구나 확인할 수 있습니다.
+                                            This certificate is based on mobile web performance test results conducted through <strong>Playwright headless browser</strong>.<br>
+                                            Testing was performed on <strong>6 representative mobile devices</strong> (3 iOS, 3 Android) with CPU ×4 throttling environment
+                                            to simulate actual mobile conditions, and the authenticity of results can be verified by anyone through our QR verification system.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 시험은 특정 시점의 객관적 측정 결과로, 웹사이트 최적화와 기기별 대응 여부에 따라 달라질 수 있습니다.
+                                            ※ This test represents objective measurement results at a specific point in time and may vary depending on website optimization and device-specific adaptations.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 모바일 성능 테스트 결과 <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>우수한 모바일 최적화 수준</u>을 입증하였습니다.<br>
-                                                이는 <strong>빠른 모바일 렌더링</strong>과 <strong>안정적인 런타임 환경</strong>을 갖춘 웹사이트임을
-                                                보여줍니다.
+                                                🌟 This website achieved a <strong>{{ $grade }}</strong> grade in mobile performance testing,
+                                                demonstrating <u>excellent mobile optimization level</u>.<br>
+                                                This shows that it is a website with <strong>fast mobile rendering</strong> and <strong>stable runtime environment</strong>.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- 기기별 상세 결과 -->
+                                    <!-- Detailed Results by Device -->
                                     <div class="row mb-4">
                                         <div class="col-12">
-                                            <h4 class="mb-3">기기별 상세 측정 결과</h4>
+                                            <h4 class="mb-3">Detailed Measurement Results by Device</h4>
                                             <div class="table-responsive">
                                                 <table class="table table-sm table-vcenter table-nowrap">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>디바이스</th>
+                                                            <th>Device</th>
                                                             <th>Median(ms)</th>
                                                             <th>TBT(ms)</th>
-                                                            <th>JS에러(자사)</th>
-                                                            <th>JS에러(외부)</th>
-                                                            <th>렌더 폭</th>
+                                                            <th>JS Errors(First-party)</th>
+                                                            <th>JS Errors(Third-party)</th>
+                                                            <th>Render Width</th>
                                                             <th>Viewport</th>
                                                         </tr>
                                                     </thead>
@@ -1083,7 +1076,7 @@
                                                                 <td>{{ $result['longTasksTotalMs'] ?? 0 }}</td>
                                                                 <td>{{ $result['jsErrorsFirstPartyCount'] ?? 0 }}</td>
                                                                 <td>{{ $result['jsErrorsThirdPartyCount'] ?? 0 }}</td>
-                                                                <td>{{ !empty($result['bodyOverflowsViewport']) ? '초과' : '정상' }}
+                                                                <td>{{ !empty($result['bodyOverflowsViewport']) ? 'Overflow' : 'Normal' }}
                                                                 </td>
                                                                 <td>
                                                                     @if (!empty($result['viewport']))
@@ -1099,41 +1092,39 @@
                                     </div>
 
                                     <div class="alert alert-info d-block">
-                                        <strong>측정 환경:</strong> 각 기기별 4회 실행 (1회 웜업 제외, 3회 중간값 사용)<br>
-                                        <span class="text-success">JS 에러 없음 = 우수</span> | <span class="text-danger">렌더
-                                            폭 초과 = 반응형 개선 필요</span>
+                                        <strong>Test Environment:</strong> 4 runs per device (excluding 1 warmup run, using median of 3 runs)<br>
+                                        <span class="text-success">No JS errors = Excellent</span> | <span class="text-danger">Render
+                                            width overflow = Responsive design improvement needed</span>
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>Median 응답시간:</strong> 재방문 시 페이지 로딩에 걸리는 중간값 시간 (캐시 활용
-                                            상태)</p>
-                                        <p class="mb-2"><strong>TBT (Total Blocking Time):</strong> JavaScript 실행으로
-                                            인한 메인 스레드 차단 시간의 합계 (50ms 초과분)</p>
-                                        <p class="mb-0"><strong>렌더 폭 초과:</strong> body 요소가 뷰포트 너비를 초과하여 수평 스크롤이 발생하는지
-                                            여부</p>
+                                        <p class="mb-2"><strong>Median Response Time:</strong> Median time taken for page loading on repeat visits (cache utilized state)</p>
+                                        <p class="mb-2"><strong>TBT (Total Blocking Time):</strong> Total main thread blocking time 
+                                            due to JavaScript execution (excess over 50ms)</p>
+                                        <p class="mb-0"><strong>Render Width Overflow:</strong> Whether the body element exceeds viewport width causing horizontal scrolling</p>
                                     </div>
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Mobile Performance Test를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC's Mobile Performance Test.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 국제적 기준에 근거한 웹 품질 측정 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides web quality measurement services based on international standards,
+                                            and certificates can be verified for authenticity through real-time QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Certificate Issue Date:
                                                 {{ $certificate->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certificate->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1141,77 +1132,77 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>모바일 성능 테스트 검증 환경</h3>
+                                <h3>Mobile Performance Test Verification Environment</h3>
                                 <div class="text-muted small mt-1">
-                                    Playwright를 사용하여 실제 모바일 기기 환경을 시뮬레이션하고,
-                                    웹사이트의 모바일 성능과 안정성을 정밀하게 측정합니다.
+                                    Using Playwright to simulate actual mobile device environments and precisely measure
+                                    website mobile performance and stability.
                                     <br><br>
-                                    • <strong>테스트 기기</strong>: iOS 3종 (iPhone SE, 11, 15 Pro), Android 3종 (Galaxy S9+,
+                                    • <strong>Test Devices</strong>: 3 iOS devices (iPhone SE, 11, 15 Pro), 3 Android devices (Galaxy S9+,
                                     S20 Ultra, Pixel 5)<br>
-                                    • <strong>측정 방식</strong>: 기기별 4회 실행, 1회 웜업 제외, 3회 중간값(Median) 사용<br>
-                                    • <strong>CPU 스로틀링</strong>: ×4 적용으로 실제 모바일 성능 제약 시뮬레이션<br>
-                                    • <strong>주요 지표</strong>: 재방문 로드 시간, Long Tasks(TBT), JS 런타임 에러, 렌더 폭 초과
+                                    • <strong>Measurement Method</strong>: 4 runs per device, excluding 1 warmup run, using median of 3 runs<br>
+                                    • <strong>CPU Throttling</strong>: ×4 applied to simulate actual mobile performance constraints<br>
+                                    • <strong>Key Metrics</strong>: Repeat visit load time, Long Tasks(TBT), JS runtime errors, render width overflow
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria Guide --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>성능 기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Performance Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge badge-a-plus">A+</span></td>
                                                 <td>90~100</td>
-                                                <td>Median 응답시간: ≤ 800ms<br>JS 런타임 에러: 0<br>렌더 폭 초과: 없음</td>
+                                                <td>Median Response Time: ≤ 800ms<br>JS Runtime Errors: 0<br>Render Width Overflow: None</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-a">A</span></td>
                                                 <td>80~89</td>
-                                                <td>Median 응답시간: ≤ 1200ms<br>JS 런타임 에러: ≤ 1<br>렌더 폭 초과: 없음</td>
+                                                <td>Median Response Time: ≤ 1200ms<br>JS Runtime Errors: ≤ 1<br>Render Width Overflow: None</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-b">B</span></td>
                                                 <td>70~79</td>
-                                                <td>Median 응답시간: ≤ 2000ms<br>JS 런타임 에러: ≤ 2<br>렌더 폭 초과: 허용</td>
+                                                <td>Median Response Time: ≤ 2000ms<br>JS Runtime Errors: ≤ 2<br>Render Width Overflow: Allowed</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-c">C</span></td>
                                                 <td>60~69</td>
-                                                <td>Median 응답시간: ≤ 3000ms<br>JS 런타임 에러: ≤ 3<br>렌더 폭 초과: 빈번</td>
+                                                <td>Median Response Time: ≤ 3000ms<br>JS Runtime Errors: ≤ 3<br>Render Width Overflow: Frequent</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-d">D</span></td>
                                                 <td>50~59</td>
-                                                <td>Median 응답시간: ≤ 4000ms<br>JS 런타임 에러: ≤ 5<br>렌더 폭 초과: 심각</td>
+                                                <td>Median Response Time: ≤ 4000ms<br>JS Runtime Errors: ≤ 5<br>Render Width Overflow: Severe</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-f">F</span></td>
                                                 <td>0~49</td>
-                                                <td>위 기준에 미달</td>
+                                                <td>Below the above criteria</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 Playwright 테스트의 특징</strong><br>
-                                    - <strong>Microsoft 개발</strong>: 현대적인 웹 자동화 도구로 정확한 성능 측정 가능<br>
-                                    - <strong>헤드리스 실행</strong>: UI 없이 백그라운드에서 안정적으로 동작<br>
-                                    - <strong>CPU 스로틀링</strong>: 실제 모바일 환경의 성능 제약을 정확히 시뮬레이션<br><br>
+                                    <strong>📌 Playwright Testing Features</strong><br>
+                                    - <strong>Microsoft Development</strong>: Modern web automation tool enabling accurate performance measurement<br>
+                                    - <strong>Headless Execution</strong>: Stable operation in background without UI<br>
+                                    - <strong>CPU Throttling</strong>: Precisely simulates actual mobile environment performance constraints<br><br>
 
-                                    <strong>🌍 측정 지표 해석</strong><br>
-                                    • <strong>구형 기기가 더 빠른 경우</strong>: 작은 뷰포트에 맞춰 가벼운 자산이 제공될 수 있음<br>
-                                    • <strong>균일한 CPU 스로틀</strong>: 모든 기기에 ×4 적용으로 리소스 무게가 속도에 직접 영향<br>
-                                    • <strong>JS 에러 구분</strong>: 자사(테스트 도메인)와 외부(서드파티) 에러를 분리 집계<br><br>
+                                    <strong>🌍 Measurement Metrics Interpretation</strong><br>
+                                    • <strong>Older devices performing faster</strong>: Lighter assets may be served for smaller viewports<br>
+                                    • <strong>Uniform CPU throttling</strong>: ×4 applied to all devices, so resource weight directly affects speed<br>
+                                    • <strong>JS error categorization</strong>: Separate counting of first-party (test domain) and third-party errors<br><br>
 
-                                    <strong>📊 왜 이 테스트가 중요한가</strong><br>
-                                    - 모바일 체감 렌더링 성능을 정확히 측정<br>
-                                    - 런타임 안정성과 에러 책임 소재 파악<br>
-                                    - 반응형 디자인 적합성 자동 검증<br>
-                                    - 릴리즈 간 회귀 비교와 목표 관리 최적화
+                                    <strong>📊 Why This Test Matters</strong><br>
+                                    - Accurately measures mobile perceived rendering performance<br>
+                                    - Identifies runtime stability and error responsibility<br>
+                                    - Automatically verifies responsive design compatibility<br>
+                                    - Optimizes regression comparison and target management between releases
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}"
@@ -1219,8 +1210,8 @@
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
                                 <pre class="json-dump text-start" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>

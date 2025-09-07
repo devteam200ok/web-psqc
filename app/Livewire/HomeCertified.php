@@ -38,9 +38,9 @@ class HomeCertified extends Component
 
         $rel = "certification/{$this->certificate->code}.pdf";
         if (\Illuminate\Support\Facades\Storage::disk('local')->exists($rel)) {
-            session()->flash('success', '인증서 PDF가 생성되었습니다.');
+            session()->flash('success', 'Certificate PDF has been generated.');
         } else {
-            session()->flash('error', 'PDF 생성에 실패했습니다.');
+            session()->flash('error', 'Failed to generate PDF.');
         }
     }
 

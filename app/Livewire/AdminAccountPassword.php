@@ -17,7 +17,7 @@ class AdminAccountPassword extends Component
         $user = Auth::user();
 
         if (!Hash::check($this->current_password, $user->password)) {
-            session()->flash('error', '현재 비밀번호가 올바르지 않습니다.');
+            session()->flash('error', 'Current password is incorrect.');
             return;
         }
 
@@ -35,7 +35,7 @@ class AdminAccountPassword extends Component
         $user->save();
 
         $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
-        session()->flash('success', '비밀번호가 성공적으로 업데이트되었습니다.');
+        session()->flash('success', 'Password has been updated successfully.');
     }
 
     public function render()

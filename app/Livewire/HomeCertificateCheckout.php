@@ -10,27 +10,27 @@ use Illuminate\Support\Facades\Auth;
 class HomeCertificateCheckout extends Component
 {
     public Certificate $certificate;
-    public $amount = 19; // 인증서 발급 비용 (원)
+    public $amount = 19; // Certification issuance fee (USD)
     public $orderId;
 
     public function mount(Certificate $certificate)
     {
         if (!Auth::check()) {
-            abort(401, '로그인이 필요합니다.');
+            abort(401, 'Login is required.');
         }
 
         if ($certificate->user_id !== Auth::id()) {
-            abort(403, '권한이 없습니다.');
+            abort(403, 'You do not have permission.');
         }
 
-        // 결제 대기 상태인지 확인
+        // Verify that payment is still pending
         if ($certificate->payment_status !== 'pending') {
-            return redirect()->route('home')->with('error', '이미 처리된 인증서입니다.');
+            return redirect()->route('home')->with('error', 'This certificate has already been processed.');
         }
 
         $this->certificate = $certificate;
         
-        // 주문 ID 생성 (인증서 ID 기반)
+        // Generate order ID (based on certificate ID)
         $this->orderId = 'CERT_' . $certificate->id . '_' . time();
     }
 

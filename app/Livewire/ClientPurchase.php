@@ -18,7 +18,7 @@ class ClientPurchase extends Component
     public $amount;
     public $orderId;
 
-    // 플랜 정보 정의
+    // Define plan information
     protected $planTemplates = [
         'starter' => [
             'name' => 'Starter',
@@ -26,8 +26,8 @@ class ClientPurchase extends Component
             'is_subscription' => true,
             'monthly_limit' => 600,
             'daily_limit' => 60,
-            'description' => '월 최대 600회 · 일 최대 60회',
-            'features' => ['개인 프로젝트 적합', '기본 회원 혜택', '이메일 알림'],
+            'description' => 'Up to 600/month · 60/day',
+            'features' => ['Great for personal projects', 'Basic member benefits', 'Email alerts'],
             'validity_days' => null,
             'refund_days' => 7,
         ],
@@ -37,8 +37,8 @@ class ClientPurchase extends Component
             'is_subscription' => true,
             'monthly_limit' => 1500,
             'daily_limit' => 150,
-            'description' => '월 최대 1,500회 · 일 최대 150회',
-            'features' => ['중소규모 사업장/에이전시 적합', 'Starter 회원 혜택', '검사 예약 + 스케줄러 주기 검사'],
+            'description' => 'Up to 1,500/month · 150/day',
+            'features' => ['Ideal for SMBs/agencies', 'Includes Starter benefits', 'Scheduled runs + recurring scans'],
             'validity_days' => null,
             'refund_days' => 7,
         ],
@@ -48,8 +48,8 @@ class ClientPurchase extends Component
             'is_subscription' => true,
             'monthly_limit' => 6000,
             'daily_limit' => 600,
-            'description' => '월 최대 6,000회 · 일 최대 600회',
-            'features' => ['다수 도메인/고객 관리', 'Pro 회원 혜택', '화이트라벨 리포트(인증서를 로고 수정)'],
+            'description' => 'Up to 6,000/month · 600/day',
+            'features' => ['Manage multiple domains/clients', 'Includes Pro benefits', 'White-label reports (customizable certificate logo)'],
             'validity_days' => null,
             'refund_days' => 7,
         ],
@@ -60,8 +60,8 @@ class ClientPurchase extends Component
             'monthly_limit' => null,
             'daily_limit' => 30,
             'total_limit' => 30,
-            'description' => '1일 이내 최대 30회',
-            'features' => ['단기 급테스트', '환불 불가'],
+            'description' => 'Up to 30 uses within 1 day',
+            'features' => ['Short burst testing', 'Non-refundable'],
             'validity_days' => 1,
             'refund_days' => 0,
         ],
@@ -72,8 +72,8 @@ class ClientPurchase extends Component
             'monthly_limit' => null,
             'daily_limit' => null,
             'total_limit' => 150,
-            'description' => '7일 이내 최대 150회',
-            'features' => ['스프린트 QA', '사용 전 3일 이내 전액 환불 가능'],
+            'description' => 'Up to 150 uses within 7 days',
+            'features' => ['Sprint QA', 'Full refund within 3 days if unused'],
             'validity_days' => 7,
             'refund_days' => 3,
         ],
@@ -84,8 +84,8 @@ class ClientPurchase extends Component
             'monthly_limit' => null,
             'daily_limit' => null,
             'total_limit' => 500,
-            'description' => '30일 이내 최대 500회',
-            'features' => ['프로젝트 안정화', '사용 전 7일 이내 전액 환불 가능'],
+            'description' => 'Up to 500 uses within 30 days',
+            'features' => ['Project stabilization', 'Full refund within 7 days if unused'],
             'validity_days' => 30,
             'refund_days' => 7,
         ],
@@ -96,8 +96,8 @@ class ClientPurchase extends Component
             'monthly_limit' => null,
             'daily_limit' => null,
             'total_limit' => 1300,
-            'description' => '90일 이내 최대 1,300회',
-            'features' => ['릴리즈 대응', '사용 전 30일 이내 전액 환불 가능'],
+            'description' => 'Up to 1,300 uses within 90 days',
+            'features' => ['Release readiness', 'Full refund within 30 days if unused'],
             'validity_days' => 90,
             'refund_days' => 30,
         ],
@@ -112,13 +112,13 @@ class ClientPurchase extends Component
         $this->planType = request('plan');
         
         if (!$this->planType || !isset($this->planTemplates[$this->planType])) {
-            return redirect()->route('home')->with('error', '잘못된 플랜입니다.');
+            return redirect()->route('home')->with('error', 'Invalid plan.');
         }
 
         $this->planData = $this->planTemplates[$this->planType];
         $this->amount = $this->planData['price'];
 
-        // 구독 중복 체크
+        // Check for existing subscription
         if ($this->planData['is_subscription']) {
             $existingSubscription = UserPlan::where('user_id', Auth::id())
                 ->subscription()
@@ -126,7 +126,7 @@ class ClientPurchase extends Component
                 ->first();
 
             if ($existingSubscription) {
-                return redirect()->route('home')->with('error', '이미 구독 중인 플랜이 있습니다.');
+                return redirect()->route('home')->with('error', 'You already have an active subscription plan.');
             }
         }
 

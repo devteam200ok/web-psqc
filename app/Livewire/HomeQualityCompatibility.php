@@ -22,7 +22,7 @@ class HomeQualityCompatibility extends Component
     }
 
     /**
-     * 테스트 타입 반환
+     * Return test type
      */
     protected function getTestType(): string
     {
@@ -30,7 +30,7 @@ class HomeQualityCompatibility extends Component
     }
 
     /**
-     * 테스트 설정 반환
+     * Return test configuration
      */
     protected function getTestConfig(): array
     {
@@ -43,7 +43,7 @@ class HomeQualityCompatibility extends Component
     }
 
     /**
-     * 브라우저 호환성 테스트 실행
+     * Run browser compatibility test
      */
     public function runTest()
     {
@@ -58,26 +58,26 @@ class HomeQualityCompatibility extends Component
         }
         
         if ($this->isDuplicateRecentTest($this->url)) {
-            $this->addError('url', '동일한 URL에 대한 테스트가 최근 1분 내에 실행되었습니다.');
+            $this->addError('url', 'A test for this URL was already executed within the last minute.');
             return;
         }
 
-        // 사용량 체크
+        // Check usage
         if (Auth::check()) {
             if (!$this->canUseService()) {
-                session()->flash('error', '사용 가능한 횟수를 초과했습니다.');
+                session()->flash('error', 'You have exceeded your available usage limit.');
                 return;
             }
         } else {
             if (!$this->hasUsageRemaining()) {
-                session()->flash('error', '사용량이 초과되었습니다. 로그인 후 이용해주세요.');
+                session()->flash('error', 'Usage limit exceeded. Please log in to continue.');
                 return;
             }
         }
 
         $this->isLoading = true;
 
-        // WebTest 생성
+        // Create WebTest record
         $test = WebTest::create([
             'user_id' => Auth::id(),
             'test_type' => $this->getTestType(),
@@ -87,7 +87,7 @@ class HomeQualityCompatibility extends Component
             'test_config' => $this->getTestConfig()
         ]);
 
-        // 사용량 차감
+        // Deduct usage
         if (Auth::check()) {
             $domain = parse_url($this->url, PHP_URL_HOST) ?? $this->url;
             $this->consumeService($domain, $this->getTestType());
@@ -127,7 +127,7 @@ class HomeQualityCompatibility extends Component
     }
 
     /**
-     * 원본 runAudit 메서드 호환성을 위한 래퍼
+     * Wrapper for original runAudit method (compatibility support)
      */
     public function runAudit()
     {
@@ -135,7 +135,7 @@ class HomeQualityCompatibility extends Component
     }
 
     /**
-     * 브라우저별 메트릭 가져오기
+     * Get metrics for a specific browser
      */
     public function getBrowserMetrics(string $browserName): ?array
     {
@@ -147,7 +147,7 @@ class HomeQualityCompatibility extends Component
     }
 
     /**
-     * 전체 요약 메트릭 가져오기
+     * Get overall summary metrics
      */
     public function getSummaryMetrics(): ?array
     {

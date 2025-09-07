@@ -11,36 +11,36 @@ use Illuminate\Support\Facades\Auth;
 class HomePsqcCheckout extends Component
 {
     public PsqcCertification $certification;
-    public $amount = 59; // 인증서 발급 비용 (원)
+    public $amount = 59; // Certification issuance fee (USD)
     public $orderId;
     public $testDetails = [];
 
     public function mount($certificate)
     {
         if (!Auth::check()) {
-            abort(401, '로그인이 필요합니다.');
+            abort(401, 'Login is required.');
         }
 
-        // ID로 직접 인증서 찾기
+        // Find certification directly by ID
         $this->certification = PsqcCertification::find($certificate);
         
         if (!$this->certification) {
-            abort(404, '인증서를 찾을 수 없습니다.');
+            abort(404, 'Certification not found.');
         }
 
         if ($this->certification->user_id !== Auth::id()) {
-            abort(403, '권한이 없습니다.');
+            abort(403, 'You do not have permission.');
         }
 
-        // 결제 대기 상태인지 확인
+        // Check if certification is still pending payment
         if ($this->certification->payment_status !== 'pending') {
-            return redirect()->route('home')->with('error', '이미 처리된 인증서입니다.');
+            return redirect()->route('home')->with('error', 'This certification has already been processed.');
         }
         
-        // 주문 ID 생성 (인증서 ID 기반)
+        // Generate order ID (based on certification ID)
         $this->orderId = 'PSQC_' . $this->certification->id . '_' . time();
         
-        // 테스트 상세 정보 구성
+        // Build test details
         $this->buildTestDetails();
     }
 
@@ -50,10 +50,10 @@ class HomePsqcCheckout extends Component
         $metrics = $this->certification->metrics;
         
         $groups = [
-            '성능 (P)' => ['p-speed', 'p-load', 'p-mobile'],
-            '보안 (S)' => ['s-ssl', 's-sslyze', 's-header', 's-scan', 's-nuclei'],
-            '품질 (Q)' => ['q-lighthouse', 'q-accessibility', 'q-compatibility', 'q-visual'],
-            '콘텐츠 (C)' => ['c-links', 'c-structure', 'c-crawl', 'c-meta'],
+            'Performance (P)' => ['p-speed', 'p-load', 'p-mobile'],
+            'Security (S)' => ['s-ssl', 's-sslyze', 's-header', 's-scan', 's-nuclei'],
+            'Quality (Q)' => ['q-lighthouse', 'q-accessibility', 'q-compatibility', 'q-visual'],
+            'Content (C)' => ['c-links', 'c-structure', 'c-crawl', 'c-meta'],
         ];
         
         $this->testDetails = [];
@@ -82,10 +82,10 @@ class HomePsqcCheckout extends Component
     private function getCategoryFromGroupLabel(string $groupLabel): string
     {
         return match(true) {
-            str_contains($groupLabel, '성능') => 'performance',
-            str_contains($groupLabel, '보안') => 'security',
-            str_contains($groupLabel, '품질') => 'quality',
-            str_contains($groupLabel, '콘텐츠') => 'content',
+            str_contains($groupLabel, 'Performance') => 'performance',
+            str_contains($groupLabel, 'Security') => 'security',
+            str_contains($groupLabel, 'Quality') => 'quality',
+            str_contains($groupLabel, 'Content') => 'content',
             default => 'other'
         };
     }

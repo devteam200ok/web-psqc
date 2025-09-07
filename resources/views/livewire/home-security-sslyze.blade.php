@@ -4,7 +4,7 @@
         content="In‑depth SSL/TLS analysis with SSLyze: protocol compatibility, cipher strength, certificate validity, OCSP Stapling, HSTS, PFS, elliptic curves, and more — evaluated up to A+.">
     <meta name="keywords"
         content="SSL deep analysis, SSLyze, TLS protocols, cipher suites, certificate validation, OCSP Stapling, HSTS, Perfect Forward Secrecy, ECC, SSL security grade, Web-PSQC">
-    <meta name="author" content="DevTeam Co., Ltd.">
+    <meta name="author" content="Web-PSQC Team">
     <meta name="robots" content="index,follow">
 
     <link rel="canonical" href="{{ url()->current() }}" />
@@ -36,7 +36,7 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'Organization',
-    'name' => 'DevTeam Co., Ltd.',
+    'name' => 'Web-PSQC',
     'url'  => url('/'),
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
@@ -101,9 +101,9 @@
                                     @if ($hasProOrAgencyPlan)
                                         <div class="mt-2">
                                             <a href="javascript:void(0)" wire:click="toggleScheduleForm"
-                                                class="text-primary me-3">검사 예약</a>
+                                                class="text-primary me-3">Schedule Test</a>
                                             <a href="javascript:void(0)" wire:click="toggleRecurringForm"
-                                                class="text-primary">스케쥴 등록</a>
+                                                class="text-primary">Set Recurring</a>
                                         </div>
                                     @endif
                                 </div>
@@ -112,19 +112,19 @@
                     </div>
 
                     @if ($hasProOrAgencyPlan)
-                        {{-- 검사 예약 폼 (공통 컴포넌트) --}}
+                        {{-- Schedule form (shared component) --}}
                         <x-test-shared.schedule-form :show-schedule-form="$showScheduleForm" :schedule-date="$scheduleDate" :schedule-hour="$scheduleHour"
                             :schedule-minute="$scheduleMinute" />
 
-                        {{-- 스케쥴 등록 폼 (공통 컴포넌트) --}}
+                        {{-- Recurring schedule form (shared component) --}}
                         <x-test-shared.recurring-schedule-form :show-recurring-form="$showRecurringForm" :recurring-start-date="$recurringStartDate" :recurring-end-date="$recurringEndDate"
                             :recurring-hour="$recurringHour" :recurring-minute="$recurringMinute" />
                     @endif
 
-                    {{-- 테스트 상태 (공통 컴포넌트) --}}
+                    {{-- Test status (shared component) --}}
                     <x-test-shared.test-status :current-test="$currentTest" :selected-history-test="$selectedHistoryTest" />
 
-                    {{-- 메인 콘텐츠 --}}
+                    {{-- Main content --}}
                     <div class="card">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
@@ -149,96 +149,84 @@
                             <div class="tab-content">
                                 <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                     id="tabs-information">
-                                    <h3>SSLyze를 활용한 SSL/TLS 심층 분석</h3>
+                                    <h3>SSL/TLS Deep Analysis with SSLyze</h3>
                                     <div class="text-muted small mt-3">
-                                        <strong>측정 도구:</strong> SSLyze v5.x - Mozilla, Qualys, IETF 등이 권장하는 오픈소스 SSL/TLS
-                                        스캐너<br>
-                                        <strong>테스트 목적:</strong> 웹사이트의 SSL/TLS 설정을 종합적으로 진단하여 보안 취약점을 식별하고 개선 방안을
-                                        제시<br><br>
+                                        <strong>Testing Tool:</strong> SSLyze v5.x - Open-source SSL/TLS scanner recommended by Mozilla, Qualys, IETF and others<br>
+                                        <strong>Purpose:</strong> Comprehensively diagnose website SSL/TLS configuration to identify security vulnerabilities and provide improvement recommendations<br><br>
 
-                                        <strong>검사 항목:</strong><br>
-                                        • <strong>TLS 프로토콜 버전</strong> - SSL 2.0/3.0, TLS 1.0/1.1/1.2/1.3 지원 여부<br>
-                                        • <strong>암호군(Cipher Suites)</strong> - 강도, PFS(Perfect Forward Secrecy) 지원, 약한
-                                        암호 검출<br>
-                                        • <strong>인증서 체인</strong> - 유효성, 만료일, 서명 알고리즘, 키 크기, 체인 완전성<br>
-                                        • <strong>OCSP Stapling</strong> - 인증서 폐기 상태 실시간 확인 메커니즘<br>
-                                        • <strong>HTTP 보안 헤더</strong> - HSTS(HTTP Strict Transport Security) 설정<br>
-                                        • <strong>타원곡선 암호</strong> - 지원하는 타원곡선 목록 및 강도 평가<br><br>
+                                        <strong>Test Coverage:</strong><br>
+                                        • <strong>TLS Protocol Versions</strong> - SSL 2.0/3.0, TLS 1.0/1.1/1.2/1.3 support detection<br>
+                                        • <strong>Cipher Suites</strong> - Strength assessment, PFS (Perfect Forward Secrecy) support, weak cipher detection<br>
+                                        • <strong>Certificate Chain</strong> - Validity, expiration, signature algorithms, key size, chain completeness<br>
+                                        • <strong>OCSP Stapling</strong> - Real-time certificate revocation status verification mechanism<br>
+                                        • <strong>HTTP Security Headers</strong> - HSTS (HTTP Strict Transport Security) configuration<br>
+                                        • <strong>Elliptic Curve Cryptography</strong> - Supported curve list and strength evaluation<br><br>
 
-                                        <strong>DevTeam Test</strong>는 SSLyze 엔진을 통해 대상 서버의 SSL/TLS 설정을 스캔하고,
-                                        수집된 데이터를 기반으로 보안 등급을 산출합니다.<br>
-                                        이 과정은 약 <strong>30초~3분</strong> 정도 소요됩니다.
+                                        <strong>Web-PSQC</strong> scans the target server's SSL/TLS configuration using the SSLyze engine
+                                        and calculates security grades based on collected data.<br>
+                                        This process typically takes <strong>30 seconds to 3 minutes</strong>.
                                     </div>
 
-                                    {{-- 등급 기준 안내 --}}
+                                    {{-- Grading criteria guide --}}
                                     <div class="table-responsive mt-3">
                                         <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                             <thead>
                                                 <tr>
-                                                    <th>등급</th>
-                                                    <th>점수</th>
-                                                    <th>기준</th>
+                                                    <th>Grade</th>
+                                                    <th>Score</th>
+                                                    <th>Criteria</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td><span class="badge bg-green-lt text-green-lt-fg">A+</span></td>
                                                     <td>90~100</td>
-                                                    <td><strong>TLS 1.3/1.2만</strong> 허용, 약한 암호군 없음(<strong>전부
-                                                            PFS</strong>)<br>
-                                                        인증서 <strong>ECDSA</strong> 또는 <strong>RSA≥3072</strong>, 체인
-                                                        완전·만료 <strong>60일↑</strong><br>
-                                                        <strong>OCSP Stapling</strong> 정상(가능시
-                                                        <strong>Must-Staple</strong>)<br>
-                                                        HSTS 활성, max-age ≥ 1년, includeSubDomains, preload
+                                                    <td><strong>TLS 1.3/1.2 only</strong>, no weak ciphers (<strong>all PFS</strong>)<br>
+                                                        Certificate <strong>ECDSA</strong> or <strong>RSA≥3072</strong>, complete chain, expires in <strong>60+ days</strong><br>
+                                                        <strong>OCSP Stapling</strong> working (ideally with <strong>Must-Staple</strong>)<br>
+                                                        HSTS enabled, max-age ≥ 1 year, includeSubDomains, preload
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-lime-lt text-lime-lt-fg">A</span></td>
                                                     <td>80~89</td>
-                                                    <td><strong>TLS 1.3/1.2</strong>, 강한 암호 우선(<strong>PFS
-                                                            대부분</strong>)<br>
-                                                        인증서 <strong>RSA≥2048</strong>, <strong>SHA-256+</strong>, 체인
-                                                        정상·만료 <strong>30일↑</strong><br>
-                                                        <strong>OCSP Stapling</strong> 활성(간헐 실패 허용)<br>
-                                                        HSTS 활성, max-age ≥ 6개월
+                                                    <td><strong>TLS 1.3/1.2</strong>, strong ciphers prioritized (<strong>mostly PFS</strong>)<br>
+                                                        Certificate <strong>RSA≥2048</strong>, <strong>SHA-256+</strong>, valid chain, expires in <strong>30+ days</strong><br>
+                                                        <strong>OCSP Stapling</strong> enabled (occasional failures allowed)<br>
+                                                        HSTS enabled, max-age ≥ 6 months
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-blue-lt text-blue-lt-fg">B</span></td>
                                                     <td>65~79</td>
-                                                    <td><strong>TLS 1.2</strong> 필수, 1.3 선택/미지원, 일부 <strong>CBC</strong>
-                                                        존재<br>
-                                                        인증서 <strong>RSA≥2048</strong>, 체인 정상(만료
-                                                        <strong>14일↑</strong>)<br>
-                                                        OCSP Stapling <strong>미활성</strong>(대신 OCSP 응답 가능)<br>
-                                                        HSTS 설정 있으나 일부 미흡</td>
+                                                    <td><strong>TLS 1.2</strong> required, 1.3 optional/unsupported, some <strong>CBC</strong> present<br>
+                                                        Certificate <strong>RSA≥2048</strong>, valid chain (expires in <strong>14+ days</strong>)<br>
+                                                        OCSP Stapling <strong>disabled</strong> (but OCSP responses available)<br>
+                                                        HSTS configured but partially inadequate</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-yellow-lt text-yellow-lt-fg">C</span></td>
                                                     <td>50~64</td>
-                                                    <td><strong>TLS 1.0/1.1</strong> 활성 또는 <strong>약한 암호 다수</strong>(PFS
-                                                        낮음)<br>
-                                                        체인 누락/<strong>약한 서명(SHA-1)</strong> 또는 만료
-                                                        임박(<strong>≤14일</strong>)<br>
-                                                        Stapling <strong>없음</strong>·폐기 확인 <strong>불명확</strong><br>
-                                                        HSTS <strong>미설정</strong></td>
+                                                    <td><strong>TLS 1.0/1.1</strong> enabled or <strong>many weak ciphers</strong> (low PFS)<br>
+                                                        Missing chain/<strong>weak signatures (SHA-1)</strong> or expires soon (<strong>≤14 days</strong>)<br>
+                                                        No Stapling, <strong>unclear</strong> revocation checking<br>
+                                                        HSTS <strong>not configured</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-orange-lt text-orange-lt-fg">D</span></td>
                                                     <td>35~49</td>
-                                                    <td>구식 프로토콜/암호(<strong>SSLv3/EXPORT/RC4</strong> 등) 허용<br>
-                                                        인증서 <strong>불일치/체인 오류</strong> 빈발<br>
-                                                        Stapling <strong>실패</strong>·폐기 확인 <strong>불능</strong><br>
-                                                        보안 헤더 전반적 미흡</td>
+                                                    <td>Legacy protocols/ciphers (<strong>SSLv3/EXPORT/RC4</strong> etc.) allowed<br>
+                                                        Certificate <strong>mismatch/chain errors</strong> frequent<br>
+                                                        Stapling <strong>fails</strong>, revocation checking <strong>impossible</strong><br>
+                                                        Security headers generally inadequate</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-red-lt text-red-lt-fg">F</span></td>
                                                     <td>0~34</td>
-                                                    <td><strong>핸드셰이크 실패</strong> 수준의 결함<br>
-                                                        <strong>만료/자가서명/호스트 불일치</strong><br>
-                                                        광범위한 <strong>약한 프로토콜·암호</strong> 허용<br>
-                                                        전반적 <strong>TLS 설정 붕괴</strong>
+                                                    <td><strong>Handshake failure</strong> level defects<br>
+                                                        <strong>Expired/self-signed/hostname mismatch</strong><br>
+                                                        Widespread <strong>weak protocols and ciphers</strong> allowed<br>
+                                                        Overall <strong>TLS configuration failure</strong>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -273,7 +261,7 @@
 
                                         <x-test-shared.certificate :current-test="$currentTest" />
 
-                                        <!-- 발견된 이슈 -->
+                                        <!-- Detected Issues -->
                                         @if (!empty($issues))
                                             <div class="row mb-4">
                                                 <div class="col-12">
@@ -310,7 +298,7 @@
                                             <div class="col-12">
                                                 <h5 class="mb-3">Detailed Analysis</h5>
 
-                                                <!-- TLS 버전 분석 -->
+                                                <!-- TLS Version Analysis -->
                                                 <div class="card mb-3">
                                                     <div class="card-header">
                                                         <h6 class="card-title mb-0">TLS Protocol Versions</h6>
@@ -328,17 +316,15 @@
                                                             <div class="col-md-6">
                                                                 <strong>TLS 1.3:</strong>
                                                                 @if ($analysis['tls_versions']['supported_versions']['tls_1_3'] ?? false)
-                                                                    <span
-                                                                        class="badge bg-green-lt text-green-lt-fg">지원</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Supported</span>
                                                                 @else
-                                                                    <span
-                                                                        class="badge bg-orange-lt text-orange-lt-fg">미지원</span>
+                                                                    <span class="badge bg-orange-lt text-orange-lt-fg">Not supported</span>
                                                                 @endif
                                                             </div>
                                                         </div>
                                                         @if (!empty($analysis['tls_versions']['issues']))
                                                             <div class="mt-3">
-                                                                <strong class="text-danger">발견된 이슈:</strong>
+                                                                <strong class="text-danger">Issues Found:</strong>
                                                                 <ul class="mb-0">
                                                                     @foreach ($analysis['tls_versions']['issues'] as $issue)
                                                                         <li>{{ $issue }}</li>
@@ -349,36 +335,36 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- 암호군 분석 -->
+                                                <!-- Cipher Suite Analysis -->
                                                 <div class="card mb-3">
                                                     <div class="card-header">
-                                                        <h6 class="card-title mb-0">암호군(Cipher Suites) 분석</h6>
+                                                        <h6 class="card-title mb-0">Cipher Suites Analysis</h6>
                                                     </div>
                                                     <div class="card-body">
                                                         @if (!empty($analysis['cipher_suites']['tls_1_2']))
                                                             <div class="mb-3">
-                                                                <strong>TLS 1.2 암호군:</strong>
+                                                                <strong>TLS 1.2 Cipher Suites:</strong>
                                                                 <div class="row mt-2">
                                                                     <div class="col-md-3">
-                                                                        <div class="text-muted">전체</div>
+                                                                        <div class="text-muted">Total</div>
                                                                         <div class="h4">
-                                                                            {{ $analysis['cipher_suites']['tls_1_2']['total'] }}개
+                                                                            {{ $analysis['cipher_suites']['tls_1_2']['total'] }}
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <div class="text-muted">강한 암호</div>
+                                                                        <div class="text-muted">Strong</div>
                                                                         <div class="h4 text-success">
-                                                                            {{ $analysis['cipher_suites']['tls_1_2']['strong'] }}개
+                                                                            {{ $analysis['cipher_suites']['tls_1_2']['strong'] }}
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <div class="text-muted">약한 암호</div>
+                                                                        <div class="text-muted">Weak</div>
                                                                         <div class="h4 text-danger">
-                                                                            {{ $analysis['cipher_suites']['tls_1_2']['weak'] }}개
+                                                                            {{ $analysis['cipher_suites']['tls_1_2']['weak'] }}
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-3">
-                                                                        <div class="text-muted">PFS 비율</div>
+                                                                        <div class="text-muted">PFS Ratio</div>
                                                                         <div class="h4">
                                                                             {{ $analysis['cipher_suites']['tls_1_2']['pfs_ratio'] }}%
                                                                         </div>
@@ -389,51 +375,48 @@
 
                                                         @if (!empty($analysis['cipher_suites']['tls_1_3']))
                                                             <div>
-                                                                <strong>TLS 1.3 암호군:</strong>
-                                                                {{ $analysis['cipher_suites']['tls_1_3']['total'] }}개
+                                                                <strong>TLS 1.3 Cipher Suites:</strong>
+                                                                {{ $analysis['cipher_suites']['tls_1_3']['total'] }}
                                                             </div>
                                                         @endif
                                                     </div>
                                                 </div>
 
-                                                <!-- 인증서 분석 -->
+                                                <!-- Certificate Analysis -->
                                                 <div class="card mb-3">
                                                     <div class="card-header">
-                                                        <h6 class="card-title mb-0">인증서 분석</h6>
+                                                        <h6 class="card-title mb-0">Certificate Analysis</h6>
                                                     </div>
                                                     <div class="card-body">
                                                         @if (!empty($analysis['certificate']['details']))
                                                             <div class="row">
                                                                 @if (isset($analysis['certificate']['details']['key_algorithm']))
                                                                     <div class="col-md-6">
-                                                                        <strong>공개키 알고리즘:</strong>
+                                                                        <strong>Public Key Algorithm:</strong>
                                                                         {{ $analysis['certificate']['details']['key_algorithm'] }}
                                                                     </div>
                                                                 @endif
                                                                 @if (isset($analysis['certificate']['details']['key_size']))
                                                                     <div class="col-md-6">
-                                                                        <strong>키 크기:</strong>
-                                                                        {{ $analysis['certificate']['details']['key_size'] }}비트
+                                                                        <strong>Key Size:</strong>
+                                                                        {{ $analysis['certificate']['details']['key_size'] }} bits
                                                                     </div>
                                                                 @endif
                                                                 @if (isset($analysis['certificate']['details']['signature_algorithm']))
                                                                     <div class="col-md-6">
-                                                                        <strong>서명 알고리즘:</strong>
+                                                                        <strong>Signature Algorithm:</strong>
                                                                         {{ $analysis['certificate']['details']['signature_algorithm'] }}
                                                                     </div>
                                                                 @endif
                                                                 @if (isset($analysis['certificate']['details']['days_to_expiry']))
                                                                     <div class="col-md-6">
-                                                                        <strong>만료까지:</strong>
+                                                                        <strong>Days to Expiry:</strong>
                                                                         @if ($analysis['certificate']['details']['days_to_expiry'] <= 14)
-                                                                            <span
-                                                                                class="text-danger">{{ $analysis['certificate']['details']['days_to_expiry'] }}일</span>
+                                                                            <span class="text-danger">{{ $analysis['certificate']['details']['days_to_expiry'] }} days</span>
                                                                         @elseif ($analysis['certificate']['details']['days_to_expiry'] <= 30)
-                                                                            <span
-                                                                                class="text-warning">{{ $analysis['certificate']['details']['days_to_expiry'] }}일</span>
+                                                                            <span class="text-warning">{{ $analysis['certificate']['details']['days_to_expiry'] }} days</span>
                                                                         @else
-                                                                            <span
-                                                                                class="text-success">{{ $analysis['certificate']['details']['days_to_expiry'] }}일</span>
+                                                                            <span class="text-success">{{ $analysis['certificate']['details']['days_to_expiry'] }} days</span>
                                                                         @endif
                                                                     </div>
                                                                 @endif
@@ -448,47 +431,44 @@
                                                         <h6 class="card-title mb-0">OCSP Stapling</h6>
                                                     </div>
                                                     <div class="card-body">
-                                                        <strong>상태:</strong>
+                                                        <strong>Status:</strong>
                                                         @if (($analysis['ocsp']['status'] ?? '') === 'SUCCESSFUL')
-                                                            <span class="badge bg-green-lt text-green-lt-fg">활성</span>
+                                                            <span class="badge bg-green-lt text-green-lt-fg">Enabled</span>
                                                         @else
-                                                            <span class="badge bg-red-lt text-red-lt-fg">비활성</span>
+                                                            <span class="badge bg-red-lt text-red-lt-fg">Disabled</span>
                                                         @endif
 
                                                         @if (isset($analysis['ocsp']['certificate_status']))
                                                             <div class="mt-2">
-                                                                <strong>인증서 상태:</strong>
+                                                                <strong>Certificate Status:</strong>
                                                                 {{ $analysis['ocsp']['certificate_status'] }}
                                                             </div>
                                                         @endif
                                                     </div>
                                                 </div>
 
-                                                <!-- HTTP 보안 헤더 -->
+                                                <!-- HTTP Security Headers -->
                                                 <div class="card mb-3">
                                                     <div class="card-header">
-                                                        <h6 class="card-title mb-0">HTTP 보안 헤더</h6>
+                                                        <h6 class="card-title mb-0">HTTP Security Headers</h6>
                                                     </div>
                                                     <div class="card-body">
                                                         @if (!empty($analysis['http_headers']['hsts']))
-                                                            <strong>HSTS:</strong> <span
-                                                                class="badge bg-green-lt text-green-lt-fg">설정됨</span>
+                                                            <strong>HSTS:</strong> <span class="badge bg-green-lt text-green-lt-fg">Configured</span>
                                                             <div class="row mt-2">
                                                                 <div class="col-md-4">
                                                                     <div class="text-muted">max-age</div>
                                                                     <div>
-                                                                        {{ number_format($analysis['http_headers']['hsts']['max_age']) }}초
+                                                                        {{ number_format($analysis['http_headers']['hsts']['max_age']) }} seconds
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="text-muted">includeSubDomains</div>
                                                                     <div>
                                                                         @if ($analysis['http_headers']['hsts']['include_subdomains'] ?? false)
-                                                                            <span
-                                                                                class="badge bg-green-lt text-green-lt-fg">Yes</span>
+                                                                            <span class="badge bg-green-lt text-green-lt-fg">Yes</span>
                                                                         @else
-                                                                            <span
-                                                                                class="badge bg-orange-lt text-orange-lt-fg">No</span>
+                                                                            <span class="badge bg-orange-lt text-orange-lt-fg">No</span>
                                                                         @endif
                                                                     </div>
                                                                 </div>
@@ -496,38 +476,34 @@
                                                                     <div class="text-muted">preload</div>
                                                                     <div>
                                                                         @if ($analysis['http_headers']['hsts']['preload'] ?? false)
-                                                                            <span
-                                                                                class="badge bg-green-lt text-green-lt-fg">Yes</span>
+                                                                            <span class="badge bg-green-lt text-green-lt-fg">Yes</span>
                                                                         @else
-                                                                            <span
-                                                                                class="badge bg-orange-lt text-orange-lt-fg">No</span>
+                                                                            <span class="badge bg-orange-lt text-orange-lt-fg">No</span>
                                                                         @endif
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         @else
-                                                            <strong>HSTS:</strong> <span
-                                                                class="badge bg-red-lt text-red-lt-fg">미설정</span>
+                                                            <strong>HSTS:</strong> <span class="badge bg-red-lt text-red-lt-fg">Not configured</span>
                                                         @endif
                                                     </div>
                                                 </div>
 
-                                                <!-- 타원곡선 -->
+                                                <!-- Elliptic Curves -->
                                                 <div class="card mb-3">
                                                     <div class="card-header">
-                                                        <h6 class="card-title mb-0">타원곡선 암호</h6>
+                                                        <h6 class="card-title mb-0">Elliptic Curve Cryptography</h6>
                                                     </div>
                                                     <div class="card-body">
                                                         @if (!empty($analysis['elliptic_curves']['supported']))
-                                                            <strong>지원 곡선:</strong>
+                                                            <strong>Supported Curves:</strong>
                                                             <div class="mt-2">
                                                                 @foreach ($analysis['elliptic_curves']['supported'] as $curve)
-                                                                    <span
-                                                                        class="badge bg-azure-lt text-azure-lt-fg me-1">{{ $curve }}</span>
+                                                                    <span class="badge bg-azure-lt text-azure-lt-fg me-1">{{ $curve }}</span>
                                                                 @endforeach
                                                             </div>
                                                         @else
-                                                            <span class="text-muted">타원곡선 정보 없음</span>
+                                                            <span class="text-muted">No elliptic curve information available</span>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -585,11 +561,11 @@
                 </div>
 
                 <div class="col-xl-4 mb-2">
-                    {{-- 사이드바 (공통 컴포넌트) --}}
+                    {{-- Sidebar (shared component) --}}
                     <x-test-shared.sidebar :side-tab-active="$sideTabActive" :test-history="$testHistory" :selected-history-test="$selectedHistoryTest" :user-domains="$userDomains"
                         :scheduled-tests="$scheduledTests" :has-pro-or-agency-plan="$hasProOrAgencyPlan" />
 
-                    {{-- 도메인 인증 모달 (공통 컴포넌트) --}}
+                    {{-- Domain verification modal (shared component) --}}
                     <x-test-shared.domain-verification-modal :show-verification-modal="$showVerificationModal" :current-verification-domain="$currentVerificationDomain" :verification-message="$verificationMessage"
                         :verification-message-type="$verificationMessageType" />
                 </div>

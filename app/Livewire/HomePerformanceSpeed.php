@@ -22,7 +22,7 @@ class HomePerformanceSpeed extends Component
     }
 
     /**
-     * 테스트 타입 반환
+     * Return test type
      */
     protected function getTestType(): string
     {
@@ -30,7 +30,7 @@ class HomePerformanceSpeed extends Component
     }
 
     /**
-     * 테스트 설정 반환
+     * Return test configuration
      */
     protected function getTestConfig(): array
     {
@@ -41,7 +41,7 @@ class HomePerformanceSpeed extends Component
     }
 
     /**
-     * 속도 테스트 실행 (개별 테스트만의 고유 로직)
+     * Run speed test (test-specific logic)
      */
     public function runTest()
     {
