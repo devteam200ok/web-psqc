@@ -67,6 +67,8 @@ class CreatePaypalSubscriptionPlans extends Command
         $accessToken = $tokenResponse->json('access_token');
         $this->info('PayPal access token obtained successfully.');
 
+        $planResults = [];
+
         foreach ($this->planTemplates as $planType => $planData) {
             $this->info("Creating plan for: {$planData['name']}");
             
@@ -81,10 +83,12 @@ class CreatePaypalSubscriptionPlans extends Command
                     'category' => 'SOFTWARE'
                 ]);
 
-            if ($productResponse->ok()) {
-                $this->info("✅ Product created: {$productId}");
+            // Product creation can return 200 (created) or 422 (already exists)
+            if ($productResponse->successful() || $productResponse->status() === 422) {
+                $this->info("✅ Product ready: {$productId}");
             } else {
-                $this->warn("⚠️  Product creation response: " . $productResponse->body());
+                $this->error("❌ Product creation failed: " . $productResponse->body());
+                continue;
             }
 
             // 2. Create Subscription Plan
@@ -122,14 +126,11 @@ class CreatePaypalSubscriptionPlans extends Command
                     ]
                 ]);
 
-            if ($planResponse->ok()) {
+            if ($planResponse->successful()) {
                 $planId = $planResponse->json('id');
                 $this->info("✅ Subscription plan created: {$planId}");
                 
-                // Store plan ID for reference
-                $this->table(['Plan Type', 'PayPal Plan ID'], [
-                    [$planType, $planId]
-                ]);
+                $planResults[] = [$planType, $planId];
             } else {
                 $this->error("❌ Failed to create plan for {$planType}: " . $planResponse->body());
             }
@@ -137,9 +138,23 @@ class CreatePaypalSubscriptionPlans extends Command
             $this->info('');
         }
 
+        if (!empty($planResults)) {
+            $this->info('Created PayPal Plan IDs:');
+            $this->table(['Plan Type', 'PayPal Plan ID'], $planResults);
+            
+            $this->info('');
+            $this->warn('Update your JavaScript with these plan IDs:');
+            
+            $jsCode = "const planIdMap = {\n";
+            foreach ($planResults as [$planType, $planId]) {
+                $jsCode .= "    '{$planType}': '{$planId}',\n";
+            }
+            $jsCode .= "};";
+            
+            $this->line($jsCode);
+        }
+
         $this->info('PayPal subscription plans creation completed!');
-        
-        $this->warn('Important: Update your frontend JavaScript to use the correct plan IDs shown above.');
         
         return 0;
     }

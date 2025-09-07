@@ -70,7 +70,7 @@
             'price' => 5,
             'priceCurrency' => 'USD',
             'category' => 'Voucher',
-            'description' => 'Up to 30 runs within 1 day, short urgent testing, non‑refundable',
+            'description' => 'Up to 30 runs within 1 day, short urgent testing',
             'url' => url('/client/purchase?plan=test1'),
         ],
         [
@@ -79,7 +79,7 @@
             'price' => 19,
             'priceCurrency' => 'USD',
             'category' => 'Voucher',
-            'description' => 'Up to 150 runs within 7 days, sprint QA, full refund within 3 days before use',
+            'description' => 'Up to 150 runs within 7 days, sprint QA',
             'url' => url('/client/purchase?plan=test7'),
         ],
         [
@@ -88,7 +88,7 @@
             'price' => 39,
             'priceCurrency' => 'USD',
             'category' => 'Voucher',
-            'description' => 'Up to 500 runs within 30 days, project stabilization, full refund within 7 days before use',
+            'description' => 'Up to 500 runs within 30 days, project stabilization',
             'url' => url('/client/purchase?plan=test30'),
         ],
         [
@@ -97,7 +97,7 @@
             'price' => 119,
             'priceCurrency' => 'USD',
             'category' => 'Voucher',
-            'description' => 'Up to 1,300 runs within 90 days, release readiness, full refund within 30 days before use',
+            'description' => 'Up to 1,300 runs within 90 days, release readiness',
             'url' => url('/client/purchase?plan=test90'),
         ],
         [
@@ -293,8 +293,6 @@
         </div>
 
         <div class="text-muted small mb-2">
-            * Subscriptions are <strong>fully refundable within 7 days before first use</strong>. <strong>No refunds
-                once any scan has run</strong>.<br>
             * Usage is limited by whichever comes first: <strong>monthly or daily quota</strong>.
         </div>
 
@@ -309,7 +307,6 @@
                         <div class="text-muted small mb-2">Up to 30 runs within 1 day</div>
                         <ul class="list-unstyled small mb-2">
                             <li>• Short, urgent testing</li>
-                            <li>• Non-refundable</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
@@ -333,7 +330,6 @@
                         <div class="text-muted small mb-2">Up to 150 runs within 7 days</div>
                         <ul class="list-unstyled small mb-2">
                             <li>• Sprint QA</li>
-                            <li>• Full refund within 3 days before use</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
@@ -357,7 +353,6 @@
                         <div class="text-muted small mb-2">Up to 500 runs within 30 days</div>
                         <ul class="list-unstyled small mb-2">
                             <li>• Project stabilization</li>
-                            <li>• Full refund within 7 days before use</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
@@ -381,7 +376,6 @@
                         <div class="text-muted small mb-2">Up to 1,300 runs within 90 days</div>
                         <ul class="list-unstyled small mb-2">
                             <li>• Release readiness</li>
-                            <li>• Full refund within 30 days before use</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
@@ -398,9 +392,7 @@
             </div>
         </div>
         <div class="text-muted small mb-2">
-            * Coupons are <strong>quota-based within the validity period</strong>. <strong>7/30/90-day coupons are fully
-                refundable before use within the stated window</strong>.<br>
-            * <strong>No refunds after the refundable window or once used</strong>.
+            * Coupons are <strong>quota-based within the validity period</strong>.
         </div>
 
         {{-- Certificates --}}
@@ -436,9 +428,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="text-muted small mt-2">
-            * Certificates are issued immediately after payment and are non-refundable.
         </div>
 
     </div>

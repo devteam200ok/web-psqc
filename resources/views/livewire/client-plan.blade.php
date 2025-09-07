@@ -36,7 +36,7 @@
                                             <div class="d-flex align-items-center mb-2">
                                                 <span class="badge bg-blue-lt text-blue-lt-fg me-2">Subscription</span>
                                                 <h5 class="mb-0">{{ ucfirst($subscription->plan_type) }} Plan</h5>
-                                                @if (!$subscription->auto_renew)
+                                                @if (!$subscription->auto_renew || $subscription->status === 'cancelled')
                                                     <span class="badge bg-orange-lt text-orange-lt-fg ms-2">Cancelled</span>
                                                 @endif
                                             </div>
@@ -87,32 +87,12 @@
                                                 </div>
                                                 <div class="col-4">
                                                     <div class="text-muted">Monthly Fee</div>
-                                                    <div>{{ number_format($subscription->price) }} KRW</div>
+                                                    <div>${{ number_format($subscription->price) }} USD</div>
                                                 </div>
                                             </div>
 
                                             <div class="d-flex gap-2">
-                                                @if ($subscription->auto_renew)
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-primary btn-sm dropdown-toggle"
-                                                            type="button" data-bs-toggle="dropdown">
-                                                            Change Plan
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            @foreach ($planTemplates as $key => $template)
-                                                                @if ($key != $subscription->plan_type && $template['is_subscription'])
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="changePlan({{ $subscription->id }}, '{{ $key }}')"
-                                                                            onclick="confirm('Change to {{ $template['name'] }} plan? It will be applied from the next billing date.') || event.stopImmediatePropagation()">
-                                                                            {{ $template['name'] }}
-                                                                            ({{ number_format($template['price']) }} KRW/month)
-                                                                        </a>
-                                                                    </li>
-                                                                @endif
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
+                                                @if ($subscription->auto_renew && $subscription->status !== 'cancelled')
                                                     <button class="btn btn-danger btn-sm"
                                                         wire:click="cancelSubscription({{ $subscription->id }})"
                                                         onclick="confirm('Are you sure you want to cancel your subscription? It will not auto-renew after the current subscription period ends.') || event.stopImmediatePropagation()">
@@ -124,19 +104,6 @@
                                                     </div>
                                                 @endif
                                             </div>
-
-                                            @if ($subscription->next_plan_type)
-                                                <div class="mt-2">
-                                                    <div class="alert alert-info mb-0">
-                                                        <small>
-                                                            <i class="ti ti-info-circle me-1"></i>
-                                                            Starting from {{ $subscription->end_date->format('M d') }}, it will change to
-                                                            {{ $planTemplates[$subscription->next_plan_type]['name'] }}
-                                                            plan ({{ number_format($planTemplates[$subscription->next_plan_type]['price']) }} KRW/month).
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            @endif
                                         </div>
                                     </div>
                                 @endforeach
@@ -203,14 +170,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    @if ($coupon->canRefund())
-                                                        <div class="mt-2">
-                                                            <button class="btn btn-outline-warning btn-sm w-100">
-                                                                Refundable (until {{ $coupon->refund_deadline->format('m-d') }})
-                                                            </button>
-                                                        </div>
-                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -293,9 +252,8 @@
                             <h5>📝 Subscription Management Guidelines</h5>
                             <ul class="mb-0">
                                 <li><strong>Subscription Cancellation:</strong> Not cancelled immediately; auto-renewal stops after the current subscription period ends.</li>
-                                <li><strong>Plan Changes:</strong> New plans apply from the next billing date. The current plan remains until the change.</li>
-                                <li><strong>Refund Policy:</strong> For unused subscriptions, full refund is available within 7 days of purchase.</li>
                                 <li><strong>Usage Reset:</strong> Monthly usage for subscription plans resets on the monthly billing date, and daily usage resets at midnight each day.</li>
+                                <li><strong>Plan Management:</strong> You can cancel your subscription anytime. Service continues until the end of the current billing period.</li>
                             </ul>
                         </div>
                     </div>

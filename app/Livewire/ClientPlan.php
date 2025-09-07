@@ -5,7 +5,10 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\UserPlan;
 use App\Models\TestUsage;
+use App\Models\Api;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class ClientPlan extends Component
@@ -94,35 +97,82 @@ class ClientPlan extends Component
             session()->flash('error', 'Subscription not found.');
             return;
         }
+
+        if (!$plan->paypal_subscription_id) {
+            session()->flash('error', 'PayPal subscription ID not found.');
+            return;
+        }
+
+        // Cancel subscription on PayPal
+        $cancelled = $this->cancelPaypalSubscription($plan->paypal_subscription_id);
         
-        $plan->update(['auto_renew' => false]);
-        
-        session()->flash('success', 'Subscription cancelled. It will not auto-renew after the current subscription period ends.');
-    }
-    
-    public function changePlan($currentPlanId, $newPlanType)
-    {
-        $currentPlan = UserPlan::where('id', $currentPlanId)
-            ->where('user_id', Auth::id())
-            ->where('is_subscription', true)
-            ->first();
+        if ($cancelled) {
+            $plan->update([
+                'auto_renew' => false,
+                'status' => 'cancelled'
+            ]);
             
-        if (!$currentPlan) {
-            session()->flash('error', 'Current subscription not found.');
-            return;
+            session()->flash('success', 'Subscription cancelled successfully. You can continue using the service until ' . $plan->end_date->format('Y-m-d') . '.');
+        } else {
+            session()->flash('error', 'Failed to cancel subscription. Please try again or contact support.');
         }
-        
-        if (!isset($this->planTemplates[$newPlanType])) {
-            session()->flash('error', 'Invalid plan.');
-            return;
+    }
+
+    private function cancelPaypalSubscription($subscriptionId)
+    {
+        try {
+            $api = Api::first();
+            $paypal_mode = $api->paypal_mode;
+            
+            $baseUrl = $paypal_mode == 'live' 
+                ? 'https://api-m.paypal.com' 
+                : 'https://api-m.sandbox.paypal.com';
+
+            $paypal_client_id = $paypal_mode == 'live' 
+                ? $api->paypal_client_id_live 
+                : $api->paypal_client_id_sandbox;
+
+            $paypal_secret = $paypal_mode == 'live' 
+                ? $api->paypal_secret_live 
+                : $api->paypal_secret_sandbox;
+
+            // Get access token
+            $tokenResponse = Http::asForm()
+                ->withBasicAuth($paypal_client_id, $paypal_secret)
+                ->post("{$baseUrl}/v1/oauth2/token", [
+                    'grant_type' => 'client_credentials',
+                ]);
+
+            if (!$tokenResponse->ok()) {
+                Log::error('PayPal token request failed for cancellation', $tokenResponse->json());
+                return false;
+            }
+
+            $accessToken = $tokenResponse->json('access_token');
+
+            // Cancel subscription
+            $cancelResponse = Http::withToken($accessToken)
+                ->post("{$baseUrl}/v1/billing/subscriptions/{$subscriptionId}/cancel", [
+                    'reason' => 'User requested cancellation'
+                ]);
+
+            if ($cancelResponse->successful()) {
+                Log::info('PayPal subscription cancelled successfully', ['subscription_id' => $subscriptionId]);
+                return true;
+            } else {
+                Log::error('PayPal subscription cancellation failed', [
+                    'subscription_id' => $subscriptionId,
+                    'response' => $cancelResponse->json()
+                ]);
+                return false;
+            }
+
+        } catch (\Exception $e) {
+            Log::error('PayPal subscription cancellation exception', [
+                'subscription_id' => $subscriptionId,
+                'error' => $e->getMessage()
+            ]);
+            return false;
         }
-        
-        // Save plan change request (in practice, store in separate table or add field)
-        $currentPlan->update([
-            'next_plan_type' => $newPlanType
-        ]);
-        
-        $newPlanName = $this->planTemplates[$newPlanType]['name'];
-        session()->flash('success', "Starting from the next billing date ({$currentPlan->end_date->format('Y-m-d')}), it will change to {$newPlanName} plan.");
     }
 }

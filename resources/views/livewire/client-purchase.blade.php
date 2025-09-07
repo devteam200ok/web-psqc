@@ -12,7 +12,8 @@
         <div class="row mb-4">
             <div class="col">
                 <h2 class="page-title">{{ $planData['name'] }} Plan Payment</h2>
-                <div class="text-muted">This is the payment page for purchasing {{ $planData['is_subscription'] ? 'subscription' : 'coupon' }} plan.</div>
+                <div class="text-muted">This is the payment page for purchasing
+                    {{ $planData['is_subscription'] ? 'subscription' : 'coupon' }} plan.</div>
             </div>
         </div>
 
@@ -22,34 +23,34 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="mb-2">
-                            <span class="badge {{ $planData['is_subscription'] ? 'bg-blue-lt text-blue' : 'bg-green-lt text-green' }} me-1">
+                            <span
+                                class="badge {{ $planData['is_subscription'] ? 'bg-blue-lt text-blue' : 'bg-green-lt text-green' }} me-1">
                                 {{ $planData['is_subscription'] ? 'Subscription' : 'Coupon' }}
                             </span>
                         </div>
                         <h3 class="page-title">{{ $planData['name'] }} Plan</h3>
                         <div class="page-pretitle">{{ $planData['description'] }}</div>
-                        
+
                         <div class="my-3">
                             <div class="alert alert-info">
                                 <div>
                                     <h6>📋 Plan Benefits</h6>
                                     <ul class="mb-0">
-                                        @foreach($planData['features'] as $feature)
+                                        @foreach ($planData['features'] as $feature)
                                             <li>{{ $feature }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
                             </div>
 
-                            @if($planData['is_subscription'])
+                            @if ($planData['is_subscription'])
                                 <div class="alert alert-warning">
                                     <div>
                                         <h6>⚠️ Subscription Information</h6>
                                         <ul class="mb-0">
                                             <li>Automatically charged monthly via PayPal</li>
-                                            <li>Full refund available within {{ $planData['refund_days'] }} days before use</li>
-                                            <li>No refund once used</li>
                                             <li>Can cancel subscription anytime through PayPal</li>
+                                            <li>Usage resets monthly on billing date</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -59,12 +60,8 @@
                                         <h6>⚠️ Coupon Information</h6>
                                         <ul class="mb-0">
                                             <li>Available for {{ $planData['validity_days'] }} days</li>
-                                            @if($planData['refund_days'] > 0)
-                                                <li>Full refund available within {{ $planData['refund_days'] }} days before use</li>
-                                            @else
-                                                <li>No refund available</li>
-                                            @endif
-                                            <li>No refund once used</li>
+                                            <li>Usage quota within validity period</li>
+                                            <li>No extensions after expiration</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -76,7 +73,8 @@
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div>
                                 <h4>{{ $planData['name'] }} Plan</h4>
-                                <span class="h4">{{ number_format($amount) }} USD{{ $planData['is_subscription'] ? '/month' : '' }}</span>
+                                <span class="h4">${{ number_format($amount) }}
+                                    USD{{ $planData['is_subscription'] ? '/month' : '' }}</span>
                             </div>
                         </div>
 
@@ -84,7 +82,7 @@
 
                         <div>
                             <h4 class="mt-3">Total Payment Amount</h4>
-                            <span class="h4">{{ number_format($amount) }} USD</span>
+                            <span class="h4">${{ number_format($amount) }} USD</span>
                         </div>
                     </div>
                 </div>
@@ -123,14 +121,16 @@
                 if (!sdkLoaded) {
                     sdkLoaded = true;
                     const script = document.createElement('script');
-                    
+
                     // 구독과 일회성 결제에 따라 다른 components 로드
                     if (isSubscription) {
-                        script.src = 'https://www.paypal.com/sdk/js?client-id={{ $paypal_client_id }}&vault=true&intent=subscription&currency=USD';
+                        script.src =
+                            'https://www.paypal.com/sdk/js?client-id={{ $paypal_client_id }}&vault=true&intent=subscription&currency=USD';
                     } else {
-                        script.src = 'https://www.paypal.com/sdk/js?client-id={{ $paypal_client_id }}&components=buttons&currency=USD';
+                        script.src =
+                            'https://www.paypal.com/sdk/js?client-id={{ $paypal_client_id }}&components=buttons&currency=USD';
                     }
-                    
+
                     script.onload = () => renderPayPalButtons(totalPrice, isSubscription, planType);
                     document.body.appendChild(script);
                 } else {
@@ -139,7 +139,7 @@
 
                 function renderPayPalButtons(totalPrice, isSubscription, planType) {
                     if (isSubscription) {
-                        // 구독 결제
+                        // 구독 결제 - 직접 plan ID 사용
                         paypal.Buttons({
                             style: {
                                 layout: 'vertical',
@@ -148,19 +148,18 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
-                                // 주의: 실제 플랜 ID는 PayPal에서 미리 생성한 것을 사용해야 함
-                                // 예: P-STARTER_MONTHLY_PLAN_ID (실제 명령어로 생성된 ID)
+                                // Use the real PayPal plan IDs from your artisan command
                                 const planIdMap = {
-                                    'starter': 'P-STARTER_MONTHLY_PLAN_ID',
-                                    'pro': 'P-PRO_MONTHLY_PLAN_ID', 
-                                    'agency': 'P-AGENCY_MONTHLY_PLAN_ID'
+                                    'starter': 'P-0ND13476R8494264ENC62HKA',
+                                    'pro': 'P-1BN36869S9051911ENC62HKI',
+                                    'agency': 'P-9S950808M2963803CNC62HKY',
                                 };
-                                
+
                                 return actions.subscription.create({
-                                    'plan_id': planIdMap[planType] || 'P-DEFAULT_PLAN_ID',
+                                    'plan_id': planIdMap[planType],
                                     'custom_id': '{{ $orderId }}',
                                     'application_context': {
-                                        'brand_name': '{{ config("app.name") }}',
+                                        'brand_name': '{{ config('app.name') }}',
                                         'locale': 'en-US',
                                         'shipping_preference': 'NO_SHIPPING',
                                         'user_action': 'SUBSCRIBE_NOW',
@@ -172,23 +171,23 @@
                                 });
                             },
                             onApprove: function(data, actions) {
-                                // 구독 승인 후 검증
                                 Livewire.dispatch('paypal-subscription-verified', {
                                     subscription_id: data.subscriptionID
                                 });
                             },
                             onError: function(err) {
                                 console.error('PayPal Subscription Error:', err);
-                                alert('An error occurred while processing your subscription. Please try again later.');
-                                window.location.href = '{{ url("/") }}/client/purchase?plan=' + planType;
+                                alert(
+                                    'An error occurred while processing your subscription. Please try again later.');
+                                window.location.href = '{{ url('/') }}/client/purchase?plan=' +
+                                    planType;
                             },
                             onCancel: function(data) {
                                 console.log('Subscription cancelled by user');
-                                // 취소 시 현재 페이지 유지
                             }
                         }).render('#paypal-button-container');
                     } else {
-                        // 일회성 결제 (쿠폰)
+                        // 일회성 결제 (쿠폰) - 기존 코드 유지
                         paypal.Buttons({
                             style: {
                                 layout: 'vertical',
@@ -207,7 +206,7 @@
                                         custom_id: '{{ $orderId }}'
                                     }],
                                     application_context: {
-                                        brand_name: '{{ config("app.name") }}',
+                                        brand_name: '{{ config('app.name') }}',
                                         locale: 'en-US',
                                         landing_page: 'BILLING',
                                         shipping_preference: 'NO_SHIPPING',
@@ -217,7 +216,6 @@
                             },
                             onApprove: function(data, actions) {
                                 return actions.order.capture().then(function(details) {
-                                    // 일회성 결제 검증
                                     Livewire.dispatch('paypal-payment-verified', {
                                         order_id: details.id
                                     });
@@ -225,12 +223,13 @@
                             },
                             onError: function(err) {
                                 console.error('PayPal Error:', err);
-                                alert('An error occurred while processing your payment. Please try again later.');
-                                window.location.href = '{{ url("/") }}/client/purchase?plan=' + planType;
+                                alert(
+                                    'An error occurred while processing your payment. Please try again later.');
+                                window.location.href = '{{ url('/') }}/client/purchase?plan=' +
+                                    planType;
                             },
                             onCancel: function(data) {
                                 console.log('Payment cancelled by user');
-                                // 취소 시 현재 페이지 유지
                             }
                         }).render('#paypal-button-container');
                     }

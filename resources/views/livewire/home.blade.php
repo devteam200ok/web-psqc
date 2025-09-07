@@ -833,7 +833,7 @@
                             <td>Test1</td>
                             <td>$4.90</td>
                             <td>Up to 30 runs within 1 day</td>
-                            <td>Quota within period, <strong>non-refundable</strong></td>
+                            <td>Quota within period</td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
@@ -848,7 +848,7 @@
                             <td>Test7</td>
                             <td>$19</td>
                             <td>Up to 150 runs within 7 days</td>
-                            <td>Quota within period, <strong>full refund within 3 days before first use</strong></td>
+                            <td>Quota within period</td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
@@ -863,7 +863,7 @@
                             <td>Test30</td>
                             <td>$39</td>
                             <td>Up to 500 runs within 30 days</td>
-                            <td>Quota within period, <strong>full refund within 7 days before first use</strong></td>
+                            <td>Quota within period</td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
@@ -878,7 +878,7 @@
                             <td>Test90</td>
                             <td>$119</td>
                             <td>Up to 1,300 runs within 90 days</td>
-                            <td>Quota within period, <strong>full refund within 30 days before first use</strong></td>
+                            <td>Quota within period</td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
@@ -923,10 +923,8 @@
                 </table>
             </div>
 
-            <!-- Refund Notes -->
+            <!-- Usage Notes -->
             <div class="text-muted small mt-2">
-                * Subscriptions are <strong>fully refundable within 7 days before first use</strong>. <strong>No refunds
-                    once any scan has run</strong>.<br>
                 * Usage is limited by whichever comes first: <strong>monthly or daily quota</strong>. Taxes may apply
                 depending on your region.
             </div>
