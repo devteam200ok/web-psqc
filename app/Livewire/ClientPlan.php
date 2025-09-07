@@ -15,39 +15,39 @@ class ClientPlan extends Component
             'name' => 'Starter',
             'price' => 29000,
             'is_subscription' => true,
-            'description' => '개인 및 소규모 팀을 위한 기본 플랜',
+            'description' => 'Basic plan for individuals and small teams',
             'features' => [
-                '월 600회 테스트',
-                '일 60회 테스트 제한',
-                '기본 분석 리포트',
-                '이메일 지원'
+                '600 monthly tests',
+                '60 daily test limit',
+                'Basic analysis reports',
+                'Email support'
             ]
         ],
         'pro' => [
             'name' => 'Pro',
             'price' => 69000,
             'is_subscription' => true,
-            'description' => '중간 규모 팀을 위한 전문 플랜',
+            'description' => 'Professional plan for medium-sized teams',
             'features' => [
-                '월 1,500회 테스트',
-                '일 150회 테스트 제한',
-                '고급 분석 리포트',
-                '우선 이메일 지원',
-                'API 접근'
+                '1,500 monthly tests',
+                '150 daily test limit',
+                'Advanced analysis reports',
+                'Priority email support',
+                'API access'
             ]
         ],
         'agency' => [
             'name' => 'Agency',
             'price' => 199000,
             'is_subscription' => true,
-            'description' => '대규모 에이전시를 위한 프리미엄 플랜',
+            'description' => 'Premium plan for large agencies',
             'features' => [
-                '월 6,000회 테스트',
-                '일 600회 테스트 제한',
-                '전문 분석 리포트',
-                '24/7 우선 지원',
-                '전용 API 키',
-                '맞춤 통합'
+                '6,000 monthly tests',
+                '600 daily test limit',
+                'Professional analysis reports',
+                '24/7 priority support',
+                'Dedicated API key',
+                'Custom integrations'
             ]
         ]
     ];
@@ -56,20 +56,20 @@ class ClientPlan extends Component
     {
         $user = Auth::user();
         
-        // 현재 활성 플랜들 조회
+        // Query current active plans
         $currentPlans = UserPlan::where('user_id', $user->id)
             ->active()
             ->with('user')
             ->orderBy('created_at', 'desc')
             ->get();
             
-        // 구독 플랜들
+        // Subscription plans
         $subscriptions = $currentPlans->where('is_subscription', true);
         
-        // 쿠폰들
+        // Coupons
         $coupons = $currentPlans->where('is_subscription', false);
         
-        // 최근 24시간 테스트 사용 내역
+        // Recent 24-hour test usage history
         $recentUsage = TestUsage::where('user_id', $user->id)
             ->where('created_at', '>=', Carbon::now()->subHours(24))
             ->orderBy('created_at', 'desc')
@@ -91,13 +91,13 @@ class ClientPlan extends Component
             ->first();
             
         if (!$plan) {
-            session()->flash('error', '구독을 찾을 수 없습니다.');
+            session()->flash('error', 'Subscription not found.');
             return;
         }
         
         $plan->update(['auto_renew' => false]);
         
-        session()->flash('success', '구독이 취소되었습니다. 현재 구독 기간 종료 후 자동 갱신되지 않습니다.');
+        session()->flash('success', 'Subscription cancelled. It will not auto-renew after the current subscription period ends.');
     }
     
     public function changePlan($currentPlanId, $newPlanType)
@@ -108,21 +108,21 @@ class ClientPlan extends Component
             ->first();
             
         if (!$currentPlan) {
-            session()->flash('error', '현재 구독을 찾을 수 없습니다.');
+            session()->flash('error', 'Current subscription not found.');
             return;
         }
         
         if (!isset($this->planTemplates[$newPlanType])) {
-            session()->flash('error', '잘못된 플랜입니다.');
+            session()->flash('error', 'Invalid plan.');
             return;
         }
         
-        // 플랜 변경 요청 저장 (실제로는 별도 테이블에 저장하거나 필드 추가)
+        // Save plan change request (in practice, store in separate table or add field)
         $currentPlan->update([
             'next_plan_type' => $newPlanType
         ]);
         
         $newPlanName = $this->planTemplates[$newPlanType]['name'];
-        session()->flash('success', "다음 결제일({$currentPlan->end_date->format('Y-m-d')})부터 {$newPlanName} 플랜으로 변경됩니다.");
+        session()->flash('success', "Starting from the next billing date ({$currentPlan->end_date->format('Y-m-d')}), it will change to {$newPlanName} plan.");
     }
 }

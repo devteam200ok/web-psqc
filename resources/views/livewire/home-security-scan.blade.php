@@ -1,7 +1,7 @@
 @section('title')
-    <title>🛡️ 보안 취약점 스캔 - OWASP ZAP 패시브 스캔 | DevTeam Test</title>
-    <meta name="description" content="OWASP ZAP 패시브 스캔으로 웹사이트의 SQL Injection, XSS, 보안 헤더 등 주요 보안 취약점을 자동 탐지하고 보안 등급을 평가하세요.">
-    <meta name="keywords" content="보안 취약점 스캔, OWASP ZAP, 패시브 스캔, SQL Injection, XSS 탐지, 보안 헤더 검사, 웹 보안 테스트, DevTeam Test">
+    <title>🛡️ Security Vulnerability Scan – OWASP ZAP Passive Scan | Web-PSQC</title>
+    <meta name="description" content="Use OWASP ZAP passive scanning to automatically detect key web vulnerabilities (SQL injection, XSS, security headers) and assess your security grade.">
+    <meta name="keywords" content="security vulnerability scan, OWASP ZAP, passive scan, SQL Injection, XSS detection, security headers, web security test, Web-PSQC">
     <meta name="author" content="DevTeam Co., Ltd.">
     <meta name="robots" content="index,follow">
 
@@ -10,21 +10,21 @@
     <!-- Open Graph -->
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevTeam Test" />
-    <meta property="og:title" content="보안 취약점 스캔 - OWASP ZAP 패시브 스캔 | DevTeam Test" />
+    <meta property="og:site_name" content="Web-PSQC" />
+    <meta property="og:title" content="Security Vulnerability Scan – OWASP ZAP Passive Scan" />
     <meta property="og:description"
-        content="SQL Injection, XSS, 보안 헤더 등 주요 보안 취약점을 OWASP ZAP 패시브 스캔으로 자동 탐지하고 A+ 등급까지 평가받을 수 있습니다." />
+        content="Detect SQL injection, XSS, security header issues via OWASP ZAP passive scan and qualify for an A+ certificate." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="DevTeam Test 보안 취약점 스캔" />
+        <meta property="og:image:alt" content="Web-PSQC Security Vulnerability Scan" />
     @endif
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="보안 취약점 스캔 - OWASP ZAP 패시브 스캔 | DevTeam Test" />
+    <meta name="twitter:title" content="Security Vulnerability Scan – OWASP ZAP Passive | Web-PSQC" />
     <meta name="twitter:description"
-        content="OWASP ZAP 패시브 스캔으로 SQL Injection, XSS, 보안 헤더 등 주요 보안 취약점을 자동 탐지하고 개선 가이드를 제공합니다." />
+        content="OWASP ZAP passive scan detects SQLi, XSS, and header issues with actionable guidance." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -44,14 +44,14 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => '보안 취약점 스캔 - OWASP ZAP 패시브 스캔',
+    'name' => 'Security Vulnerability Scan – OWASP ZAP Passive',
     'url'  => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
-        'name' => 'DevTeam Test',
+        'name' => 'Web-PSQC',
         'url'  => url('/'),
     ],
-    'description' => 'OWASP ZAP 패시브 스캔으로 SQL Injection, XSS, 보안 헤더 등 주요 취약점을 자동 탐지하고 보안 등급을 평가합니다.',
+    'description' => 'OWASP ZAP passive scan automatically detects key issues like SQL injection, XSS, and security headers to assess a security grade.',
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
 @endsection
@@ -61,8 +61,8 @@
 @endsection
 
 <div class="page-wrapper">
-    {{-- 헤더 (공통 컴포넌트) --}}
-    <x-test-shared.header title="🛡️ 보안 취약점 스캔" subtitle="OWASP ZAP 패시브 스캔" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    {{-- Header (shared component) --}}
+    <x-test-shared.header title="🛡️ Security Vulnerability Scan" subtitle="OWASP ZAP Passive Scan" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">
@@ -70,20 +70,20 @@
             @include('inc.component.message')
             <div class="row">
                 <div class="col-xl-8 d-block mb-2">
-                    {{-- URL 폼 --}}
+                    {{-- URL form --}}
                     <div class="card mb-3">
                         <div class="card-body">
                             @if (!Auth::check())
                                 <div class="alert alert-info d-block mb-4">
-                                    <h5>🔐 로그인 필요</h5>
-                                    <p class="mb-2">보안 스캔은 도메인 소유권 인증이 필요한 서비스입니다.</p>
-                                    <p class="mb-0">로그인 후 사이드바의 "도메인" 탭에서 도메인을 등록하고 소유권을 인증해주세요.</p>
+                                    <h5>🔐 Sign‑in Required</h5>
+                                    <p class="mb-2">Security scanning requires domain ownership verification.</p>
+                                    <p class="mb-0">Sign in, then register and verify your domain in the “Domains” tab in the sidebar.</p>
                                 </div>
                             @endif
 
                             <div class="row mb-4">
                                 <div class="col-xl-12">
-                                    <label class="form-label">홈페이지 주소</label>
+                                    <label class="form-label">Website URL</label>
                                     <div class="input-group">
                                         <input type="url" wire:model="url" wire:keydown.enter="runTest"
                                             class="form-control @error('url') is-invalid @enderror"
@@ -94,9 +94,9 @@
                                             @if ($isLoading)
                                                 <span class="spinner-border spinner-border-sm me-2"
                                                     role="status"></span>
-                                                진행 중...
+                                                Running...
                                             @else
-                                                테스트
+                                                Scan
                                             @endif
                                         </button>
                                     </div>
@@ -104,15 +104,15 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                     @if (Auth::check())
-                                        <div class="form-text">소유권이 인증된 도메인만 테스트 가능합니다.</div>
+                                        <div class="form-text">Only domains with verified ownership can be scanned.</div>
                                     @endif
 
                                     @if ($hasProOrAgencyPlan)
                                         <div class="mt-2">
-                                            <a href="javascript:void(0)" wire:click="toggleScheduleForm"
-                                                class="text-primary me-3">검사 예약</a>
-                                            <a href="javascript:void(0)" wire:click="toggleRecurringForm"
-                                                class="text-primary">스케쥴 등록</a>
+                                        <a href="javascript:void(0)" wire:click="toggleScheduleForm"
+                                            class="text-primary me-3">Schedule Scan</a>
+                                        <a href="javascript:void(0)" wire:click="toggleRecurringForm"
+                                            class="text-primary">Add Recurring Schedule</a>
                                         </div>
                                     @endif
                                 </div>
@@ -140,17 +140,17 @@
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                         class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                        data-bs-toggle="tab">테스트 정보</a>
+                                        data-bs-toggle="tab">Scan Info</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                         class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                        data-bs-toggle="tab">결과</a>
+                                        data-bs-toggle="tab">Results</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                         class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                        data-bs-toggle="tab">데이터</a>
+                                        data-bs-toggle="tab">Data</a>
                                 </li>
                             </ul>
                         </div>
@@ -158,26 +158,24 @@
                             <div class="tab-content">
                                 <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                     id="tabs-information">
-                                    <h3>OWASP ZAP 패시브 스캔 - 비침입적 보안 취약점 분석</h3>
+                                    <h3>OWASP ZAP Passive Scan — Non‑intrusive Security Analysis</h3>
                                     <div class="text-muted small mt-1">
-                                        <strong>측정 도구:</strong> OWASP ZAP (Zed Attack Proxy) - 세계에서 가장 널리 사용되는 오픈소스 웹
-                                        애플리케이션 보안 테스팅 도구
+                                        <strong>Tool:</strong> OWASP ZAP (Zed Attack Proxy) — a widely used open‑source web security testing tool
                                         <br><br>
-                                        <strong>테스트 목적:</strong><br>
-                                        • 웹사이트의 HTTP 응답을 분석하여 잠재적 보안 취약점 식별<br>
-                                        • 보안 헤더 구성 검증 (HSTS, X-Frame-Options, X-Content-Type-Options 등)<br>
-                                        • 민감정보 노출 탐지 (쿠키 설정, 디버그 정보, 서버 정보 등)<br>
-                                        • 세션 관리 취약점 점검<br>
-                                        • 잠재적 인젝션 포인트 식별<br>
-                                        • 사용 중인 기술 스택 탐지
+                                        <strong>Goals:</strong><br>
+                                        • Analyze HTTP responses to identify potential vulnerabilities<br>
+                                        • Validate security header configuration (HSTS, X-Frame-Options, X-Content-Type-Options, etc.)<br>
+                                        • Detect sensitive information exposure (cookies, debug info, server banners)<br>
+                                        • Check session management weaknesses<br>
+                                        • Identify potential injection points<br>
+                                        • Detect technology stack in use
                                         <br><br>
-                                        <strong>테스트 방식:</strong><br>
-                                        • <strong>패시브 스캔:</strong> 실제 공격을 시도하지 않고 HTTP 요청/응답만 분석<br>
-                                        • <strong>스캔 범위:</strong> 지정된 URL의 메인 페이지만 대상 (하위 페이지 탐색 없음)<br>
-                                        • <strong>제외 항목:</strong> CSP(Content Security Policy) 관련 경고는 별도 헤더 점검에서 다루므로
-                                        제외<br>
-                                        • <strong>소요 시간:</strong> 약 10-20초<br>
-                                        • <strong>도메인 인증:</strong> 소유권이 확인된 도메인만 스캔 가능
+                                        <strong>Method:</strong><br>
+                                        • <strong>Passive scan:</strong> analyzes HTTP requests/responses without active attacks<br>
+                                        • <strong>Scope:</strong> main page of the specified URL (no crawling)<br>
+                                        • <strong>Excludes:</strong> CSP warnings (covered in headers test)<br>
+                                        • <strong>Time:</strong> ~10–20 seconds<br>
+                                        • <strong>Domain verification:</strong> only verified domains can be scanned
                                     </div>
 
                                     {{-- 등급 기준 안내 --}}
@@ -199,33 +197,28 @@
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-a">A</span></td>
-                                                    <td>80~89</td>
-                                                    <td>High 0, Medium ≤1<br>보안 헤더 대부분 충족, 일부 누락 있음<br>민감정보 노출 없음<br>경미한
-                                                        정보 노출 (예: 서버 타입) 존재</td>
+                                                    <td>80–89</td>
+                                                    <td>High 0, Medium ≤ 1<br>Most security headers present, minor gaps<br>No sensitive data exposure<br>Minor info exposure (e.g., server type)</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-b">B</span></td>
-                                                    <td>70~79</td>
-                                                    <td>High ≤1, Medium ≤2<br>일부 보안 헤더 미구현 (HSTS, X-XSS-Protection
-                                                        등)<br>세션 쿠키 Secure/HttpOnly 누락<br>주석/메타 정보에 경미한 내부 식별자 노출</td>
+                                                    <td>70–79</td>
+                                                    <td>High ≤ 1, Medium ≤ 2<br>Some headers missing (HSTS, X‑XSS‑Protection)<br>Session cookies missing Secure/HttpOnly<br>Minor internal identifiers in comments/meta</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-c">C</span></td>
-                                                    <td>60~69</td>
-                                                    <td>High ≥2 또는 Medium ≥3<br>주요 보안 헤더 부재<br>민감 파라미터/토큰이 응답 내 직접
-                                                        노출<br>세션 관리 취약 (쿠키 속성 전반 미흡)</td>
+                                                    <td>60–69</td>
+                                                    <td>High ≥ 2 or Medium ≥ 3<br>Key headers absent<br>Sensitive parameters/tokens exposed in responses<br>Weak session management (cookie attributes lacking)</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-d">D</span></td>
-                                                    <td>50~59</td>
-                                                    <td>Critical ≥1 또는 High ≥3<br>인증/세션 관련 심각한 속성 누락<br>디버그/개발용 정보 노출
-                                                        (스택 트레이스, 내부 IP)<br>공개 관리 콘솔/설정 파일 노출</td>
+                                                    <td>50–59</td>
+                                                    <td>Critical ≥ 1 or High ≥ 3<br>Severe auth/session attribute gaps<br>Debug/dev info exposed (stack traces, internal IPs)<br>Exposed admin consoles/config files</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-f">F</span></td>
-                                                    <td>0~49</td>
-                                                    <td>광범위한 High 취약점<br>HTTPS 미적용 또는 전면 무력화<br>민감 데이터 평문 전송/노출<br>전반적
-                                                        보안 헤더·세션 통제 부재</td>
+                                                    <td>0–49</td>
+                                                    <td>Widespread High vulnerabilities<br>No HTTPS or effectively disabled<br>Sensitive data in plaintext/exposed<br>Lack of security headers/session controls overall</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -259,7 +252,7 @@
                                         <!-- 취약점 요약 -->
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h5 class="mb-3">취약점 요약</h5>
+                                                <h5 class="mb-3">Vulnerability Summary</h5>
                                                 <div class="row g-2">
                                                     <div class="col-6 col-lg">
                                                         <div class="card card-sm">
@@ -310,16 +303,16 @@
                                             </div>
                                         </div>
 
-                                        <!-- 취약점 상세 목록 -->
+                                        <!-- Vulnerability details -->
                                         @if (isset($vulnerabilities['details']) && count($vulnerabilities['details']) > 0)
                                             <div class="row mb-4">
                                                 <div class="col-12">
-                                                    <h5 class="mb-3">발견된 취약점 상세</h5>
+                                                    <h5 class="mb-3">Detected Vulnerabilities</h5>
                                                     <div class="table-responsive">
                                                         <table class="table table-sm table-vcenter">
                                                             <thead class="table-light">
                                                                 <tr>
-                                                                    <th>취약점명</th>
+                                                                    <th>Vulnerability</th>
                                                                     <th>위험도</th>
                                                                     <th>신뢰도</th>
                                                                     <th>발견 수</th>

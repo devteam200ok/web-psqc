@@ -1,25 +1,25 @@
 @section('title')
-    <title>🔐 개인정보 처리방침 | DevTeam Test</title>
-    <meta name="description" content="DevTeam Test 개인정보 처리방침 페이지입니다. 수집되는 개인정보 항목, 이용 목적, 보관 기간 및 보호 조치를 확인하세요.">
-    <meta name="keywords" content="DevTeam Test 개인정보 처리방침, Privacy Policy, 개인정보 보호, 개인정보 처리, 개인정보 보관, 보안 정책">
-    <meta name="author" content="DevTeam Co., Ltd.">
+    <title>🔐 Privacy Policy | Web-PSQC</title>
+    <meta name="description" content="Web-PSQC Privacy Policy page. Review collected personal information items, usage purposes, retention periods, and protective measures.">
+    <meta name="keywords" content="Web-PSQC Privacy Policy, Privacy Protection, Personal Information Processing, Data Retention, Security Policy">
+    <meta name="author" content="Web-PSQC">
     <meta name="robots" content="index,follow">
     <link rel="canonical" href="{{ url()->current() }}" />
 
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevTeam Test" />
-    <meta property="og:title" content="개인정보 처리방침 | DevTeam Test" />
-    <meta property="og:description" content="DevTeam Test 개인정보 처리방침을 확인하세요." />
+    <meta property="og:site_name" content="Web-PSQC" />
+    <meta property="og:title" content="Privacy Policy | Web-PSQC" />
+    <meta property="og:description" content="Review the Web-PSQC Privacy Policy." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="DevTeam Test 개인정보 처리방침" />
+        <meta property="og:image:alt" content="Web-PSQC Privacy Policy" />
     @endif
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="개인정보 처리방침 | DevTeam Test" />
-    <meta name="twitter:description" content="DevTeam Test 개인정보 처리방침을 확인하세요." />
+    <meta name="twitter:title" content="Privacy Policy | Web-PSQC" />
+    <meta name="twitter:description" content="Review the Web-PSQC Privacy Policy." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -29,7 +29,7 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'Organization',
-    'name' => 'DevTeam Co., Ltd.',
+    'name' => 'Web-PSQC',
     'url'  => url('/'),
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
@@ -39,11 +39,11 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => '개인정보 처리방침',
+    'name' => 'Privacy Policy',
     'url'  => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
-        'name' => 'DevTeam Test',
+        'name' => 'Web-PSQC',
         'url'  => url('/'),
     ],
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}

@@ -63,8 +63,8 @@
 @endsection
 
 <div class="page-wrapper">
-    {{-- 헤더 (공통 컴포넌트) --}}
-    <x-test-shared.header title="🔒 SSL 심화 분석" subtitle="SSLyze 종합 진단" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    {{-- Header (shared component) --}}
+    <x-test-shared.header title="🔒 SSL Deep Analysis" subtitle="SSLyze comprehensive diagnostics" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">
@@ -72,12 +72,12 @@
             @include('inc.component.message')
             <div class="row">
                 <div class="col-xl-8 d-block mb-2">
-                    {{-- URL 폼 --}}
+                    {{-- URL form --}}
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="row mb-4">
                                 <div class="col-xl-12">
-                                    <label class="form-label">홈페이지 주소</label>
+                                    <label class="form-label">Website URL</label>
                                     <div class="input-group">
                                         <input type="url" wire:model="url" wire:keydown.enter="runTest"
                                             class="form-control @error('url') is-invalid @enderror"
@@ -88,9 +88,9 @@
                                             @if ($isLoading)
                                                 <span class="spinner-border spinner-border-sm me-2"
                                                     role="status"></span>
-                                                진행 중...
+                                                Running...
                                             @else
-                                                테스트
+                                                Test
                                             @endif
                                         </button>
                                     </div>
@@ -277,7 +277,7 @@
                                         @if (!empty($issues))
                                             <div class="row mb-4">
                                                 <div class="col-12">
-                                                    <h5 class="mb-3">발견된 보안 이슈 ({{ count($issues) }}개)</h5>
+                                                    <h5 class="mb-3">Detected Security Issues ({{ count($issues) }})</h5>
                                                     <div class="list-group">
                                                         @foreach ($issues as $issue)
                                                             <div class="list-group-item list-group-item-danger">
@@ -289,11 +289,11 @@
                                             </div>
                                         @endif
 
-                                        <!-- 개선 권장사항 -->
+                                        <!-- Recommendations -->
                                         @if (!empty($recommendations))
                                             <div class="row mb-4">
                                                 <div class="col-12">
-                                                    <h5 class="mb-3">개선 권장사항</h5>
+                                                    <h5 class="mb-3">Recommendations</h5>
                                                     <div class="list-group">
                                                         @foreach ($recommendations as $recommendation)
                                                             <div class="list-group-item list-group-item-info">
@@ -305,26 +305,24 @@
                                             </div>
                                         @endif
 
-                                        <!-- 상세 분석 결과 -->
+                                        <!-- Detailed Analysis -->
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h5 class="mb-3">상세 분석 결과</h5>
+                                                <h5 class="mb-3">Detailed Analysis</h5>
 
                                                 <!-- TLS 버전 분석 -->
                                                 <div class="card mb-3">
                                                     <div class="card-header">
-                                                        <h6 class="card-title mb-0">TLS 프로토콜 버전</h6>
+                                                        <h6 class="card-title mb-0">TLS Protocol Versions</h6>
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <strong>TLS 1.2:</strong>
                                                                 @if ($analysis['tls_versions']['supported_versions']['tls_1_2'] ?? false)
-                                                                    <span
-                                                                        class="badge bg-green-lt text-green-lt-fg">지원</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Supported</span>
                                                                 @else
-                                                                    <span
-                                                                        class="badge bg-red-lt text-red-lt-fg">미지원</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Not supported</span>
                                                                 @endif
                                                             </div>
                                                             <div class="col-md-6">
@@ -536,39 +534,29 @@
                                             </div>
                                         </div>
 
-                                        <!-- 측정 지표 설명 -->
+                                        <!-- Metric descriptions -->
                                         <div class="alert alert-info d-block">
-                                            <h6>측정 지표 설명</h6>
-                                            <p class="mb-2"><strong>TLS 버전:</strong> 암호화 통신 프로토콜의 버전. TLS 1.2 이상이
-                                                안전하며, TLS 1.3이 가장 최신이고 안전합니다.</p>
-                                            <p class="mb-2"><strong>PFS (Perfect Forward Secrecy):</strong> 과거 통신 내용이
-                                                미래에 해독되는 것을 방지하는 암호화 속성</p>
-                                            <p class="mb-2"><strong>OCSP Stapling:</strong> 인증서 폐기 상태를 효율적으로 확인하는
-                                                메커니즘</p>
-                                            <p class="mb-2"><strong>HSTS:</strong> 브라우저가 항상 HTTPS로 접속하도록 강제하는 보안 정책
-                                            </p>
-                                            <p class="mb-0"><strong>타원곡선:</strong> 효율적인 공개키 암호화를 위한 수학적 구조. X25519,
-                                                secp256r1 등이 안전합니다.</p>
+                                            <h6>Metric descriptions</h6>
+                                            <p class="mb-2"><strong>TLS versions:</strong> protocol versions for encrypted transport. TLS 1.2+ is safe; TLS 1.3 is latest and recommended.</p>
+                                            <p class="mb-2"><strong>PFS (Perfect Forward Secrecy):</strong> prevents future decryption of past traffic.</p>
+                                            <p class="mb-2"><strong>OCSP Stapling:</strong> efficient mechanism for checking certificate revocation.</p>
+                                            <p class="mb-2"><strong>HSTS:</strong> policy forcing browsers to always use HTTPS.</p>
+                                            <p class="mb-0"><strong>Elliptic curves:</strong> efficient public‑key crypto; X25519 and secp256r1 are safe choices.</p>
                                         </div>
 
-                                        <!-- 개선 방안 -->
+                                        <!-- Recommendations -->
                                         <div class="alert alert-info d-block">
-                                            <h6>SSL/TLS 보안 개선 방안</h6>
-                                            <p class="mb-2"><strong>1. 최신 프로토콜 사용:</strong> TLS 1.3을 활성화하고 TLS
-                                                1.0/1.1을 비활성화하세요.</p>
-                                            <p class="mb-2"><strong>2. 강한 암호군 설정:</strong> PFS를 지원하는 ECDHE/DHE 암호군을
-                                                우선 사용하고 RC4, DES 등 약한 암호는 제거하세요.</p>
-                                            <p class="mb-2"><strong>3. 인증서 관리:</strong> RSA는 최소 2048비트(권장 3072비트) 또는
-                                                ECDSA 256비트를 사용하세요.</p>
-                                            <p class="mb-2"><strong>4. OCSP Stapling 활성화:</strong> 서버 설정에서 OCSP
-                                                Stapling을 활성화하여 성능과 보안을 개선하세요.</p>
-                                            <p class="mb-0"><strong>5. HSTS 헤더 설정:</strong> max-age를 최소
-                                                1년(31536000초)로 설정하고 includeSubDomains와 preload를 활성화하세요.</p>
+                                            <h6>SSL/TLS Hardening</h6>
+                                            <p class="mb-2"><strong>1. Use modern protocols:</strong> enable TLS 1.3; disable TLS 1.0/1.1.</p>
+                                            <p class="mb-2"><strong>2. Prefer strong ciphers:</strong> prioritize PFS (ECDHE/DHE); remove weak ciphers (RC4, DES).</p>
+                                            <p class="mb-2"><strong>3. Certificate hygiene:</strong> RSA ≥ 2048 (3072 recommended) or ECDSA 256‑bit.</p>
+                                            <p class="mb-2"><strong>4. Enable OCSP Stapling:</strong> improves performance and security.</p>
+                                            <p class="mb-0"><strong>5. Set HSTS:</strong> max‑age ≥ 1 year (31536000); includeSubDomains + preload.</p>
                                         </div>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 SSL/TLS 보안 분석 결과를 확인할 수 있습니다.</p>
+                                            <h5>No results yet</h5>
+                                            <p class="mb-0">Run a test to view the SSL/TLS security analysis.</p>
                                         </div>
                                     @endif
                                 </div>
@@ -579,15 +567,15 @@
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5 class="mb-0">Raw JSON Data</h5>
                                             <button type="button" class="btn btn-outline-primary btn-sm"
-                                                onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                                복사
+                                                onclick="copyJsonToClipboard()" title="Copy JSON data">
+                                                Copy
                                             </button>
                                         </div>
                                         <pre class="json-dump" id="json-data">{{ json_encode($currentTest->results['raw_json'] ?? $currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 Raw JSON 데이터를 확인할 수 있습니다.</p>
+                                            <h5>No data yet</h5>
+                                            <p class="mb-0">Run a test to view the raw JSON data.</p>
                                         </div>
                                     @endif
                                 </div>

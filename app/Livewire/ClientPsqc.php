@@ -76,14 +76,14 @@ class ClientPsqc extends Component
             $since = now()->subDays(3);
 
             foreach ($testTypes as $key => $label) {
-                // psqc_certification_id가 null인 테스트만 가져오기 (이미 사용되지 않은 것)
+                // Only get tests where psqc_certification_id is null (not already used)
                 $test = WebTest::light()
                     ->where('user_id', Auth::id())
                     ->where('url', $domain->url)
                     ->byTestType($key)
                     ->completed()
                     ->where('finished_at', '>=', $since)
-                    ->whereNull('psqc_certification_id') // 이미 인증서에 사용되지 않은 것만
+                    ->whereNull('psqc_certification_id') // Only tests not already used in certificates
                     ->orderByDesc('overall_score')
                     ->first();
 
@@ -168,27 +168,27 @@ class ClientPsqc extends Component
     protected function getTestType(): string { return 'psqc'; }
     protected function getTestConfig(): array { return []; }
 
-    // === 인증서 발급 ===
+    // === Certificate Issuance ===
     public function issueCertificate($domainId)
     {
         if (!Auth::check()) {
-            session()->flash('error', '인증서 발급은 로그인이 필요합니다.');
+            session()->flash('error', 'Login required for certificate issuance.');
             return;
         }
 
         try {
-            // 도메인 ID로 카드 찾기
+            // Find card by domain ID
             $card = collect($this->psqcCards)->firstWhere('domain_id', $domainId);
             
             if (!$card) {
-                throw new \Exception('도메인 정보를 찾을 수 없습니다.');
+                throw new \Exception('Domain information not found.');
             }
 
             if ($card['completed'] !== $card['total']) {
-                throw new \Exception('모든 테스트가 완료되지 않았습니다.');
+                throw new \Exception('Not all tests have been completed.');
             }
 
-            // 인증서 생성
+            // Create certificate
             $psqc = \App\Models\PsqcCertification::createCertification(
                 Auth::id(),
                 $card['url'],
@@ -198,7 +198,7 @@ class ClientPsqc extends Component
                 $card['tests']
             );
 
-            // 결제 페이지로 리다이렉트
+            // Redirect to payment page
             return redirect()->route('psqc.checkout', ['certificate' => $psqc->id]);
             
         } catch (\Exception $e) {
@@ -215,9 +215,9 @@ class ClientPsqc extends Component
 
         $rel = "psqc-certification/{$code}.pdf";
         if (\Illuminate\Support\Facades\Storage::disk('local')->exists($rel)) {
-            session()->flash('success', '인증서 PDF가 생성되었습니다.');
+            session()->flash('success', 'Certificate PDF has been generated.');
         } else {
-            session()->flash('error', 'PDF 생성에 실패했습니다.');
+            session()->flash('error', 'Failed to generate PDF.');
         }
     }
 
@@ -229,7 +229,7 @@ class ClientPsqc extends Component
         if($this->page == 'history') {
             $query = PsqcCertification::query()
                 ->where('user_id', auth()->id())
-                ->where('payment_status', 'paid'); // 발급 완료된 인증서만
+                ->where('payment_status', 'paid'); // Only issued certificates
 
             if (!empty($this->dateFrom)) {
                 $query->whereDate('issued_at', '>=', $this->dateFrom);

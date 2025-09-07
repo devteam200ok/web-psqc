@@ -1,9 +1,9 @@
 @section('title')
-    <title>🔒 보안 헤더 검사 - CSP·XFO·HSTS 등 6대 핵심 헤더 분석 | DevTeam Test</title>
+    <title>🔒 Security Headers Check – Analyze 6 Core Headers (CSP, XFO, HSTS…) | Web-PSQC</title>
     <meta name="description"
-        content="CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, HSTS 등 6대 핵심 보안 헤더를 분석하여 웹사이트 보안 취약점을 진단하고 개선 가이드를 제공합니다.">
+        content="Analyze six core security headers — CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, and HSTS — to diagnose issues and provide improvement guidance.">
     <meta name="keywords"
-        content="보안 헤더 검사, CSP 분석, X-Frame-Options, HSTS, Referrer-Policy, Permissions-Policy, 웹 보안 점검, XSS 방어, 클릭재킹 방지, DevTeam Test">
+        content="security headers check, CSP analysis, X-Frame-Options, HSTS, Referrer-Policy, Permissions-Policy, web security scan, XSS protection, clickjacking prevention, Web-PSQC">
     <meta name="author" content="DevTeam Co., Ltd.">
     <meta name="robots" content="index,follow">
 
@@ -12,19 +12,19 @@
     <!-- Open Graph -->
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevTeam Test" />
-    <meta property="og:title" content="보안 헤더 검사 - CSP·XFO·HSTS 등 6대 핵심 헤더 분석 | DevTeam Test" />
-    <meta property="og:description" content="웹사이트의 6대 보안 헤더를 자동 분석해 보안 수준을 평가하고 A+ 등급까지 인증서를 발급받으세요." />
+    <meta property="og:site_name" content="Web-PSQC" />
+    <meta property="og:title" content="Security Headers Check – Analyze 6 Core Headers" />
+    <meta property="og:description" content="Automatically analyze six security headers to assess security posture and qualify for an A+ certificate." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="DevTeam Test 보안 헤더 검사" />
+        <meta property="og:image:alt" content="Web-PSQC Security Headers Check" />
     @endif
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="보안 헤더 검사 - CSP·XFO·HSTS 등 6대 핵심 헤더 분석 | DevTeam Test" />
-    <meta name="twitter:description" content="CSP, XFO, HSTS 등 주요 보안 헤더 점검. 웹 보안 강화를 위한 자동 진단과 개선 가이드 제공." />
+    <meta name="twitter:title" content="Security Headers Check – CSP · XFO · HSTS | Web-PSQC" />
+    <meta name="twitter:description" content="Check CSP, XFO, HSTS, and more. Automated diagnostics with improvement guidance." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -44,14 +44,14 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => '보안 헤더 검사 - CSP·XFO·HSTS 등 6대 핵심 헤더 분석',
+    'name' => 'Security Headers Check – Six Core Header Analysis',
     'url'  => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
-        'name' => 'DevTeam Test',
+        'name' => 'Web-PSQC',
         'url'  => url('/'),
     ],
-    'description' => 'CSP, X-Frame-Options, HSTS 등 6대 핵심 보안 헤더를 분석해 취약점을 진단하고 개선 방법을 안내합니다.',
+    'description' => 'Analyze six core security headers (CSP, X-Frame-Options, HSTS, etc.) to diagnose weaknesses and recommend fixes.',
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
 @endsection
@@ -60,8 +60,8 @@
 @endsection
 
 <div class="page-wrapper">
-    {{-- 헤더 (공통 컴포넌트) --}}
-    <x-test-shared.header title="🔒 보안 헤더 검사" subtitle="CSP / XFO / X-Content-Type / Referrer / Permissions / HSTS"
+    {{-- Header (shared component) --}}
+    <x-test-shared.header title="🔒 Security Headers Check" subtitle="CSP / XFO / X-Content-Type / Referrer / Permissions / HSTS"
         :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null" :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">
@@ -69,13 +69,13 @@
             @include('inc.component.message')
             <div class="row">
                 <div class="col-xl-8 d-block mb-2">
-                    {{-- URL 폼 (개별 컴포넌트) --}}
+                    {{-- URL form (page-specific) --}}
                     <div class="card mb-3">
                         <div class="card-body">
-                            <!-- URL 입력 폼 -->
+                            <!-- URL input form -->
                             <div class="row mb-4">
                                 <div class="col-xl-12">
-                                    <label class="form-label">웹사이트 주소</label>
+                                    <label class="form-label">Website URL</label>
                                     <div class="input-group">
                                         <input type="url" wire:model="url" wire:keydown.enter="runTest"
                                             class="form-control @error('url') is-invalid @enderror"
@@ -86,9 +86,9 @@
                                             @if ($isLoading)
                                                 <span class="spinner-border spinner-border-sm me-2"
                                                     role="status"></span>
-                                                진행 중...
+                                                Running...
                                             @else
-                                                검사
+                                                Test
                                             @endif
                                         </button>
                                     </div>
@@ -148,33 +148,31 @@
                             <div class="tab-content">
                                 <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                     id="tabs-information">
-                                    <h3>6대 핵심 보안 헤더 종합 검사</h3>
+                                    <h3>Comprehensive Check of 6 Core Security Headers</h3>
                                     <div class="text-muted small mt-1">
-                                        HTTP 응답 헤더를 통해 브라우저의 보안 기능을 활성화하여 웹 애플리케이션을 다양한 공격으로부터 보호합니다.
+                                        Enable browser security features via HTTP response headers to protect your application from common attacks.
                                         <br><br>
-                                        <strong>측정 도구:</strong> Node.js 기반 자체 개발 스크립터 (axios HTTP 클라이언트 활용)
+                                        <strong>Tooling:</strong> custom Node.js script (axios HTTP client)
                                         <br>
-                                        <strong>테스트 목적:</strong> XSS, 클릭재킹, MIME 스니핑, 정보 유출 등 주요 웹 취약점 방어 수준 평가
+                                        <strong>Goal:</strong> evaluate defenses against XSS, clickjacking, MIME sniffing, and data leakage
                                         <br><br>
-                                        <strong>검사 항목:</strong>
+                                        <strong>Headers evaluated:</strong>
                                         <br>
-                                        • <strong>Content-Security-Policy (CSP)</strong> – 리소스 로드 출처를 제한, XSS·서드파티 스크립트
-                                        악용 방지
+                                        • <strong>Content-Security-Policy (CSP)</strong> — restricts resource sources; mitigates XSS/third‑party script abuse
                                         <br>
-                                        • <strong>X-Frame-Options / frame-ancestors</strong> – iframe 삽입 차단, 클릭재킹·피싱형
-                                        오버레이 방지
+                                        • <strong>X-Frame-Options / frame-ancestors</strong> — blocks framing; prevents clickjacking/phishing overlays
                                         <br>
-                                        • <strong>X-Content-Type-Options</strong> – MIME 스니핑 차단, 잘못된 실행 취약점 방어
+                                        • <strong>X-Content-Type-Options</strong> — prevents MIME sniffing; mitigates incorrect execution
                                         <br>
-                                        • <strong>Referrer-Policy</strong> – 외부 전송 시 URL 정보 최소화, 개인정보·내부경로 노출 방지
+                                        • <strong>Referrer-Policy</strong> — minimizes referrer data; prevents sensitive URL exposure
                                         <br>
-                                        • <strong>Permissions-Policy</strong> – 위치·마이크·카메라 등 브라우저 기능 제한, 프라이버시 보호
+                                        • <strong>Permissions-Policy</strong> — limits browser features (location, mic, camera) to protect privacy
                                         <br>
-                                        • <strong>Strict-Transport-Security (HSTS)</strong> – HTTPS 강제, 중간자 공격·다운그레이드 방지
+                                        • <strong>Strict-Transport-Security (HSTS)</strong> — forces HTTPS; prevents MITM/downgrade attacks
                                         <br><br>
-                                        <strong>설정 위치:</strong> CDN(Cloudflare) · 웹서버(Nginx/Apache) · 앱(Laravel 등)
+                                        <strong>Where to configure:</strong> CDN (Cloudflare), web server (Nginx/Apache), application (e.g., Laravel)
                                         <br>
-                                        모든 헤더가 함께 적용될 때 가장 강력한 보안 효과를 발휘합니다.
+                                        Applying headers together yields the strongest protection.
                                     </div>
 
                                     {{-- 등급 기준 안내 --}}
@@ -182,78 +180,77 @@
                                         <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                             <thead>
                                                 <tr>
-                                                    <th>등급</th>
-                                                    <th>점수</th>
-                                                    <th>기준</th>
+                                                    <th>Grade</th>
+                                                    <th>Score</th>
+                                                    <th>Criteria</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td><span class="badge bg-green-lt text-green-lt-fg">A+</span></td>
-                                                    <td>95-100</td>
+                                                    <td>95–100</td>
                                                     <td>
-                                                        <strong>CSP 강함</strong>(nonce/hash/strict-dynamic, unsafe-*
-                                                        미사용)<br>
-                                                        XFO: DENY/SAMEORIGIN 또는 frame-ancestors 제한<br>
+                                                        <strong>Strong CSP</strong> (nonce/hash/strict-dynamic; no unsafe-*)<br>
+                                                        XFO: DENY/SAMEORIGIN or limited frame-ancestors<br>
                                                         X-Content-Type: nosniff<br>
-                                                        Referrer-Policy: strict-origin-when-cross-origin 이상<br>
-                                                        Permissions-Policy: 불필요 기능 차단<br>
-                                                        HSTS: 6개월↑ + 서브도메인
+                                                        Referrer-Policy: strict-origin-when-cross-origin or better<br>
+                                                        Permissions-Policy: unneeded features blocked<br>
+                                                        HSTS: ≥ 6 months + include subdomains
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-lime-lt text-lime-lt-fg">A</span></td>
-                                                    <td>85-94</td>
+                                                    <td>85–94</td>
                                                     <td>
-                                                        CSP 존재(약함 허용) <strong>또는</strong> 비-CSP 5항목 우수<br>
-                                                        XFO 적용(또는 frame-ancestors 제한)<br>
+                                                        CSP present (weaker allowed) <strong>or</strong> 5 non‑CSP items strong<br>
+                                                        XFO applied (or frame‑ancestors limited)<br>
                                                         X-Content-Type: nosniff<br>
-                                                        Referrer-Policy: 권장 값 사용<br>
-                                                        Permissions-Policy: 기본 제한 적용<br>
-                                                        HSTS: 6개월↑
+                                                        Referrer‑Policy: recommended value<br>
+                                                        Permissions‑Policy: basic restrictions<br>
+                                                        HSTS: ≥ 6 months
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-blue-lt text-blue-lt-fg">B</span></td>
-                                                    <td>70-84</td>
+                                                    <td>70–84</td>
                                                     <td>
-                                                        CSP 없음/약함<br>
-                                                        XFO 정상 적용<br>
-                                                        X-Content-Type: 있음<br>
-                                                        Referrer-Policy: 양호/보통<br>
-                                                        Permissions-Policy: 일부 제한<br>
-                                                        HSTS: 단기 또는 서브도메인 미포함
+                                                        CSP none/weak<br>
+                                                        XFO applied
+                                                        <br>X-Content-Type: present (nosniff)
+                                                        <br>Referrer‑Policy: okay/average<br>
+                                                        Permissions‑Policy: partially restricted<br>
+                                                        HSTS: short or no subdomains
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-yellow-lt text-yellow-lt-fg">C</span></td>
-                                                    <td>55-69</td>
+                                                    <td>55–69</td>
                                                     <td>
-                                                        헤더 일부만 존재<br>
-                                                        CSP 없음/약함<br>
-                                                        Referrer-Policy 약함<br>
-                                                        X-Content-Type 누락<br>
-                                                        HSTS 없음 또는 매우 짧음
+                                                        Some headers present<br>
+                                                        CSP none/weak<br>
+                                                        Referrer‑Policy weak<br>
+                                                        X-Content-Type missing<br>
+                                                        HSTS absent or very short
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-orange-lt text-orange-lt-fg">D</span></td>
-                                                    <td>40-54</td>
+                                                    <td>40–54</td>
                                                     <td>
-                                                        핵심 헤더 1~2개만<br>
-                                                        CSP 없음<br>
-                                                        Referrer 약함/없음<br>
-                                                        기타 헤더 다수 누락
+                                                        Only 1–2 key headers present<br>
+                                                        No CSP<br>
+                                                        Referrer weak/absent<br>
+                                                        Many other headers missing
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-red-lt text-red-lt-fg">F</span></td>
-                                                    <td>0-39</td>
+                                                    <td>0–39</td>
                                                     <td>
-                                                        보안 헤더 전무에 가까움<br>
-                                                        CSP/XFO/X-Content 없음<br>
-                                                        Referrer-Policy 없음<br>
-                                                        HSTS 없음
+                                                        Security headers virtually absent<br>
+                                                        No CSP/XFO/X-Content<br>
+                                                        No Referrer‑Policy<br>
+                                                        No HSTS
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -261,8 +258,7 @@
                                     </div>
 
                                     <div class="alert alert-info d-block mt-3">
-                                        <strong>등급 정책:</strong> A+는 강한 CSP가 필수입니다. CSP가 없어도 비-CSP 5항목(XFO, XCTO,
-                                        Referrer, Permissions, HSTS)이 모두 우수하면 A를 부여합니다.
+                                        <strong>Grading policy:</strong> A+ requires a strong CSP. If CSP is absent, an A can still be awarded when the five non‑CSP headers (XFO, X‑Content‑Type‑Options, Referrer‑Policy, Permissions‑Policy, HSTS) are all strong.
                                     </div>
                                 </div>
 
@@ -327,16 +323,16 @@
                                         <!-- 헤더별 점수 상세 -->
                                         <div class="card mb-4">
                                             <div class="card-header">
-                                                <h3 class="card-title">헤더별 점수 분석</h3>
+                                                <h3 class="card-title">Per‑Header Score Analysis</h3>
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
                                                     <table class="table table-sm table-vcenter">
                                                         <thead>
                                                             <tr>
-                                                                <th>헤더</th>
-                                                                <th>값</th>
-                                                                <th>점수</th>
+                                                                <th>Header</th>
+                                                                <th>Value</th>
+                                                                <th>Score</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -345,8 +341,8 @@
                                                                     <td><strong>{{ $item['key'] }}</strong></td>
                                                                     <td class="text-truncate"
                                                                         style="max-width: 400px;"
-                                                                        title="{{ $item['value'] ?? '(설정되지 않음)' }}">
-                                                                        {{ $item['value'] ?? '(설정되지 않음)' }}
+                                                                        title="{{ $item['value'] ?? '(not set)' }}">
+                                                                        {{ $item['value'] ?? '(not set)' }}
                                                                     </td>
                                                                     <td>{{ round((($item['score'] ?? 0) * 100) / 60, 1) }}
                                                                     </td>
@@ -358,18 +354,18 @@
                                             </div>
                                         </div>
 
-                                        <!-- URL 정보 -->
+                                        <!-- URL info -->
                                         @if (isset($report['url']) || isset($report['finalUrl']))
                                             <div class="card mb-4">
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <strong>테스트 URL:</strong> {{ $report['url'] ?? '' }}
+                                                            <strong>Test URL:</strong> {{ $report['url'] ?? '' }}
                                                             @if (isset($report['finalUrl']) && $report['finalUrl'] !== $report['url'])
-                                                                <br><strong>최종 URL:</strong> {{ $report['finalUrl'] }}
+                                                                <br><strong>Final URL:</strong> {{ $report['finalUrl'] }}
                                                             @endif
                                                             @if (isset($report['status']))
-                                                                <br><strong>HTTP 상태:</strong> {{ $report['status'] }}
+                                                                <br><strong>HTTP status:</strong> {{ $report['status'] }}
                                                             @endif
                                                         </div>
                                                     </div>
@@ -377,36 +373,30 @@
                                             </div>
                                         @endif
 
-                                        <!-- 등급 사유 -->
+                                        <!-- Grading rationale -->
                                         @if (!empty($report['reasons']))
                                             <div class="card mb-4">
                                                 <div class="card-body">
-                                                    <strong>등급 평가 사유:</strong><br>
+                                                    <strong>Grading rationale:</strong><br>
                                                     {{ implode(' · ', $report['reasons']) }}
                                                 </div>
                                             </div>
                                         @endif
 
-                                        <!-- 보안 헤더 설명 -->
+                                        <!-- Security headers explainer -->
                                         <div class="alert alert-info d-block">
-                                            <h5>💡 주요 보안 헤더 설명</h5>
-                                            <p class="mb-2"><strong>Content-Security-Policy (CSP):</strong> 웹페이지에서 실행
-                                                가능한 리소스의 출처를 제한합니다. XSS 공격과 데이터 주입 공격을 방어하는 가장 강력한 보안 메커니즘입니다.</p>
-                                            <p class="mb-2"><strong>X-Frame-Options:</strong> 웹페이지가 iframe, frame,
-                                                embed, object 태그 내에 표시되는 것을 제어합니다. 클릭재킹 공격을 방지합니다.</p>
-                                            <p class="mb-2"><strong>X-Content-Type-Options:</strong> 브라우저의 MIME 타입
-                                                스니핑을 방지합니다. 악의적인 스크립트가 다른 MIME 타입으로 실행되는 것을 차단합니다.</p>
-                                            <p class="mb-2"><strong>Referrer-Policy:</strong> 다른 도메인으로 이동할 때 전송되는
-                                                Referrer 정보를 제어합니다. 민감한 URL 정보 유출을 방지합니다.</p>
-                                            <p class="mb-2"><strong>Permissions-Policy:</strong> 웹사이트에서 사용할 수 있는 브라우저
-                                                기능과 API를 제한합니다. 카메라, 마이크, 위치 정보 등의 접근을 제어합니다.</p>
-                                            <p class="mb-0"><strong>Strict-Transport-Security (HSTS):</strong> 브라우저가
-                                                항상 HTTPS로 연결하도록 강제합니다. 중간자 공격과 프로토콜 다운그레이드 공격을 방지합니다.</p>
+                                            <h5>💡 Key security headers</h5>
+                                            <p class="mb-2"><strong>Content-Security-Policy (CSP):</strong> restricts sources for executable resources; strongest defense against XSS and injection.</p>
+                                            <p class="mb-2"><strong>X-Frame-Options:</strong> controls framing (iframe/frame/embed/object) to prevent clickjacking.</p>
+                                            <p class="mb-2"><strong>X-Content-Type-Options:</strong> prevents MIME type sniffing; blocks scripts running under wrong types.</p>
+                                            <p class="mb-2"><strong>Referrer-Policy:</strong> controls referrer information sent to other sites; prevents sensitive URL leakage.</p>
+                                            <p class="mb-2"><strong>Permissions-Policy:</strong> limits access to browser features/APIs (camera, mic, geolocation, etc.).</p>
+                                            <p class="mb-0"><strong>Strict-Transport-Security (HSTS):</strong> forces HTTPS; prevents MITM and protocol downgrade.</p>
                                         </div>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 보안 헤더 분석 결과를 확인할 수 있습니다.</p>
+                                            <h5>No results yet</h5>
+                                            <p class="mb-0">Run a test to view the security headers analysis.</p>
                                         </div>
                                     @endif
                                 </div>
@@ -417,15 +407,15 @@
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5 class="mb-0">Raw JSON Data</h5>
                                             <button type="button" class="btn btn-outline-primary btn-sm"
-                                                onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                                복사
+                                                onclick="copyJsonToClipboard()" title="Copy JSON data">
+                                                Copy
                                             </button>
                                         </div>
                                         <pre class="json-dump" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 Raw JSON 데이터를 확인할 수 있습니다.</p>
+                                            <h5>No data yet</h5>
+                                            <p class="mb-0">Run a test to view the raw JSON data.</p>
                                         </div>
                                     @endif
                                 </div>

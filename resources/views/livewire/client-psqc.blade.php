@@ -322,7 +322,7 @@
                                 <div class="col-12">
                                     <div class="card">
                                         <div class="card-body text-center text-muted">
-                                            소유권 인증이 완료된 도메인이 없습니다. 우측에서 도메인을 등록/인증하세요.
+                                            No verified domains found. Please register/verify domains on the right side.
                                         </div>
                                     </div>
                                 </div>
@@ -334,17 +334,17 @@
                     <div class="col-lg-4 col-xl-3">
                         <div class="card psqc-domain-card">
                             <div class="card-header">
-                                <h3 class="card-title mb-0">도메인 관리</h3>
+                                <h3 class="card-title mb-0">Domain Management</h3>
                             </div>
                             <div class="card-body">
                                 @if (Auth::check())
                                     <div class="mb-3">
-                                        <label class="form-label">도메인 추가</label>
+                                        <label class="form-label">Add Domain</label>
                                         <div class="input-group">
                                             <input type="url" wire:keydown.enter="addDomain"
                                                 class="form-control @error('newDomainUrl') is-invalid @enderror"
                                                 placeholder="https://www.example.com" wire:model.defer="newDomainUrl">
-                                            <button class="btn btn-primary" wire:click="addDomain">추가</button>
+                                            <button class="btn btn-primary" wire:click="addDomain">Add</button>
                                         </div>
                                         @error('newDomainUrl')
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -370,7 +370,7 @@
                                                             </span>
                                                             <span style="cursor: pointer;"
                                                                 wire:click="deleteDomain({{ $domain['id'] }})"
-                                                                wire:confirm="이 도메인을 삭제하시겠습니까?">
+                                                                wire:confirm="Are you sure you want to delete this domain?">
                                                                 🗑️
                                                             </span>
                                                         </div>
@@ -379,13 +379,13 @@
                                             </div>
                                         @else
                                             <div class="text-center text-muted p-4">
-                                                <p class="mb-0">등록된 도메인이 없습니다.</p>
+                                                <p class="mb-0">No domains registered.</p>
                                             </div>
                                         @endif
                                     </div>
                                 @else
                                     <div class="text-center text-muted p-4">
-                                        <p>도메인 관리는 로그인이 필요합니다.</p>
+                                        <p>Domain management requires login.</p>
                                     </div>
                                 @endif
                             </div>
