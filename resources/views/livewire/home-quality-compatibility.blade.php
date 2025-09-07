@@ -55,8 +55,8 @@
 <div class="page-wrapper">
    {{-- Header (shared component) --}}
    <x-test-shared.header 
-       title="🌐 Browser Compatibility Test" 
-       subtitle="Chrome · Firefox · Safari Cross-Browser Testing" 
+       title="Compatibility" 
+       subtitle="Cross-browser testing" 
        :user-plan-usage="$userPlanUsage" 
        :ip-usage="$ipUsage ?? null"
        :ip-address="$ipAddress ?? null" />

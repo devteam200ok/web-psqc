@@ -58,7 +58,7 @@
 
 <div class="page-wrapper">
     {{-- Header (shared component) --}}
-    <x-test-shared.header title="📱 Mobile Performance Test" subtitle="Playwright · iPhone/Galaxy · 6 devices" :user-plan-usage="$userPlanUsage"
+    <x-test-shared.header title="Mobile Test" subtitle="Performance in mobile environments" :user-plan-usage="$userPlanUsage"
         :ip-usage="$ipUsage ?? null" :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">

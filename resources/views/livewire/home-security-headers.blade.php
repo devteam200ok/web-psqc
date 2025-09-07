@@ -61,7 +61,7 @@
 
 <div class="page-wrapper">
    {{-- Header (shared component) --}}
-   <x-test-shared.header title="🔒 Security Headers Check" subtitle="CSP / XFO / X-Content-Type / Referrer / Permissions / HSTS"
+   <x-test-shared.header title="Headers" subtitle="HTTP security policies"
        :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null" :ip-address="$ipAddress ?? null" />
 
    <div class="page-body">

@@ -1,21 +1,10 @@
-@php
-    $setting = App\Models\Setting::first();
-@endphp
 <footer class="footer footer-transparent d-print-none">
     <div class="container-xl">
         <div class="row mb-2">
-            <div class="col-12 text-muted small d-none d-md-block text-start" style="line-height: 1.6;">
+            <div class="col-12 text-muted small text-start" style="line-height: 1.6;">
                 <div>
-                    <strong>Company:</strong> {{$setting->company}} |
-                    <strong>Business Registration:</strong> {{$setting->business_number}} |
-                    <strong>Business Address:</strong> {{$setting->company_address}}
+                    <strong>Test Server:</strong> Amazon EC2 (Virginia, USA)
                 </div>
-            </div>
-
-            <div class="col-12 text-muted small d-block d-md-none text-start" style="line-height: 1.6;">
-                <div><strong>Company:</strong> {{$setting->company}}</div>
-                <div><strong>Business Registration:</strong> {{$setting->business_number}}</div>
-                <div><strong>Business Address:</strong> {{$setting->company_address}}</div>
             </div>
         </div>
 
@@ -35,7 +24,7 @@
             <div class="col-12 col-lg-auto mt-3 mt-lg-0">
                 <ul class="list-inline list-inline-dots mb-0">
                     <li class="list-inline-item">
-                        {{$setting->footer}}
+                        © {{ date('Y') }} Web-PSQC. All rights reserved.
                     </li>
                 </ul>
             </div>

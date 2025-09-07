@@ -60,7 +60,7 @@
 
 <div class="page-wrapper">
     {{-- Header (shared component) --}}
-    <x-test-shared.header title="🚀 K6 Load Test" subtitle="Validate website performance and stability" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    <x-test-shared.header title="Load Test" subtitle="Simulate concurrent user traffic" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">

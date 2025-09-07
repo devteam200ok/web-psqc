@@ -64,7 +64,7 @@
 
 <div class="page-wrapper">
     {{-- Header (shared component) --}}
-    <x-test-shared.header title="🔒 SSL Deep Analysis" subtitle="SSLyze comprehensive diagnostics" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    <x-test-shared.header title="SSL Advanced" subtitle="TLS settings & cipher suites" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">

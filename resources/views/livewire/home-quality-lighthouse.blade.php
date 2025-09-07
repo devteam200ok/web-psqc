@@ -53,7 +53,7 @@
 
 <div class="page-wrapper">
    {{-- Header (shared component) --}}
-   <x-test-shared.header title="🔍 Comprehensive Quality Test" subtitle="Lighthouse Performance+SEO+Accessibility Analysis" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+   <x-test-shared.header title="Lighthouse" subtitle="SEO, performance, accessibility" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
        :ip-address="$ipAddress ?? null" />
 
    <div class="page-body">

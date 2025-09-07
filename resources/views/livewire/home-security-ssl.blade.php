@@ -63,7 +63,7 @@
 
 <div class="page-wrapper">
     {{-- Header (shared component) --}}
-    <x-test-shared.header title="🔒 SSL Basic Test" subtitle="testssl.sh · Certificate · Protocol · Vulnerabilities" :user-plan-usage="$userPlanUsage"
+    <x-test-shared.header title="SSL Basics" subtitle="Certificate & config check" :user-plan-usage="$userPlanUsage"
         :ip-usage="$ipUsage ?? null" :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">

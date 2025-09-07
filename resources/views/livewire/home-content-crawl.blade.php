@@ -54,7 +54,7 @@
 
 <div class="page-wrapper">
     {{-- Header (Shared Component) --}}
-    <x-test-shared.header title="🕷️ Site Crawling Test" subtitle="SEO Technical Audit based on robots.txt/sitemap.xml" :user-plan-usage="$userPlanUsage"
+    <x-test-shared.header title="Crawl" subtitle="Batch site inspection" :user-plan-usage="$userPlanUsage"
         :ip-usage="$ipUsage ?? null" :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">

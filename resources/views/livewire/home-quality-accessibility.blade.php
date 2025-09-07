@@ -64,7 +64,7 @@
 
 <div class="page-wrapper">
    {{-- Header (shared component) --}}
-   <x-test-shared.header title="♿ Advanced Web Accessibility Test" subtitle="WCAG 2.1 Accessibility Assessment" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+   <x-test-shared.header title="Accessibility" subtitle="WCAG 2.1 checks" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
        :ip-address="$ipAddress ?? null" />
 
    <div class="page-body">

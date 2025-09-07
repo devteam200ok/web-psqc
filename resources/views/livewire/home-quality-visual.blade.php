@@ -54,7 +54,7 @@
 
 <div class="page-wrapper">
     {{-- Header (Common Component) --}}
-    <x-test-shared.header title="📱 Responsive UI Test" subtitle="Viewport Rendering Width Overflow Measurement" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    <x-test-shared.header title="Responsive UI" subtitle="Viewport-based testing" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">

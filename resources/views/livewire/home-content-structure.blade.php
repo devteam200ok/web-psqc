@@ -54,7 +54,7 @@
 
 <div class="page-wrapper">
    {{-- Header (shared component) --}}
-   <x-test-shared.header title="📋 Structured Data Test" subtitle="JSON-LD / Schema.org Validation" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+   <x-test-shared.header title="Structured Data" subtitle="Schema.org validation" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
        :ip-address="$ipAddress ?? null" />
 
    <div class="page-body">

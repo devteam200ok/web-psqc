@@ -54,7 +54,7 @@
 
 <div class="page-wrapper">
    {{-- Header (shared component) --}}
-   <x-test-shared.header title="📋 Metadata Test" subtitle="SEO Meta Tag Completeness Analysis" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+   <x-test-shared.header title="Metadata" subtitle="OG/Twitter card preview" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
        :ip-address="$ipAddress ?? null" />
 
    <div class="page-body">

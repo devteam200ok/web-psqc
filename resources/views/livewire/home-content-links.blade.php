@@ -54,7 +54,7 @@
 
 <div class="page-wrapper">
     {{-- Header (Common Component) --}}
-    <x-test-shared.header title="🔗 Link Validation" subtitle="Internal/External/Image Links + Anchor Status Check" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    <x-test-shared.header title="Links" subtitle="Broken links & redirects" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">

@@ -60,7 +60,7 @@
 
 <div class="page-wrapper">
     {{-- Header (Shared Component) --}}
-    <x-test-shared.header title="🔍 Latest Vulnerability Scan" subtitle="Nuclei 2024-2025 CVE Detection" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    <x-test-shared.header title="CVE Check" subtitle="Latest known vulnerabilities" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">

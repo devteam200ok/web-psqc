@@ -50,7 +50,7 @@
 
 <div class="page-wrapper">
 {{-- 헤더 (공통 컴포넌트) --}}
-<x-test-shared.header title="⚡ Global Speed Test" subtitle="Loading speed measurement across 8 regions" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+<x-test-shared.header title="Global Speed" subtitle="Measure load speed across 8 regions" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
     :ip-address="$ipAddress ?? null" />
 
 <div class="page-body">
