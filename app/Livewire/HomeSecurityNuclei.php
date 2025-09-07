@@ -23,7 +23,7 @@ class HomeSecurityNuclei extends Component
     }
 
     /**
-     * 테스트 타입 반환
+     * Return test type
      */
     protected function getTestType(): string
     {
@@ -31,7 +31,7 @@ class HomeSecurityNuclei extends Component
     }
 
     /**
-     * 테스트 설정 반환
+     * Return test configuration
      */
     protected function getTestConfig(): array
     {
@@ -44,13 +44,13 @@ class HomeSecurityNuclei extends Component
     }
 
     /**
-     * Nuclei 보안 테스트 실행
+     * Run Nuclei security test
      */
     public function runTest()
     {
-        // 로그인 체크
+        // Check login
         if (!Auth::check()) {
-            session()->flash('error', '보안 스캔은 로그인이 필요합니다. 로그인 후 도메인 등록 및 소유권 인증을 완료해주세요.');
+            session()->flash('error', 'Security scanning requires login. Please login and complete domain registration and ownership verification.');
             return;
         }
 
@@ -58,10 +58,10 @@ class HomeSecurityNuclei extends Component
             'url' => 'required|url|max:2048'
         ]);
 
-        // 도메인 소유권 검증
+        // Verify domain ownership
         $domain = parse_url($this->url, PHP_URL_HOST);
         if (!$domain) {
-            $this->addError('url', '올바른 URL 형식이 아닙니다.');
+            $this->addError('url', 'Invalid URL format.');
             return;
         }
 
@@ -71,7 +71,7 @@ class HomeSecurityNuclei extends Component
             ->first();
 
         if (!$verifiedDomain) {
-            $this->addError('url', '해당 도메인에 대한 소유권 인증이 필요합니다. 사이드바의 "도메인" 탭에서 도메인을 등록하고 인증을 완료해주세요.');
+            $this->addError('url', 'Domain ownership verification is required for this domain. Please register and verify your domain in the "Domains" tab in the sidebar.');
             return;
         }
 
@@ -82,19 +82,19 @@ class HomeSecurityNuclei extends Component
         }
         
         if ($this->isDuplicateRecentTest($this->url)) {
-            $this->addError('url', '동일한 URL에 대한 테스트가 최근 1분 내에 실행되었습니다.');
+            $this->addError('url', 'A test for the same URL was executed within the last minute.');
             return;
         }
 
-        // 사용량 체크
+        // Check usage limit
         if (!$this->canUseService()) {
-            session()->flash('error', '사용 가능한 횟수를 초과했습니다.');
+            session()->flash('error', 'Usage limit exceeded.');
             return;
         }
 
         $this->isLoading = true;
 
-        // WebTest 생성
+        // Create WebTest
         $test = WebTest::create([
             'user_id' => Auth::id(),
             'test_type' => $this->getTestType(),
@@ -104,7 +104,7 @@ class HomeSecurityNuclei extends Component
             'test_config' => $this->getTestConfig()
         ]);
 
-        // 사용량 차감
+        // Consume usage
         $this->consumeService($domain, $this->getTestType());
         $this->refreshUsageInfo();
 

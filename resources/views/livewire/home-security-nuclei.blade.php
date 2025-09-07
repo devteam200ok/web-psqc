@@ -1,8 +1,8 @@
 @section('title')
-    <title>🔍 최신 취약점 스캔 - Nuclei CVE 2024-2025 자동 탐지 | DevTeam Test</title>
+    <title>🔍 Nuclei Vulnerability Scan – CVE 2024–2025 | Web-PSQC</title>
     <meta name="description"
-        content="Nuclei 기반 보안 스캐너로 2024-2025년 CVE 취약점, 구성 오류, 민감정보 노출을 자동 탐지하고 보안 등급을 평가합니다. 최신 보안 위협에 대응하세요.">
-    <meta name="keywords" content="취약점 스캔, Nuclei, CVE 2024, CVE 2025, 보안 진단, 자동 스캐닝, 제로데이 취약점 탐지, DevTeam Test">
+        content="Automated security scanning with Nuclei: detect 2024–2025 CVEs, misconfigurations, and sensitive data exposures. Assess risk with clear grading.">
+    <meta name="keywords" content="vulnerability scan, Nuclei, CVE 2024, CVE 2025, security assessment, automated scanning, zero-day detection, Web-PSQC">
     <meta name="author" content="DevTeam Co., Ltd.">
     <meta name="robots" content="index,follow">
 
@@ -10,19 +10,19 @@
 
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevTeam Test" />
-    <meta property="og:title" content="최신 취약점 스캔 - Nuclei CVE 2024-2025 자동 탐지 | DevTeam Test" />
+    <meta property="og:site_name" content="Web-PSQC" />
+    <meta property="og:title" content="Nuclei Vulnerability Scan – CVE 2024–2025 | Web-PSQC" />
     <meta property="og:description"
-        content="Nuclei로 최신 CVE 취약점과 보안 설정 오류를 자동 탐지합니다. 2024-2025년 신규 위협까지 포함한 실시간 보안 진단을 경험하세요." />
+        content="Use Nuclei to automatically detect recent CVEs, misconfigurations, and exposures — including 2024–2025 threats." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="DevTeam Test - 최신 취약점 스캔" />
+        <meta property="og:image:alt" content="Web-PSQC – Nuclei Vulnerability Scan" />
     @endif
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="최신 취약점 스캔 - Nuclei CVE 2024-2025 자동 탐지 | DevTeam Test" />
-    <meta name="twitter:description" content="Nuclei 기반 최신 보안 취약점 탐지. CVE 2024-2025, 구성 오류, 민감정보 노출까지 정밀 분석." />
+    <meta name="twitter:title" content="Nuclei Vulnerability Scan – CVE 2024–2025 | Web-PSQC" />
+    <meta name="twitter:description" content="Nuclei-based detection of latest security issues: CVE 2024–2025, misconfigurations, and data exposures." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -42,14 +42,14 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => '최신 취약점 스캔 - Nuclei CVE 2024-2025 자동 탐지',
+    'name' => 'Nuclei Vulnerability Scan – CVE 2024–2025',
     'url'  => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
         'name' => 'DevTeam Test',
         'url'  => url('/'),
     ],
-    'description' => 'Nuclei 기반 보안 스캐너로 최신 CVE(2024-2025) 및 설정 오류·민감정보 노출까지 탐지하고 보안 등급을 평가합니다.',
+    'description' => 'Nuclei-powered scanner that detects recent CVEs (2024–2025), misconfigurations, and sensitive exposures, with risk grading.',
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
 @endsection
@@ -59,8 +59,8 @@
 @endsection
 
 <div class="page-wrapper">
-    {{-- 헤더 (공통 컴포넌트) --}}
-    <x-test-shared.header title="🔍 최신 취약점 스캔" subtitle="Nuclei 2024-2025 CVE 탐지" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    {{-- Header (shared component) --}}
+    <x-test-shared.header title="🔍 Nuclei Vulnerability Scan" subtitle="CVE 2024–2025 Detection" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">
@@ -68,20 +68,20 @@
             @include('inc.component.message')
             <div class="row">
                 <div class="col-xl-8 d-block mb-2">
-                    {{-- URL 폼 --}}
+                    {{-- URL form --}}
                     <div class="card mb-3">
                         <div class="card-body">
                             @if (!Auth::check())
                                 <div class="alert alert-info d-block mb-4">
-                                    <h5>🔐 로그인 필요</h5>
-                                    <p class="mb-2">보안 스캔은 도메인 소유권 인증이 필요한 서비스입니다.</p>
-                                    <p class="mb-0">로그인 후 사이드바의 "도메인" 탭에서 도메인을 등록하고 소유권을 인증해주세요.</p>
+                                    <h5>🔐 Sign-in required</h5>
+                                    <p class="mb-2">Security scans require domain ownership verification.</p>
+                                    <p class="mb-0">After signing in, register your domain under the “Domains” tab in the sidebar and complete verification.</p>
                                 </div>
                             @endif
 
                             <div class="row mb-4">
                                 <div class="col-xl-12">
-                                    <label class="form-label">홈페이지 주소</label>
+                                    <label class="form-label">Website URL</label>
                                     <div class="input-group">
                                         <input type="url" wire:model="url" wire:keydown.enter="runTest"
                                             class="form-control @error('url') is-invalid @enderror"
@@ -92,9 +92,9 @@
                                             @if ($isLoading)
                                                 <span class="spinner-border spinner-border-sm me-2"
                                                     role="status"></span>
-                                                진행 중...
+                                                Running...
                                             @else
-                                                테스트
+                                                Run Scan
                                             @endif
                                         </button>
                                     </div>
@@ -102,15 +102,15 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                     @if (Auth::check())
-                                        <div class="form-text">소유권이 인증된 도메인만 테스트 가능합니다.</div>
+                                        <div class="form-text">Only verified domains can be scanned.</div>
                                     @endif
 
                                     @if ($hasProOrAgencyPlan)
                                         <div class="mt-2">
                                             <a href="javascript:void(0)" wire:click="toggleScheduleForm"
-                                                class="text-primary me-3">검사 예약</a>
+                                                class="text-primary me-3">Schedule Scan</a>
                                             <a href="javascript:void(0)" wire:click="toggleRecurringForm"
-                                                class="text-primary">스케쥴 등록</a>
+                                                class="text-primary">Set Up Recurring</a>
                                         </div>
                                     @endif
                                 </div>
@@ -128,10 +128,10 @@
                             :recurring-hour="$recurringHour" :recurring-minute="$recurringMinute" />
                     @endif
 
-                    {{-- 테스트 상태 (공통 컴포넌트) --}}
+                    {{-- Test status (shared component) --}}
                     <x-test-shared.test-status :current-test="$currentTest" :selected-history-test="$selectedHistoryTest" />
 
-                    {{-- 개별 테스트 고유 내용 --}}
+                    {{-- Page-specific content --}}
                     <div class="card">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
@@ -156,82 +156,82 @@
                             <div class="tab-content">
                                 <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                     id="tabs-information">
-                                    <h3>Nuclei 기반 최신 CVE 취약점 자동 탐지</h3>
+                                    <h3>Automated detection of the latest CVEs with Nuclei</h3>
                                     <div class="text-muted small mt-1">
-                                        <strong>측정 도구:</strong> Nuclei by ProjectDiscovery - 업계 표준 취약점 스캐너로 템플릿 기반 빠른 스캔
-                                        제공
+                                        <strong>Tool:</strong> ProjectDiscovery Nuclei — an industry‑standard, template‑based vulnerability scanner with fast execution
                                         <br><br>
-                                        <strong>테스트 목적:</strong><br>
-                                        • 2024-2025년 신규 발표된 CVE 취약점 탐지<br>
-                                        • 최근 공개된 제로데이 및 1-day 취약점 점검<br>
-                                        • 구성 오류 및 기본 설정 취약점 발견<br>
-                                        • 노출된 패널, 디버그 페이지, 백업 파일 탐지<br>
-                                        • 서브도메인 탈취(Subdomain Takeover) 가능성 점검<br>
-                                        • 민감정보 노출 (API 키, 토큰, 환경변수) 탐지
+                                        <strong>Goals:</strong><br>
+                                        • Detect newly disclosed CVEs (2024–2025)<br>
+                                        • Check recent zero‑day and 1‑day issues<br>
+                                        • Identify misconfigurations and insecure defaults<br>
+                                        • Discover exposed admin panels, debug pages, and backup files<br>
+                                        • Assess subdomain takeover risk<br>
+                                        • Detect sensitive data exposure (API keys, tokens, env vars)
                                         <br><br>
-                                        <strong>테스트 방식:</strong><br>
-                                        • <strong>템플릿 기반:</strong> 2024-2025년 최신 취약점에 특화된 YAML 템플릿 활용<br>
-                                        • <strong>비침투적:</strong> 실제 공격 없이 취약점 시그니처만 확인<br>
-                                        • <strong>범위:</strong> 단일 URL 대상 (깊이 있는 크롤링 없음)<br>
-                                        • <strong>우선순위:</strong> Critical, High 위주로 스캔 후 Medium, Low 순차 점검<br>
-                                        • <strong>소요 시간:</strong> 약 30초-3분 (템플릿 수에 따라 변동)<br>
-                                        • <strong>도메인 인증:</strong> 소유권이 확인된 도메인만 스캔 가능
+                                        <strong>How it works:</strong><br>
+                                        • <strong>Template‑based:</strong> YAML templates focused on recent 2024–2025 vulnerabilities<br>
+                                        • <strong>Non‑intrusive:</strong> Validates signatures without active exploitation<br>
+                                        • <strong>Scope:</strong> Single target URL (no deep crawling)<br>
+                                        • <strong>Priority:</strong> Scans Critical/High first, then Medium/Low<br>
+                                        • <strong>Duration:</strong> ~30 seconds to 3 minutes (varies by templates)<br>
+                                        • <strong>Domain verification:</strong> Only verified domains can be scanned
                                         <br><br>
-                                        <strong>최신 취약점 커버리지:</strong><br>
-                                        • Log4Shell, Spring4Shell 같은 주요 RCE 취약점<br>
-                                        • 최신 WordPress, Joomla, Drupal 플러그인 취약점<br>
-                                        • Apache, Nginx, IIS 웹서버 설정 오류<br>
-                                        • Git, SVN, ENV 파일 노출<br>
-                                        • GraphQL, REST API 엔드포인트 취약점<br>
-                                        • 클라우드 서비스 (AWS, Azure, GCP) 설정 오류
+                                        <strong>Coverage highlights:</strong><br>
+                                        • Major RCEs such as Log4Shell and Spring4Shell<br>
+                                        • Latest WordPress, Joomla, and Drupal plugin issues<br>
+                                        • Apache, Nginx, IIS web server misconfigurations<br>
+                                        • Exposed Git/SVN/.env files<br>
+                                        • GraphQL and REST API endpoint weaknesses<br>
+                                        • Cloud service misconfigurations (AWS, Azure, GCP)
                                     </div>
 
-                                    {{-- 등급 기준 안내 --}}
+                                    {{-- Grading criteria --}}
                                     <div class="table-responsive mt-3">
                                         <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                             <thead>
                                                 <tr>
-                                                    <th>등급</th>
-                                                    <th>점수</th>
-                                                    <th>기준</th>
+                                                    <th>Grade</th>
+                                                    <th>Score</th>
+                                                    <th>Criteria</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td><span class="badge badge-a-plus">A+</span></td>
-                                                    <td>90~100</td>
-                                                    <td>Critical/High 0개, Medium 0개<br>2024-2025 CVE 미검출<br>공개
-                                                        디렉터리/디버그/민감파일 노출 없음<br>보안 헤더/배너 노출 양호 (정보 최소화)</td>
+                                                    <td>90–100</td>
+                                                    <td>0 Critical/High and 0 Medium findings<br>No 2024–2025 CVEs detected<br>No open directories/debug pages/sensitive files<br>Security headers/banners minimized</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-a">A</span></td>
-                                                    <td>80~89</td>
-                                                    <td>High ≤1, Medium ≤1<br>최근 CVE 직접 노출 없음 (우회/조건 필요)<br>경미한 설정 경고
-                                                        (정보성) 수준<br>패치/구성 관리 양호</td>
+                                                    <td>80–89</td>
+                                                    <td>≤1 High and ≤1 Medium<br>No direct exposure to recent CVEs (may require conditions/bypass)<br>Minor configuration warnings (informational)<br>Solid patching/config management</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-b">B</span></td>
-                                                    <td>70~79</td>
-                                                    <td>High ≤2 또는 Medium ≤3<br>일부 구성 노출/배너 노출 존재<br>보호된 관리 엔드포인트 존재 (우회
-                                                        어려움)<br>패치 지연 경향 (최근 보안 릴리즈 반영 지연)</td>
+                                                    <td>70–79</td>
+                                                    <td>≤2 High or ≤3 Medium<br>Some configuration/banner exposure
+Protected admin endpoints present (hard to bypass)
+Tendency to delay patches</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-c">C</span></td>
-                                                    <td>60~69</td>
-                                                    <td>High ≥3 또는 Medium 다수<br>민감 파일/백업/인덱싱 노출 발견<br>구버전 컴포넌트 추정 가능
-                                                        (배너/메타 정보)<br>패치/구성 관리 체계적 개선 필요</td>
+                                                    <td>60–69</td>
+                                                    <td>≥3 High or many Medium findings<br>Sensitive files/backups/indexing exposed
+Older components inferred (banners/meta)
+Needs systematic patching and hardening</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-d">D</span></td>
-                                                    <td>50~59</td>
-                                                    <td>Critical ≥1 또는 악용 난이도 낮은 High<br>최근 (2024-2025) CVE 직접 영향
-                                                        추정<br>인증 없이 접근 가능한 위험 엔드포인트/파일<br>빌드/로그/환경 등 민감 정보 노출</td>
+                                                    <td>50–59</td>
+                                                    <td>≥1 Critical or easily exploitable High<br>Likely directly affected by recent (2024–2025) CVEs<br>Risky unauthenticated endpoints/files
+Sensitive build/log/env data exposed</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-f">F</span></td>
-                                                    <td>0~49</td>
-                                                    <td>다수의 Critical/High 동시 존재<br>최신 CVE 대량 미패치/광범위 노출<br>기본 보안 구성 결여
-                                                        (방어 헤더/접근통제 부족)<br>전면적 보안 가드레일 부재</td>
+                                                    <td>0–49</td>
+                                                    <td>Multiple Critical/High present simultaneously<br>Many recent CVEs unpatched/widely exposed
+Missing basic security controls (headers/access control)
+No overarching security guardrails</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -263,10 +263,10 @@
 
                                         <x-test-shared.certificate :current-test="$currentTest" />
 
-                                        <!-- 취약점 요약 -->
+                                        <!-- Vulnerability summary -->
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h5 class="mb-3">취약점 요약</h5>
+                                                <h5 class="mb-3">Vulnerability Summary</h5>
                                                 <div class="row g-2">
                                                     <div class="col-6 col-lg">
                                                         <div class="card card-sm">
@@ -321,21 +321,21 @@
                                                 </div>
                                                 @if (isset($metrics['scan_duration']) && $metrics['scan_duration'] > 0)
                                                     <div class="text-muted small mt-2">
-                                                        스캔 시간: {{ $metrics['scan_duration'] }}초 |
-                                                        매칭된 템플릿: {{ $metrics['templates_matched'] ?? 0 }}개
+                                                        Scan time: {{ $metrics['scan_duration'] }}s |
+                                                        Templates matched: {{ $metrics['templates_matched'] ?? 0 }}
                                                     </div>
                                                 @endif
                                             </div>
                                         </div>
 
-                                        <!-- Critical/High 취약점 상세 -->
+                                        <!-- Critical/High vulnerabilities -->
                                         @foreach (['critical' => 'bg-red-lt text-red-lt-fg', 'high' => 'bg-orange-lt text-orange-lt-fg'] as $severity => $badgeClass)
                                             @if (!empty($vulnerabilities[$severity]))
                                                 <div class="card mb-3">
                                                     <div class="card-header">
                                                         <h3 class="card-title">
-                                                            {{ ucfirst($severity) }} 취약점
-                                                            ({{ count($vulnerabilities[$severity]) }}개)
+                                                            {{ ucfirst($severity) }} Vulnerabilities
+                                                            ({{ count($vulnerabilities[$severity]) }})
                                                         </h3>
                                                     </div>
                                                     <div class="card-body">
@@ -349,15 +349,15 @@
                                                                             {{ $vuln['description'] }}</div>
                                                                     @endif
                                                                     <div class="small text-muted">
-                                                                        템플릿:
+                                                                        Template:
                                                                         <code>{{ $vuln['template_id'] ?? '' }}</code>
                                                                         @if (!empty($vuln['matched_at']))
-                                                                            | 대상: {{ $vuln['matched_at'] }}
+                                                                            | Target: {{ $vuln['matched_at'] }}
                                                                         @endif
                                                                     </div>
                                                                     @if (!empty($vuln['reference']) && is_array($vuln['reference']))
                                                                         <div class="small mt-1">
-                                                                            참고:
+                                                                            References:
                                                                             @foreach (array_slice($vuln['reference'], 0, 2) as $ref)
                                                                                 <a href="{{ $ref }}"
                                                                                     target="_blank"
@@ -376,14 +376,14 @@
                                             @endif
                                         @endforeach
 
-                                        <!-- Medium/Low 취약점 요약 -->
+                                        <!-- Medium/Low vulnerability summary -->
                                         @foreach (['medium' => 'bg-yellow-lt text-yellow-lt-fg', 'low' => 'bg-blue-lt text-blue-lt-fg'] as $severity => $badgeClass)
                                             @if (!empty($vulnerabilities[$severity]))
                                                 <div class="card mb-3">
                                                     <div class="card-header">
                                                         <h3 class="card-title">
-                                                            {{ ucfirst($severity) }} 취약점
-                                                            ({{ count($vulnerabilities[$severity]) }}개)
+                                                            {{ ucfirst($severity) }} Vulnerabilities
+                                                            ({{ count($vulnerabilities[$severity]) }})
                                                         </h3>
                                                     </div>
                                                     <div class="card-body">
@@ -391,9 +391,9 @@
                                                             <table class="table table-sm">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>취약점명</th>
-                                                                        <th>템플릿 ID</th>
-                                                                        <th>대상</th>
+                                                                        <th>Vulnerability</th>
+                                                                        <th>Template ID</th>
+                                                                        <th>Target</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -415,38 +415,30 @@
                                             @endif
                                         @endforeach
 
-                                        <!-- 측정 지표 설명 -->
+                                        <!-- Severity guide -->
                                         <div class="alert alert-info d-block">
-                                            <h6>측정 지표 설명</h6>
-                                            <p class="mb-2"><strong>Critical:</strong> 즉각적인 원격 코드 실행(RCE), 인증 우회, 데이터
-                                                유출 등 심각한 취약점</p>
-                                            <p class="mb-2"><strong>High:</strong> SQL Injection, XSS, SSRF 등 악용 가능성이
-                                                높은 취약점</p>
-                                            <p class="mb-2"><strong>Medium:</strong> 정보 노출, 설정 오류, 구버전 소프트웨어 등 중간 위험도
-                                            </p>
-                                            <p class="mb-2"><strong>Low:</strong> 디렉터리 리스팅, 배너 노출 등 낮은 위험도</p>
-                                            <p class="mb-0"><strong>Info:</strong> 보안에 직접적 영향은 없으나 참고할 정보</p>
+                                            <h6>Severity Guide</h6>
+                                            <p class="mb-2"><strong>Critical:</strong> Immediate RCE, auth bypass, or data exfiltration risk</p>
+                                            <p class="mb-2"><strong>High:</strong> Likely exploitable issues (e.g., SQLi, XSS, SSRF)</p>
+                                            <p class="mb-2"><strong>Medium:</strong> Information disclosure, misconfigurations, outdated software</p>
+                                            <p class="mb-2"><strong>Low:</strong> Low risk items (e.g., directory listing, banner exposure)</p>
+                                            <p class="mb-0"><strong>Info:</strong> Informational findings without direct security impact</p>
                                         </div>
 
-                                        <!-- 개선 방안 -->
+                                        <!-- Recommendations -->
                                         <div class="alert alert-info d-block">
-                                            <h6>보안 개선 방안</h6>
-                                            <p class="mb-2"><strong>1. 즉시 패치:</strong> Critical/High 취약점은 발견 즉시 패치를
-                                                적용하거나 임시 방어 조치를 취합니다.</p>
-                                            <p class="mb-2"><strong>2. 정기 업데이트:</strong> CMS, 플러그인, 프레임워크를 최신 버전으로
-                                                유지합니다.</p>
-                                            <p class="mb-2"><strong>3. 설정 강화:</strong> 불필요한 서비스 비활성화, 디버그 모드 제거, 기본
-                                                계정 변경</p>
-                                            <p class="mb-2"><strong>4. 접근 통제:</strong> 관리자 페이지 IP 제한, 2FA 적용, 최소 권한
-                                                원칙 적용</p>
-                                            <p class="mb-2"><strong>5. 모니터링:</strong> 보안 로그 모니터링, 이상 행위 탐지 시스템 구축</p>
-                                            <p class="mb-0"><strong>6. 정기 스캔:</strong> 월 1회 이상 취약점 스캔을 실행하여 새로운 위협을
-                                                조기 발견</p>
+                                            <h6>Security recommendations</h6>
+                                            <p class="mb-2"><strong>1. Patch immediately:</strong> Apply fixes or mitigations for Critical/High findings as soon as they are discovered.</p>
+                                            <p class="mb-2"><strong>2. Keep software current:</strong> Maintain up‑to‑date CMS, plugins, and frameworks.</p>
+                                            <p class="mb-2"><strong>3. Harden configurations:</strong> Disable unnecessary services, remove debug modes, and change default accounts.</p>
+                                            <p class="mb-2"><strong>4. Enforce access control:</strong> Restrict admin by IP, enable 2FA, and apply least privilege.</p>
+                                            <p class="mb-2"><strong>5. Monitor continuously:</strong> Review security logs and deploy anomaly detection.</p>
+                                            <p class="mb-0"><strong>6. Scan regularly:</strong> Run vulnerability scans at least monthly to catch new threats early.</p>
                                         </div>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 최신 취약점 스캔 결과를 확인할 수 있습니다.</p>
+                                            <h5>No results yet</h5>
+                                            <p class="mb-0">Run a scan to view the latest vulnerability results.</p>
                                         </div>
                                     @endif
                                 </div>
@@ -457,15 +449,15 @@
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5 class="mb-0">Raw JSON Data</h5>
                                             <button type="button" class="btn btn-outline-primary btn-sm"
-                                                onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                                복사
+                                                onclick="copyJsonToClipboard()" title="Copy JSON">
+                                                Copy
                                             </button>
                                         </div>
                                         <pre class="json-dump" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 Raw JSON 데이터를 확인할 수 있습니다.</p>
+                                            <h5>No results yet</h5>
+                                            <p class="mb-0">Run a scan to view the raw JSON data.</p>
                                         </div>
                                     @endif
                                 </div>

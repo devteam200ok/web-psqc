@@ -90,7 +90,7 @@
                                                     role="status"></span>
                                                 Running test...
                                             @else
-                                                실행
+                                                Run
                                             @endif
                                         </button>
                                     </div>
@@ -101,9 +101,9 @@
                                     @if ($hasProOrAgencyPlan)
                                         <div class="mt-2">
                                             <a href="javascript:void(0)" wire:click="toggleScheduleForm"
-                                                class="text-primary me-3">검사 예약</a>
+                                                class="text-primary me-3">Schedule Scan</a>
                                             <a href="javascript:void(0)" wire:click="toggleRecurringForm"
-                                                class="text-primary">스케쥴 등록</a>
+                                                class="text-primary">Set Up Recurring</a>
                                         </div>
                                     @endif
                                 </div>
@@ -112,8 +112,8 @@
                             <div class="alert alert-info d-block">
                                 <div class="d-flex">
                                     <div>
-                                        ℹ️ <strong>testssl.sh 보안 검사</strong><br>
-                                        SSL/TLS 인증서, 암호화 프로토콜, 보안 취약점을 종합 분석합니다. 검사 시간은 약 5-10분 소요됩니다.
+                                        ℹ️ <strong>testssl.sh Security Scan</strong><br>
+                                        Analyzes SSL/TLS certificates, encryption protocols, and known vulnerabilities. Typical scan time: 5–10 minutes.
                                     </div>
                                 </div>
                             </div>
@@ -156,14 +156,13 @@
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
-                                <!-- 테스트 정보 탭 -->
+                                <!-- Test information tab -->
                                 <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                     id="tabs-information">
 
-                                    <h3>SSL 기본 테스트란?</h3>
+                                    <h3>What is the SSL Basic Test?</h3>
                                     <div class="text-muted small mt-1 mb-4">
-                                        <strong>testssl.sh</strong>는 SSL/TLS 구성을 종합적으로 검사하는 오픈소스 도구로,
-                                        웹사이트의 HTTPS 보안 설정을 정밀하게 분석합니다.
+                                        <strong>testssl.sh</strong> is an open‑source utility that comprehensively inspects SSL/TLS configurations and precisely analyzes your website’s HTTPS security settings.
                                     </div>
 
                                     <!-- testssl.sh 소개 -->
@@ -178,44 +177,44 @@
                                         </ul>
                                     </div>
 
-                                    <!-- 검사 항목 -->
-                                    <div class="mb-4">
-                                        <h4 class="h6 fw-bold mb-2">📋 Key checks</h4>
-                                        <div class="row small text-muted">
-                                            <div class="col-md-6">
-                                                <div class="mb-2"><strong>🔐 SSL/TLS Protocols</strong></div>
-                                                <ul class="mb-3">
-                                                    <li>Supported protocol versions (SSL 2.0/3.0, TLS 1.0–1.3)</li>
-                                                    <li>Detect vulnerable legacy protocols</li>
-                                                    <li>Check TLS 1.3 support</li>
-                                                </ul>
+                                        <!-- What we check -->
+                                        <div class="mb-4">
+                                            <h4 class="h6 fw-bold mb-2">📋 Key checks</h4>
+                                            <div class="row small text-muted">
+                                                <div class="col-md-6">
+                                                    <div class="mb-2"><strong>🔐 SSL/TLS Protocols</strong></div>
+                                                    <ul class="mb-3">
+                                                        <li>Supported protocol versions (SSL 2.0/3.0, TLS 1.0–1.3)</li>
+                                                        <li>Detect vulnerable legacy protocols</li>
+                                                        <li>Check TLS 1.3 support</li>
+                                                    </ul>
 
-                                                <div class="mb-2"><strong>📜 SSL Certificates</strong></div>
-                                                <ul class="mb-3">
-                                                    <li>Certificate validity/expiry</li>
-                                                    <li>인증서 체인 완전성</li>
-                                                    <li>Subject Alternative Names (SAN)</li>
-                                                    <li>OCSP Stapling 지원</li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-2"><strong>🔒 Cipher Suites</strong></div>
-                                                <ul class="mb-3">
-                                                    <li>지원하는 암호화 알고리즘</li>
-                                                    <li>Perfect Forward Secrecy (PFS)</li>
-                                                    <li>약한 암호화 스위트 탐지</li>
-                                                </ul>
+                                                    <div class="mb-2"><strong>📜 SSL Certificates</strong></div>
+                                                    <ul class="mb-3">
+                                                        <li>Certificate validity/expiry</li>
+                                                        <li>Certificate chain integrity</li>
+                                                        <li>Subject Alternative Names (SAN)</li>
+                                                        <li>OCSP stapling support</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-2"><strong>🔒 Cipher Suites</strong></div>
+                                                    <ul class="mb-3">
+                                                        <li>Supported encryption algorithms</li>
+                                                        <li>Perfect Forward Secrecy (PFS)</li>
+                                                        <li>Weak cipher suite detection</li>
+                                                    </ul>
 
-                                                <div class="mb-2"><strong>🛡️ 보안 취약점</strong></div>
-                                                <ul class="mb-0">
-                                                    <li>Heartbleed, POODLE, BEAST</li>
-                                                    <li>CRIME, BREACH, FREAK</li>
-                                                    <li>DROWN, LOGJAM, SWEET32</li>
-                                                    <li>HTTP security headers (HSTS, etc.)</li>
-                                                </ul>
+                                                    <div class="mb-2"><strong>🛡️ Security vulnerabilities</strong></div>
+                                                    <ul class="mb-0">
+                                                        <li>Heartbleed, POODLE, BEAST</li>
+                                                        <li>CRIME, BREACH, FREAK</li>
+                                                        <li>DROWN, LOGJAM, SWEET32</li>
+                                                        <li>HTTP security headers (HSTS, etc.)</li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
                                     <!-- Why it matters -->
                                     <div class="mb-4">
@@ -229,7 +228,7 @@
                                         </ul>
                                     </div>
 
-                                    <!-- 등급 기준 안내 -->
+                                    <!-- Grading criteria -->
                                     <div class="table-responsive">
                                         <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                             <thead>
@@ -314,13 +313,13 @@
 
                                         <x-test-shared.certificate :current-test="$currentTest" />
 
-                                        <!-- SSL/TLS 기본 정보 -->
+                                        <!-- SSL/TLS basics -->
                                         <div class="row mb-4">
                                             <div class="col-md-4">
                                                 <div class="card text-center">
                                                     <div class="card-body">
                                                         <h3>{{ $tlsVersion }}</h3>
-                                                        <p class="mb-0">최고 TLS 버전</p>
+                                                        <p class="mb-0">Highest TLS Version</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -328,9 +327,9 @@
                                                 <div class="card text-center">
                                                     <div class="card-body">
                                                         <h3 class="text-{{ $forwardSecrecy ? 'success' : 'danger' }}">
-                                                            {{ $forwardSecrecy ? '지원' : '미지원' }}
+                                                            {{ $forwardSecrecy ? 'Supported' : 'Not supported' }}
                                                         </h3>
-                                                        <p class="mb-0">완전 순방향 보안</p>
+                                                        <p class="mb-0">Perfect Forward Secrecy</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -338,7 +337,7 @@
                                                 <div class="card text-center">
                                                     <div class="card-body">
                                                         <h3 class="text-{{ $hstsEnabled ? 'success' : 'warning' }}">
-                                                            {{ $hstsEnabled ? '활성' : '비활성' }}
+                                                            {{ $hstsEnabled ? 'Enabled' : 'Disabled' }}
                                                         </h3>
                                                         <p class="mb-0">HSTS</p>
                                                     </div>
@@ -346,7 +345,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- 개요 -->
+                                        <!-- Overview -->
                                         <h4>📋 Overview</h4>
                                         <div class="row mb-4">
                                             <div class="col-md-6">
@@ -389,23 +388,23 @@
                                                             @if (isset($results['supported_protocols']) && count($results['supported_protocols']) > 0)
                                                                 {{ implode(', ', $results['supported_protocols']) }}
                                                             @else
-                                                                없음
+                                                                None
                                                             @endif
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>취약 프로토콜</th>
+                                                        <th>Vulnerable Protocols</th>
                                                         <td>
                                                             @if (isset($results['vulnerable_protocols']) && count($results['vulnerable_protocols']) > 0)
                                                                 <span
                                                                     class="text-danger">{{ implode(', ', $results['vulnerable_protocols']) }}</span>
                                                             @else
-                                                                <span class="text-success">없음</span>
+                                                                <span class="text-success">None</span>
                                                             @endif
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>인증서 유효기간</th>
+                                                        <th>Certificate Expiry</th>
                                                         <td>{{ $results['cert_expiry'] ?? 'N/A' }}</td>
                                                     </tr>
                                                 </table>
@@ -414,59 +413,59 @@
 
                                         <hr>
 
-                                        <!-- 인증서 -->
-                                        <h4>🔒 인증서</h4>
+                                        <!-- Certificate -->
+                                        <h4>🔒 Certificate</h4>
                                         <div class="mb-4">
                                             @if (isset($results['certificate']))
                                                 <table class="table table-sm">
                                                     <tr>
-                                                        <th>발급자 (Issuer)</th>
+                                                        <th>Issuer</th>
                                                         <td>{{ $results['certificate']['issuer'] ?? 'N/A' }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>주체 (Subject)</th>
+                                                        <th>Subject</th>
                                                         <td>{{ $results['certificate']['subject'] ?? 'N/A' }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>일반 이름 (CN)</th>
+                                                        <th>Common Name (CN)</th>
                                                         <td>{{ $results['certificate']['common_name'] ?? 'N/A' }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>유효 시작일</th>
+                                                        <th>Valid From</th>
                                                         <td>{{ $results['certificate']['valid_from'] ?? 'N/A' }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>유효 만료일</th>
+                                                        <th>Valid Until</th>
                                                         <td>{{ $results['certificate']['valid_until'] ?? 'N/A' }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>서명 알고리즘</th>
+                                                        <th>Signature Algorithm</th>
                                                         <td>{{ $results['certificate']['signature_algorithm'] ?? 'N/A' }}
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>키 크기</th>
+                                                        <th>Key Size</th>
                                                         <td>{{ $results['certificate']['key_size'] ?? 'N/A' }}</td>
                                                     </tr>
                                                 </table>
                                             @else
-                                                <div class="alert alert-warning">인증서 정보를 찾을 수 없습니다.</div>
+                                                <div class="alert alert-warning">Certificate information not found.</div>
                                             @endif
                                         </div>
 
                                         <hr>
 
-                                        <!-- 프로토콜 -->
-                                        <h4>🔐 프로토콜</h4>
+                                        <!-- Protocols -->
+                                        <h4>🔐 Protocols</h4>
                                         <div class="mb-4">
                                             @if (isset($results['protocol_support']) && count($results['protocol_support']) > 0)
                                                 <table class="table table-sm">
                                                     <thead>
                                                         <tr>
-                                                            <th>프로토콜</th>
-                                                            <th>지원 여부</th>
-                                                            <th>보안 등급</th>
-                                                            <th>권장사항</th>
+                                                            <th>Protocol</th>
+                                                            <th>Support</th>
+                                                            <th>Security Rating</th>
+                                                            <th>Recommendation</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -482,14 +481,14 @@
                                                                 };
 
                                                                 $recommendation = match ($protocol) {
-                                                                    'TLS 1.3' => $supported ? '권장' : '활성화 권장',
-                                                                    'TLS 1.2' => $supported ? '권장' : '필수',
+                                                                    'TLS 1.3' => $supported ? 'Recommended' : 'Enable recommended',
+                                                                    'TLS 1.2' => $supported ? 'Recommended' : 'Required',
                                                                     'TLS 1.1', 'TLS 1' => $supported
-                                                                        ? '비활성화 권장'
-                                                                        : '올바른 설정',
+                                                                        ? 'Disable recommended'
+                                                                        : 'Correct configuration',
                                                                     'SSLv3', 'SSLv2' => $supported
-                                                                        ? '즉시 비활성화 필요'
-                                                                        : '올바른 설정',
+                                                                        ? 'Disable immediately'
+                                                                        : 'Correct configuration',
                                                                     default => '-',
                                                                 };
                                                             @endphp
@@ -499,7 +498,7 @@
                                                                 <td>
                                                                     <span
                                                                         class="badge {{ $supported ? ($security === 'insecure' || $security === 'weak' ? 'bg-red-lt text-red-lt-fg' : 'bg-green-lt text-green-lt-fg') : 'bg-azure-lt text-azure-lt-fg' }}">
-                                                                        {{ $supported ? '지원' : '미지원' }}
+                                                                        {{ $supported ? 'Supported' : 'Not supported' }}
                                                                     </span>
                                                                 </td>
                                                                 <td>
@@ -507,19 +506,19 @@
                                                                         <span class="badge {{ $badgeClass }}">
                                                                             @switch($security)
                                                                                 @case('secure')
-                                                                                    안전
+                                                                                    Secure
                                                                                 @break
 
                                                                                 @case('weak')
-                                                                                    약함
+                                                                                    Weak
                                                                                 @break
 
                                                                                 @case('insecure')
-                                                                                    취약
+                                                                                    Insecure
                                                                                 @break
 
                                                                                 @default
-                                                                                    미상
+                                                                                    Unknown
                                                                             @endswitch
                                                                         </span>
                                                                     @else
@@ -532,7 +531,7 @@
                                                     </tbody>
                                                 </table>
                                             @else
-                                                <div class="alert alert-warning">프로토콜 지원 정보를 찾을 수 없습니다.</div>
+                                                <div class="alert alert-warning">Protocol support information not found.</div>
                                             @endif
                                         </div>
 
@@ -658,8 +657,7 @@
 
                                                                 @if ($isVulnerable && $severity === 'high')
                                                                     <div class="alert alert-danger mt-2 p-2">
-                                                                        <small><strong>고위험:</strong> 즉시 조치가
-                                                                            필요합니다.</small>
+                                                                        <small><strong>High risk:</strong> Immediate remediation is required.</small>
                                                                     </div>
                                                                 @endif
                                                             </div>
@@ -668,8 +666,8 @@
                                                 </div>
                                             @else
                                                 <div class="alert alert-info">
-                                                    <h6>취약점 정보 없음</h6>
-                                                    <p class="mb-0">취약점 검사 결과를 찾을 수 없습니다. 테스트가 완전히 완료되지 않았을 수 있습니다.
+                                                    <h6>No vulnerability data</h6>
+                                                    <p class="mb-0">No vulnerability results were found. The test may not have fully completed.
                                                     </p>
                                                 </div>
                                             @endif
@@ -677,52 +675,49 @@
 
                                         <hr>
 
-                                        <!-- SSL/TLS 보안 개선 권장사항 -->
+                                        <!-- SSL/TLS hardening recommendations -->
                                         <div class="alert alert-info d-block">
-                                            <h6>SSL/TLS 보안 개선 권장사항</h6>
+                                            <h6>Recommended SSL/TLS hardening</h6>
                                             <ul class="mb-0">
                                                 @if (!$hstsEnabled)
-                                                    <li><strong>HSTS 활성화:</strong> HTTP Strict Transport Security 헤더를
-                                                        추가하여 HTTPS 강제화</li>
+                                                    <li><strong>Enable HSTS:</strong> Add the HTTP Strict Transport Security header to enforce HTTPS.</li>
                                                 @endif
                                                 @if (!$forwardSecrecy)
-                                                    <li><strong>완전 순방향 보안:</strong> ECDHE 키 교환을 지원하는 암호화 스위트 활성화</li>
+                                                    <li><strong>Enable PFS:</strong> Prefer cipher suites with ECDHE key exchange.</li>
                                                 @endif
                                                 @if (in_array($grade, ['C', 'D', 'F']))
-                                                    <li><strong>구버전 프로토콜 비활성화:</strong> SSL 2.0/3.0, TLS 1.0/1.1 완전 차단
-                                                    </li>
-                                                    <li><strong>강력한 암호화 스위트:</strong> AES-GCM, ChaCha20-Poly1305 등 AEAD
-                                                        암호 사용</li>
+                                                    <li><strong>Disable legacy protocols:</strong> Fully block SSL 2.0/3.0 and TLS 1.0/1.1.</li>
+                                                    <li><strong>Use strong cipher suites:</strong> Prefer AEAD ciphers such as AES‑GCM and ChaCha20‑Poly1305.</li>
                                                 @endif
-                                                <li><strong>정기 업데이트:</strong> 웹 서버 소프트웨어 및 SSL 라이브러리 최신 버전 유지</li>
-                                                <li><strong>인증서 관리:</strong> 만료 전 자동 갱신 설정 및 인증서 체인 완전성 확인</li>
+                                                <li><strong>Regular updates:</strong> Keep web server software and SSL libraries up to date.</li>
+                                                <li><strong>Certificate management:</strong> Enable auto‑renewal and ensure a complete, valid chain.</li>
                                             </ul>
                                         </div>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 SSL/TLS 보안 검사 결과를 확인할 수 있습니다.</p>
+                                            <h5>No results yet</h5>
+                                            <p class="mb-0">Run a test to view your SSL/TLS security assessment.</p>
                                         </div>
                                     @endif
                                 </div>
 
-                                <!-- 데이터 탭 -->
+                                <!-- Data tab -->
                                 <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}"
                                     id="tabs-data">
                                     @if ($currentTest && $currentTest->status === 'completed' && $currentTest->results)
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5 class="mb-0">Raw testssl.sh Output</h5>
                                             <button type="button" class="btn btn-outline-primary btn-sm"
-                                                onclick="copyJsonToClipboard()" title="데이터 복사">
-                                                복사
+                                                onclick="copyJsonToClipboard()" title="Copy data">
+                                                Copy
                                             </button>
                                         </div>
                                         <pre class="bg-dark text-light p-3 rounded json-dump" id="json-data"
-                                            style="max-height: 600px; overflow-y: auto; font-size: 11px; line-height: 1.2;">{{ $currentTest->results['raw_output'] ?? '데이터 없음' }}</pre>
+                                            style="max-height: 600px; overflow-y: auto; font-size: 11px; line-height: 1.2;">{{ $currentTest->results['raw_output'] ?? 'No data' }}</pre>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 Raw testssl.sh 출력을 확인할 수 있습니다.</p>
+                                            <h5>No results yet</h5>
+                                            <p class="mb-0">Run a test to view the raw testssl.sh output.</p>
                                         </div>
                                     @endif
                                 </div>
