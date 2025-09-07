@@ -148,8 +148,10 @@ class LighthouseTestService
             'overall_score'  => $overallScore,
             'metrics'        => $metrics,
             'results'        => [
-                'saved_path' => $relativeKey,              // 예: lighthouse/123.json
+                'saved_path' => $relativeKey,
                 'tested_at'  => now()->toISOString(),
+                'audits'     => $jsonData['audits'] ?? [],           // 추가
+                'categories' => $jsonData['categories'] ?? [],       // 추가
             ],
         ]);
 
