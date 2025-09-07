@@ -135,11 +135,11 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
-                                        class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}">결과</a>
+                                        class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}">Results</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
-                                        class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}">데이터</a>
+                                        class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}">Data</a>
                                 </li>
                             </ul>
                         </div>

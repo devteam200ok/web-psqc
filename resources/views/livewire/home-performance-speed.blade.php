@@ -118,7 +118,7 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">Test Information</a>
+                                    data-bs-toggle="tab">Test Info</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"

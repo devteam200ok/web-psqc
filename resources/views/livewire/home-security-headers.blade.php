@@ -130,17 +130,17 @@
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                         class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                        data-bs-toggle="tab">테스트 정보</a>
+                                        data-bs-toggle="tab">Test Info</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                         class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                        data-bs-toggle="tab">결과</a>
+                                        data-bs-toggle="tab">Results</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                         class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                        data-bs-toggle="tab">데이터</a>
+                                        data-bs-toggle="tab">Data</a>
                                 </li>
                             </ul>
                         </div>
