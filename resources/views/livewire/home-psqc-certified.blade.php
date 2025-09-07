@@ -208,43 +208,44 @@
     <div class="container container-narrow py-4">
         @include('inc.component.message')
         <div class="row mt-3 my-3">
-        <div class="col d-flex align-items-center mb-2">
-            <div class="mx-auto">
-                <select wire:model.change="test_type" class="form-select">
-                    <option value="psqc">PSQC Comprehensive Certificate</option>
-                    
-                    <!-- Performance Group -->
-                    <optgroup label="Performance">
-                        <option value="p-speed">Global Speed – Test speed across 8 global regions</option>
-                        <option value="p-load">Load Test – K6 load testing</option>
-                        <option value="p-mobile">Mobile Performance – 6 types of mobile performance tests</option>
-                    </optgroup>
-                    
-                    <!-- Security Group -->
-                    <optgroup label="Security">
-                        <option value="s-ssl">SSL Basic – testssl.sh comprehensive check</option>
-                        <option value="s-sslyze">SSL Advanced – SSLyze deep analysis</option>
-                        <option value="s-header">Security Headers – 6 essential headers</option>
-                        <option value="s-scan">Vulnerability Scan – OWASP ZAP scan</option>
-                        <option value="s-nuclei">Latest Vulnerabilities – Latest CVE checks</option>
-                    </optgroup>
-                    
-                    <!-- Quality Group -->
-                    <optgroup label="Quality">
-                        <option value="q-lighthouse">Overall Quality – Google Lighthouse</option>
-                        <option value="q-accessibility">Accessibility Advanced – WCAG 2.1 compliance</option>
-                        <option value="q-compatibility">Browser Compatibility – 3 major browsers</option>
-                        <option value="q-visual">Responsive UI – Responsive design validation</option>
-                    </optgroup>
-                    
-                    <!-- Content Group -->
-                    <optgroup label="Content">
-                        <option value="c-links">Link Validation – Integrity of links</option>
-                        <option value="c-structure">Structured Data – Schema.org validation</option>
-                        <option value="c-crawl">Site Crawling – Search engine crawlability</option>
-                        <option value="c-meta">Metadata – Metadata completeness</option>
-                    </optgroup>
-                </select>
+            <div class="col d-flex align-items-center">
+                <div class="mx-auto">
+                    <select wire:model.change="test_type" class="form-select">
+                        <option value="psqc">PSQC Comprehensive Certificate</option>
+                        
+                        <!-- Performance Group -->
+                        <optgroup label="Performance">
+                            <option value="p-speed">Global Speed – Test speed across 8 global regions</option>
+                            <option value="p-load">Load Test – K6 load testing</option>
+                            <option value="p-mobile">Mobile Performance – 6 types of mobile performance tests</option>
+                        </optgroup>
+                        
+                        <!-- Security Group -->
+                        <optgroup label="Security">
+                            <option value="s-ssl">SSL Basic – testssl.sh comprehensive check</option>
+                            <option value="s-sslyze">SSL Advanced – SSLyze deep analysis</option>
+                            <option value="s-header">Security Headers – 6 essential headers</option>
+                            <option value="s-scan">Vulnerability Scan – OWASP ZAP scan</option>
+                            <option value="s-nuclei">Latest Vulnerabilities – Latest CVE checks</option>
+                        </optgroup>
+                        
+                        <!-- Quality Group -->
+                        <optgroup label="Quality">
+                            <option value="q-lighthouse">Overall Quality – Google Lighthouse</option>
+                            <option value="q-accessibility">Accessibility Advanced – WCAG 2.1 compliance</option>
+                            <option value="q-compatibility">Browser Compatibility – 3 major browsers</option>
+                            <option value="q-visual">Responsive UI – Responsive design validation</option>
+                        </optgroup>
+                        
+                        <!-- Content Group -->
+                        <optgroup label="Content">
+                            <option value="c-links">Link Validation – Integrity of links</option>
+                            <option value="c-structure">Structured Data – Schema.org validation</option>
+                            <option value="c-crawl">Site Crawling – Search engine crawlability</option>
+                            <option value="c-meta">Metadata – Metadata completeness</option>
+                        </optgroup>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="text-center mb-4">
