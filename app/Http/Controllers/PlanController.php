@@ -28,7 +28,7 @@ class PlanController extends Controller
             'validity_days' => null, 'refund_days' => 7,
         ],
         'test1' => [
-            'name' => 'Test1', 'price' => 49, 'is_subscription' => false,
+            'name' => 'Test1', 'price' => 5, 'is_subscription' => false,
             'monthly_limit' => null, 'daily_limit' => 30, 'total_limit' => 30,
             'validity_days' => 1, 'refund_days' => 0,
         ],

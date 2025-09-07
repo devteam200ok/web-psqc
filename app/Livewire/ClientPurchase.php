@@ -55,7 +55,7 @@ class ClientPurchase extends Component
         ],
         'test1' => [
             'name' => 'Test1',
-            'price' => 49,
+            'price' => 5,
             'is_subscription' => false,
             'monthly_limit' => null,
             'daily_limit' => 30,
