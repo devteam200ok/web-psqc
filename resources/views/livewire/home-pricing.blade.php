@@ -67,7 +67,7 @@
         [
             '@type' => 'Offer',
             'name'  => 'Test1 (coupon)',
-            'price' => 4.9,
+            'price' => 5,
             'priceCurrency' => 'USD',
             'category' => 'Voucher',
             'description' => 'Up to 30 runs within 1 day, short urgent testing, non‑refundable',
@@ -305,7 +305,7 @@
                 <div class="card h-100 position-relative">
                     <div class="card-body p-3">
                         <h4 class="card-title mb-1">Test1</h4>
-                        <div class="h4 fw-bold mb-1">$4.90</div>
+                        <div class="h4 fw-bold mb-1">$5</div>
                         <div class="text-muted small mb-2">Up to 30 runs within 1 day</div>
                         <ul class="list-unstyled small mb-2">
                             <li>• Short, urgent testing</li>
