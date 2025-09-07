@@ -16,31 +16,31 @@ class HomePsqcCertified extends Component
     public $certification;
     public $test_type = 'psqc';
     
-    // Test type label mapping
+    // 테스트 타입 매핑 추가
     public $testTypeLabels = [
-        // Performance
-        'p-speed' => '[Performance] Global Speed',
-        'p-load' => '[Performance] Load Test',
-        'p-mobile' => '[Performance] Mobile Performance',
+        // 성능(Performance)
+        'p-speed' => '[성능] 글로벌 속도',
+        'p-load' => '[성능] 부하 테스트',
+        'p-mobile' => '[성능] 모바일 성능',
         
-        // Security
-        's-ssl' => '[Security] SSL Basic',
-        's-sslyze' => '[Security] SSL Advanced',
-        's-header' => '[Security] Security Headers',
-        's-scan' => '[Security] Vulnerability Scan',
-        's-nuclei' => '[Security] Latest Vulnerabilities',
+        // 보안(Security)
+        's-ssl' => '[보안] SSL 기본',
+        's-sslyze' => '[보안] SSL 심화',
+        's-header' => '[보안] 보안 헤더',
+        's-scan' => '[보안] 취약점 스캔',
+        's-nuclei' => '[보안] 최신 취약점',
         
-        // Quality
-        'q-lighthouse' => '[Quality] Overall Quality',
-        'q-accessibility' => '[Quality] Accessibility (Advanced)',
-        'q-compatibility' => '[Quality] Browser Compatibility',
-        'q-visual' => '[Quality] Responsive UI',
+        // 품질(Quality)
+        'q-lighthouse' => '[품질] 종합 품질',
+        'q-accessibility' => '[품질] 접근성 심화',
+        'q-compatibility' => '[품질] 브라우저 호환',
+        'q-visual' => '[품질] 반응형 UI',
         
-        // Content
-        'c-links' => '[Content] Link Validation',
-        'c-structure' => '[Content] Structured Data',
-        'c-crawl' => '[Content] Site Crawling',
-        'c-meta' => '[Content] Metadata',
+        // 콘텐츠(Content)
+        'c-links' => '[콘텐츠] 링크 검증',
+        'c-structure' => '[콘텐츠] 구조화 데이터',
+        'c-crawl' => '[콘텐츠] 사이트 크롤링',
+        'c-meta' => '[콘텐츠] 메타데이터',
     ];
     
     public $testTypes = [
@@ -84,9 +84,9 @@ class HomePsqcCertified extends Component
 
         $rel = "psqc-certificates/{$this->certification->code}.pdf";
         if (\Illuminate\Support\Facades\Storage::disk('local')->exists($rel)) {
-            session()->flash('success', 'Certificate PDF has been generated.');
+            session()->flash('success', '인증서 PDF가 생성되었습니다.');
         } else {
-            session()->flash('error', 'Failed to generate PDF.');
+            session()->flash('error', 'PDF 생성에 실패했습니다.');
         }
     }
 
@@ -98,7 +98,7 @@ class HomePsqcCertified extends Component
                 ->first();
             if(!$this->currentTest){
                 $this->test_type = 'psqc';
-                session()->flash('error', 'No detailed data for the selected test. Showing PSQC overall results.');
+                session()->flash('error', '선택한 테스트의 세부 데이터가 없습니다. PSQC 종합 결과로 이동합니다.');
             }
         }
 

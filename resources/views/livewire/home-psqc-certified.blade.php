@@ -182,7 +182,7 @@
         }
     </style>
 @endsection
-{{-- @php
+@php
     // test_type에서 앞글자가 p 이면 performance, s이면 security, q이면 quality, c이면 content로 url_first
     $url_first = '';
     // 첫 글자 확인
@@ -203,7 +203,7 @@
     if (isset($test_type[2])) {
         $url_second = substr($test_type, 2);
     }
-@endphp --}}
+@endphp
 <div class="page page-center">
     <div class="container container-narrow py-4">
         @include('inc.component.message')
