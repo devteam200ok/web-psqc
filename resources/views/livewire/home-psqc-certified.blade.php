@@ -3615,17 +3615,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -3654,10 +3654,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                PSQC 종합 인증서 - 세부 검사내역
+                                                PSQC Comprehensive Certificate - Detailed Test Results
                                             </h1>
-                                            <h2>(Google Lighthouse 품질 테스트)</h2>
-                                            <h3>인증번호: {{ $certification->code }}</h3>
+                                            <h2>(Google Lighthouse Quality Test)</h2>
+                                            <h3>Certification Code: {{ $certification->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -3670,7 +3670,7 @@
                                                         </div>
                                                         @if ($currentTest->overall_score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($currentTest->overall_score, 1) }}점
+                                                                {{ number_format($currentTest->overall_score, 1) }} points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -3679,7 +3679,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -3725,25 +3725,22 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Test Verification Completed</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>Google Lighthouse 엔진</strong>을 통해 수행된 웹 품질 시험 결과에 근거합니다.<br>
-                                            모든 데이터는 <u>실제 브라우저 환경을 시뮬레이션</u>하여 수집되었으며, 결과의 진위 여부는 QR 검증 시스템을 통해
-                                            누구나 확인할 수 있습니다.
+                                            This certificate is based on results from the <strong>Google Lighthouse engine</strong>.<br>
+                                            All data was collected by <u>simulating a real browser environment</u>, and the authenticity of the results can be verified by anyone via the QR validation system.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 시험은 특정 시점의 객관적 측정 결과로, 지속적인 개선과 최적화 여부에 따라 달라질 수 있습니다.
+                                            ※ This test reflects objective results at a specific point in time and may vary depending on ongoing improvements and optimization.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 Google Lighthouse 품질 측정 결과,
-                                                <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>상위 10% 이내의 웹 품질 수준</u>을 입증하였습니다.<br>
-                                                이는 <strong>우수한 성능</strong>과 <strong>높은 접근성, SEO 최적화</strong>를 갖춘
-                                                고품질 웹사이트임을 보여줍니다.
+                                                🌟 This site achieved a <strong>{{ $grade }}</strong> grade in the Google Lighthouse assessment,  
+                                                demonstrating a <u>top 10% web quality level</u>.<br>
+                                                This indicates <strong>excellent performance</strong> along with <strong>high accessibility and SEO optimization</strong>.
                                             </p>
                                         </div>
                                     @endif
@@ -3752,14 +3749,14 @@
                                     @if(isset($results['audits']))
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">Core Web Vitals 측정 결과</h4>
+                                                <h4 class="mb-3">Core Web Vitals Results</h4>
                                                 <div class="table-responsive">
                                                     <table class="table table-sm">
                                                         <thead class="table-light">
                                                             <tr>
-                                                                <th>지표</th>
-                                                                <th>측정값</th>
-                                                                <th>권장 기준</th>
+                                                                <th>Metric</th>
+                                                                <th>Value</th>
+                                                                <th>Recommendation</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -3767,42 +3764,42 @@
                                                                 <tr>
                                                                     <td><strong>First Contentful Paint (FCP)</strong></td>
                                                                     <td>{{ $results['audits']['first-contentful-paint']['displayValue'] ?? 'N/A' }}</td>
-                                                                    <td class="text-muted">1.8초 이내</td>
+                                                                    <td class="text-muted">≤ 1.8s</td>
                                                                 </tr>
                                                             @endif
                                                             @if(isset($results['audits']['largest-contentful-paint']))
                                                                 <tr>
                                                                     <td><strong>Largest Contentful Paint (LCP)</strong></td>
                                                                     <td>{{ $results['audits']['largest-contentful-paint']['displayValue'] ?? 'N/A' }}</td>
-                                                                    <td class="text-muted">2.5초 이내</td>
+                                                                    <td class="text-muted">≤ 2.5s</td>
                                                                 </tr>
                                                             @endif
                                                             @if(isset($results['audits']['cumulative-layout-shift']))
                                                                 <tr>
                                                                     <td><strong>Cumulative Layout Shift (CLS)</strong></td>
                                                                     <td>{{ $results['audits']['cumulative-layout-shift']['displayValue'] ?? 'N/A' }}</td>
-                                                                    <td class="text-muted">0.1 이하</td>
+                                                                    <td class="text-muted">≤ 0.1</td>
                                                                 </tr>
                                                             @endif
                                                             @if(isset($results['audits']['speed-index']))
                                                                 <tr>
                                                                     <td><strong>Speed Index</strong></td>
                                                                     <td>{{ $results['audits']['speed-index']['displayValue'] ?? 'N/A' }}</td>
-                                                                    <td class="text-muted">3.4초 이내</td>
+                                                                    <td class="text-muted">≤ 3.4s</td>
                                                                 </tr>
                                                             @endif
                                                             @if(isset($results['audits']['total-blocking-time']))
                                                                 <tr>
                                                                     <td><strong>Total Blocking Time (TBT)</strong></td>
                                                                     <td>{{ $results['audits']['total-blocking-time']['displayValue'] ?? 'N/A' }}</td>
-                                                                    <td class="text-muted">200ms 이내</td>
+                                                                    <td class="text-muted">≤ 200ms</td>
                                                                 </tr>
                                                             @endif
                                                             @if(isset($results['audits']['interactive']))
                                                                 <tr>
                                                                     <td><strong>Time to Interactive (TTI)</strong></td>
                                                                     <td>{{ $results['audits']['interactive']['displayValue'] ?? 'N/A' }}</td>
-                                                                    <td class="text-muted">3.8초 이내</td>
+                                                                    <td class="text-muted">≤ 3.8s</td>
                                                                 </tr>
                                                             @endif
                                                         </tbody>
@@ -3811,7 +3808,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- 개선 기회 -->
+                                        <!-- Opportunities -->
                                         @php
                                             $opportunities = collect($results['audits'])->filter(function($audit) {
                                                 return isset($audit['details']['type']) && $audit['details']['type'] === 'opportunity' && isset($audit['details']['overallSavingsMs']) && $audit['details']['overallSavingsMs'] > 0;
@@ -3820,20 +3817,20 @@
                                         @if($opportunities->count() > 0)
                                             <div class="row mb-4">
                                                 <div class="col-12">
-                                                    <h4 class="mb-3">개선 기회 분석</h4>
+                                                    <h4 class="mb-3">Opportunity Analysis</h4>
                                                     <div class="table-responsive">
                                                         <table class="table table-sm">
                                                             <thead class="table-light">
                                                                 <tr>
-                                                                    <th>개선 항목</th>
-                                                                    <th>예상 개선 효과</th>
+                                                                    <th>Item</th>
+                                                                    <th>Estimated Improvement</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 @foreach($opportunities->take(5) as $key => $opportunity)
                                                                     <tr>
                                                                         <td>{{ $opportunity['title'] ?? $key }}</td>
-                                                                        <td>{{ round($opportunity['details']['overallSavingsMs'] ?? 0) }}ms 단축 가능</td>
+                                                                        <td>Up to {{ round($opportunity['details']['overallSavingsMs'] ?? 0) }}ms faster</td>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>
@@ -3845,39 +3842,39 @@
                                     @endif
 
                                     <div class="alert alert-info d-block">
-                                        <strong>4대 평가 영역:</strong> Performance (성능), Accessibility (접근성), Best Practices (모범 사례), SEO (검색 최적화)<br>
-                                        <span class="text-muted">각 영역은 100점 만점으로 평가되며, 종합 점수는 4개 영역의 가중 평균입니다.</span>
+                                        <strong>Four Evaluation Areas:</strong> Performance, Accessibility, Best Practices, SEO<br>
+                                        <span class="text-muted">Each area is scored out of 100, and the overall score is a weighted average of the four.</span>
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>FCP:</strong> 페이지 로드 시작부터 첫 콘텐츠가 화면에 표시되는 시간</p>
-                                        <p class="mb-2"><strong>LCP:</strong> 가장 큰 콘텐츠 요소가 화면에 렌더링되는 시점</p>
-                                        <p class="mb-2"><strong>CLS:</strong> 페이지 로드 중 발생하는 예상치 못한 레이아웃 이동의 누적 점수</p>
-                                        <p class="mb-0"><strong>TBT:</strong> 메인 스레드가 차단되어 사용자 입력에 응답할 수 없는 시간</p>
+                                        <p class="mb-2"><strong>FCP:</strong> Time from navigation until the first content is rendered</p>
+                                        <p class="mb-2"><strong>LCP:</strong> Time when the largest content element is rendered</p>
+                                        <p class="mb-2"><strong>CLS:</strong> Cumulative score of unexpected layout shifts during load</p>
+                                        <p class="mb-0"><strong>TBT:</strong> Total time the main thread is blocked and unable to respond to input</p>
                                     </div>
 
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Lighthouse Test를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC Lighthouse Test.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 Google Lighthouse 엔진 기반의 웹 품질 측정 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides web quality measurements based on the Google Lighthouse engine,  
+                                            and certificates can be authenticated in real time via QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Issued Date:
                                                 {{ $certification->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certification->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -3885,86 +3882,86 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>Google Lighthouse - 웹사이트 종합 품질 측정 도구</h3>
+                                <h3>Google Lighthouse — Comprehensive Website Quality Measurement</h3>
                                 <div class="text-muted small mt-1">
-                                    Google Lighthouse는 구글이 개발한 오픈소스 웹 품질 측정 도구로, Chrome DevTools에 내장되어 있으며
-                                    웹사이트의 성능, 접근성, SEO, 모범 사례 준수 여부를 종합적으로 분석합니다.
+                                    Google Lighthouse is an open-source quality auditing tool by Google, built into Chrome DevTools.  
+                                    It evaluates performance, accessibility, SEO, and adherence to best practices.
                                     <br><br>
-                                    <strong>측정 도구 및 환경</strong><br>
-                                    • Lighthouse 최신 버전 (Chrome 브라우저 엔진 기반)<br>
-                                    • Headless Chrome으로 실제 브라우저 환경 시뮬레이션<br>
-                                    • 모바일 3G/4G 네트워크 및 중급 성능 디바이스 기준 측정<br>
-                                    • 실제 사용자 경험을 반영한 Core Web Vitals 측정
+                                    <strong>Tool & Environment</strong><br>
+                                    • Latest Lighthouse version (Chrome engine based)<br>
+                                    • Headless Chrome simulating a real browser environment<br>
+                                    • Mobile 3G/4G network and mid-range device profile<br>
+                                    • Core Web Vitals reflecting real user experience
                                     <br><br>
-                                    <strong>4대 평가 영역</strong><br>
-                                    1. <strong>Performance (성능)</strong>: 페이지 로딩 속도, Core Web Vitals, 리소스 최적화<br>
-                                    2. <strong>Accessibility (접근성)</strong>: ARIA 레이블, 색상 대비, 키보드 탐색 지원<br>
-                                    3. <strong>Best Practices (모범 사례)</strong>: HTTPS 사용, 콘솔 오류, 이미지 비율<br>
-                                    4. <strong>SEO (검색 최적화)</strong>: 메타 태그, 구조화된 데이터, 모바일 친화성
+                                    <strong>The Four Areas</strong><br>
+                                    1. <strong>Performance</strong>: Load speed, Core Web Vitals, resource optimization<br>
+                                    2. <strong>Accessibility</strong>: ARIA labels, color contrast, keyboard navigation<br>
+                                    3. <strong>Best Practices</strong>: HTTPS usage, console errors, image aspect ratio<br>
+                                    4. <strong>SEO</strong>: Meta tags, structured data, mobile friendliness
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge badge-a-plus">A+</span></td>
-                                                <td>95~100</td>
-                                                <td>Performance: 90점+<br>Accessibility: 90점+<br>Best Practices: 90점+<br>SEO: 90점+<br>전체 평균: 95점+</td>
+                                                <td>95–100</td>
+                                                <td>Performance ≥ 90<br>Accessibility ≥ 90<br>Best Practices ≥ 90<br>SEO ≥ 90<br>Overall average ≥ 95</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-a">A</span></td>
-                                                <td>90~94</td>
-                                                <td>Performance: 85점+<br>Accessibility: 85점+<br>Best Practices: 85점+<br>SEO: 85점+<br>전체 평균: 90점+</td>
+                                                <td>90–94</td>
+                                                <td>Performance ≥ 85<br>Accessibility ≥ 85<br>Best Practices ≥ 85<br>SEO ≥ 85<br>Overall average ≥ 90</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-b">B</span></td>
-                                                <td>80~89</td>
-                                                <td>Performance: 75점+<br>Accessibility: 75점+<br>Best Practices: 75점+<br>SEO: 75점+<br>전체 평균: 80점+</td>
+                                                <td>80–89</td>
+                                                <td>Performance ≥ 75<br>Accessibility ≥ 75<br>Best Practices ≥ 75<br>SEO ≥ 75<br>Overall average ≥ 80</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-c">C</span></td>
-                                                <td>70~79</td>
-                                                <td>Performance: 65점+<br>Accessibility: 65점+<br>Best Practices: 65점+<br>SEO: 65점+<br>전체 평균: 70점+</td>
+                                                <td>70–79</td>
+                                                <td>Performance ≥ 65<br>Accessibility ≥ 65<br>Best Practices ≥ 65<br>SEO ≥ 65<br>Overall average ≥ 70</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-d">D</span></td>
-                                                <td>60~69</td>
-                                                <td>Performance: 55점+<br>Accessibility: 55점+<br>Best Practices: 55점+<br>SEO: 55점+<br>전체 평균: 60점+</td>
+                                                <td>60–69</td>
+                                                <td>Performance ≥ 55<br>Accessibility ≥ 55<br>Best Practices ≥ 55<br>SEO ≥ 55<br>Overall average ≥ 60</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-f">F</span></td>
-                                                <td>0~59</td>
-                                                <td>위 기준에 미달</td>
+                                                <td>0–59</td>
+                                                <td>Below the thresholds above</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 Core Web Vitals 지표 설명</strong><br>
-                                    - <strong>FCP (First Contentful Paint)</strong>: 페이지 로드가 시작된 시점부터 콘텐츠의 일부가 화면에 처음 렌더링되는 시점까지의 시간<br>
-                                    - <strong>LCP (Largest Contentful Paint)</strong>: 뷰포트에서 가장 큰 콘텐츠 요소가 화면에 렌더링되는 시점. 2.5초 이내가 권장됨<br>
-                                    - <strong>CLS (Cumulative Layout Shift)</strong>: 페이지 로드 중 발생하는 예상치 못한 레이아웃 이동의 누적 점수. 0.1 이하가 권장됨<br>
-                                    - <strong>TBT (Total Blocking Time)</strong>: FCP와 TTI 사이에 메인 스레드가 차단된 총 시간. 200ms 이내가 권장됨<br>
-                                    - <strong>TTI (Time to Interactive)</strong>: 페이지가 완전히 상호작용 가능하게 되는 시점. 3.8초 이내가 권장됨<br>
-                                    - <strong>Speed Index</strong>: 페이지의 콘텐츠가 얼마나 빨리 표시되는지를 나타내는 지표. 3.4초 이내가 권장됨
+                                    <strong>📌 Core Web Vitals Explained</strong><br>
+                                    - <strong>FCP (First Contentful Paint)</strong>: Time from load start until the first content is rendered<br>
+                                    - <strong>LCP (Largest Contentful Paint)</strong>: When the largest element in the viewport is rendered (≤ 2.5s recommended)<br>
+                                    - <strong>CLS (Cumulative Layout Shift)</strong>: Cumulative score of unexpected layout shifts (≤ 0.1 recommended)<br>
+                                    - <strong>TBT (Total Blocking Time)</strong>: Total time the main thread is blocked between FCP and TTI (≤ 200ms recommended)<br>
+                                    - <strong>TTI (Time to Interactive)</strong>: When the page becomes fully interactive (≤ 3.8s recommended)<br>
+                                    - <strong>Speed Index</strong>: How quickly content is visually displayed (≤ 3.4s recommended)
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
-                                <pre class="json-dump text-start" id="json-data">{{ $currentTest->raw_json_pretty ?? '미리보기를 생성할 수 없습니다.' }}</pre>
+                                <pre class="json-dump text-start" id="json-data">{{ $currentTest->raw_json_pretty ?? 'Unable to generate preview.' }}</pre>
                             </div>
                         </div>
                     </div>
@@ -3978,17 +3975,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -4020,10 +4017,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                PSQC 종합 인증서 - 세부 검사내역
+                                                PSQC Comprehensive Certificate - Detailed Test Results
                                             </h1>
-                                            <h2>(웹 접근성 검사)</h2>
-                                            <h3>인증번호: {{ $certification->code }}</h3>
+                                            <h2>(Web Accessibility Audit)</h2>
+                                            <h3>Certification Code: {{ $certification->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -4036,7 +4033,7 @@
                                                         </div>
                                                         @if ($currentTest->overall_score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($currentTest->overall_score, 1) }}점
+                                                                {{ number_format($currentTest->overall_score, 1) }} points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -4045,7 +4042,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -4059,7 +4056,7 @@
                                                         <div class="card-body text-center py-2">
                                                             <div class="h2 mb-0 text-danger">{{ $counts['critical'] ?? 0 }}</div>
                                                             <small>Critical</small>
-                                                            <div class="small text-muted">심각한 차단</div>
+                                                            <div class="small text-muted">Blocking issues</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4068,7 +4065,7 @@
                                                         <div class="card-body text-center py-2">
                                                             <div class="h2 mb-0 text-orange">{{ $counts['serious'] ?? 0 }}</div>
                                                             <small>Serious</small>
-                                                            <div class="small text-muted">주요 제한</div>
+                                                            <div class="small text-muted">Major limitations</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4077,7 +4074,7 @@
                                                         <div class="card-body text-center py-2">
                                                             <div class="h2 mb-0 text-warning">{{ $counts['moderate'] ?? 0 }}</div>
                                                             <small>Moderate</small>
-                                                            <div class="small text-muted">부분 불편</div>
+                                                            <div class="small text-muted">Partial inconvenience</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4086,54 +4083,51 @@
                                                         <div class="card-body text-center py-2">
                                                             <div class="h2 mb-0 text-info">{{ $counts['minor'] ?? 0 }}</div>
                                                             <small>Minor</small>
-                                                            <div class="small text-muted">경미한 문제</div>
+                                                            <div class="small text-muted">Minor issues</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2 text-center">
-                                                <strong>총 위반 건수: {{ $counts['total'] ?? 0 }}건</strong>
+                                                <strong>Total Violations: {{ $counts['total'] ?? 0 }}</strong>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Test Verification Completed</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>axe-core 엔진(Deque Systems)</strong>을 통해 수행된 웹 접근성 시험 결과에 근거합니다.<br>
-                                            모든 데이터는 <u>WCAG 2.1 국제 표준</u>에 따라 수집되었으며, 결과의 진위 여부는 QR 검증 시스템을 통해
-                                            누구나 확인할 수 있습니다.
+                                            This certificate is based on results from the <strong>axe-core engine (Deque Systems)</strong>.<br>
+                                            All data is collected in accordance with the <u>WCAG 2.1 international standard</u>, and the authenticity of the results can be verified by anyone via the QR validation system.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 시험은 특정 시점의 객관적 측정 결과로, 지속적인 개선과 최적화 여부에 따라 달라질 수 있습니다.
+                                            ※ This test reflects objective results at a specific point in time and may vary depending on ongoing improvements and optimization.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 웹 접근성 검사 결과,
-                                                <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>우수한 웹 접근성 수준</u>을 입증하였습니다.<br>
-                                                이는 <strong>장애인, 고령자를 포함한 모든 사용자</strong>가 동등하게 이용할 수 있는
-                                                포용적인 웹사이트임을 보여줍니다.
+                                                🌟 This site achieved a <strong>{{ $grade }}</strong> grade in the accessibility audit,  
+                                                demonstrating an <u>excellent level of web accessibility</u>.<br>
+                                                This indicates an inclusive website where <strong>all users, including people with disabilities and older adults</strong>, can participate equally.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- 위반 상세 목록 -->
+                                    <!-- Violation details -->
                                     @if (!empty($violations))
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">주요 위반 사항</h4>
+                                                <h4 class="mb-3">Key Violations</h4>
                                                 <div class="table-responsive">
                                                     <table class="table table-sm table-vcenter">
                                                         <thead class="table-light">
                                                             <tr>
-                                                                <th width="80">중요도</th>
-                                                                <th>문제 설명</th>
-                                                                <th width="100">영향 요소</th>
-                                                                <th width="150">카테고리</th>
+                                                                <th width="80">Impact</th>
+                                                                <th>Description</th>
+                                                                <th width="100">Affected Elements</th>
+                                                                <th width="150">Category</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -4159,7 +4153,7 @@
                                                                         @endif
                                                                     </td>
                                                                     <td>
-                                                                        <small>{{ count($violation['nodes'] ?? []) }}개 요소</small>
+                                                                        <small>{{ count($violation['nodes'] ?? []) }} elements</small>
                                                                     </td>
                                                                     <td>
                                                                         @if (!empty($violation['tags']))
@@ -4175,50 +4169,50 @@
                                                 </div>
                                                 @if (count($violations) > 10)
                                                     <div class="text-center mt-2">
-                                                        <small class="text-muted">총 {{ count($violations) }}개 중 상위 10개만 표시</small>
+                                                        <small class="text-muted">Showing top 10 of {{ count($violations) }} total</small>
                                                     </div>
                                                 @endif
                                             </div>
                                         </div>
                                     @endif
 
-                                    <!-- 영향도별 분포 -->
+                                    <!-- Impact scale -->
                                     <div class="alert alert-info d-block">
-                                        <strong>접근성 위반 중요도 기준:</strong><br>
-                                        <span class="text-danger">● Critical</span>: 사용자가 특정 기능을 전혀 사용할 수 없게 만드는 문제 (키보드 트랩, 필수 ARIA 누락)<br>
-                                        <span class="text-orange">● Serious</span>: 주요 기능 사용에 심각한 어려움 (레이블 없는 폼, 낮은 색상 대비)<br>
-                                        <span class="text-warning">● Moderate</span>: 일부 사용자에게 불편 (불명확한 링크 텍스트)<br>
-                                        <span class="text-info">● Minor</span>: 경미한 사용자 경험 저하 (빈 헤딩, 중복 ID)
+                                        <strong>Accessibility Violation Impact Scale:</strong><br>
+                                        <span class="text-danger">● Critical</span>: Prevents users from using a feature entirely (keyboard traps, missing required ARIA)<br>
+                                        <span class="text-orange">● Serious</span>: Causes severe difficulty with major features (unlabeled forms, low color contrast)<br>
+                                        <span class="text-warning">● Moderate</span>: Inconvenient for some users (ambiguous link text)<br>
+                                        <span class="text-info">● Minor</span>: Slight UX degradation (empty headings, duplicate IDs)
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>WCAG 2.1 준수 사항:</strong> 인지 가능성, 운용 가능성, 이해 가능성, 견고성</p>
-                                        <p class="mb-2"><strong>법적 요구사항:</strong> 한국 장애인차별금지법, 미국 ADA, EU EN 301 549 준수</p>
-                                        <p class="mb-0"><strong>검사 도구:</strong> axe-core CLI (Deque Systems) - 업계 표준 접근성 검사 엔진</p>
+                                        <p class="mb-2"><strong>WCAG 2.1 Conformance:</strong> Perceivable, Operable, Understandable, Robust</p>
+                                        <p class="mb-2"><strong>Legal Requirements:</strong> Korea Anti-Discrimination Act, U.S. ADA, EU EN 301 549</p>
+                                        <p class="mb-0"><strong>Tooling:</strong> axe-core CLI (Deque Systems) — industry-standard accessibility engine</p>
                                     </div>
 
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Accessibility Test를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC Accessibility Test.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 WCAG 2.1 국제 표준 기반의 웹 접근성 측정 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides web accessibility assessments based on the WCAG 2.1 international standard,  
+                                            and certificates can be authenticated in real time via QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Issued Date:
                                                 {{ $certification->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certification->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -4226,88 +4220,87 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>웹 접근성 검사 - WCAG 2.1 국제 표준 준수 평가</h3>
+                                <h3>Web Accessibility Audit — WCAG 2.1 International Standard Compliance</h3>
                                 <div class="text-muted small mt-1">
-                                    웹 접근성은 장애인, 고령자를 포함한 모든 사용자가 웹사이트를 동등하게 이용할 수 있도록 보장하는
-                                    필수적인 품질 지표입니다. WCAG (Web Content Accessibility Guidelines) 2.1은
-                                    W3C에서 제정한 국제 표준으로, 전 세계적으로 웹 접근성의 기준으로 사용됩니다.
+                                    Web accessibility ensures that all users — including people with disabilities and older adults — can use your website equally.  
+                                    WCAG (Web Content Accessibility Guidelines) 2.1 is an international standard established by the W3C and used worldwide as the benchmark for accessibility.
                                     <br><br>
-                                    <strong>측정 도구 및 환경</strong><br>
-                                    • axe-core CLI (Deque Systems) - 업계 표준 접근성 검사 엔진<br>
-                                    • WCAG 2.1 Level AA 기준 적용<br>
-                                    • 자동화 검사로 탐지 가능한 접근성 문제 점검<br>
-                                    • 스크린 리더, 키보드 탐색 호환성 검증
+                                    <strong>Tools & Environment</strong><br>
+                                    • axe-core CLI (Deque Systems) — industry-standard accessibility engine<br>
+                                    • WCAG 2.1 Level AA criteria<br>
+                                    • Automated checks for detectable accessibility issues<br>
+                                    • Compatibility validation with screen readers and keyboard navigation
                                     <br><br>
-                                    <strong>4대 접근성 원칙 (POUR)</strong><br>
-                                    1. <strong>인지 가능성(Perceivable)</strong>: 모든 콘텐츠를 다양한 감각으로 인지 가능<br>
-                                    2. <strong>운용 가능성(Operable)</strong>: 키보드만으로 모든 기능 사용 가능<br>
-                                    3. <strong>이해 가능성(Understandable)</strong>: 정보와 UI 조작이 이해하기 쉬움<br>
-                                    4. <strong>견고성(Robust)</strong>: 다양한 보조 기술과 호환
+                                    <strong>The Four Accessibility Principles (POUR)</strong><br>
+                                    1. <strong>Perceivable</strong>: Content perceivable through multiple senses<br>
+                                    2. <strong>Operable</strong>: All functionality available via keyboard alone<br>
+                                    3. <strong>Understandable</strong>: Information and UI interactions are easy to understand<br>
+                                    4. <strong>Robust</strong>: Compatible with a wide range of assistive technologies
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge badge-a-plus">A+</span></td>
-                                                <td>98~100</td>
-                                                <td>Critical: 0건<br>Serious: 0건<br>Moderate: 0~2건<br>Minor: 0~5건</td>
+                                                <td>98–100</td>
+                                                <td>Critical: 0<br>Serious: 0<br>Moderate: 0–2<br>Minor: 0–5</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-a">A</span></td>
-                                                <td>95~97</td>
-                                                <td>Critical: 0건<br>Serious: 0~1건<br>Moderate: 0~5건<br>Minor: 0~10건</td>
+                                                <td>95–97</td>
+                                                <td>Critical: 0<br>Serious: 0–1<br>Moderate: 0–5<br>Minor: 0–10</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-b">B</span></td>
-                                                <td>90~94</td>
-                                                <td>Critical: 0건<br>Serious: 0~3건<br>Moderate: 0~10건<br>Minor: 무제한</td>
+                                                <td>90–94</td>
+                                                <td>Critical: 0<br>Serious: 0–3<br>Moderate: 0–10<br>Minor: Unlimited</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-c">C</span></td>
-                                                <td>80~89</td>
-                                                <td>Critical: 0~1건<br>Serious: 0~5건<br>Moderate: 0~20건<br>Minor: 무제한</td>
+                                                <td>80–89</td>
+                                                <td>Critical: 0–1<br>Serious: 0–5<br>Moderate: 0–20<br>Minor: Unlimited</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-d">D</span></td>
-                                                <td>70~79</td>
-                                                <td>Critical: 0~3건<br>Serious: 0~10건<br>Moderate: 무제한<br>Minor: 무제한</td>
+                                                <td>70–79</td>
+                                                <td>Critical: 0–3<br>Serious: 0–10<br>Moderate: Unlimited<br>Minor: Unlimited</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-f">F</span></td>
-                                                <td>0~69</td>
-                                                <td>위 기준에 미달</td>
+                                                <td>0–69</td>
+                                                <td>Below the thresholds above</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 법적 요구사항 및 표준</strong><br>
-                                    - <strong>한국</strong>: 장애인차별금지법, 한국형 웹 콘텐츠 접근성 지침(KWCAG 2.2)<br>
-                                    - <strong>미국</strong>: ADA (Americans with Disabilities Act), Section 508<br>
-                                    - <strong>유럽</strong>: EN 301 549, Web Accessibility Directive<br>
-                                    - <strong>국제</strong>: ISO/IEC 40500, WCAG 2.1 Level AA<br><br>
-                                    
-                                    웹 접근성은 법적 의무사항일 뿐만 아니라, 더 많은 사용자에게 서비스를 제공하고,
-                                    SEO 개선, 브랜드 이미지 향상에도 도움이 되는 중요한 품질 지표입니다.
+                                    <strong>📌 Legal Requirements & Standards</strong><br>
+                                    - <strong>Korea</strong>: Anti-Discrimination Act, KWCAG 2.2 (Korean Web Content Accessibility Guidelines)<br>
+                                    - <strong>USA</strong>: ADA (Americans with Disabilities Act), Section 508<br>
+                                    - <strong>EU</strong>: EN 301 549, Web Accessibility Directive<br>
+                                    - <strong>International</strong>: ISO/IEC 40500, WCAG 2.1 Level AA<br><br>
+
+                                    Web accessibility is not only a legal obligation but also a crucial quality metric that expands your audience,  
+                                    improves SEO, and enhances brand perception.
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
-                                <pre class="json-dump text-start" id="json-data">{{ $currentTest->raw_json_pretty ?? '미리보기를 생성할 수 없습니다.' }}</pre>
+                                <pre class="json-dump text-start" id="json-data">{{ $currentTest->raw_json_pretty ?? 'Unable to generate preview.' }}</pre>
                             </div>
                         </div>
                     </div>
@@ -4321,17 +4314,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -4366,10 +4359,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                PSQC 종합 인증서 - 세부 검사내역
+                                                PSQC Comprehensive Certificate - Detailed Test Results
                                             </h1>
-                                            <h2>(브라우저 호환성 테스트)</h2>
-                                            <h3>인증번호: {{ $certification->code }}</h3>
+                                            <h2>(Cross-Browser Compatibility Test)</h2>
+                                            <h3>Certification Code: {{ $certification->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -4382,7 +4375,7 @@
                                                         </div>
                                                         @if ($currentTest->overall_score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($currentTest->overall_score, 1) }}점
+                                                                {{ number_format($currentTest->overall_score, 1) }} points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -4391,7 +4384,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -4404,7 +4397,7 @@
                                                     <div class="card text-center">
                                                         <div class="card-body py-2">
                                                             <h3 class="mb-0">{{ $okCount }}/3</h3>
-                                                            <small>정상 브라우저</small>
+                                                            <small>Browsers Passed</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4412,7 +4405,7 @@
                                                     <div class="card text-center">
                                                         <div class="card-body py-2">
                                                             <h3 class="mb-0">{{ $jsFirstPartyTotal }}</h3>
-                                                            <small>JS 오류(자사)</small>
+                                                            <small>JS Errors (First-party)</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4420,15 +4413,15 @@
                                                     <div class="card text-center">
                                                         <div class="card-body py-2">
                                                             <h3 class="mb-0">{{ $cssTotal }}</h3>
-                                                            <small>CSS 오류</small>
+                                                            <small>CSS Errors</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-3">
                                                     <div class="card text-center">
                                                         <div class="card-body py-2">
-                                                            <h5 class="mb-0">{{ $strictMode ? '엄격' : '기본' }}</h5>
-                                                            <small>테스트 모드</small>
+                                                            <h5 class="mb-0">{{ $strictMode ? 'Strict' : 'Standard' }}</h5>
+                                                            <small>Test Mode</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4436,10 +4429,10 @@
                                             @if (!is_null($jsThirdPartyTotal) || !is_null($jsNoiseTotal))
                                                 <div class="mt-2 text-center text-muted small">
                                                     @if (!is_null($jsThirdPartyTotal))
-                                                        타사 JS 오류: {{ $jsThirdPartyTotal }}
+                                                        Third-party JS errors: {{ $jsThirdPartyTotal }}
                                                     @endif
                                                     @if (!is_null($jsNoiseTotal))
-                                                        · 노이즈: {{ $jsNoiseTotal }}
+                                                        · Noise: {{ $jsNoiseTotal }}
                                                     @endif
                                                 </div>
                                             @endif
@@ -4447,42 +4440,39 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Test Verification Completed</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>Playwright 엔진(Microsoft)</strong>을 통해 수행된 브라우저 호환성 시험 결과에 근거합니다.<br>
-                                            모든 데이터는 <u>Chrome, Firefox, Safari 3대 주요 브라우저</u>에서 수집되었으며, 결과의 진위 여부는 QR 검증 시스템을 통해
-                                            누구나 확인할 수 있습니다.
+                                            This certificate is based on results from the <strong>Playwright engine (Microsoft)</strong>.<br>
+                                            All data was collected across the <u>three major browsers: Chrome, Firefox, and Safari</u>, and the authenticity of the results can be verified by anyone via the QR validation system.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 시험은 특정 시점의 객관적 측정 결과로, 지속적인 개선과 최적화 여부에 따라 달라질 수 있습니다.
+                                            ※ This test reflects objective results at a specific point in time and may vary depending on ongoing improvements and optimization.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 브라우저 호환성 검사 결과,
-                                                <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>우수한 크로스 브라우저 호환성</u>을 입증하였습니다.<br>
-                                                이는 <strong>모든 주요 브라우저</strong>에서 안정적으로 작동하는
-                                                고품질 웹사이트임을 보여줍니다.
+                                                🌟 This site achieved a <strong>{{ $grade }}</strong> grade in the cross-browser compatibility audit,  
+                                                demonstrating <u>excellent compatibility across browsers</u>.<br>
+                                                This indicates a high-quality website that runs reliably on <strong>all major browsers</strong>.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- 브라우저별 상세 결과 -->
+                                    <!-- Per-browser details -->
                                     <div class="row mb-4">
                                         <div class="col-12">
-                                            <h4 class="mb-3">브라우저별 상세 결과</h4>
+                                            <h4 class="mb-3">Per-Browser Detailed Results</h4>
                                             <div class="table-responsive">
                                                 <table class="table table-sm table-vcenter">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>브라우저</th>
-                                                            <th>정상 로드</th>
-                                                            <th>JS 오류(자사)</th>
-                                                            <th>CSS 오류</th>
-                                                            <th>판정 사유</th>
+                                                            <th>Browser</th>
+                                                            <th>Loaded</th>
+                                                            <th>JS Errors (First-party)</th>
+                                                            <th>CSS Errors</th>
+                                                            <th>Notes</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -4497,9 +4487,9 @@
                                                                 <td><strong>{{ $browser['browser'] ?? '' }}</strong></td>
                                                                 <td>
                                                                     @if ($browserOk)
-                                                                        <span class="badge bg-green-lt text-green-lt-fg">정상</span>
+                                                                        <span class="badge bg-green-lt text-green-lt-fg">Pass</span>
                                                                     @else
-                                                                        <span class="badge bg-red-lt text-red-lt-fg">비정상</span>
+                                                                        <span class="badge bg-red-lt text-red-lt-fg">Fail</span>
                                                                     @endif
                                                                 </td>
                                                                 <td>
@@ -4507,10 +4497,10 @@
                                                                     @if (!is_null($jsThird) || !is_null($jsNoise))
                                                                         <div class="small text-muted">
                                                                             @if (!is_null($jsThird))
-                                                                                타사: {{ $jsThird }}
+                                                                                3rd-party: {{ $jsThird }}
                                                                             @endif
                                                                             @if (!is_null($jsNoise))
-                                                                                · 노이즈: {{ $jsNoise }}
+                                                                                · Noise: {{ $jsNoise }}
                                                                             @endif
                                                                         </div>
                                                                     @endif
@@ -4520,7 +4510,7 @@
                                                                     @if (!empty($browser['navError']))
                                                                         <span class="text-danger">{{ Str::limit($browser['navError'], 50) }}</span>
                                                                     @else
-                                                                        <small class="text-muted">정상 로드</small>
+                                                                        <small class="text-muted">Loaded successfully</small>
                                                                     @endif
                                                                 </td>
                                                             </tr>
@@ -4531,7 +4521,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- 오류 샘플 (주요 오류만) -->
+                                    <!-- Error samples (key issues only) -->
                                     @php
                                         $hasErrors = false;
                                         foreach ($report['perBrowser'] as $browser) {
@@ -4545,14 +4535,14 @@
                                     @if ($hasErrors)
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">주요 오류 내역</h4>
+                                                <h4 class="mb-3">Key Error Samples</h4>
                                                 <div class="table-responsive">
                                                     <table class="table table-sm">
                                                         <thead class="table-light">
                                                             <tr>
-                                                                <th>브라우저</th>
-                                                                <th>오류 유형</th>
-                                                                <th>오류 내용</th>
+                                                                <th>Browser</th>
+                                                                <th>Error Type</th>
+                                                                <th>Message</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -4565,7 +4555,7 @@
                                                                 @foreach ($jsFirstSamples as $error)
                                                                     <tr>
                                                                         <td>{{ $browser['browser'] }}</td>
-                                                                        <td><span class="badge bg-red-lt text-red-lt-fg">JS 자사</span></td>
+                                                                        <td><span class="badge bg-red-lt text-red-lt-fg">JS First-party</span></td>
                                                                         <td><small>{{ Str::limit($error, 100) }}</small></td>
                                                                     </tr>
                                                                 @endforeach
@@ -4585,38 +4575,38 @@
                                     @endif
 
                                     <div class="alert alert-info d-block">
-                                        <strong>측정 지표:</strong> 정상 로드 (페이지 완전 로드 확인), JS 오류 (자사/타사/노이즈 분류), CSS 오류 (파싱 및 렌더링)<br>
-                                        <span class="text-muted">자사 오류는 테스트 대상 도메인에서 발생한 오류, 타사는 외부 서비스 오류입니다.</span>
+                                        <strong>Metrics:</strong> Successful load (full page load confirmed), JS errors (first-party/third-party/noise), CSS errors (parsing & rendering)<br>
+                                        <span class="text-muted">First-party errors originate from the test domain; third-party errors come from external services.</span>
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>테스트 브라우저:</strong> Chromium (Chrome/Edge 엔진), Firefox (Gecko), WebKit (Safari)</p>
-                                        <p class="mb-2"><strong>테스트 도구:</strong> Playwright - Microsoft에서 개발한 브라우저 자동화 도구</p>
-                                        <p class="mb-0"><strong>판정 기준:</strong> {{ $strictMode ? '엄격 모드 - 모든 오류 포함' : '기본 모드 - 자사 오류 중심' }}</p>
+                                        <p class="mb-2"><strong>Tested Browsers:</strong> Chromium (Chrome/Edge engine), Firefox (Gecko), WebKit (Safari)</p>
+                                        <p class="mb-2"><strong>Tool:</strong> Playwright — browser automation by Microsoft</p>
+                                        <p class="mb-0"><strong>Evaluation Mode:</strong> {{ $strictMode ? 'Strict Mode — all errors included' : 'Standard Mode — focused on first-party errors' }}</p>
                                     </div>
 
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Cross-Browser Compatibility Test를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC Cross-Browser Compatibility Test.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 주요 브라우저 엔진 기반의 호환성 측정 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides compatibility assessments based on major browser engines,  
+                                            and certificates can be authenticated in real time via QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Issued Date:
                                                 {{ $certification->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certification->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -4624,93 +4614,93 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>Chrome, Firefox, Safari 3대 주요 브라우저 호환성 검사</h3>
+                                <h3>Compatibility Across the Three Major Browsers: Chrome, Firefox, and Safari</h3>
                                 <div class="text-muted small mt-1">
-                                    웹사이트가 주요 브라우저에서 정상적으로 작동하는지 검사하는 크로스 브라우저 호환성 테스트입니다.
+                                    A cross-browser compatibility audit that checks whether your site functions correctly on the major browsers.
                                     <br><br>
-                                    <strong>측정 도구:</strong> Playwright (Microsoft에서 개발한 브라우저 자동화 도구)<br>
-                                    • Chromium (Chrome, Edge의 기반 엔진)<br>
-                                    • Firefox (Gecko 엔진)<br>
-                                    • WebKit (Safari의 기반 엔진)
+                                    <strong>Tool:</strong> Playwright (Microsoft’s browser automation framework)<br>
+                                    • Chromium (engine used by Chrome and Edge)<br>
+                                    • Firefox (Gecko engine)<br>
+                                    • WebKit (engine used by Safari)
                                     <br><br>
-                                    <strong>측정 항목:</strong><br>
-                                    • 페이지 정상 로드 여부 (document.readyState === 'complete')<br>
-                                    • JavaScript 오류 수집 (자사/타사/노이즈 분류)<br>
-                                    • CSS 오류 수집 (파서 오류 패턴 기반)<br>
-                                    • 브라우저별 User-Agent 정보
+                                    <strong>Measurements:</strong><br>
+                                    • Page load success (document.readyState === 'complete')<br>
+                                    • JavaScript error collection (categorized as first-party / third-party / noise)<br>
+                                    • CSS error collection (parser-pattern based)<br>
+                                    • Per-browser User-Agent information
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge badge-a-plus">A+</span></td>
-                                                <td>90~100</td>
-                                                <td>Chrome/Firefox/Safari <strong>모두 정상</strong><br>
-                                                    자사 JS 오류: <strong>0개</strong><br>
-                                                    CSS 렌더링 오류: <strong>0개</strong></td>
+                                                <td>90–100</td>
+                                                <td><strong>All</strong> of Chrome/Firefox/Safari pass<br>
+                                                    First-party JS errors: <strong>0</strong><br>
+                                                    CSS rendering errors: <strong>0</strong></td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-a">A</span></td>
-                                                <td>80~89</td>
-                                                <td>주요 브라우저 지원 <strong>양호</strong> (2개 이상 정상)<br>
-                                                    자사 JS 오류 <strong>≤ 1</strong><br>
-                                                    CSS 오류 <strong>≤ 1</strong></td>
+                                                <td>80–89</td>
+                                                <td><strong>Good</strong> support (≥ 2 browsers pass)<br>
+                                                    First-party JS errors <strong>≤ 1</strong><br>
+                                                    CSS errors <strong>≤ 1</strong></td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-b">B</span></td>
-                                                <td>70~79</td>
-                                                <td>브라우저별 <strong>경미한 차이</strong> 존재 (2개 이상 정상)<br>
-                                                    자사 JS 오류 <strong>≤ 3</strong><br>
-                                                    CSS 오류 <strong>≤ 3</strong></td>
+                                                <td>70–79</td>
+                                                <td><strong>Minor differences</strong> across browsers (≥ 2 pass)<br>
+                                                    First-party JS errors <strong>≤ 3</strong><br>
+                                                    CSS errors <strong>≤ 3</strong></td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-c">C</span></td>
-                                                <td>60~69</td>
-                                                <td>일부 브라우저에서 <strong>기능 저하</strong> (1개 이상 정상)<br>
-                                                    자사 JS 오류 <strong>≤ 6</strong><br>
-                                                    CSS 오류 <strong>≤ 6</strong></td>
+                                                <td>60–69</td>
+                                                <td><strong>Degraded functionality</strong> in some browsers (≥ 1 pass)<br>
+                                                    First-party JS errors <strong>≤ 6</strong><br>
+                                                    CSS errors <strong>≤ 6</strong></td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-d">D</span></td>
-                                                <td>50~59</td>
-                                                <td>호환성 문제 <strong>다수</strong><br>
-                                                    자사 JS 오류 <strong>≤ 10</strong><br>
-                                                    CSS 오류 <strong>≤ 10</strong></td>
+                                                <td>50–59</td>
+                                                <td><strong>Numerous</strong> compatibility issues<br>
+                                                    First-party JS errors <strong>≤ 10</strong><br>
+                                                    CSS errors <strong>≤ 10</strong></td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-f">F</span></td>
-                                                <td>0~49</td>
-                                                <td>주요 브라우저 <strong>정상 동작 불가</strong><br>
-                                                    자사 JS 오류 <strong>10개 초과</strong><br>
-                                                    CSS 오류 <strong>10개 초과</strong></td>
+                                                <td>0–49</td>
+                                                <td><strong>Unable to run</strong> properly on major browsers<br>
+                                                    First-party JS errors <strong>> 10</strong><br>
+                                                    CSS errors <strong>> 10</strong></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 브라우저 호환성의 중요성</strong><br>
-                                    - <strong>사용자 경험</strong>: 모든 사용자가 브라우저와 관계없이 동일한 경험을 누릴 수 있습니다<br>
-                                    - <strong>시장 점유율</strong>: Chrome 65%, Safari 19%, Firefox 3% (2024년 기준)<br>
-                                    - <strong>비즈니스 영향</strong>: 호환성 문제는 이탈률 증가와 매출 감소로 직결됩니다<br>
-                                    - <strong>SEO 영향</strong>: 검색엔진은 크롤링 시 JavaScript 오류를 부정적으로 평가합니다<br><br>
+                                    <strong>📌 Why Cross-Browser Compatibility Matters</strong><br>
+                                    - <strong>User experience</strong>: All users get a consistent experience regardless of browser<br>
+                                    - <strong>Market share</strong>: Chrome 65%, Safari 19%, Firefox 3% (as of 2024)<br>
+                                    - <strong>Business impact</strong>: Compatibility issues directly increase churn and reduce revenue<br>
+                                    - <strong>SEO impact</strong>: Search engines negatively assess JavaScript errors during crawling<br><br>
                                     
-                                    크로스 브라우저 테스트는 개발 완료 후 반드시 수행해야 하는 필수 품질 검증 과정입니다.
+                                    Cross-browser testing is an essential quality gate that must be performed after development is complete.
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
                                 <pre class="json-dump text-start" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
@@ -4727,17 +4717,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -4773,10 +4763,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                PSQC 종합 인증서 - 세부 검사내역
+                                                PSQC Comprehensive Certificate - Detailed Test Results
                                             </h1>
-                                            <h2>(반응형 UI 적합성 테스트)</h2>
-                                            <h3>인증번호: {{ $certification->code }}</h3>
+                                            <h2>(Responsive UI Compliance Test)</h2>
+                                            <h3>Certification Code: {{ $certification->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -4789,7 +4779,7 @@
                                                         </div>
                                                         @if ($currentTest->overall_score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($currentTest->overall_score, 1) }}점
+                                                                {{ number_format($currentTest->overall_score, 1) }} points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -4798,7 +4788,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -4811,7 +4801,7 @@
                                                     <div class="card text-center">
                                                         <div class="card-body py-2">
                                                             <h3 class="mb-0">{{ $overflowCount }}</h3>
-                                                            <small>초과 건수</small>
+                                                            <small>Overflow Count</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4819,7 +4809,7 @@
                                                     <div class="card text-center">
                                                         <div class="card-body py-2">
                                                             <h3 class="mb-0">{{ $maxOverflowPx }}px</h3>
-                                                            <small>최대 초과</small>
+                                                            <small>Max Overflow</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4827,7 +4817,7 @@
                                                     <div class="card text-center">
                                                         <div class="card-body py-2">
                                                             <h3 class="mb-0">{{ 9 - $overflowCount }}/9</h3>
-                                                            <small>정상 뷰포트</small>
+                                                            <small>Viewports Passing</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4839,42 +4829,39 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Test Verification Completed</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>Playwright 엔진(Chromium)</strong>을 통해 수행된 반응형 UI 시험 결과에 근거합니다.<br>
-                                            모든 데이터는 <u>9개 주요 디바이스 뷰포트</u>에서 수집되었으며, 결과의 진위 여부는 QR 검증 시스템을 통해
-                                            누구나 확인할 수 있습니다.
+                                            This certificate is based on results from the <strong>Playwright engine (Chromium)</strong>.<br>
+                                            All data was collected across <u>nine key device viewports</u>, and anyone can verify the authenticity via the QR validation system.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 시험은 특정 시점의 객관적 측정 결과로, 지속적인 개선과 최적화 여부에 따라 달라질 수 있습니다.
+                                            ※ This test reflects objective results at a specific point in time and may vary depending on ongoing improvements and optimization.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 반응형 UI 검사 결과,
-                                                <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>우수한 반응형 웹 디자인</u>을 입증하였습니다.<br>
-                                                이는 <strong>모든 디바이스</strong>에서 수평 스크롤 없이 완벽하게 표시되는
-                                                사용자 친화적인 웹사이트임을 보여줍니다.
+                                                🌟 This site achieved a <strong>{{ $grade }}</strong> grade in the responsive UI audit,
+                                                demonstrating <u>excellent responsive web design</u>.<br>
+                                                This indicates a user-friendly website that renders perfectly <strong>without horizontal scrolling</strong> across <strong>all devices</strong>.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- 뷰포트별 상세 결과 -->
+                                    <!-- Per-viewport results -->
                                     <div class="row mb-4">
                                         <div class="col-12">
-                                            <h4 class="mb-3">뷰포트별 측정 결과</h4>
+                                            <h4 class="mb-3">Per-Viewport Measurements</h4>
                                             <div class="table-responsive">
                                                 <table class="table table-sm table-vcenter">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>디바이스</th>
-                                                            <th>뷰포트 크기</th>
-                                                            <th>상태</th>
-                                                            <th>초과 픽셀</th>
-                                                            <th>Body 렌더 폭</th>
+                                                            <th>Device</th>
+                                                            <th>Viewport Size</th>
+                                                            <th>Status</th>
+                                                            <th>Overflow Pixels</th>
+                                                            <th>Body Render Width</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -4890,11 +4877,11 @@
                                                                 <td>{{ $vp['w'] ?? 0 }}×{{ $vp['h'] ?? 0 }}px</td>
                                                                 <td>
                                                                     @if ($hasError)
-                                                                        <span class="badge bg-secondary">오류</span>
+                                                                        <span class="badge bg-secondary">Error</span>
                                                                     @elseif ($hasOverflow)
-                                                                        <span class="badge bg-red-lt text-red-lt-fg">초과</span>
+                                                                        <span class="badge bg-red-lt text-red-lt-fg">Overflow</span>
                                                                     @else
-                                                                        <span class="badge bg-green-lt text-green-lt-fg">정상</span>
+                                                                        <span class="badge bg-green-lt text-green-lt-fg">Pass</span>
                                                                     @endif
                                                                 </td>
                                                                 <td>
@@ -4913,10 +4900,10 @@
                                         </div>
                                     </div>
 
-                                    <!-- 디바이스 그룹별 요약 -->
+                                    <!-- By device group -->
                                     <div class="row mb-4">
                                         <div class="col-12">
-                                            <h4 class="mb-3">디바이스 그룹별 분석</h4>
+                                            <h4 class="mb-3">Breakdown by Device Group</h4>
                                             <div class="row g-2">
                                                 @php
                                                     $mobileCount = 0;
@@ -4934,27 +4921,27 @@
                                                 <div class="col-md-4">
                                                     <div class="card">
                                                         <div class="card-body text-center">
-                                                            <h5>모바일 (360-414px)</h5>
+                                                            <h5>Mobile (360–414px)</h5>
                                                             <div class="h3">{{ $mobileCount }}/3</div>
-                                                            <small>정상 표시</small>
+                                                            <small>Pass</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="card">
                                                         <div class="card-body text-center">
-                                                            <h5>태블릿 (672-1024px)</h5>
+                                                            <h5>Tablet (672–1024px)</h5>
                                                             <div class="h3">{{ $tabletCount }}/4</div>
-                                                            <small>정상 표시</small>
+                                                            <small>Pass</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="card">
                                                         <div class="card-body text-center">
-                                                            <h5>데스크톱 (1280px+)</h5>
+                                                            <h5>Desktop (1280px+)</h5>
                                                             <div class="h3">{{ $desktopCount }}/2</div>
-                                                            <small>정상 표시</small>
+                                                            <small>Pass</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4963,38 +4950,38 @@
                                     </div>
 
                                     <div class="alert alert-info d-block">
-                                        <strong>측정 방식:</strong> 각 뷰포트로 브라우저 설정 → 페이지 로드 → body 요소 폭 측정 → viewport 폭과 비교<br>
-                                        <span class="text-muted">초과 발생 시 사용자는 수평 스크롤이 필요하며, 이는 모바일 사용성을 크게 저하시킵니다.</span>
+                                        <strong>Measurement Method:</strong> Set browser to each viewport → load page → measure body width → compare with viewport width<br>
+                                        <span class="text-muted">When overflow occurs, users need to scroll horizontally, which significantly degrades mobile usability.</span>
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>테스트 뷰포트:</strong> 모바일 3개, 폴더블 1개, 태블릿 3개, 데스크톱 2개 (총 9개)</p>
-                                        <p class="mb-2"><strong>측정 기준:</strong> document.body.getBoundingClientRect().width vs window.innerWidth</p>
-                                        <p class="mb-0"><strong>안정화 대기:</strong> 네트워크 완료 후 6초 대기하여 동적 콘텐츠 로드 확인</p>
+                                        <p class="mb-2"><strong>Test Viewports:</strong> 3 mobile, 1 foldable, 3 tablet, 2 desktop (total 9)</p>
+                                        <p class="mb-2"><strong>Measurement Basis:</strong> document.body.getBoundingClientRect().width vs window.innerWidth</p>
+                                        <p class="mb-0"><strong>Stabilization Wait:</strong> Wait 6 seconds after network idle to account for dynamic content</p>
                                     </div>
 
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Responsive UI Test를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC Responsive UI Test.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 다양한 디바이스 환경 기반의 반응형 UI 측정 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides responsive UI assessments across diverse device environments,  
+                                            and certificates can be authenticated in real time via QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Issued Date:
                                                 {{ $certification->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certification->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -5002,84 +4989,84 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>Playwright 기반 반응형 UI 적합성 검사</h3>
+                                <h3>Playwright-Based Responsive UI Compliance Audit</h3>
                                 <div class="text-muted small mt-1">
-                                    <strong>측정 도구:</strong> Playwright (Chromium 엔진)<br>
-                                    <strong>테스트 목적:</strong> 다양한 디바이스 환경에서 웹페이지가 viewport 경계를 벗어나지 않고 올바르게 렌더링되는지 검증<br>
-                                    <strong>검사 대상:</strong> 9개 주요 뷰포트 (모바일 3개, 폴더블 1개, 태블릿 3개, 데스크톱 2개)<br><br>
+                                    <strong>Tool:</strong> Playwright (Chromium engine)<br>
+                                    <strong>Objective:</strong> Verify that pages render correctly across devices without exceeding viewport bounds<br>
+                                    <strong>Targets:</strong> 9 key viewports (3 mobile, 1 foldable, 3 tablet, 2 desktop)<br><br>
 
-                                    <strong>테스트 방식:</strong><br>
-                                    1. 각 뷰포트 크기로 브라우저 설정<br>
-                                    2. 페이지 로드 후 네트워크 안정화 대기 (6초)<br>
-                                    3. document.body.getBoundingClientRect() 측정<br>
-                                    4. viewport 폭과 비교하여 초과 픽셀 계산<br><br>
+                                    <strong>Test Method:</strong><br>
+                                    1. Set the browser to each viewport size<br>
+                                    2. Wait for network stabilization (6 seconds) after load<br>
+                                    3. Measure document.body.getBoundingClientRect()<br>
+                                    4. Compare with viewport width and compute overflow pixels<br><br>
 
-                                    <strong>검사 뷰포트 목록:</strong><br>
-                                    • 모바일: 360×800, 390×844, 414×896<br>
-                                    • 폴더블: 672×960<br>
-                                    • 태블릿: 768×1024, 834×1112, 1024×1366<br>
-                                    • 데스크톱: 1280×800, 1440×900
+                                    <strong>Viewport List:</strong><br>
+                                    • Mobile: 360×800, 390×844, 414×896<br>
+                                    • Foldable: 672×960<br>
+                                    • Tablet: 768×1024, 834×1112, 1024×1366<br>
+                                    • Desktop: 1280×800, 1440×900
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge badge-a-plus">A+</span></td>
                                                 <td>100</td>
-                                                <td>전 뷰포트 초과 0건<br>body 렌더 폭이 항상 viewport 이내</td>
+                                                <td>No overflow in any viewport<br>Body render width always within viewport</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-a">A</span></td>
-                                                <td>90~95</td>
-                                                <td>초과 ≤1건이며 ≤8px<br>모바일 협폭(≤390px) 구간에서는 초과 0건</td>
+                                                <td>90–95</td>
+                                                <td>≤ 1 overflow and ≤ 8px each<br>No overflow in narrow mobile (≤ 390px)</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-b">B</span></td>
-                                                <td>80~89</td>
-                                                <td>초과 ≤2건이고 각 ≤16px<br>또는 모바일 협폭에서 ≤8px 1건</td>
+                                                <td>80–89</td>
+                                                <td>≤ 2 overflows and each ≤ 16px<br>or ≤ 8px once in narrow mobile</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-c">C</span></td>
-                                                <td>70~79</td>
-                                                <td>초과 ≤4건 또는 단일 초과가 17~32px</td>
+                                                <td>70–79</td>
+                                                <td>≤ 4 overflows or a single overflow of 17–32px</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-d">D</span></td>
-                                                <td>50~69</td>
-                                                <td>초과 >4건 또는 단일 초과가 33~64px</td>
+                                                <td>50–69</td>
+                                                <td>> 4 overflows or a single overflow of 33–64px</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-f">F</span></td>
-                                                <td>0~49</td>
-                                                <td>측정 실패 또는 ≥65px 초과 발생</td>
+                                                <td>0–49</td>
+                                                <td>Measurement failure or ≥ 65px overflow</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 반응형 웹 디자인의 중요성</strong><br>
-                                    - <strong>모바일 우선</strong>: 전체 웹 트래픽의 60% 이상이 모바일에서 발생 (2024년 기준)<br>
-                                    - <strong>사용자 경험</strong>: 수평 스크롤은 모바일 사용자의 이탈률을 40% 증가시킴<br>
-                                    - <strong>SEO 영향</strong>: Google은 모바일 친화성을 핵심 순위 요소로 평가<br>
-                                    - <strong>접근성</strong>: 다양한 디바이스 사용자 모두에게 동등한 경험 제공<br><br>
+                                    <strong>📌 Why Responsive Design Matters</strong><br>
+                                    - <strong>Mobile-first:</strong> Over 60% of web traffic is mobile (as of 2024)<br>
+                                    - <strong>User experience:</strong> Horizontal scrolling increases mobile bounce by ~40%<br>
+                                    - <strong>SEO impact:</strong> Google treats mobile friendliness as a key ranking factor<br>
+                                    - <strong>Accessibility:</strong> Delivers an equitable experience across diverse devices<br><br>
                                     
-                                    반응형 UI는 현대 웹 개발의 필수 요구사항이며, 비즈니스 성공에 직접적인 영향을 미칩니다.
+                                    Responsive UI is an essential requirement in modern web development and directly impacts business success.
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
                                 <pre class="json-dump text-start" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
@@ -5096,17 +5083,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Results Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -5142,10 +5129,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                PSQC 종합 인증서 - 세부 검사내역
+                                                Web Quality Certificate - Detailed Report
                                             </h1>
-                                            <h2>(링크 검증 테스트)</h2>
-                                            <h3>인증번호: {{ $certification->code }}</h3>
+                                            <h2>(Link Validation Test)</h2>
+                                            <h3>Certificate ID: {{ $certification->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -5158,7 +5145,7 @@
                                                         </div>
                                                         @if ($score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($score, 1) }}점
+                                                                {{ number_format($score, 1) }} Points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -5167,7 +5154,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -5179,17 +5166,17 @@
                                                 <table class="table table-sm">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>구분</th>
-                                                            <th>검사 수</th>
-                                                            <th>오류</th>
-                                                            <th>오류율</th>
+                                                            <th>Category</th>
+                                                            <th>Tested</th>
+                                                            <th>Errors</th>
+                                                            <th>Error Rate</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><strong>전체 링크</strong></td>
-                                                            <td>{{ $totals['httpChecked'] ?? 0 }}개</td>
-                                                            <td>{{ ($totals['internalErrors'] ?? 0) + ($totals['externalErrors'] ?? 0) }}개</td>
+                                                            <td><strong>All Links</strong></td>
+                                                            <td>{{ $totals['httpChecked'] ?? 0 }} links</td>
+                                                            <td>{{ ($totals['internalErrors'] ?? 0) + ($totals['externalErrors'] ?? 0) }} errors</td>
                                                             <td>
                                                                 @if (($rates['overallErrorRate'] ?? 0) === 0)
                                                                     <span class="badge bg-green-lt text-green-lt-fg">{{ $rates['overallErrorRate'] ?? 0 }}%</span>
@@ -5201,32 +5188,32 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>내부 링크</strong></td>
-                                                            <td>{{ $totals['internalChecked'] ?? 0 }}개</td>
-                                                            <td>{{ $totals['internalErrors'] ?? 0 }}개</td>
+                                                            <td><strong>Internal Links</strong></td>
+                                                            <td>{{ $totals['internalChecked'] ?? 0 }} links</td>
+                                                            <td>{{ $totals['internalErrors'] ?? 0 }} errors</td>
                                                             <td>{{ $rates['internalErrorRate'] ?? 0 }}%</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>외부 링크</strong></td>
-                                                            <td>{{ $totals['externalChecked'] ?? 0 }}개</td>
-                                                            <td>{{ $totals['externalErrors'] ?? 0 }}개</td>
+                                                            <td><strong>External Links</strong></td>
+                                                            <td>{{ $totals['externalChecked'] ?? 0 }} links</td>
+                                                            <td>{{ $totals['externalErrors'] ?? 0 }} errors</td>
                                                             <td>{{ $rates['externalErrorRate'] ?? 0 }}%</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>이미지 링크</strong></td>
-                                                            <td>{{ $totals['imageChecked'] ?? 0 }}개</td>
-                                                            <td>{{ $totals['imageErrors'] ?? 0 }}개</td>
+                                                            <td><strong>Image Links</strong></td>
+                                                            <td>{{ $totals['imageChecked'] ?? 0 }} images</td>
+                                                            <td>{{ $totals['imageErrors'] ?? 0 }} errors</td>
                                                             <td>{{ $rates['imageErrorRate'] ?? 0 }}%</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>앵커 링크</strong></td>
-                                                            <td>{{ $totals['anchorChecked'] ?? 0 }}개</td>
-                                                            <td>{{ $totals['anchorErrors'] ?? 0 }}개</td>
+                                                            <td><strong>Anchor Links</strong></td>
+                                                            <td>{{ $totals['anchorChecked'] ?? 0 }} anchors</td>
+                                                            <td>{{ $totals['anchorErrors'] ?? 0 }} errors</td>
                                                             <td>{{ $rates['anchorErrorRate'] ?? 0 }}%</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>최대 리다이렉트</strong></td>
-                                                            <td colspan="3">{{ $totals['maxRedirectChainEffective'] ?? 0 }}단계 체인</td>
+                                                            <td><strong>Max Redirect Chain</strong></td>
+                                                            <td colspan="3">{{ $totals['maxRedirectChainEffective'] ?? 0 }} step chain</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -5235,38 +5222,36 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Test Results Verified</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>Playwright 기반 링크 검증 도구</strong>를 통해 수행된 전체 링크 유효성 검사 결과에 근거합니다.<br>
-                                            모든 데이터는 <u>실제 브라우저 환경</u>에서 JavaScript 동적 콘텐츠까지 포함하여 수집되었습니다.
+                                            This certificate is based on comprehensive link validity testing results conducted through <strong>Playwright-based link validation tools</strong>.<br>
+                                            All data was collected in <u>real browser environments</u> including JavaScript dynamic content.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 검사는 특정 시점의 링크 상태로, 외부 사이트 변경 등에 따라 결과가 달라질 수 있습니다.
+                                            ※ This test represents link status at a specific point in time and may vary due to external site changes.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 링크 검증 테스트 결과,
-                                                <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>웹사이트 링크 무결성이 우수</u>함을 입증하였습니다.<br>
-                                                이는 <strong>사용자 경험</strong>과 <strong>콘텐츠 접근성</strong>이 뛰어난
-                                                웹사이트임을 보여줍니다.
+                                                🌟 This website achieved a <strong>{{ $grade }}</strong> grade in link validation testing,
+                                                demonstrating <u>excellent website link integrity</u>.<br>
+                                                This shows that it is a website with excellent <strong>user experience</strong> and <strong>content accessibility</strong>.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- 오류 링크 상세 -->
+                                    <!-- Error Link Details -->
                                     @if (!empty($samples['links']) || !empty($samples['images']) || !empty($samples['anchors']))
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">오류 링크 샘플</h4>
+                                                <h4 class="mb-3">Error Link Samples</h4>
                                                 
                                                 @if (!empty($samples['links']))
                                                     <div class="card mb-3">
                                                         <div class="card-header bg-danger-lt">
-                                                            <h5 class="card-title mb-0">깨진 링크 (내부/외부)</h5>
+                                                            <h5 class="card-title mb-0">Broken Links (Internal/External)</h5>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="table-responsive">
@@ -5274,9 +5259,9 @@
                                                                     <thead>
                                                                         <tr>
                                                                             <th>URL</th>
-                                                                            <th>상태</th>
-                                                                            <th>오류</th>
-                                                                            <th>체인</th>
+                                                                            <th>Status</th>
+                                                                            <th>Error</th>
+                                                                            <th>Chain</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -5294,7 +5279,7 @@
                                                                 </table>
                                                             </div>
                                                             @if (count($samples['links']) > 10)
-                                                                <div class="text-muted small">... 외 {{ count($samples['links']) - 10 }}개 오류</div>
+                                                                <div class="text-muted small">... Plus {{ count($samples['links']) - 10 }} more errors</div>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -5303,16 +5288,16 @@
                                                 @if (!empty($samples['images']))
                                                     <div class="card mb-3">
                                                         <div class="card-header bg-warning-lt">
-                                                            <h5 class="card-title mb-0">깨진 이미지 링크</h5>
+                                                            <h5 class="card-title mb-0">Broken Image Links</h5>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="table-responsive">
                                                                 <table class="table table-sm">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>이미지 URL</th>
-                                                                            <th>상태</th>
-                                                                            <th>오류</th>
+                                                                            <th>Image URL</th>
+                                                                            <th>Status</th>
+                                                                            <th>Error</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -5329,7 +5314,7 @@
                                                                 </table>
                                                             </div>
                                                             @if (count($samples['images']) > 10)
-                                                                <div class="text-muted small">... 외 {{ count($samples['images']) - 10 }}개 오류</div>
+                                                                <div class="text-muted small">... Plus {{ count($samples['images']) - 10 }} more errors</div>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -5338,7 +5323,7 @@
                                                 @if (!empty($samples['anchors']))
                                                     <div class="card">
                                                         <div class="card-header bg-info-lt">
-                                                            <h5 class="card-title mb-0">존재하지 않는 앵커 (#id)</h5>
+                                                            <h5 class="card-title mb-0">Missing Anchors (#id)</h5>
                                                         </div>
                                                         <div class="card-body">
                                                             <ul class="mb-0">
@@ -5347,7 +5332,7 @@
                                                                 @endforeach
                                                             </ul>
                                                             @if (count($samples['anchors']) > 10)
-                                                                <div class="text-muted small mt-2">... 외 {{ count($samples['anchors']) - 10 }}개 오류</div>
+                                                                <div class="text-muted small mt-2">... Plus {{ count($samples['anchors']) - 10 }} more errors</div>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -5356,31 +5341,31 @@
                                         </div>
                                     @else
                                         <div class="alert alert-success d-block">
-                                            <strong>✨ 완벽한 링크 상태</strong><br>
-                                            검사된 모든 링크가 정상적으로 작동하고 있습니다.
+                                            <strong>✨ Perfect Link Status</strong><br>
+                                            All tested links are functioning properly.
                                         </div>
                                     @endif
 
-                                    <!-- 추가 정보 -->
+                                    <!-- Additional Information -->
                                     <div class="alert alert-info d-block">
-                                        <strong>💡 링크 무결성이 중요한 이유</strong><br>
-                                        - 사용자 경험: 깨진 링크는 사용자 신뢰도를 떨어뜨리고 이탈률을 높입니다<br>
-                                        - SEO 영향: 404 오류가 많으면 검색엔진 순위에 부정적 영향을 미칩니다<br>
-                                        - 접근성: 모든 콘텐츠가 정상적으로 접근 가능해야 웹 표준을 준수합니다<br>
-                                        - 브랜드 이미지: 깨진 이미지나 링크는 전문성을 해치는 요소입니다
+                                        <strong>💡 Why Link Integrity Matters</strong><br>
+                                        - User Experience: Broken links reduce user trust and increase bounce rates<br>
+                                        - SEO Impact: High numbers of 404 errors negatively affect search engine rankings<br>
+                                        - Accessibility: All content must be properly accessible to comply with web standards<br>
+                                        - Brand Image: Broken images or links are detrimental to professionalism
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>내부 링크:</strong> 동일 도메인 내의 페이지 간 연결</p>
-                                        <p class="mb-2"><strong>외부 링크:</strong> 다른 웹사이트로의 연결</p>
-                                        <p class="mb-2"><strong>이미지 링크:</strong> img 태그의 src 속성 리소스</p>
-                                        <p class="mb-2"><strong>앵커 링크:</strong> 페이지 내 특정 섹션으로 이동 (#id)</p>
-                                        <p class="mb-0"><strong>리다이렉트 체인:</strong> 최종 목적지까지의 리다이렉트 횟수</p>
+                                        <p class="mb-2"><strong>Internal Links:</strong> Connections between pages within the same domain</p>
+                                        <p class="mb-2"><strong>External Links:</strong> Links to other websites</p>
+                                        <p class="mb-2"><strong>Image Links:</strong> Resources in img tag src attributes</p>
+                                        <p class="mb-2"><strong>Anchor Links:</strong> Navigation to specific sections within a page (#id)</p>
+                                        <p class="mb-0"><strong>Redirect Chain:</strong> Number of redirects to reach final destination</p>
                                     </div>
                                     
                                     @if (!empty($totals['navError']))
                                         <div class="alert alert-danger d-block">
-                                            <strong>⚠️ 네비게이션 오류</strong><br>
+                                            <strong>⚠️ Navigation Error</strong><br>
                                             {{ $totals['navError'] }}
                                         </div>
                                     @endif
@@ -5388,25 +5373,25 @@
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Link Validator를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC's Link Validator.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 Playwright 기반의 정밀한 링크 검증 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides precise Playwright-based link validation services,
+                                            and certificates can be verified for authenticity through real-time QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Certificate Issue Date:
                                                 {{ $certification->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certification->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -5414,99 +5399,99 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>Playwright 기반 링크 검증 도구</h3>
+                                <h3>Playwright-based Link Validation Tool</h3>
                                 <div class="text-muted small mt-1">
-                                    <strong>측정 도구:</strong> Playwright + Node.js 기반 커스텀 크롤러<br>
-                                    <strong>테스트 목적:</strong> 웹사이트의 모든 링크 상태를 검사하여 사용자 경험을 해치는 깨진 링크, 잘못된 리다이렉트, 존재하지 않는 앵커 등을 찾아냅니다.
+                                    <strong>Testing Tool:</strong> Playwright + Node.js based custom crawler<br>
+                                    <strong>Test Purpose:</strong> Examine all link statuses on the website to identify broken links, incorrect redirects, and missing anchors that harm user experience.
                                     <br><br>
-                                    <strong>검사 항목:</strong><br>
-                                    • 내부 링크: 동일 도메인 내 모든 페이지 링크의 HTTP 상태<br>
-                                    • 외부 링크: 외부 도메인으로 연결되는 링크의 유효성<br>
-                                    • 이미지 링크: img 태그의 src 속성에 있는 이미지 리소스 상태<br>
-                                    • 앵커 링크: 동일 페이지 내 #id 형태의 앵커 존재 여부<br>
-                                    • 리다이렉트 체인: 각 링크의 리다이렉트 단계 수와 최종 도착지
+                                    <strong>Test Coverage:</strong><br>
+                                    • Internal Links: HTTP status of all page links within the same domain<br>
+                                    • External Links: Validity of links to external domains<br>
+                                    • Image Links: Status of image resources in img tag src attributes<br>
+                                    • Anchor Links: Existence of #id format anchors within the same page<br>
+                                    • Redirect Chains: Number of redirect steps and final destinations for each link
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria Guide --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge bg-green-lt text-green-lt-fg">A+</span></td>
                                                 <td>90~100</td>
-                                                <td>• 내부/외부/이미지 링크 오류율: 0%<br>
-                                                    • 리다이렉트 체인 ≤1단계<br>
-                                                    • 앵커 링크 100% 정상</td>
+                                                <td>• Internal/External/Image link error rate: 0%<br>
+                                                    • Redirect chain ≤1 step<br>
+                                                    • Anchor links 100% functional</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-lime-lt text-lime-lt-fg">A</span></td>
                                                 <td>80~89</td>
-                                                <td>• 전체 오류율 ≤1%<br>
-                                                    • 리다이렉트 체인 ≤2단계<br>
-                                                    • 앵커 링크 대부분 정상</td>
+                                                <td>• Overall error rate ≤1%<br>
+                                                    • Redirect chain ≤2 steps<br>
+                                                    • Most anchor links functional</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-blue-lt text-blue-lt-fg">B</span></td>
                                                 <td>70~79</td>
-                                                <td>• 전체 오류율 ≤3%<br>
-                                                    • 리다이렉트 체인 ≤3단계<br>
-                                                    • 일부 앵커 링크 불량</td>
+                                                <td>• Overall error rate ≤3%<br>
+                                                    • Redirect chain ≤3 steps<br>
+                                                    • Some anchor link issues</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-yellow-lt text-yellow-lt-fg">C</span></td>
                                                 <td>60~69</td>
-                                                <td>• 전체 오류율 ≤5%<br>
-                                                    • 다수 링크 경고 (타임아웃/SSL 문제)<br>
-                                                    • 앵커 링크 오류 빈번</td>
+                                                <td>• Overall error rate ≤5%<br>
+                                                    • Multiple link warnings (timeout/SSL issues)<br>
+                                                    • Frequent anchor link errors</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-orange-lt text-orange-lt-fg">D</span></td>
                                                 <td>50~59</td>
-                                                <td>• 전체 오류율 ≤10%<br>
-                                                    • 리다이렉트 루프 또는 긴 체인<br>
-                                                    • 이미지 링크 다수 깨짐</td>
+                                                <td>• Overall error rate ≤10%<br>
+                                                    • Redirect loops or long chains<br>
+                                                    • Many broken image links</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-red-lt text-red-lt-fg">F</span></td>
                                                 <td>0~49</td>
-                                                <td>• 전체 오류율 10% 이상<br>
-                                                    • 주요 내부 링크 다수 깨짐<br>
-                                                    • 앵커/이미지 전반 불량</td>
+                                                <td>• Overall error rate >10%<br>
+                                                    • Many major internal links broken<br>
+                                                    • Overall anchor/image issues</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 링크 관리 체크리스트</strong><br>
-                                    <strong>정기 점검:</strong><br>
-                                    • 월 1회 전체 링크 검사 실행<br>
-                                    • 외부 링크 유효성 모니터링<br>
-                                    • 404 오류 페이지 즉시 수정<br><br>
+                                    <strong>📌 Link Management Checklist</strong><br>
+                                    <strong>Regular Monitoring:</strong><br>
+                                    • Run full link checks monthly<br>
+                                    • Monitor external link validity<br>
+                                    • Fix 404 errors immediately<br><br>
                                     
-                                    <strong>최적화 방안:</strong><br>
-                                    • 리다이렉트 최소화: 직접 링크 사용<br>
-                                    • 앵커 매칭: href="#id"와 id="id" 일치<br>
-                                    • 이미지 최적화: 올바른 경로와 파일 존재 확인<br>
-                                    • HTTPS 사용: 보안 프로토콜 적용<br><br>
+                                    <strong>Optimization Strategies:</strong><br>
+                                    • Minimize redirects: Use direct links<br>
+                                    • Anchor matching: Ensure href="#id" matches id="id"<br>
+                                    • Image optimization: Verify correct paths and file existence<br>
+                                    • Use HTTPS: Apply secure protocols<br><br>
                                     
-                                    <strong>성과 지표:</strong><br>
-                                    • 깨진 링크 제거 → 이탈률 20% 감소<br>
-                                    • 리다이렉트 최적화 → 페이지 속도 15% 향상<br>
-                                    • 이미지 정상화 → 사용자 만족도 25% 증가
+                                    <strong>Performance Metrics:</strong><br>
+                                    • Broken link removal → 20% bounce rate reduction<br>
+                                    • Redirect optimization → 15% page speed improvement<br>
+                                    • Image normalization → 25% user satisfaction increase
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
                                 <pre class="json-dump text-start" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
@@ -5523,17 +5508,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -5572,10 +5557,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                PSQC 종합 인증서 - 세부 검사내역
+                                                PSQC Comprehensive Certificate - Detailed Test Report
                                             </h1>
-                                            <h2>(구조화 데이터 검증)</h2>
-                                            <h3>인증번호: {{ $certification->code }}</h3>
+                                            <h2>(Structured Data Validation)</h2>
+                                            <h3>Certification Code: {{ $certification->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -5588,7 +5573,7 @@
                                                         </div>
                                                         @if ($score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($score, 1) }}점
+                                                                {{ number_format($score, 1) }} points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -5597,7 +5582,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -5609,74 +5594,74 @@
                                                 <table class="table table-sm">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>구분</th>
-                                                            <th>수량</th>
-                                                            <th>상태</th>
+                                                            <th>Category</th>
+                                                            <th>Count</th>
+                                                            <th>Status</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><strong>JSON-LD 블록</strong></td>
-                                                            <td>{{ $totals['jsonLdBlocks'] ?? 0 }}개</td>
+                                                            <td><strong>JSON-LD Blocks</strong></td>
+                                                            <td>{{ $totals['jsonLdBlocks'] ?? 0 }}</td>
                                                             <td>
                                                                 @if (($totals['jsonLdBlocks'] ?? 0) > 0)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">구현</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Implemented</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">미구현</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Not Implemented</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>스키마 아이템</strong></td>
-                                                            <td>{{ $totals['jsonLdItems'] ?? 0 }}개</td>
+                                                            <td><strong>Schema Items</strong></td>
+                                                            <td>{{ $totals['jsonLdItems'] ?? 0 }}</td>
                                                             <td>
                                                                 @if (($totals['jsonLdItems'] ?? 0) >= 3)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">충분</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Sufficient</span>
                                                                 @elseif (($totals['jsonLdItems'] ?? 0) > 0)
-                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">기본</span>
+                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">Basic</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">없음</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">None</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>오류/경고</strong></td>
+                                                            <td><strong>Errors / Warnings</strong></td>
                                                             <td>
-                                                                <span class="text-danger">{{ $totalErrors }}개</span> /
-                                                                <span class="text-warning">{{ $totals['itemWarnings'] ?? 0 }}개</span>
+                                                                <span class="text-danger">{{ $totalErrors }}</span> /
+                                                                <span class="text-warning">{{ $totals['itemWarnings'] ?? 0 }}</span>
                                                             </td>
                                                             <td>
                                                                 @if ($totalErrors === 0 && ($totals['itemWarnings'] ?? 0) === 0)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">완벽</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Flawless</span>
                                                                 @elseif ($totalErrors === 0)
-                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">양호</span>
+                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">Good</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">개선필요</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Needs Improvement</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>Rich Results 유형</strong></td>
-                                                            <td>{{ is_array($richTypes) ? count($richTypes) : 0 }}개</td>
+                                                            <td><strong>Rich Results Types</strong></td>
+                                                            <td>{{ is_array($richTypes) ? count($richTypes) : 0 }}</td>
                                                             <td>
                                                                 @if (is_array($richTypes) && count($richTypes) > 0)
                                                                     {{ implode(', ', array_slice($richTypes, 0, 3)) }}
                                                                 @else
-                                                                    <span class="text-muted">없음</span>
+                                                                    <span class="text-muted">None</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>기타 형식</strong></td>
+                                                            <td><strong>Other Formats</strong></td>
                                                             <td>
                                                                 Microdata: {{ !empty($totals['hasMicrodata']) ? '✓' : '✗' }}
                                                                 RDFa: {{ !empty($totals['hasRdfa']) ? '✓' : '✗' }}
                                                             </td>
                                                             <td>
                                                                 @if (!empty($totals['hasMicrodata']) || !empty($totals['hasRdfa']))
-                                                                    <span class="badge">보조형식 감지</span>
+                                                                    <span class="badge">Auxiliary formats detected</span>
                                                                 @else
-                                                                    <span class="text-muted">JSON-LD 전용</span>
+                                                                    <span class="text-muted">JSON-LD only</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -5687,40 +5672,38 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Test Verification Completed</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>Playwright 기반 구조화 데이터 검증 도구</strong>를 통해 수행된 Schema.org 규격 검사 결과에 근거합니다.<br>
-                                            모든 데이터는 <u>Google Rich Results Test 기준</u>에 준하여 평가되었으며, 실제 브라우저 렌더링 환경에서 수집되었습니다.
+                                            This certificate is based on results from the <strong>Playwright-based Structured Data Validator</strong> that checks against Schema.org specifications.<br>
+                                            All data was evaluated in accordance with the <u>Google Rich Results Test</u> criteria and collected in a real browser rendering environment.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 검사는 특정 시점의 구조화 데이터 상태로, 웹사이트 업데이트에 따라 변경될 수 있습니다.
+                                            ※ This assessment reflects the structured data at a specific point in time and may change as your site is updated.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 구조화 데이터 검증 결과,
-                                                <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>검색 결과 풍부한 스니펫(Rich Snippets) 표시 자격</u>을 갖추었습니다.<br>
-                                                이는 <strong>검색 노출 최적화</strong>와 <strong>클릭률 향상</strong>에 기여하는
-                                                우수한 구조화 데이터 구현을 입증합니다.
+                                                🌟 This site achieved a <strong>{{ $grade }}</strong> in the structured data validation,
+                                                demonstrating eligibility for <u>Rich Snippets in search results</u>.<br>
+                                                This proves a high-quality structured data implementation that supports <strong>better visibility</strong> and <strong>higher CTR</strong>.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- 스키마 타입 분석 -->
+                                    <!-- Schema type distribution -->
                                     @if (!empty($types))
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">스키마 타입 분포</h4>
+                                                <h4 class="mb-3">Schema Type Distribution</h4>
                                                 <div class="table-responsive">
                                                     <table class="table table-sm">
                                                         <thead class="table-light">
                                                             <tr>
                                                                 <th>@type</th>
-                                                                <th>개수</th>
-                                                                <th>Rich Results 지원</th>
+                                                                <th>Count</th>
+                                                                <th>Rich Results Support</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -5730,7 +5713,7 @@
                                                                     <td>{{ $row['count'] }}</td>
                                                                     <td>
                                                                         @if (in_array($row['type'], ['Article', 'Product', 'Recipe', 'Event', 'Course', 'FAQPage', 'HowTo', 'JobPosting', 'LocalBusiness', 'Review', 'Video']))
-                                                                            <span class="badge bg-green-lt text-green-lt-fg">지원</span>
+                                                                            <span class="badge bg-green-lt text-green-lt-fg">Supported</span>
                                                                         @else
                                                                             <span class="text-muted">-</span>
                                                                         @endif
@@ -5744,22 +5727,22 @@
                                         </div>
                                     @endif
 
-                                    <!-- 오류 및 경고 상세 -->
+                                    <!-- Error & warning details -->
                                     @if (!empty($parseErrors) || !empty($perItem))
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">검증 이슈 상세</h4>
+                                                <h4 class="mb-3">Validation Issue Details</h4>
                                                 
                                                 @if (!empty($parseErrors))
                                                     <div class="card mb-3">
                                                         <div class="card-header bg-danger-lt">
-                                                            <h5 class="card-title mb-0">파싱 오류</h5>
+                                                            <h5 class="card-title mb-0">Parsing Errors</h5>
                                                         </div>
                                                         <div class="card-body">
                                                             <ul class="mb-0">
                                                                 @foreach (array_slice($parseErrors, 0, 5) as $pe)
                                                                     <li class="mb-2">
-                                                                        <strong>블록 #{{ $pe['index'] }}:</strong> {{ $pe['message'] }}
+                                                                        <strong>Block #{{ $pe['index'] }}:</strong> {{ $pe['message'] }}
                                                                         <div class="text-muted small">{{ Str::limit($pe['rawPreview'] ?? '', 100) }}</div>
                                                                     </li>
                                                                 @endforeach
@@ -5771,7 +5754,7 @@
                                                 @if (!empty($perItem))
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            <h5 class="card-title mb-0">항목별 이슈</h5>
+                                                            <h5 class="card-title mb-0">Item-level Issues</h5>
                                                         </div>
                                                         <div class="card-body">
                                                             @foreach (array_slice($perItem, 0, 5) as $item)
@@ -5780,12 +5763,12 @@
                                                                         <strong>{{ implode(', ', $item['types'] ?? ['Unknown']) }}</strong>
                                                                         @if (!empty($item['errors']))
                                                                             <div class="text-danger small">
-                                                                                오류: {{ implode(', ', $item['errors']) }}
+                                                                                Errors: {{ implode(', ', $item['errors']) }}
                                                                             </div>
                                                                         @endif
                                                                         @if (!empty($item['warnings']))
                                                                             <div class="text-warning small">
-                                                                                경고: {{ implode(', ', $item['warnings']) }}
+                                                                                Warnings: {{ implode(', ', $item['warnings']) }}
                                                                             </div>
                                                                         @endif
                                                                     </div>
@@ -5798,10 +5781,10 @@
                                         </div>
                                     @endif
 
-                                    <!-- 권장 개선 사항 -->
+                                    <!-- Recommended improvements -->
                                     @if (!empty($actions))
                                         <div class="alert alert-warning d-block">
-                                            <strong>⚡ 권장 개선 사항</strong><br>
+                                            <strong>⚡ Recommended Improvements</strong><br>
                                             <ul class="mb-0 mt-2">
                                                 @foreach ($actions as $action)
                                                     <li>{{ $action }}</li>
@@ -5810,11 +5793,11 @@
                                         </div>
                                     @endif
 
-                                    <!-- 예시 스니펫 -->
+                                    <!-- Example snippets -->
                                     @if (!empty($snippets))
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">권장 JSON-LD 예시</h4>
+                                                <h4 class="mb-3">Recommended JSON-LD Examples</h4>
                                                 @foreach (array_slice($snippets, 0, 2) as $snippet)
                                                     <div class="card mb-3">
                                                         <div class="card-header">
@@ -5829,45 +5812,45 @@
                                         </div>
                                     @endif
 
-                                    <!-- 추가 정보 -->
+                                    <!-- Extra info -->
                                     <div class="alert alert-info d-block">
-                                        <strong>💡 구조화 데이터가 중요한 이유</strong><br>
-                                        - Rich Snippets: 검색 결과에 별점, 가격, 이미지 등 풍부한 정보 표시<br>
-                                        - 음성 검색 최적화: AI 어시스턴트가 정보를 정확히 이해하고 답변<br>
-                                        - Knowledge Graph: Google 지식 패널에 정보 등록 가능<br>
-                                        - 클릭률 향상: 일반 검색 결과 대비 평균 30% 높은 CTR
+                                        <strong>💡 Why Structured Data Matters</strong><br>
+                                        - Rich Snippets: Show ratings, prices, images, and more in search results<br>
+                                        - Voice Search: Helps assistants understand and answer accurately<br>
+                                        - Knowledge Graph: Eligible for Google knowledge panels<br>
+                                        - Higher CTR: Typically ~30% better than plain results
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>JSON-LD:</strong> JavaScript Object Notation for Linked Data, Google 권장 형식</p>
-                                        <p class="mb-2"><strong>Schema.org:</strong> Google, Microsoft, Yahoo, Yandex가 공동 개발한 구조화 데이터 표준</p>
-                                        <p class="mb-2"><strong>Rich Results:</strong> 검색 결과에 표시되는 시각적으로 향상된 결과</p>
-                                        <p class="mb-2"><strong>필수 스키마:</strong> Organization, WebSite, BreadcrumbList (모든 사이트 권장)</p>
-                                        <p class="mb-0"><strong>콘텐츠별 스키마:</strong> Article (블로그), Product (쇼핑몰), LocalBusiness (로컬업체)</p>
+                                        <p class="mb-2"><strong>JSON-LD:</strong> JavaScript Object Notation for Linked Data; Google’s recommended format</p>
+                                        <p class="mb-2"><strong>Schema.org:</strong> A shared structured data vocabulary by Google, Microsoft, Yahoo, and Yandex</p>
+                                        <p class="mb-2"><strong>Rich Results:</strong> Visually enhanced results displayed in SERPs</p>
+                                        <p class="mb-2"><strong>Must-have Schemas:</strong> Organization, WebSite, BreadcrumbList (recommended for all sites)</p>
+                                        <p class="mb-0"><strong>Content-specific Schemas:</strong> Article (blogs), Product (commerce), LocalBusiness (local)</p>
                                     </div>
                                     
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Structure Validator를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC’s Structure Validator.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 Google Rich Results 기준에 준하는 구조화 데이터 검증 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides structured data validation aligned with Google Rich Results guidelines,
+                                            and certificates can be authenticated in real time via QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Issued Date:
                                                 {{ $certification->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certification->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -5875,107 +5858,107 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>구조화 데이터 검증 도구</h3>
+                                <h3>Structured Data Validation Tool</h3>
                                 <div class="text-muted small mt-1">
-                                    Playwright 기반 브라우저 자동화를 통해 실제 렌더링된 페이지에서 구조화 데이터를 수집하고,
-                                    Google Rich Results Test 기준에 준하는 Schema.org 검증 규칙을 적용합니다.
+                                    Using Playwright-based browser automation, structured data is collected from the <em>rendered</em> page
+                                    and validated with Schema.org rules aligned to the Google Rich Results Test.
                                     <br><br>
-                                    <strong>📊 측정 항목:</strong><br>
-                                    • JSON-LD 블록 수 및 파싱 가능 여부<br>
-                                    • Schema.org 타입별 필수/권장 필드 검증<br>
-                                    • Rich Results 적합성 평가<br>
-                                    • Microdata, RDFa 등 기타 형식 감지<br><br>
+                                    <strong>📊 Metrics:</strong><br>
+                                    • Number of JSON-LD blocks & parseability<br>
+                                    • Required/recommended fields by Schema.org type<br>
+                                    • Rich Results eligibility evaluation<br>
+                                    • Detection of Microdata, RDFa, and other formats<br><br>
                                     
-                                    <strong>🎯 검증 대상 스키마:</strong><br>
-                                    • Organization, WebSite, BreadcrumbList (기본)<br>
-                                    • Article, NewsArticle, BlogPosting (콘텐츠)<br>
-                                    • Product, Offer, AggregateRating (쇼핑)<br>
-                                    • LocalBusiness, Restaurant, Store (로컬)<br>
-                                    • Event, Course, Recipe (특수 콘텐츠)<br>
+                                    <strong>🎯 Target Schemas:</strong><br>
+                                    • Organization, WebSite, BreadcrumbList (baseline)<br>
+                                    • Article, NewsArticle, BlogPosting (content)<br>
+                                    • Product, Offer, AggregateRating (commerce)<br>
+                                    • LocalBusiness, Restaurant, Store (local)<br>
+                                    • Event, Course, Recipe (special content)<br>
                                     • FAQPage, HowTo, QAPage (Q&A)<br>
-                                    • Person, JobPosting, Review (기타)
+                                    • Person, JobPosting, Review (others)
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge bg-green-lt text-green-lt-fg">A+</span></td>
-                                                <td>95~100</td>
-                                                <td>• JSON-LD 완벽 구현 (파싱 오류 없음)<br>
-                                                    • 3개 이상 스키마 타입, Rich Results 2개 이상<br>
-                                                    • 모든 필수 필드 포함, 권장 필드 80% 이상</td>
+                                                <td>95–100</td>
+                                                <td>• JSON-LD fully implemented (no parse errors)<br>
+                                                    • ≥ 3 schema types, ≥ 2 Rich Results types<br>
+                                                    • All required fields, ≥ 80% of recommended fields</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-lime-lt text-lime-lt-fg">A</span></td>
-                                                <td>85~94</td>
-                                                <td>• JSON-LD 정상 구현<br>
-                                                    • 2개 이상 스키마 타입, Rich Results 1개 이상<br>
-                                                    • 필수 필드 완성, 권장 필드 60% 이상</td>
+                                                <td>85–94</td>
+                                                <td>• JSON-LD implemented correctly<br>
+                                                    • ≥ 2 schema types, ≥ 1 Rich Results type<br>
+                                                    • Required fields complete, ≥ 60% of recommended fields</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-blue-lt text-blue-lt-fg">B</span></td>
-                                                <td>75~84</td>
-                                                <td>• JSON-LD 기본 구현<br>
-                                                    • 1개 이상 스키마 타입<br>
-                                                    • 필수 필드 대부분 포함</td>
+                                                <td>75–84</td>
+                                                <td>• Basic JSON-LD implementation<br>
+                                                    • ≥ 1 schema type<br>
+                                                    • Most required fields present</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-yellow-lt text-yellow-lt-fg">C</span></td>
-                                                <td>65~74</td>
-                                                <td>• 구조화 데이터 부분 구현<br>
-                                                    • 경미한 오류 존재<br>
-                                                    • 일부 필수 필드 누락</td>
+                                                <td>65–74</td>
+                                                <td>• Partial implementation<br>
+                                                    • Minor errors present<br>
+                                                    • Some required fields missing</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-orange-lt text-orange-lt-fg">D</span></td>
-                                                <td>50~64</td>
-                                                <td>• 구조화 데이터 미흡<br>
-                                                    • 파싱 오류 또는 중대 오류 존재<br>
-                                                    • 다수 필수 필드 누락</td>
+                                                <td>50–64</td>
+                                                <td>• Insufficient structured data<br>
+                                                    • Parse errors or major issues<br>
+                                                    • Many required fields missing</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-red-lt text-red-lt-fg">F</span></td>
-                                                <td>0~49</td>
-                                                <td>• 구조화 데이터 없음<br>
-                                                    • JSON-LD 미구현<br>
-                                                    • Schema.org 미적용</td>
+                                                <td>0–49</td>
+                                                <td>• No structured data<br>
+                                                    • JSON-LD not implemented<br>
+                                                    • Schema.org not applied</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 구조화 데이터 구현 체크리스트</strong><br>
-                                    <strong>필수 구현:</strong><br>
-                                    • Organization: 회사 정보, 로고, 소셜 프로필<br>
-                                    • WebSite: 사이트명, URL, 검색박스<br>
-                                    • BreadcrumbList: 페이지 경로 네비게이션<br><br>
+                                    <strong>📌 Structured Data Implementation Checklist</strong><br>
+                                    <strong>Required (baseline):</strong><br>
+                                    • Organization: company details, logo, social profiles<br>
+                                    • WebSite: site name, URL, search box<br>
+                                    • BreadcrumbList: navigation path<br><br>
                                     
-                                    <strong>콘텐츠별 구현:</strong><br>
-                                    • 블로그/뉴스: Article, NewsArticle, BlogPosting<br>
-                                    • 쇼핑몰: Product, Offer, Review, AggregateRating<br>
-                                    • 로컬 비즈니스: LocalBusiness, OpeningHoursSpecification<br>
-                                    • 이벤트: Event, EventVenue, EventSchedule<br><br>
+                                    <strong>By content type:</strong><br>
+                                    • Blogs/News: Article, NewsArticle, BlogPosting<br>
+                                    • Commerce: Product, Offer, Review, AggregateRating<br>
+                                    • Local business: LocalBusiness, OpeningHoursSpecification<br>
+                                    • Events: Event, EventVenue, EventSchedule<br><br>
                                     
-                                    <strong>성과 지표:</strong><br>
-                                    • Rich Snippets 노출 → CTR 평균 30% 상승<br>
-                                    • 음성 검색 최적화 → 모바일 트래픽 20% 증가<br>
-                                    • Knowledge Graph 등록 → 브랜드 인지도 향상
+                                    <strong>Impact metrics:</strong><br>
+                                    • Rich Snippets → ~30% CTR uplift on average<br>
+                                    • Voice search optimization → ~20% mobile traffic increase<br>
+                                    • Knowledge Graph presence → improved brand recognition
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
                                 <pre class="json-dump text-start" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
@@ -5992,17 +5975,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Results Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -6037,10 +6020,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                PSQC 종합 인증서 - 세부 검사내역
+                                                Web Quality Certificate - Detailed Report
                                             </h1>
-                                            <h2>(검색엔진 크롤링 검사)</h2>
-                                            <h3>인증번호: {{ $certification->code }}</h3>
+                                            <h2>(Search Engine Crawl Inspection)</h2>
+                                            <h3>Certificate ID: {{ $certification->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -6053,7 +6036,7 @@
                                                         </div>
                                                         @if ($score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($score, 1) }}점
+                                                                {{ number_format($score, 1) }} Points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -6062,7 +6045,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -6074,9 +6057,9 @@
                                                 <table class="table table-sm">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>구분</th>
-                                                            <th>값</th>
-                                                            <th>상태</th>
+                                                            <th>Category</th>
+                                                            <th>Value</th>
+                                                            <th>Status</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -6085,49 +6068,49 @@
                                                             <td>{{ $robots['status'] ?? '-' }}</td>
                                                             <td>
                                                                 @if ($robots['exists'] ?? false)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">존재</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Exists</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">없음</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Missing</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>sitemap.xml</strong></td>
-                                                            <td>{{ $sitemap['sitemapUrlCount'] ?? 0 }}개 URL</td>
+                                                            <td>{{ $sitemap['sitemapUrlCount'] ?? 0 }} URLs</td>
                                                             <td>
                                                                 @if ($sitemap['hasSitemap'] ?? false)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">존재</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Exists</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">없음</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Missing</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>검사 페이지</strong></td>
-                                                            <td>{{ $pages['count'] ?? 0 }}개</td>
-                                                            <td>평균 {{ number_format($pages['qualityAvg'] ?? 0, 1) }}점</td>
+                                                            <td><strong>Tested Pages</strong></td>
+                                                            <td>{{ $pages['count'] ?? 0 }} pages</td>
+                                                            <td>Average {{ number_format($pages['qualityAvg'] ?? 0, 1) }} points</td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>오류율</strong></td>
+                                                            <td><strong>Error Rate</strong></td>
                                                             <td>{{ number_format($pages['errorRate4xx5xx'] ?? 0, 1) }}%</td>
                                                             <td>
                                                                 @if (($pages['errorRate4xx5xx'] ?? 0) === 0)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">정상</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Normal</span>
                                                                 @elseif (($pages['errorRate4xx5xx'] ?? 0) < 5)
-                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">양호</span>
+                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">Good</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">문제</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Issues</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>중복률</strong></td>
+                                                            <td><strong>Duplicate Rate</strong></td>
                                                             <td>{{ number_format($pages['duplicateRate'] ?? 0, 1) }}%</td>
                                                             <td>
                                                                 @if (($pages['duplicateRate'] ?? 0) <= 30)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">양호</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Good</span>
                                                                 @else
-                                                                    <span class="badge bg-warning-lt text-warning-lt-fg">높음</span>
+                                                                    <span class="badge bg-warning-lt text-warning-lt-fg">High</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -6138,52 +6121,50 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Test Results Verified</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>robots.txt 준수 크롤러</strong>를 통해 수행된 검색엔진 크롤링 검사 결과에 근거합니다.<br>
-                                            모든 데이터는 <u>실제 검색엔진 크롤링 방식</u>을 시뮬레이션하여 수집되었으며, SEO 품질 기준으로 평가되었습니다.
+                                            This certificate is based on search engine crawl inspection results conducted through <strong>robots.txt compliant crawler</strong>.<br>
+                                            All data was collected by simulating <u>actual search engine crawling methods</u> and evaluated against SEO quality standards.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 검사는 특정 시점의 크롤링 상태로, 웹사이트 업데이트에 따라 변경될 수 있습니다.
+                                            ※ This test represents crawling status at a specific point in time and may change with website updates.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 검색엔진 크롤링 검사 결과,
-                                                <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>검색엔진 최적화 우수 사이트</u>임을 입증하였습니다.<br>
-                                                이는 <strong>검색 크롤러 친화성</strong>과 <strong>페이지 품질 관리</strong>가 우수한
-                                                웹사이트임을 보여줍니다.
+                                                🌟 This website achieved a <strong>{{ $grade }}</strong> grade in search engine crawl inspection,
+                                                demonstrating that it is <u>an SEO-optimized excellent site</u>.<br>
+                                                This shows that it is a website with excellent <strong>search crawler friendliness</strong> and <strong>page quality management</strong>.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- Sitemap 파일 상세 -->
+                                    <!-- Sitemap File Details -->
                                     @if (!empty($sitemap['sitemaps']))
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">Sitemap 파일 현황</h4>
+                                                <h4 class="mb-3">Sitemap File Status</h4>
                                                 <div class="table-responsive">
                                                     <table class="table table-sm">
                                                         <thead class="table-light">
                                                             <tr>
-                                                                <th>파일명</th>
-                                                                <th>URL 수</th>
-                                                                <th>상태</th>
+                                                                <th>Filename</th>
+                                                                <th>URL Count</th>
+                                                                <th>Status</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($sitemap['sitemaps'] as $s)
                                                                 <tr>
                                                                     <td>{{ basename($s['url']) }}</td>
-                                                                    <td>{{ $s['count'] ?? 0 }}개</td>
+                                                                    <td>{{ $s['count'] ?? 0 }} URLs</td>
                                                                     <td>
                                                                         @if ($s['ok'])
-                                                                            <span class="badge bg-green-lt text-green-lt-fg">정상</span>
+                                                                            <span class="badge bg-green-lt text-green-lt-fg">Normal</span>
                                                                         @else
-                                                                            <span class="badge bg-red-lt text-red-lt-fg">오류</span>
+                                                                            <span class="badge bg-red-lt text-red-lt-fg">Error</span>
                                                                         @endif
                                                                     </td>
                                                                 </tr>
@@ -6195,16 +6176,16 @@
                                         </div>
                                     @endif
 
-                                    <!-- 크롤링 계획 및 제외 URL -->
+                                    <!-- Crawl Plan and Excluded URLs -->
                                     <div class="row mb-4">
                                         <div class="col-md-6">
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <h5 class="card-title mb-0">검사 대상 URL 샘플</h5>
+                                                    <h5 class="card-title mb-0">Tested URL Samples</h5>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="small text-muted mb-2">
-                                                        총 {{ $crawlPlan['candidateCount'] ?? 0 }}개 중 최대 50개 검사
+                                                        Testing max 50 out of {{ $crawlPlan['candidateCount'] ?? 0 }} total
                                                     </div>
                                                     @if (!empty($crawlPlan['sample']))
                                                         <div style="max-height: 200px; overflow-y: auto;">
@@ -6213,7 +6194,7 @@
                                                                     <li class="text-break">{{ $url }}</li>
                                                                 @endforeach
                                                                 @if (count($crawlPlan['sample']) > 10)
-                                                                    <li>... 외 {{ count($crawlPlan['sample']) - 10 }}개</li>
+                                                                    <li>... Plus {{ count($crawlPlan['sample']) - 10 }} more</li>
                                                                 @endif
                                                             </ul>
                                                         </div>
@@ -6225,12 +6206,12 @@
                                         <div class="col-md-6">
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <h5 class="card-title mb-0">제외된 URL</h5>
+                                                    <h5 class="card-title mb-0">Excluded URLs</h5>
                                                 </div>
                                                 <div class="card-body">
                                                     @if (!empty($crawlPlan['skipped']))
                                                         <div class="small text-muted mb-2">
-                                                            총 {{ count($crawlPlan['skipped']) }}개 제외
+                                                            {{ count($crawlPlan['skipped']) }} total excluded
                                                         </div>
                                                         <div style="max-height: 200px; overflow-y: auto;">
                                                             @foreach (array_slice($crawlPlan['skipped'], 0, 5) as $skip)
@@ -6241,24 +6222,24 @@
                                                             @endforeach
                                                         </div>
                                                     @else
-                                                        <div class="text-muted">제외된 URL 없음 ✓</div>
+                                                        <div class="text-muted">No excluded URLs ✓</div>
                                                     @endif
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- 문제 페이지 상세 -->
+                                    <!-- Problem Page Details -->
                                     <div class="row mb-4">
                                         <div class="col-md-6 mb-2">
                                             <div class="card">
                                                 <div class="card-header bg-danger-lt">
-                                                    <h5 class="card-title mb-0">오류 페이지 (4xx/5xx)</h5>
+                                                    <h5 class="card-title mb-0">Error Pages (4xx/5xx)</h5>
                                                 </div>
                                                 <div class="card-body">
                                                     @php $errorPages = $report['samples']['errorPages'] ?? []; @endphp
                                                     @if (empty($errorPages))
-                                                        <div class="text-success">오류 페이지 없음 ✓</div>
+                                                        <div class="text-success">No error pages ✓</div>
                                                     @else
                                                         <ul class="small mb-0">
                                                             @foreach (array_slice($errorPages, 0, 5) as $page)
@@ -6268,7 +6249,7 @@
                                                                 </li>
                                                             @endforeach
                                                             @if (count($errorPages) > 5)
-                                                                <li>... 외 {{ count($errorPages) - 5 }}개</li>
+                                                                <li>... Plus {{ count($errorPages) - 5 }} more</li>
                                                             @endif
                                                         </ul>
                                                     @endif
@@ -6279,7 +6260,7 @@
                                         <div class="col-md-6 mb-2">
                                             <div class="card">
                                                 <div class="card-header bg-warning-lt">
-                                                    <h5 class="card-title mb-0">낮은 품질 페이지 (50점 미만)</h5>
+                                                    <h5 class="card-title mb-0">Low Quality Pages (Under 50 points)</h5>
                                                 </div>
                                                 <div class="card-body">
                                                     @php
@@ -6292,12 +6273,12 @@
                                                             ->toArray();
                                                     @endphp
                                                     @if (empty($lowQuality))
-                                                        <div class="text-success">50점 미만 페이지 없음 ✓</div>
+                                                        <div class="text-success">No pages under 50 points ✓</div>
                                                     @else
                                                         <ul class="small mb-0">
                                                             @foreach ($lowQuality as $page)
                                                                 <li class="mb-1">
-                                                                    <span class="badge bg-orange-lt text-orange-lt-fg">{{ $page['score'] ?? 0 }}점</span>
+                                                                    <span class="badge bg-orange-lt text-orange-lt-fg">{{ $page['score'] ?? 0 }} points</span>
                                                                     <span class="text-break">{{ Str::limit($page['url'], 50) }}</span>
                                                                 </li>
                                                             @endforeach
@@ -6308,64 +6289,64 @@
                                         </div>
                                     </div>
 
-                                    <!-- 중복 콘텐츠 현황 -->
+                                    <!-- Duplicate Content Status -->
                                     @if (($pages['dupTitleCount'] ?? 0) > 0 || ($pages['dupDescCount'] ?? 0) > 0)
                                         <div class="alert alert-warning d-block">
-                                            <strong>⚠️ 중복 콘텐츠 감지</strong><br>
+                                            <strong>⚠️ Duplicate Content Detected</strong><br>
                                             <div class="row mt-2">
                                                 <div class="col-6">
-                                                    중복 제목 페이지: <strong>{{ $pages['dupTitleCount'] ?? 0 }}개</strong>
+                                                    Duplicate title pages: <strong>{{ $pages['dupTitleCount'] ?? 0 }}</strong>
                                                 </div>
                                                 <div class="col-6">
-                                                    중복 설명 페이지: <strong>{{ $pages['dupDescCount'] ?? 0 }}개</strong>
+                                                    Duplicate description pages: <strong>{{ $pages['dupDescCount'] ?? 0 }}</strong>
                                                 </div>
                                             </div>
                                             <div class="small mt-2">
-                                                중복률: <strong>{{ number_format($pages['duplicateRate'] ?? 0, 1) }}%</strong>
-                                                - 각 페이지마다 고유한 title과 description 작성을 권장합니다.
+                                                Duplicate rate: <strong>{{ number_format($pages['duplicateRate'] ?? 0, 1) }}%</strong>
+                                                - We recommend writing unique title and description for each page.
                                             </div>
                                         </div>
                                     @endif
 
-                                    <!-- 추가 정보 -->
+                                    <!-- Additional Information -->
                                     <div class="alert alert-info d-block">
-                                        <strong>💡 크롤링 최적화가 중요한 이유</strong><br>
-                                        - 검색엔진 색인: robots.txt와 sitemap.xml은 검색엔진이 사이트를 이해하는 기본 도구<br>
-                                        - 크롤링 효율: 정확한 크롤링 규칙으로 중요 페이지 우선 색인<br>
-                                        - SEO 점수: 페이지 품질과 중복 콘텐츠는 검색 순위에 직접 영향<br>
-                                        - 사용자 경험: 404 오류 없는 깨끗한 사이트 구조 유지
+                                        <strong>💡 Why Crawl Optimization Matters</strong><br>
+                                        - Search engine indexing: robots.txt and sitemap.xml are basic tools for search engines to understand your site<br>
+                                        - Crawl efficiency: Accurate crawling rules prioritize important pages for indexing<br>
+                                        - SEO score: Page quality and duplicate content directly affect search rankings<br>
+                                        - User experience: Maintain clean site structure without 404 errors
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>robots.txt:</strong> 검색엔진 크롤러의 접근 규칙을 정의하는 파일</p>
-                                        <p class="mb-2"><strong>sitemap.xml:</strong> 사이트의 모든 중요 페이지 목록과 메타데이터</p>
-                                        <p class="mb-2"><strong>품질 점수:</strong> title, description, canonical, H1, 콘텐츠량 종합 평가</p>
-                                        <p class="mb-2"><strong>오류율:</strong> 404, 500 등 접근 불가 페이지 비율</p>
-                                        <p class="mb-0"><strong>중복률:</strong> 동일한 메타데이터를 사용하는 페이지 비율</p>
+                                        <p class="mb-2"><strong>robots.txt:</strong> File that defines access rules for search engine crawlers</p>
+                                        <p class="mb-2"><strong>sitemap.xml:</strong> List of all important pages on the site with metadata</p>
+                                        <p class="mb-2"><strong>Quality score:</strong> Comprehensive evaluation of title, description, canonical, H1, and content volume</p>
+                                        <p class="mb-2"><strong>Error rate:</strong> Percentage of inaccessible pages (404, 500, etc.)</p>
+                                        <p class="mb-0"><strong>Duplicate rate:</strong> Percentage of pages using identical metadata</p>
                                     </div>
                                     
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Crawl Inspector를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC's Crawl Inspector.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 검색엔진 크롤링 표준을 준수하는 검사 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides inspection services compliant with search engine crawling standards,
+                                            and certificates can be verified for authenticity through real-time QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Certificate Issue Date:
                                                 {{ $certification->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certification->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -6373,102 +6354,102 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>검색엔진 크롤링 준수 및 페이지 품질 종합 분석</h3>
+                                <h3>Search Engine Crawling Compliance and Page Quality Comprehensive Analysis</h3>
                                 <div class="text-muted small mt-1">
-                                    웹사이트의 robots.txt와 sitemap.xml을 분석하여 SEO 준수 여부를 검증하고,
-                                    sitemap에 등록된 페이지들의 접근성과 품질을 종합적으로 평가합니다.
+                                    Analyzes website's robots.txt and sitemap.xml to verify SEO compliance and
+                                    comprehensively evaluates accessibility and quality of pages registered in sitemap.
                                     <br><br>
-                                    <strong>📋 검사 프로세스:</strong><br>
-                                    1. robots.txt 파일 존재 여부 및 규칙 확인<br>
-                                    2. sitemap.xml 파일 검색 및 URL 수집<br>
-                                    3. robots.txt 규칙에 따른 크롤링 허용 URL 필터링<br>
-                                    4. 최대 50개 페이지 샘플링 및 순차 검사<br>
-                                    5. 각 페이지의 HTTP 상태, 메타데이터, 품질 점수 측정<br>
-                                    6. 중복 콘텐츠(title/description) 비율 분석
+                                    <strong>📋 Testing Process:</strong><br>
+                                    1. Check robots.txt file existence and rules<br>
+                                    2. Search for sitemap.xml file and collect URLs<br>
+                                    3. Filter crawling-allowed URLs according to robots.txt rules<br>
+                                    4. Sample and sequentially test up to 50 pages<br>
+                                    5. Measure HTTP status, metadata, and quality score for each page<br>
+                                    6. Analyze duplicate content (title/description) ratio
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria Guide --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge bg-green-lt text-green-lt-fg">A+</span></td>
                                                 <td>90~100</td>
-                                                <td>robots.txt 정상 적용<br>
-                                                    sitemap.xml 존재 및 누락/404 없음<br>
-                                                    검사 대상 페이지 전부 2xx<br>
-                                                    전체 페이지 품질 평균 ≥ 85점<br>
-                                                    중복 콘텐츠 ≤ 30%</td>
+                                                <td>robots.txt properly applied<br>
+                                                    sitemap.xml exists with no missing/404s<br>
+                                                    All tested pages return 2xx<br>
+                                                    Overall page quality average ≥ 85 points<br>
+                                                    Duplicate content ≤ 30%</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-lime-lt text-lime-lt-fg">A</span></td>
                                                 <td>80~89</td>
-                                                <td>robots.txt 정상 적용<br>
-                                                    sitemap.xml 존재 및 정합성 확보<br>
-                                                    검사 대상 페이지 전부 2xx<br>
-                                                    전체 페이지 품질 평균 ≥ 85점</td>
+                                                <td>robots.txt properly applied<br>
+                                                    sitemap.xml exists with integrity ensured<br>
+                                                    All tested pages return 2xx<br>
+                                                    Overall page quality average ≥ 85 points</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-blue-lt text-blue-lt-fg">B</span></td>
                                                 <td>70~79</td>
-                                                <td>robots.txt 및 sitemap.xml 존재<br>
-                                                    검사 대상 페이지 전부 2xx<br>
-                                                    전체 페이지 품질 평균 무관</td>
+                                                <td>robots.txt and sitemap.xml exist<br>
+                                                    All tested pages return 2xx<br>
+                                                    Overall page quality average irrelevant</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-yellow-lt text-yellow-lt-fg">C</span></td>
                                                 <td>55~69</td>
-                                                <td>robots.txt 및 sitemap.xml 존재<br>
-                                                    검사 리스트 일부 4xx/5xx 오류 포함</td>
+                                                <td>robots.txt and sitemap.xml exist<br>
+                                                    Test list includes some 4xx/5xx errors</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-orange-lt text-orange-lt-fg">D</span></td>
                                                 <td>35~54</td>
-                                                <td>robots.txt 및 sitemap.xml 존재<br>
-                                                    검사 대상 URL 생성 가능<br>
-                                                    단, 정상 접근률 낮거나 품질 점검 불가</td>
+                                                <td>robots.txt and sitemap.xml exist<br>
+                                                    Test URL list generation possible<br>
+                                                    However, low normal access rate or quality check impossible</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-red-lt text-red-lt-fg">F</span></td>
                                                 <td>0~34</td>
-                                                <td>robots.txt 부재 또는 sitemap.xml 부재<br>
-                                                    검사 리스트 자체 생성 불가</td>
+                                                <td>robots.txt missing or sitemap.xml missing<br>
+                                                    Test list generation impossible</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 크롤링 최적화 체크리스트</strong><br>
-                                    <strong>필수 구현:</strong><br>
-                                    • robots.txt: User-agent, Allow/Disallow, Sitemap 위치 명시<br>
-                                    • sitemap.xml: 모든 중요 페이지 포함, lastmod 날짜 관리<br>
-                                    • 404 처리: 커스텀 404 페이지, 301 리다이렉트 설정<br><br>
+                                    <strong>📌 Crawl Optimization Checklist</strong><br>
+                                    <strong>Essential Implementation:</strong><br>
+                                    • robots.txt: Specify User-agent, Allow/Disallow, Sitemap location<br>
+                                    • sitemap.xml: Include all important pages, manage lastmod dates<br>
+                                    • 404 handling: Custom 404 page, 301 redirect setup<br><br>
                                     
-                                    <strong>품질 점수 향상:</strong><br>
-                                    • Title: 50-60자, 페이지별 고유 제목<br>
-                                    • Description: 120-160자, 페이지별 고유 설명<br>
-                                    • Canonical URL: 모든 페이지에 설정<br>
-                                    • H1 태그: 페이지당 1개, 명확한 제목<br>
-                                    • 콘텐츠: 최소 1000자 이상 실질적 내용<br><br>
+                                    <strong>Quality Score Improvement:</strong><br>
+                                    • Title: 50-60 characters, unique title per page<br>
+                                    • Description: 120-160 characters, unique description per page<br>
+                                    • Canonical URL: Set for all pages<br>
+                                    • H1 tag: One per page, clear title<br>
+                                    • Content: Minimum 1000 characters of substantial content<br><br>
                                     
-                                    <strong>성과 지표:</strong><br>
-                                    • 크롤링 최적화 → 색인 속도 50% 향상<br>
-                                    • 중복 콘텐츠 제거 → 검색 순위 20% 상승<br>
-                                    • 404 오류 제거 → 사용자 이탈률 15% 감소
+                                    <strong>Performance Metrics:</strong><br>
+                                    • Crawl optimization → 50% faster indexing speed<br>
+                                    • Duplicate content removal → 20% search ranking improvement<br>
+                                    • 404 error removal → 15% user bounce rate reduction
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
                                 <pre class="json-dump text-start" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
@@ -6485,17 +6466,17 @@
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                     class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">인증 결과 요약</a>
+                                    data-bs-toggle="tab">Certification Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                     class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">검증 기준 및 환경</a>
+                                    data-bs-toggle="tab">Verification Criteria & Environment</a>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                     class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                    data-bs-toggle="tab">세부 측정 데이터</a>
+                                    data-bs-toggle="tab">Detailed Measurement Data</a>
                             </li>
                         </ul>
                     </div>
@@ -6526,10 +6507,10 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                PSQC 종합 인증서 - 세부 검사내역
+                                                PSQC Comprehensive Certificate - Detailed Test Report
                                             </h1>
-                                            <h2>(메타데이터 완성도 검사)</h2>
-                                            <h3>인증번호: {{ $certification->code }}</h3>
+                                            <h2>(Metadata Completeness Audit)</h2>
+                                            <h3>Certification Code: {{ $certification->code }}</h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -6538,12 +6519,11 @@
                                                 <div class="card-body text-center pt-3 pb-1">
                                                     <div class="mb-3">
                                                         <div class="h1 mb-2">
-                                                            <span
-                                                                class="{{ $gradeClass }}">{{ $grade }}</span>
+                                                            <span class="{{ $gradeClass }}">{{ $grade }}</span>
                                                         </div>
                                                         @if ($currentTest->overall_score)
                                                             <div class="text-muted h4">
-                                                                {{ number_format($currentTest->overall_score, 1) }}점
+                                                                {{ number_format($currentTest->overall_score, 1) }} points
                                                             </div>
                                                         @endif
                                                     </div>
@@ -6552,7 +6532,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <small class="text-muted">
-                                                            테스트 일시:
+                                                            Test Date:
                                                             {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
                                                         </small>
                                                     </div>
@@ -6565,9 +6545,9 @@
                                                 <table class="table table-sm">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>구분</th>
-                                                            <th>상태</th>
-                                                            <th>세부사항</th>
+                                                            <th>Category</th>
+                                                            <th>Status</th>
+                                                            <th>Details</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -6575,72 +6555,72 @@
                                                             <td><strong>Title Tag</strong></td>
                                                             <td>
                                                                 @if ($analysis['title']['isEmpty'] ?? true)
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">없음</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">None</span>
                                                                 @elseif ($analysis['title']['isOptimal'] ?? false)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">최적</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Optimal</span>
                                                                 @elseif ($analysis['title']['isAcceptable'] ?? false)
-                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">허용</span>
+                                .                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">Acceptable</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">부적절</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Inadequate</span>
                                                                 @endif
                                                             </td>
-                                                            <td>{{ $summary['titleLength'] ?? 0 }}자 (최적: 50~60자)</td>
+                                                            <td>{{ $summary['titleLength'] ?? 0 }} chars (Optimal: 50–60)</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Meta Description</strong></td>
                                                             <td>
                                                                 @if ($analysis['description']['isEmpty'] ?? true)
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">없음</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">None</span>
                                                                 @elseif ($analysis['description']['isOptimal'] ?? false)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">최적</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Optimal</span>
                                                                 @elseif ($analysis['description']['isAcceptable'] ?? false)
-                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">허용</span>
+                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">Acceptable</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">부적절</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Inadequate</span>
                                                                 @endif
                                                             </td>
-                                                            <td>{{ $summary['descriptionLength'] ?? 0 }}자 (최적: 120~160자)</td>
+                                                            <td>{{ $summary['descriptionLength'] ?? 0 }} chars (Optimal: 120–160)</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Open Graph</strong></td>
                                                             <td>
                                                                 @if ($analysis['openGraph']['isPerfect'] ?? false)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">완벽</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Perfect</span>
                                                                 @elseif ($analysis['openGraph']['hasBasic'] ?? false)
-                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">기본</span>
+                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">Basic</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">부족</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Insufficient</span>
                                                                 @endif
                                                             </td>
-                                                            <td>{{ $summary['openGraphFields'] ?? 0 }}개 태그 설정</td>
+                                                            <td>{{ $summary['openGraphFields'] ?? 0 }} tags configured</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Twitter Cards</strong></td>
                                                             <td>
                                                                 @if ($analysis['twitterCards']['isPerfect'] ?? false)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">완벽</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Perfect</span>
                                                                 @elseif ($analysis['twitterCards']['hasBasic'] ?? false)
-                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">기본</span>
+                                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg">Basic</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">부족</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Insufficient</span>
                                                                 @endif
                                                             </td>
-                                                            <td>{{ $summary['twitterCardFields'] ?? 0 }}개 태그 설정</td>
+                                                            <td>{{ $summary['twitterCardFields'] ?? 0 }} tags configured</td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Canonical URL</strong></td>
                                                             <td>
                                                                 @if ($summary['hasCanonical'] ?? false)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">설정</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">Set</span>
                                                                 @else
-                                                                    <span class="badge bg-red-lt text-red-lt-fg">미설정</span>
+                                                                    <span class="badge bg-red-lt text-red-lt-fg">Not Set</span>
                                                                 @endif
                                                             </td>
                                                             <td>
                                                                 @if ($summary['hasCanonical'] ?? false)
-                                                                    중복 콘텐츠 방지 설정됨
+                                                                    Duplicate-content prevention configured
                                                                 @else
-                                                                    설정 필요
+                                                                    Configuration required
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -6648,12 +6628,12 @@
                                                             <td><strong>Hreflang</strong></td>
                                                             <td>
                                                                 @if (($summary['hreflangCount'] ?? 0) > 0)
-                                                                    <span class="badge bg-green-lt text-green-lt-fg">{{ $summary['hreflangCount'] }}개</span>
+                                                                    <span class="badge bg-green-lt text-green-lt-fg">{{ $summary['hreflangCount'] }} set</span>
                                                                 @else
-                                                                    <span class="badge">0개</span>
+                                                                    <span class="badge">0</span>
                                                                 @endif
                                                             </td>
-                                                            <td>다국어 설정 {{ $summary['hreflangCount'] ?? 0 }}개</td>
+                                                            <td>Multilingual links: {{ $summary['hreflangCount'] ?? 0 }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -6662,47 +6642,45 @@
                                     </div>
 
                                     <div class="alert alert-success d-block text-start mb-3">
-                                        <h4 class="mb-2">✅ 테스트 결과 검증 완료</h4>
+                                        <h4 class="mb-2">✅ Test Verification Completed</h4>
                                         <p class="mb-1">
-                                            본 인증서는 <strong>Meta Inspector CLI</strong>를 통해 수행된 메타데이터 완성도 검사 결과에 근거합니다.<br>
-                                            모든 데이터는 <u>실제 브라우저 렌더링 환경</u>에서 수집되었으며, SEO 모범 사례 기준으로 평가되었습니다.
+                                            This certificate is based on results from the <strong>Meta Inspector CLI</strong> metadata completeness audit.<br>
+                                            All data was collected in a <u>real browser rendering environment</u> and scored against SEO best practices.
                                         </p>
                                         <p class="mb-0 text-muted small">
-                                            ※ 본 검사는 특정 시점의 메타데이터 상태로, 웹사이트 업데이트에 따라 변경될 수 있습니다.
+                                            ※ This audit reflects the metadata at a specific point in time and may change as your site is updated.
                                         </p>
                                     </div>
 
                                     @if (in_array($grade, ['A+', 'A']))
                                         <div class="alert alert-primary d-block text-start mb-3">
                                             <p class="mb-0">
-                                                🌟 본 사이트는 메타데이터 완성도 검사 결과,
-                                                <strong>{{ $grade }}</strong> 등급을 획득하여
-                                                <u>검색엔진 최적화(SEO) 우수 사이트</u>임을 입증하였습니다.<br>
-                                                이는 <strong>검색 노출</strong>과 <strong>소셜 미디어 공유</strong>에 최적화된
-                                                웹사이트임을 보여줍니다.
+                                                🌟 This site achieved a <strong>{{ $grade }}</strong> in the metadata audit,
+                                                demonstrating <u>excellent search engine optimization</u>.<br>
+                                                It is optimized for both <strong>search visibility</strong> and <strong>social sharing</strong>.
                                             </p>
                                         </div>
                                     @endif
 
-                                    <!-- 메타데이터 상세 현황 -->
+                                    <!-- Metadata details -->
                                     @if ($metadata)
                                         <div class="row mb-4">
                                             <div class="col-12">
-                                                <h4 class="mb-3">메타데이터 상세 현황</h4>
+                                                <h4 class="mb-3">Metadata Details</h4>
                                                 <div class="card mb-3">
                                                     <div class="card-body">
-                                                        <h5 class="card-title">기본 메타데이터</h5>
+                                                        <h5 class="card-title">Basic Metadata</h5>
                                                         <div class="mb-3">
-                                                            <div class="fw-bold mb-1">Title ({{ $summary['titleLength'] ?? 0 }}자)</div>
-                                                            <div class="text-muted small">{{ $metadata['title'] ?: '제목 없음' }}</div>
+                                                            <div class="fw-bold mb-1">Title ({{ $summary['titleLength'] ?? 0 }} chars)</div>
+                                                            <div class="text-muted small">{{ $metadata['title'] ?: 'No title' }}</div>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <div class="fw-bold mb-1">Description ({{ $summary['descriptionLength'] ?? 0 }}자)</div>
-                                                            <div class="text-muted small">{{ $metadata['description'] ?: '설명 없음' }}</div>
+                                                            <div class="fw-bold mb-1">Description ({{ $summary['descriptionLength'] ?? 0 }} chars)</div>
+                                                            <div class="text-muted small">{{ $metadata['description'] ?: 'No description' }}</div>
                                                         </div>
                                                         <div>
                                                             <div class="fw-bold mb-1">Canonical URL</div>
-                                                            <div class="text-muted small">{{ $metadata['canonical'] ?: 'Canonical URL 없음' }}</div>
+                                                            <div class="text-muted small">{{ $metadata['canonical'] ?: 'No canonical URL' }}</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -6710,7 +6688,7 @@
                                                 @if (!empty($metadata['openGraph']))
                                                     <div class="card mb-3">
                                                         <div class="card-body">
-                                                            <h5 class="card-title">Open Graph 태그</h5>
+                                                            <h5 class="card-title">Open Graph Tags</h5>
                                                             <div class="table-responsive">
                                                                 <table class="table table-sm">
                                                                     <tbody>
@@ -6730,7 +6708,7 @@
                                                 @if (!empty($metadata['twitterCards']))
                                                     <div class="card mb-3">
                                                         <div class="card-body">
-                                                            <h5 class="card-title">Twitter Cards 태그</h5>
+                                                            <h5 class="card-title">Twitter Cards Tags</h5>
                                                             <div class="table-responsive">
                                                                 <table class="table table-sm">
                                                                     <tbody>
@@ -6750,7 +6728,7 @@
                                                 @if (!empty($metadata['hreflangs']))
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h5 class="card-title">Hreflang 설정</h5>
+                                                            <h5 class="card-title">Hreflang Settings</h5>
                                                             <div class="table-responsive">
                                                                 <table class="table table-sm">
                                                                     <tbody>
@@ -6759,7 +6737,7 @@
                                                                                 <td width="20%">
                                                                                     <code>{{ $hreflang['lang'] }}</code>
                                                                                     @if ($hreflang['lang'] === 'x-default')
-                                                                                        <span class="badge bg-primary-lt ms-1">기본</span>
+                                                                                        <span class="badge bg-primary-lt ms-1">Default</span>
                                                                                     @endif
                                                                                 </td>
                                                                                 <td class="text-break">{{ $hreflang['href'] }}</td>
@@ -6777,7 +6755,7 @@
 
                                     @if (!empty($results['issues']))
                                         <div class="alert alert-warning d-block">
-                                            <strong>⚠️ 발견된 문제점</strong><br>
+                                            <strong>⚠️ Issues Found</strong><br>
                                             <ul class="mb-0 mt-2">
                                                 @foreach ($results['issues'] as $issue)
                                                     <li>{{ $issue }}</li>
@@ -6786,46 +6764,46 @@
                                         </div>
                                     @endif
 
-                                    <!-- 추가 정보 -->
+                                    <!-- Extra info -->
                                     <div class="alert alert-info d-block">
-                                        <strong>💡 메타데이터가 중요한 이유</strong><br>
-                                        - 검색엔진 최적화: 적절한 메타데이터는 검색 결과 노출과 순위에 직접적인 영향을 줍니다.<br>
-                                        - 소셜 미디어 공유: Open Graph와 Twitter Cards는 링크 공유 시 미리보기 품질을 결정합니다.<br>
-                                        - 사용자 경험: 명확한 제목과 설명은 사용자의 클릭률(CTR)을 향상시킵니다.<br>
-                                        - 중복 콘텐츠 방지: Canonical URL은 검색엔진 패널티를 예방합니다.
+                                        <strong>💡 Why Metadata Matters</strong><br>
+                                        - SEO: Proper metadata directly influences visibility and ranking.<br>
+                                        - Social Sharing: Open Graph & Twitter Cards determine preview quality on social platforms.<br>
+                                        - UX: Clear titles and descriptions improve click-through rate (CTR).<br>
+                                        - Canonicalization: Canonical URLs prevent duplicate-content penalties.
                                     </div>
 
                                     <div class="alert alert-light d-block">
-                                        <p class="mb-2"><strong>Title Tag:</strong> 검색 결과와 브라우저 탭에 표시되는 페이지 제목 (최적: 50~60자)</p>
-                                        <p class="mb-2"><strong>Meta Description:</strong> 검색 결과에 표시되는 페이지 설명 (최적: 120~160자)</p>
-                                        <p class="mb-2"><strong>Open Graph:</strong> Facebook, LinkedIn 등 소셜 미디어 공유 최적화</p>
-                                        <p class="mb-2"><strong>Twitter Cards:</strong> Twitter 공유 시 카드 형태 최적화</p>
-                                        <p class="mb-2"><strong>Canonical URL:</strong> 중복 콘텐츠 방지를 위한 대표 URL 지정</p>
-                                        <p class="mb-0"><strong>Hreflang Tags:</strong> 다국어 페이지 연결 설정</p>
+                                        <p class="mb-2"><strong>Title Tag:</strong> Page title shown in SERPs and browser tabs (Optimal: 50–60 chars)</p>
+                                        <p class="mb-2"><strong>Meta Description:</strong> Snippet shown in SERPs (Optimal: 120–160 chars)</p>
+                                        <p class="mb-2"><strong>Open Graph:</strong> Optimizes link previews on Facebook, LinkedIn, etc.</p>
+                                        <p class="mb-2"><strong>Twitter Cards:</strong> Optimizes preview cards on Twitter/X</p>
+                                        <p class="mb-2"><strong>Canonical URL:</strong> Declares the preferred URL to prevent duplication</p>
+                                        <p class="mb-0"><strong>Hreflang Tags:</strong> Connects localized/translated pages</p>
                                     </div>
                                     
                                     <hr>
                                     <div class="text-center mt-5">
                                         <p class="fw-bold mb-1">
-                                            ✔ 본 결과는 DevTeam-Test의 Meta Inspector를 통해 검증되었습니다.
+                                            ✔ This result has been verified through Web-PSQC’s Meta Inspector.
                                         </p>
 
                                         <small class="text-muted d-block mb-2">
-                                            DevTeam-Test는 국제 SEO 표준에 근거한 메타데이터 품질 측정 서비스를 제공하며,
-                                            인증서는 실시간 QR 검증으로 진위를 확인할 수 있습니다.
+                                            Web-PSQC provides metadata quality auditing aligned with international SEO standards.
+                                            Certificates can be authenticated in real time via QR verification.
                                         </small>
 
                                         <div class="mt-3 mb-4">
-                                            <small class="d-block">인증서 발행일:
+                                            <small class="d-block">Issued Date:
                                                 {{ $certification->issued_at->format('Y-m-d') }}</small>
-                                            <small class="d-block">만료일:
+                                            <small class="d-block">Expiration Date:
                                                 {{ $certification->expires_at->format('Y-m-d') }}</small>
                                         </div>
 
                                         <div class="signature-line">
                                             <span class="label">Authorized by</span>
                                             <span class="signature">Daniel Ahn</span>
-                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (DevTeam-Test)</div>
+                                            <div class="sig-meta">CEO, DevTeam Co., Ltd. (Web-PSQC)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -6833,99 +6811,99 @@
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>메타데이터 완성도 검사 도구</h3>
+                                <h3>Metadata Completeness Audit Tool</h3>
                                 <div class="text-muted small mt-1">
-                                    <strong>Meta Inspector CLI</strong>를 활용하여 웹페이지의 메타데이터 완성도를 분석합니다.
+                                    We analyze the completeness of your page metadata using the <strong>Meta Inspector CLI</strong>.
                                     <br><br>
-                                    <strong>📊 측정 도구 및 방식:</strong><br>
-                                    • Node.js 기반 헤드리스 브라우저 엔진으로 실제 페이지 렌더링<br>
-                                    • HTML 파싱을 통한 메타태그 추출 및 분석<br>
-                                    • SEO 모범 사례 기준으로 점수 산정 (100점 만점)<br><br>
+                                    <strong>📊 Tools & Method:</strong><br>
+                                    • Node.js headless browser engine renders the actual page<br>
+                                    • HTML parsing to extract and analyze meta tags<br>
+                                    • Scored against SEO best practices (out of 100)<br><br>
                                     
-                                    <strong>🎯 테스트 목적:</strong><br>
-                                    • 검색엔진 최적화(SEO)를 위한 메타데이터 품질 평가<br>
-                                    • 소셜 미디어 공유 시 미리보기 품질 확인<br>
-                                    • 중복 콘텐츠 방지를 위한 Canonical 설정 검증<br>
-                                    • 다국어 지원을 위한 Hreflang 설정 확인
+                                    <strong>🎯 Objectives:</strong><br>
+                                    • Evaluate SEO-ready metadata quality<br>
+                                    • Check preview quality for social sharing<br>
+                                    • Verify canonical configuration to prevent duplication<br>
+                                    • Confirm hreflang setup for multilingual support
                                 </div>
-                                {{-- 등급 기준 안내 --}}
+                                {{-- Grade Criteria --}}
                                 <div class="table-responsive my-3">
                                     <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th>등급</th>
-                                                <th>점수</th>
-                                                <th>기준</th>
+                                                <th>Grade</th>
+                                                <th>Score</th>
+                                                <th>Criteria</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><span class="badge bg-green-lt text-green-lt-fg">A+</span></td>
-                                                <td>95~100</td>
-                                                <td>Title 최적 길이(50~60자), Description 최적 길이(120~160자)<br>
-                                                    Open Graph 완벽 구현, Twitter Cards 완벽 구현<br>
-                                                    Canonical URL 정확, 모든 메타데이터 최적화</td>
+                                                <td>95–100</td>
+                                                <td>Optimal title length (50–60), optimal description length (120–160)<br>
+                                                    Complete Open Graph, complete Twitter Cards<br>
+                                                    Accurate canonical URL, all metadata optimized</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-lime-lt text-lime-lt-fg">A</span></td>
-                                                <td>85~94</td>
-                                                <td>Title/Description 허용 범위(30~80자/80~200자)<br>
-                                                    Open Graph 완벽 구현, Canonical URL 정확 설정<br>
-                                                    Twitter Cards는 선택사항</td>
+                                                <td>85–94</td>
+                                                <td>Acceptable title/description ranges (30–80 / 80–200)<br>
+                                                    Complete Open Graph, accurate canonical<br>
+                                                    Twitter Cards optional</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-blue-lt text-blue-lt-fg">B</span></td>
-                                                <td>75~84</td>
-                                                <td>Title/Description 기본 작성<br>
-                                                    Open Graph 기본 태그 적용<br>
-                                                    일부 메타데이터 누락 허용</td>
+                                                <td>75–84</td>
+                                                <td>Basic title/description present<br>
+                                                    Open Graph basic tags configured<br>
+                                                    Some metadata omissions allowed</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-yellow-lt text-yellow-lt-fg">C</span></td>
-                                                <td>65~74</td>
-                                                <td>Title/Description 길이 부적절<br>
-                                                    Open Graph 불완전 (주요 태그 누락)<br>
-                                                    Canonical URL 부정확 또는 누락</td>
+                                                <td>65–74</td>
+                                                <td>Poor title/description lengths<br>
+                                                    Incomplete Open Graph (key tags missing)<br>
+                                                    Canonical inaccurate or missing</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-orange-lt text-orange-lt-fg">D</span></td>
-                                                <td>50~64</td>
-                                                <td>Title/Description 심각한 길이 문제<br>
-                                                    Open Graph 기본 태그 부족<br>
-                                                    기본 메타데이터 부족</td>
+                                                <td>50–64</td>
+                                                <td>Severely suboptimal title/description<br>
+                                                    Insufficient Open Graph basics<br>
+                                                    Basic metadata missing</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge bg-red-lt text-red-lt-fg">F</span></td>
-                                                <td>0~49</td>
-                                                <td>Title/Description 미작성<br>
-                                                    Open Graph 부재<br>
-                                                    메타데이터 전반 미구현</td>
+                                                <td>0–49</td>
+                                                <td>No title/description<br>
+                                                    No Open Graph<br>
+                                                    Metadata largely unimplemented</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert alert-secondary d-block">
-                                    <strong>📌 SEO 성공을 위한 메타데이터 체크리스트</strong><br>
-                                    - <strong>Title Tag:</strong> 50-60자, 핵심 키워드 포함, 브랜드명 포함<br>
-                                    - <strong>Meta Description:</strong> 120-160자, 행동 유도 문구 포함<br>
-                                    - <strong>Open Graph:</strong> title, description, image, url 필수 4대 요소<br>
-                                    - <strong>Twitter Cards:</strong> card, title, description 기본 3요소<br>
-                                    - <strong>Canonical URL:</strong> 모든 페이지에 self-referencing canonical 권장<br>
-                                    - <strong>Hreflang:</strong> 다국어 사이트의 경우 x-default 포함 필수<br><br>
+                                    <strong>📌 SEO Metadata Checklist</strong><br>
+                                    - <strong>Title Tag:</strong> 50–60 chars, include core keyword and brand<br>
+                                    - <strong>Meta Description:</strong> 120–160 chars, include a call to action<br>
+                                    - <strong>Open Graph:</strong> Required 4: <code>og:title</code>, <code>og:description</code>, <code>og:image</code>, <code>og:url</code><br>
+                                    - <strong>Twitter Cards:</strong> Basics: <code>card</code>, <code>title</code>, <code>description</code><br>
+                                    - <strong>Canonical URL:</strong> Prefer self-referencing canonical on every page<br>
+                                    - <strong>Hreflang:</strong> For multilingual sites, include <code>x-default</code><br><br>
 
-                                    <strong>🔍 검색엔진 노출 영향도</strong><br>
-                                    • Title/Description 최적화 → 클릭률(CTR) 최대 30% 향상<br>
-                                    • Open Graph 구현 → 소셜 공유율 최대 40% 증가<br>
-                                    • Canonical 설정 → 중복 콘텐츠 패널티 100% 방지<br>
-                                    • 메타데이터 종합 최적화 → 검색 트래픽 평균 20-50% 상승
+                                    <strong>🔍 Impact on Search Visibility</strong><br>
+                                    • Optimized title/description → CTR up to ~30% lift<br>
+                                    • Open Graph implemented → Social share rate up to ~40% increase<br>
+                                    • Canonical set → 100% avoidance of duplicate-content penalties<br>
+                                    • Overall metadata optimization → ~20–50% average search traffic lift
                                 </div>
                             </div>
                             <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}" id="tabs-data">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Raw JSON Data</h5>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                        복사
+                                        onclick="copyJsonToClipboard()" title="Copy JSON Data">
+                                        Copy
                                     </button>
                                 </div>
                                 <pre class="json-dump text-start" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
