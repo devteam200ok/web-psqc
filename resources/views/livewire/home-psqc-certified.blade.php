@@ -208,7 +208,7 @@
     <div class="container container-narrow py-4">
         @include('inc.component.message')
         <div class="row mt-3 my-3">
-        <div class="col d-flex align-items-center">
+        <div class="col d-flex align-items-center mb-2">
             <div class="mx-auto">
                 <select wire:model.change="test_type" class="form-select">
                     <option value="psqc">PSQC Comprehensive Certificate</option>
