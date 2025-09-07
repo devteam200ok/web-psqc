@@ -485,10 +485,10 @@
                     <div class="test-item">
                         <div class="d-flex align-items-center mb-2">
                             <h5 class="fw-bold mb-0 flex-grow-1">
-                                <a href="{{ url('/security/headers') }}"
+                                <a href="{{ url('/security/header') }}"
                                     class="text-decoration-none text-dark">Security Headers</a>
                             </h5>
-                            <a href="{{ url('/') }}/security/headers" class="badge-new"
+                            <a href="{{ url('/') }}/security/header" class="badge-new"
                                 aria-label="Run Security Headers test">Test</a>
                         </div>
                         <p class="text-muted small mb-0">Validate HSTS, CSP, CORS, X-Frame-Options, and more</p>
