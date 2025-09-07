@@ -90,6 +90,7 @@ class WebTest extends Model
         return $query->select([
             'id',
             'user_id',
+            'psqc_certification_id',
             'test_type',
             'domain',
             'url',
