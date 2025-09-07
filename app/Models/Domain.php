@@ -70,7 +70,7 @@ class Domain extends Model
             return 'Verified';
         }
         
-        return $this->verification_token ? 'Pending Verification' : 'Unverified';
+        return $this->verification_token ? 'Pending' : 'Unverified';
     }
 
     public function getVerificationStatusClassAttribute(): string
