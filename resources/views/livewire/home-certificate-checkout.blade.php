@@ -2,7 +2,6 @@
     @include('inc.component.seo')
 @endsection
 @section('css')
-    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
 @endsection
 
 <div class="page-body px-xl-3">
@@ -49,47 +48,28 @@
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div>
                                 <h4>Certificate Issuance Fee</h4>
-                                <span class="h4">{{ number_format($amount) }} KRW</span>
+                                <span class="h4">${{ number_format($amount) }} USD</span>
                             </div>
+                        </div>
+
+                        <hr class="my-3">
+
+                        <div>
+                            <h4 class="mt-3">Total Payment Amount</h4>
+                            <span class="h4">${{ number_format($amount) }} USD</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Toss Payment Widget -->
-                <div id="payment-method"></div>
-                <div id="agreement"></div>
-                
+                <!-- Payment Section -->
                 <div class="mt-3">
-                    <div class="row">
-                        <div class="col-6 mb-2">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-control mb-3" id="customerName"
-                                placeholder="Enter your name" style="font-size:16px" 
-                                value="{{ Auth::user()->name }}">
-                        </div>
-                        <div class="col-6 mb-2">
-                            <label class="form-label">Phone Number</label>
-                            <input type="text" class="form-control mb-3" id="customerPhone"
-                                placeholder="Enter your phone number" style="font-size:16px">
-                        </div>
-                    </div>
-                    <button class="btn btn-primary w-100 btn-lg" id="tossPaymentButton">
-                        Pay {{ number_format($amount) }} KRW
-                    </button>
+                    <div id="paypal-button-container"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toss Payment Configuration -->
-    @if ($api->toss_mode == 'live')
-        <input type="hidden" id="widgetClientKey" value="{{ $api->toss_client_key }}">
-    @else
-        <input type="hidden" id="widgetClientKey" value="{{ $api->toss_client_key_test }}">
-    @endif
-    <input type="hidden" id="customerKey" value="WP{{ Auth::user()->id }}">
-    <input type="hidden" id="customerEmail" value="{{ Auth::user()->email }}">
-    <input type="hidden" id="orderName" value="Web Test Certificate ({{ $certificate->url }})">
+    <!-- Hidden inputs for PayPal -->
     <input type="hidden" id="totalPrice" value="{{ $amount }}">
     <input type="hidden" id="orderId" value="{{ $orderId }}">
     <input type="hidden" id="certificateId" value="{{ $certificate->id }}">
@@ -97,57 +77,68 @@
 
 @section('js')
     <script>
-        const button = document.getElementById("tossPaymentButton");
-        
-        const widgetClientKey = document.getElementById("widgetClientKey").value;
-        const customerKey = document.getElementById("customerKey").value;
-        const customerEmail = document.getElementById("customerEmail").value;
-        
-        const totalPrice = document.getElementById("totalPrice").value;
-        const orderName = document.getElementById("orderName").value;
-        const orderId = document.getElementById("orderId").value;
-        const certificateId = document.getElementById("certificateId").value;
-        
-        const paymentWidget = PaymentWidget(widgetClientKey, customerKey);
-        
-        const paymentMethodWidget = paymentWidget.renderPaymentMethods(
-            "#payment-method", {
-                value: totalPrice,
-            }, {
-                variantKey: "DEFAULT"
+        document.addEventListener('DOMContentLoaded', function() {
+            let sdkLoaded = false;
+            const totalPrice = parseFloat(document.getElementById('totalPrice').value || 0);
+            const orderId = document.getElementById('orderId').value;
+            const certificateId = document.getElementById('certificateId').value;
+
+            if (!sdkLoaded) {
+                sdkLoaded = true;
+                const script = document.createElement('script');
+                script.src = 'https://www.paypal.com/sdk/js?client-id={{ $paypal_client_id }}&components=buttons&currency=USD';
+                script.onload = () => renderPayPalButtons(totalPrice, orderId, certificateId);
+                document.body.appendChild(script);
+            } else {
+                renderPayPalButtons(totalPrice, orderId, certificateId);
             }
-        );
-        
-        paymentWidget.renderAgreement(
-            "#agreement", {
-                variantKey: "AGREEMENT"
+
+            function renderPayPalButtons(totalPrice, orderId, certificateId) {
+                paypal.Buttons({
+                    style: {
+                        layout: 'vertical',
+                        color: 'blue',
+                        shape: 'rect',
+                        label: 'paypal'
+                    },
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    currency_code: "USD",
+                                    value: totalPrice.toFixed(2)
+                                },
+                                description: "Web Test Certificate ({{ $certificate->url }})",
+                                custom_id: orderId
+                            }],
+                            application_context: {
+                                brand_name: '{{ config('app.name') }}',
+                                locale: 'en-US',
+                                landing_page: 'BILLING',
+                                shipping_preference: 'NO_SHIPPING',
+                                user_action: 'PAY_NOW'
+                            }
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            // Livewire로 결제 검증 요청
+                            Livewire.dispatch('paypal-certificate-payment-verified', {
+                                order_id: details.id
+                            });
+                        });
+                    },
+                    onError: function(err) {
+                        console.error('PayPal Error:', err);
+                        alert('An error occurred while processing your payment. Please try again later.');
+                        window.location.href = '{{ route('certificate.checkout', ['certificate' => $certificate->id]) }}';
+                    },
+                    onCancel: function(data) {
+                        console.log('Payment cancelled by user');
+                        // 취소시 홈으로 리다이렉트하거나 현재 페이지에 남을 수 있습니다
+                    }
+                }).render('#paypal-button-container');
             }
-        );
-        
-        button.addEventListener("click", function() {
-            var customerName = document.getElementById("customerName").value;
-            var customer_phone = document.getElementById("customerPhone").value;
-            customer_phone = customer_phone.replace(/-/g, '');
-            
-            if (!customerName || !customer_phone) {
-                alert("Please enter your name and phone number.");
-                return;
-            }
-            
-            if (!/^\d{10,13}$/.test(customer_phone)) {
-                alert("Phone number must be between 10 and 13 digits.");
-                return;
-            }
-            
-            paymentWidget.requestPayment({
-                orderId: orderId,
-                orderName: orderName,
-                successUrl: window.location.origin + "/certificate/payment/success?certificate_id=" + certificateId,
-                failUrl: window.location.origin + "/certificate/payment/fail?certificate_id=" + certificateId,
-                customerEmail: customerEmail,
-                customerName: customerName,
-                customerMobilePhone: customer_phone,
-            });
         });
     </script>
 @endsection

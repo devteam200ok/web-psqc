@@ -26,10 +26,10 @@ return new class extends Migration
             $table->decimal('overall_score', 5, 2)->nullable();
             $table->json('metrics')->nullable();         // 종합 메트릭 요약
 
-            // 결제 관련
+            // 결제 관련 (PayPal 지원)
             $table->enum('payment_status', ['pending', 'paid', 'failed', 'refunded'])
                 ->default('pending');
-            $table->json('payment_data')->nullable();    // 결제 원본 데이터 저장
+            $table->json('payment_data')->nullable();    // PayPal 결제 정보 저장용
 
             // 인증서 상태
             $table->string('code', 12)->unique();        // QR 코드용 고유 식별자
@@ -47,6 +47,8 @@ return new class extends Migration
             // 인덱스
             $table->index(['user_id', 'domain']);
             $table->index('code');
+            $table->index(['payment_status', 'created_at']); // 결제 상태별 조회
+            $table->index(['is_valid', 'expires_at']); // 유효한 인증서 조회용
         });
     }
 

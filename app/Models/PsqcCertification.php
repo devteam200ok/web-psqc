@@ -77,6 +77,14 @@ class PsqcCertification extends Model
     }
 
     /**
+     * Check if certification is expired
+     */
+    public function getIsExpiredAttribute(): bool
+    {
+        return $this->expires_at && $this->expires_at->isPast();
+    }
+
+    /**
      * Create PSQC certification (pending status)
      */
     public static function createCertification(
@@ -200,13 +208,23 @@ class PsqcCertification extends Model
      */
     public function markAsPaid(array $paymentData = []): void
     {
-        $this->update([
+        $updateData = [
             'payment_status' => 'paid',
             'payment_data' => $paymentData,
             'is_valid' => true,
             'issued_at' => now(),
             'expires_at' => now()->addYear(), // valid for 1 year
-        ]);
+        ];
+
+        // PayPal 결제 정보가 있는 경우 추가 처리
+        if (isset($paymentData['paypal_order_id'])) {
+            $updateData['payment_data'] = array_merge($paymentData, [
+                'payment_method' => 'paypal',
+                'paid_at' => now()->toDateTimeString(),
+            ]);
+        }
+
+        $this->update($updateData);
 
         // Use stored test_ids in metrics to link WebTests
         if (isset($this->metrics['test_ids']) && !empty($this->metrics['test_ids'])) {

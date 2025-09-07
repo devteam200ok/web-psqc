@@ -245,19 +245,32 @@ class Certificate extends Model
 
     public function markAsPaid(array $paymentData = []): void
     {
-        $this->update([
+        $updateData = [
             'payment_status' => 'paid',
             'payment_data' => $paymentData,
             'expires_at' => now()->addYear(),
             'is_valid' => true
-        ]);
+        ];
+
+        // PayPal 결제 정보가 있는 경우 추가 처리
+        if (isset($paymentData['paypal_order_id'])) {
+            $updateData['payment_data'] = array_merge($paymentData, [
+                'payment_method' => 'paypal',
+                'paid_at' => now()->toDateTimeString(),
+            ]);
+        }
+
+        $this->update($updateData);
     }
 
     public function markAsFailed(array $paymentData = []): void
     {
         $this->update([
             'payment_status' => 'failed',
-            'payment_data' => $paymentData
+            'payment_data' => array_merge($this->payment_data ?? [], [
+                'failed_at' => now()->toDateTimeString(),
+                'failure_data' => $paymentData,
+            ])
         ]);
     }
 
@@ -265,7 +278,10 @@ class Certificate extends Model
     {
         $this->update([
             'payment_status' => 'refunded',
-            'is_valid' => false
+            'is_valid' => false,
+            'payment_data' => array_merge($this->payment_data ?? [], [
+                'refunded_at' => now()->toDateTimeString(),
+            ])
         ]);
     }
 

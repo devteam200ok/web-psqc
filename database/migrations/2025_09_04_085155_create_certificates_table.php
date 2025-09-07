@@ -28,9 +28,9 @@ return new class extends Migration
             $table->string('overall_grade', 2); // A+, A, B, C, D, F
             $table->decimal('overall_score', 5, 2)->nullable(); // 0.00 ~ 100.00
             
-            // 결제 관련
+            // 결제 관련 (PayPal 지원)
             $table->enum('payment_status', ['pending', 'paid', 'failed', 'refunded'])->default('pending');
-            $table->json('payment_data')->nullable(); // 토스 결제 정보 저장용
+            $table->json('payment_data')->nullable(); // PayPal 결제 정보 저장용
             
             // 인증서 상태 관리
             $table->timestamp('issued_at'); // 발급일시
