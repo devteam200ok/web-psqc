@@ -322,7 +322,7 @@
                 <div class="col-md-6 mb-4 mb-md-0">
                     <!-- Desktop title -->
                     <h1 class="hero-title d-none d-md-block mb-4">
-                        Achieve Top 2% Web Quality<br>Trusted by Global Standards
+                        bAchieve Top 2% Web Quality<br>Trusted by Global Standards
                     </h1>
                     <!-- Mobile title -->
                     <h2 class="h1 d-md-none mb-4">
