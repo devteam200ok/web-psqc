@@ -75,33 +75,6 @@ class HomePsqcCertified extends Component
         }
     }
 
-    // 이 메서드가 test_type이 변경될 때 자동으로 호출됩니다
-    public function updatedTestType($value)
-    {
-        if ($value === 'psqc') {
-            $this->currentTest = null;
-            $this->mainTabActive = 'results';
-            return;
-        }
-
-        if (!in_array($value, $this->testTypes)) {
-            $this->test_type = 'psqc';
-            session()->flash('error', 'Invalid test type selected.');
-            return;
-        }
-
-        $this->currentTest = WebTest::where('psqc_certification_id', $this->certification->id)
-            ->where('test_type', $value)
-            ->first();
-
-        if (!$this->currentTest) {
-            $this->test_type = 'psqc';
-            session()->flash('error', 'No detailed data for the selected test. Showing PSQC overall results.');
-        }
-
-        $this->mainTabActive = 'results';
-    }
-
     public function generateCertificatePdf()
     {
         \Illuminate\Support\Facades\Artisan::call('make-psqc-pdf', [
@@ -119,6 +92,16 @@ class HomePsqcCertified extends Component
 
     public function render()
     {
+        if($this->test_type != 'psqc'){
+            $this->currentTest = WebTest::where('psqc_certification_id', $this->certification->id)
+                ->where('test_type', $this->test_type)
+                ->first();
+            if(!$this->currentTest){
+                $this->test_type = 'psqc';
+                session()->flash('error', 'No detailed data for the selected test. Showing PSQC overall results.');
+            }
+        }
+
         return view('livewire.home-psqc-certified')
             ->layout('layouts.auth');
     }
