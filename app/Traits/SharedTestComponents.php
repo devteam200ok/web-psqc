@@ -18,7 +18,7 @@ trait SharedTestComponents
 {
     use ManagesUserPlanUsage;
     
-    // 공통 프로퍼티들
+    // Common properties
     public $url = '';
     public $currentTest = null;
     public $isLoading = false;
@@ -37,7 +37,7 @@ trait SharedTestComponents
     public $verificationMessage = '';
     public $verificationMessageType = 'info';
 
-    // 예약 관련 프로퍼티
+    // Schedule related properties
     public $showScheduleForm = false;
     public $showRecurringForm = false;
     public $scheduleDate = '';
@@ -56,7 +56,7 @@ trait SharedTestComponents
     ];
 
     /**
-     * 공통 초기화 - 각 컴포넌트에서 호출
+     * Common initialization - called from each component
      */
     protected function initializeSharedComponents()
     {
@@ -68,7 +68,7 @@ trait SharedTestComponents
     }
 
     /**
-     * 사용량 정보 새로고침
+     * Refresh usage information
      */
     protected function getUrl()
     {
@@ -78,7 +78,7 @@ trait SharedTestComponents
     }
 
     /**
-     * 사용량 정보 새로고침
+     * Refresh usage information
      */
     protected function refreshUsageInfo()
     {
@@ -90,7 +90,7 @@ trait SharedTestComponents
     }
 
     /**
-     * Pro/Agency 플랜 보유 여부 체크
+     * Check if user has Pro/Agency plan
      */
     protected function hasProOrAgencyPlan(): bool
     {
@@ -106,7 +106,7 @@ trait SharedTestComponents
             ->exists();
     }
 
-    // === 예약 관련 메서드들 ===
+    // === Schedule related methods ===
     
     protected function getScheduleRules()
     {
@@ -163,7 +163,7 @@ trait SharedTestComponents
     public function scheduleTest()
     {
         if (!Auth::check()) {
-            session()->flash('error', '예약 기능은 로그인이 필요합니다.');
+            session()->flash('error', 'Login is required for scheduling feature.');
             return;
         }
 
@@ -175,9 +175,9 @@ trait SharedTestComponents
             return;
         }
 
-        // 사용량 체크
+        // Usage check
         if (!$this->canUseService(1)) {
-            session()->flash('error', '사용 가능한 횟수가 부족합니다. 예약에는 1회 사용량이 필요합니다.');
+            session()->flash('error', 'Insufficient usage remaining. Scheduling requires 1 usage count.');
             return;
         }
 
@@ -188,44 +188,44 @@ trait SharedTestComponents
             );
 
             if ($scheduledAt <= now()) {
-                $this->addError('scheduleDate', '예약 시간은 현재 시간보다 이후여야 합니다.');
+                $this->addError('scheduleDate', 'Scheduled time must be after current time.');
                 return;
             }
 
-            // 사용량 차감
+            // Deduct usage
             $domain = parse_url($this->url, PHP_URL_HOST) ?? $this->url;
             $testName = $this->getTestType() . '_scheduled';
             
             if (!$this->consumeService($domain, $testName, 1)) {
-                session()->flash('error', '사용량 차감에 실패했습니다.');
+                session()->flash('error', 'Failed to deduct usage.');
                 return;
             }
 
-            // 예약 생성 (차감된 사용량 정보 포함)
+            // Create schedule (including deducted usage information)
             $scheduledTest = ScheduledTest::create([
                 'user_id' => Auth::id(),
                 'test_type' => $this->getTestType(),
                 'url' => $this->url,
                 'scheduled_at' => $scheduledAt,
                 'test_config' => $this->getTestConfig(),
-                'usage_deducted' => true, // 사용량이 차감되었음을 표시
+                'usage_deducted' => true, // Indicates usage has been deducted
             ]);
 
-            session()->flash('success', "검사가 {$scheduledAt->format('Y년 m월 d일 H시 i분')}에 예약되었습니다.");
+            session()->flash('success', "Test has been scheduled for {$scheduledAt->format('Y-m-d H:i')}.");
             $this->resetScheduleForm();
             $this->loadScheduledTests();
             $this->refreshUsageInfo();
             $this->showScheduleForm = false;
 
         } catch (\Exception $e) {
-            session()->flash('error', '예약 중 오류가 발생했습니다: ' . $e->getMessage());
+            session()->flash('error', 'Error occurred during scheduling: ' . $e->getMessage());
         }
     }
 
     public function createRecurringSchedule()
     {
         if (!Auth::check()) {
-            session()->flash('error', '스케쥴 등록은 로그인이 필요합니다.');
+            session()->flash('error', 'Login is required for schedule registration.');
             return;
         }
 
@@ -241,7 +241,7 @@ trait SharedTestComponents
             $startDate = \Carbon\Carbon::parse($this->recurringStartDate);
             $endDate = \Carbon\Carbon::parse($this->recurringEndDate);
             
-            // 필요한 총 사용량 계산
+            // Calculate total required usage
             $requiredCount = 0;
             for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
                 $scheduledAt = $date->copy()->setTime($this->recurringHour, $this->recurringMinute);
@@ -251,26 +251,26 @@ trait SharedTestComponents
             }
 
             if ($requiredCount === 0) {
-                session()->flash('error', '예약 가능한 일정이 없습니다. 모든 일정이 과거 시간입니다.');
+                session()->flash('error', 'No schedulable dates available. All schedules are in the past.');
                 return;
             }
 
-            // 사용량 체크
+            // Usage check
             if (!$this->canUseService($requiredCount)) {
-                session()->flash('error', "사용 가능한 횟수가 부족합니다. {$requiredCount}회 사용량이 필요합니다.");
+                session()->flash('error', "Insufficient usage remaining. {$requiredCount} usage counts required.");
                 return;
             }
 
-            // 사용량 차감
+            // Deduct usage
             $domain = parse_url($this->url, PHP_URL_HOST) ?? $this->url;
             $testName = $this->getTestType() . '_recurring';
             
             if (!$this->consumeService($domain, $testName, $requiredCount)) {
-                session()->flash('error', '사용량 차감에 실패했습니다.');
+                session()->flash('error', 'Failed to deduct usage.');
                 return;
             }
 
-            // 스케쥴 생성
+            // Create schedules
             $created = 0;
             for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
                 $scheduledAt = $date->copy()->setTime($this->recurringHour, $this->recurringMinute);
@@ -285,20 +285,20 @@ trait SharedTestComponents
                     'url' => $this->url,
                     'scheduled_at' => $scheduledAt,
                     'test_config' => array_merge($this->getTestConfig(), ['recurring' => true]),
-                    'usage_deducted' => true, // 사용량이 차감되었음을 표시
+                    'usage_deducted' => true, // Indicates usage has been deducted
                 ]);
 
                 $created++;
             }
 
-            session()->flash('success', "{$created}개의 스케쥴이 등록되었습니다.");
+            session()->flash('success', "{$created} schedules have been registered.");
             $this->resetRecurringForm();
             $this->loadScheduledTests();
             $this->refreshUsageInfo();
             $this->showRecurringForm = false;
 
         } catch (\Exception $e) {
-            session()->flash('error', '스케쥴 등록 중 오류가 발생했습니다: ' . $e->getMessage());
+            session()->flash('error', 'Error occurred during schedule registration: ' . $e->getMessage());
         }
     }
 
@@ -343,7 +343,7 @@ trait SharedTestComponents
                                 ->first();
         
         if ($scheduled && $scheduled->canBeCancelled()) {
-            // 사용량이 차감되어 있었다면 복원
+            // Restore usage if it was deducted
             if ($scheduled->usage_deducted) {
                 $this->restoreUsageForCancelledTest($scheduled);
             }
@@ -351,14 +351,14 @@ trait SharedTestComponents
             $scheduled->cancel();
             $this->loadScheduledTests();
             $this->refreshUsageInfo();
-            session()->flash('success', '예약된 검사가 취소되었습니다. 사용량이 복원되었습니다.');
+            session()->flash('success', 'Scheduled test has been cancelled. Usage has been restored.');
         } else {
-            session()->flash('error', '취소할 수 없는 검사입니다.');
+            session()->flash('error', 'Cannot cancel this test.');
         }
     }
 
     /**
-     * 취소된 테스트의 사용량 복원
+     * Restore usage for cancelled test
      */
     protected function restoreUsageForCancelledTest(ScheduledTest $scheduled)
     {
@@ -370,25 +370,25 @@ trait SharedTestComponents
             return;
         }
 
-        // 플랜이 없는 경우 - user->usage에 복원
+        // If no plan - restore to user->usage
         if (!$planUsage['subscription'] && $planUsage['coupons']->isEmpty()) {
             $user->increment('usage', 1);
             return;
         }
 
-        // 복원 우선순위: 쿠폰(만료일 먼 순서) -> 구독
-        // 차감과 반대 순서로 복원
+        // Restoration priority: Coupon (reverse order of expiry) -> Subscription
+        // Restore in reverse order of deduction
         
-        // 1. 쿠폰에 먼저 복원 (만료일이 먼 것부터)
+        // 1. Restore to coupon first (from furthest expiry date)
         if (!$planUsage['coupons']->isEmpty()) {
             $sortedCoupons = $planUsage['coupons']->sortByDesc('end_date');
             
             foreach ($sortedCoupons as $coupon) {
-                // 쿠폰에 사용된 내역이 있고, 한도 내에서 복원 가능한 경우
+                // If coupon has usage history and can be restored within limit
                 if ($coupon->used_count > 0) {
                     $coupon->decrement('used_count', 1);
                     
-                    // 일간 사용량도 복원 (당일인 경우만)
+                    // Also restore daily usage (only if same day)
                     if ($coupon->daily_used_count > 0 && 
                         $coupon->updated_at->isToday()) {
                         $coupon->decrement('daily_used_count', 1);
@@ -398,16 +398,16 @@ trait SharedTestComponents
             }
         }
 
-        // 2. 구독 플랜에 복원
+        // 2. Restore to subscription plan
         if ($planUsage['subscription']) {
             $sub = $planUsage['subscription'];
             
-            // 월간 사용량 복원
+            // Restore monthly usage
             if ($sub->used_count > 0) {
                 $sub->decrement('used_count', 1);
             }
             
-            // 일간 사용량 복원 (당일인 경우만)
+            // Restore daily usage (only if same day)
             if ($sub->daily_used_count > 0 && 
                 $sub->updated_at->isToday()) {
                 $sub->decrement('daily_used_count', 1);
@@ -415,7 +415,7 @@ trait SharedTestComponents
         }
     }
 
-    // === 히스토리 관련 메서드들 ===
+    // === History related methods ===
     
     public function loadTestHistory()
     {
@@ -461,11 +461,11 @@ trait SharedTestComponents
                 $this->currentTest = null;
             }
             
-            session()->flash('success', '검사 내역이 삭제되었습니다.');
+            session()->flash('success', 'Test history has been deleted.');
         }
     }
 
-    // === 도메인 관련 메서드들 ===
+    // === Domain related methods ===
     
     public function loadUserDomains()
     {
@@ -511,7 +511,7 @@ trait SharedTestComponents
     public function addDomain()
     {
         if (!Auth::check()) {
-            session()->flash('error', '로그인이 필요합니다.');
+            session()->flash('error', 'Login is required.');
             return;
         }
         
@@ -529,28 +529,28 @@ trait SharedTestComponents
                 'url' => $this->newDomainUrl
             ]);
             
-            // created 이벤트가 실행된 후 도메인 상태 다시 확인
+            // Check domain status again after created event execution
             $domain->refresh();
             
             $this->newDomainUrl = '';
             
-            // 도메인 목록을 다시 로드하기 전에 잠시 대기 (이벤트 처리 완료 보장)
-            usleep(100000); // 0.1초 대기
+            // Wait briefly before reloading domain list (ensure event processing completion)
+            usleep(100000); // 0.1 second wait
             $this->loadUserDomains();
             
-            // 자동 인증되었는지 확인
+            // Check if auto-verified
             if ($domain->is_verified && $domain->verification_method === 'auto_hostname') {
                 $hostname = parse_url($domain->url, PHP_URL_HOST);
-                session()->flash('success', "도메인이 추가되었으며, 이미 인증된 {$hostname}과 같은 호스트네임이므로 자동으로 인증되었습니다.");
+                session()->flash('success', "Domain has been added and automatically verified as it shares the same hostname as the already verified {$hostname}.");
             } else {
-                session()->flash('success', '도메인이 추가되었습니다.');
+                session()->flash('success', 'Domain has been added.');
             }
             
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
-                $this->addError('newDomainUrl', '이미 등록된 URL입니다.');
+                $this->addError('newDomainUrl', 'This URL is already registered.');
             } else {
-                $this->addError('newDomainUrl', '도메인 추가에 실패했습니다.');
+                $this->addError('newDomainUrl', 'Failed to add domain.');
             }
         }
     }
@@ -568,17 +568,17 @@ trait SharedTestComponents
         if ($domain) {
             $domain->delete();
             $this->loadUserDomains();
-            session()->flash('success', '도메인이 삭제되었습니다.');
+            session()->flash('success', 'Domain has been deleted.');
         }
     }
 
     public function selectDomain($domainUrl)
     {
         $this->url = $domainUrl;
-        session()->flash('success', 'URL이 자동으로 입력되었습니다.');
+        session()->flash('success', 'URL has been automatically entered.');
     }
 
-    // === 도메인 인증 관련 ===
+    // === Domain verification related ===
     
     public function openVerificationModal($domainId)
     {
@@ -624,7 +624,7 @@ trait SharedTestComponents
         $verified = DomainVerificationService::verifyByTxtRecord($domain);
         
         if ($verified) {
-            // 자동 인증된 도메인 수 확인
+            // Check auto-verified domain count
             $hostname = parse_url($domain->url, PHP_URL_HOST);
             $autoVerifiedCount = Domain::where('user_id', Auth::id())
                 ->where('id', '!=', $domain->id)
@@ -636,17 +636,17 @@ trait SharedTestComponents
                 })
                 ->count();
             
-            $this->verificationMessage = 'TXT 레코드 인증이 완료되었습니다!';
+            $this->verificationMessage = 'TXT record verification completed!';
             if ($autoVerifiedCount > 0) {
-                $this->verificationMessage .= " ({$autoVerifiedCount}개의 관련 도메인도 자동 인증되었습니다)";
+                $this->verificationMessage .= " ({$autoVerifiedCount} related domains were also auto-verified)";
             }
             
             $this->verificationMessageType = 'success';
             $this->loadUserDomains();
-            $this->currentVerificationDomain['verification_status'] = '인증완료';
+            $this->currentVerificationDomain['verification_status'] = 'Verified';
             $this->currentVerificationDomain['verification_status_class'] = 'badge bg-green-lt text-green-lt-fg';
         } else {
-            $this->verificationMessage = 'TXT 레코드를 찾을 수 없습니다. DNS 설정을 확인해주세요.';
+            $this->verificationMessage = 'TXT record not found. Please check your DNS settings.';
             $this->verificationMessageType = 'danger';
         }
     }
@@ -665,7 +665,7 @@ trait SharedTestComponents
         $verified = DomainVerificationService::verifyByFileUpload($domain);
         
         if ($verified) {
-            // 자동 인증된 도메인 수 확인
+            // Check auto-verified domain count
             $hostname = parse_url($domain->url, PHP_URL_HOST);
             $autoVerifiedCount = Domain::where('user_id', Auth::id())
                 ->where('id', '!=', $domain->id)
@@ -677,17 +677,17 @@ trait SharedTestComponents
                 })
                 ->count();
             
-            $this->verificationMessage = '파일 업로드 인증이 완료되었습니다!';
+            $this->verificationMessage = 'File upload verification completed!';
             if ($autoVerifiedCount > 0) {
-                $this->verificationMessage .= " ({$autoVerifiedCount}개의 관련 도메인도 자동 인증되었습니다)";
+                $this->verificationMessage .= " ({$autoVerifiedCount} related domains were also auto-verified)";
             }
             
             $this->verificationMessageType = 'success';
             $this->loadUserDomains();
-            $this->currentVerificationDomain['verification_status'] = '인증완료';
+            $this->currentVerificationDomain['verification_status'] = 'Verified';
             $this->currentVerificationDomain['verification_status_class'] = 'badge bg-green-lt text-green-lt-fg';
         } else {
-            $this->verificationMessage = '인증 파일을 찾을 수 없습니다. 파일이 올바른 위치에 업로드되었는지 확인해주세요.';
+            $this->verificationMessage = 'Verification file not found. Please verify the file was uploaded to the correct location.';
             $this->verificationMessageType = 'danger';
         }
     }
@@ -717,36 +717,36 @@ trait SharedTestComponents
             'verification_file_content' => $domain->verification_file_content,
         ];
         
-        $this->verificationMessage = '새로운 인증 토큰이 생성되었습니다.';
+        $this->verificationMessage = 'New verification token has been generated.';
         $this->verificationMessageType = 'info';
     }
 
-    // === 인증서 발급 ===
+    // === Certificate issuance ===
     
     public function issueCertificate()
     {
         if (!Auth::check()) {
-            session()->flash('error', '인증서 발급은 로그인이 필요합니다.');
+            session()->flash('error', 'Login is required for certificate issuance.');
             return;
         }
 
         if (!$this->currentTest) {
-            session()->flash('error', '테스트 결과가 없습니다.');
+            session()->flash('error', 'No test results available.');
             return;
         }
 
         if (!in_array($this->currentTest->overall_grade, ['A+', 'A', 'B'])) {
-            session()->flash('error', 'B등급 이상부터 인증서 발급이 가능합니다.');
+            session()->flash('error', 'Certificate issuance is available from grade B and above.');
             return;
         }
 
         if ($this->currentTest->status !== 'completed') {
-            session()->flash('error', '완료된 테스트만 인증서 발급이 가능합니다.');
+            session()->flash('error', 'Only completed tests are eligible for certificate issuance.');
             return;
         }
 
         if (!$this->currentTest->finished_at || $this->currentTest->finished_at->diffInDays(now()) > 3) {
-            session()->flash('error', '인증서는 테스트 완료 후 3일 이내에만 발급 가능합니다.');
+            session()->flash('error', 'Certificates can only be issued within 3 days of test completion.');
             return;
         }
 
@@ -758,20 +758,20 @@ trait SharedTestComponents
         }
     }
 
-    // === 각 컴포넌트에서 구현해야 할 추상 메서드들 ===
+    // === Abstract methods to be implemented by each component ===
     
     /**
-     * 테스트 타입 반환 (예: 'p-speed', 'p-lighthouse' 등)
+     * Return test type (e.g., 'p-speed', 'p-lighthouse', etc.)
      */
     abstract protected function getTestType(): string;
 
     /**
-     * 테스트 설정 반환
+     * Return test configuration
      */
     abstract protected function getTestConfig(): array;
 
     /**
-     * 공통 렌더 메서드
+     * Common render method
      */
     protected function renderSharedView($viewName, $additionalData = [])
     {

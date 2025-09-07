@@ -8,7 +8,7 @@
 
             <div class="col-xl-6 mb-2">
                 <div class="card mb-3">
-                    <div class="card-header">SEO 설정</div>
+                    <div class="card-header">SEO Settings</div>
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label">SEO Title</label>
@@ -31,7 +31,7 @@
             </div>
              <div class="col-xl-6 mb-2">
                 <div class="card mb-3">
-                    <div class="card-header">Open Graph 설정</div>
+                    <div class="card-header">Open Graph Settings</div>
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label">OG URL</label>
@@ -64,7 +64,7 @@
 
                 <div class="d-flex justify-content-end mb-3">
                     <button wire:click="update" wire:loading.attr="disabled" type="button" class="btn btn-primary">
-                        업데이트
+                        Update
                     </button>
                 </div>
             </div>

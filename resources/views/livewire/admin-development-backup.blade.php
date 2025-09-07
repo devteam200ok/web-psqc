@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-xl-8 mb-2">
                 <button wire:loading.attr="disabled" wire:click="backupDatabase" class="btn btn-primary mb-3">
-                    백업 생성
+                    Create Backup
                 </button>
                 <ul class="list-group">
                     @forelse ($backups as $backup)
@@ -15,17 +15,19 @@
                                 {{ $backup['name'] }} <br>
                                 <small class="text-muted">💾 {{ $backup['size'] }}</small>
                             </div>
-                            <button wire:confirm="백업 파일을 삭제하시겠습니까?" wire:click="deleteBackup({{ json_encode($backup['name']) }})" wire:loading.attr="disabled"
+                            <button wire:confirm="Are you sure you want to delete this backup file?" 
+                                wire:click="deleteBackup({{ json_encode($backup['name']) }})" 
+                                wire:loading.attr="disabled"
                                 class="btn btn-sm btn-danger px-3 ms-auto me-2">
-                                삭제
+                                Delete
                             </button>
                             <a href="{{ route('admin.backup.download', ['filename' => $backup['name']]) }}"
                                 class="btn btn-sm btn-dark" download>
-                                다운로드
+                                Download
                             </a>
                         </li>
                     @empty
-                        <li class="list-group-item text-muted">백업 파일이 없습니다.</li>
+                        <li class="list-group-item text-muted">No backup files found.</li>
                     @endforelse
                 </ul>
             </div>

@@ -64,7 +64,7 @@
 
                         <div class="text-end mt-4">
                             <button wire:click="update" wire:loading.attr="disabled" class="btn btn-primary">
-                                업데이트
+                                Update
                             </button>
                         </div>
                     </div>

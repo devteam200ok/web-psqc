@@ -13,9 +13,9 @@
         </div>
     </a>
     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-        <a href="{{ url('/') }}/{{ auth()->user()->role }}/account/profile" class="dropdown-item">프로필 수정</a>
-        <a href="{{ url('/') }}/{{ auth()->user()->role }}/account/password" class="dropdown-item">비밀번호 변경</a>
+        <a href="{{ url('/') }}/{{ auth()->user()->role }}/account/profile" class="dropdown-item">Profile</a>
+        <a href="{{ url('/') }}/{{ auth()->user()->role }}/account/password" class="dropdown-item">Change Password</a>
         <div class="dropdown-divider"></div>
-        <a href="javascript:void(0)" wire:click="logout" class="dropdown-item">로그아웃</a>
+        <a href="javascript:void(0)" wire:click="logout" class="dropdown-item">Logout</a>
     </div>
 </div>

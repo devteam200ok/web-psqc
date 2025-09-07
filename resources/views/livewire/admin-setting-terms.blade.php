@@ -8,14 +8,14 @@
                 <div class="card">
                     <div wire:ignore class="card-body">
                         <div class="mb-3">
-                            <label class="form-label">서비스 이용약관</label>
+                            <label class="form-label">Terms of Service</label>
                             <textarea wire:model="terms" id="hugerte-mytextarea">{{ $terms }}</textarea>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-2 mb-3">
                     <button id="updateTerms" wire:loading.attr="disabled" type="button" class="btn btn-primary">
-                        업데이트
+                        Update
                     </button>
                 </div>
             </div>

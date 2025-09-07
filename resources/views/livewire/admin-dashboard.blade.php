@@ -7,7 +7,7 @@
             <div class="col-xl-6 mb-2">
                 <div class="card">
                  <div class="card-body">
-                        <h4 class="card-title">Boiler Plate - Original 한국어 버젼</h4>
+                        <h4 class="card-title">Web PSQC Dashboard</h4>
                     </div>
                 </div>
             </div>

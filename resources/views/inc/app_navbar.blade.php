@@ -59,7 +59,8 @@
                         </span>
                     </span>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <a href="{{ url('/') }}/client/certificate" class="dropdown-item">Certificate (Individual Web Test)</a>
+                        <a href="{{ url('/') }}/client/certificate" class="dropdown-item">Certificate (Individual Web
+                            Test)</a>
                         <a href="{{ url('/') }}/client/psqc" class="dropdown-item">Certificate (PSQC Comprehensive)</a>
                         <a href="{{ url('/') }}/client/plan" class="dropdown-item">Subscription & Payment</a>
                         <a href="{{ url('/') }}/client/profile" class="dropdown-item">Edit Profile</a>
@@ -84,123 +85,112 @@
                 <div class="row flex-column flex-md-row flex-fill align-items-center">
                     <div class="col">
                         <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/') }}">
-                                    <span class="fw-bold text-dark">🏠 Home</span>
-                                </a>
-                            </li>
                             <li class="nav-item dropdown">
-                                <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                                    data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="fw-bold text-dark">⚡ Performance (P) </span>
+                                <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+                                    <span class="fw-bold text-dark">⚡ Performance</span>
                                 </span>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ url('/') }}/performance/speed">
-                                        <span class="fw-bold text-dark">Global Speed Test</span>
-                                        <small class="text-muted d-block">Loading speed measurement across 8 regional zones</small>
+                                        <span class="fw-bold text-dark">Global Speed</span>
+                                        <small class="text-muted d-block">Measure load speed across 8 regions</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/performance/load">
-                                        <span class="fw-bold text-dark">Load Testing</span>
-                                        <small class="text-muted d-block">Performance measurement under concurrent user load</small>
+                                        <span class="fw-bold text-dark">Load Test</span>
+                                        <small class="text-muted d-block">Simulate concurrent user traffic</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/performance/mobile">
-                                        <span class="fw-bold text-dark">Mobile Performance</span>
-                                        <small class="text-muted d-block">Response and performance testing across mobile environments</small>
+                                        <span class="fw-bold text-dark">Mobile Test</span>
+                                        <small class="text-muted d-block">Performance in mobile environments</small>
                                     </a>
                                 </div>
                             </li>
+
                             <li class="nav-item dropdown">
-                                <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                                    data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="fw-bold text-dark">🔒 Security (S) </span>
+                                <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+                                    <span class="fw-bold text-dark">🔒 Security</span>
                                 </span>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ url('/') }}/security/ssl">
                                         <span class="fw-bold text-dark">SSL Basics</span>
-                                        <small class="text-muted d-block">SSL certificate and basic security configuration check</small>
+                                        <small class="text-muted d-block">Certificate & config check</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/security/sslyze">
                                         <span class="fw-bold text-dark">SSL Advanced</span>
-                                        <small class="text-muted d-block">In-depth analysis of TLS settings and cipher suites</small>
+                                        <small class="text-muted d-block">TLS settings & cipher suites</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/security/header">
-                                        <span class="fw-bold text-dark">Security Headers</span>
-                                        <small class="text-muted d-block">HTTP security headers and policy validation</small>
+                                        <span class="fw-bold text-dark">Headers</span>
+                                        <small class="text-muted d-block">HTTP security policies</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/security/scan">
                                         <span class="fw-bold text-dark">Vulnerability Scan</span>
-                                        <small class="text-muted d-block">Dynamic vulnerability detection for web applications</small>
+                                        <small class="text-muted d-block">Dynamic app security test</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/security/nuclei">
-                                        <span class="fw-bold text-dark">Latest Vulnerabilities</span>
-                                        <small class="text-muted d-block">CVE-based latest vulnerability pattern inspection</small>
+                                        <span class="fw-bold text-dark">CVE Check</span>
+                                        <small class="text-muted d-block">Latest known vulnerabilities</small>
                                     </a>
                                 </div>
                             </li>
+
                             <li class="nav-item dropdown">
-                                <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                                    data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="fw-bold text-dark">✨ Quality (Q) </span>
+                                <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+                                    <span class="fw-bold text-dark">✨ Quality</span>
                                 </span>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ url('/') }}/quality/lighthouse">
-                                        <span class="fw-bold text-dark">Overall Quality</span>
-                                        <small class="text-muted d-block">Integrated analysis of performance, SEO, and accessibility</small>
+                                        <span class="fw-bold text-dark">Lighthouse</span>
+                                        <small class="text-muted d-block">SEO, performance, accessibility</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/quality/accessibility">
-                                        <span class="fw-bold text-dark">Accessibility Deep Dive</span>
-                                        <small class="text-muted d-block">Detailed web accessibility check based on WCAG 2.1</small>
+                                        <span class="fw-bold text-dark">Accessibility</span>
+                                        <small class="text-muted d-block">WCAG 2.1 checks</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/quality/compatibility">
-                                        <span class="fw-bold text-dark">Browser Compatibility</span>
-                                        <small class="text-muted d-block">Cross-browser rendering tests</small>
+                                        <span class="fw-bold text-dark">Compatibility</span>
+                                        <small class="text-muted d-block">Cross-browser testing</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/quality/visual">
                                         <span class="fw-bold text-dark">Responsive UI</span>
-                                        <small class="text-muted d-block">Responsive UI testing across major viewports</small>
+                                        <small class="text-muted d-block">Viewport-based testing</small>
                                     </a>
                                 </div>
                             </li>
+
                             <li class="nav-item dropdown">
-                                <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                                    data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="fw-bold text-dark">📝 Content (C) </span>
+                                <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+                                    <span class="fw-bold text-dark">📝 Content</span>
                                 </span>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ url('/') }}/content/links">
-                                        <span class="fw-bold text-dark">Link Validation</span>
-                                        <small class="text-muted d-block">Broken links and redirect chain inspection</small>
+                                        <span class="fw-bold text-dark">Links</span>
+                                        <small class="text-muted d-block">Broken links & redirects</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/content/structure">
                                         <span class="fw-bold text-dark">Structured Data</span>
-                                        <small class="text-muted d-block">Schema.org markup validation</small>
+                                        <small class="text-muted d-block">Schema.org validation</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/content/crawl">
-                                        <span class="fw-bold text-dark">Site Crawling</span>
-                                        <small class="text-muted d-block">Batch quality inspection of all pages</small>
+                                        <span class="fw-bold text-dark">Crawl</span>
+                                        <small class="text-muted d-block">Batch site inspection</small>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('/') }}/content/meta">
                                         <span class="fw-bold text-dark">Metadata</span>
-                                        <small class="text-muted d-block">OG tags and Twitter card preview validation</small>
+                                        <small class="text-muted d-block">OG/Twitter card preview</small>
                                     </a>
                                 </div>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/') }}/pricing">
-                                    <span class="nav-link-title fw-bold text-dark">🧾 Pricing & Subscription</span>
+                                    <span class="fw-bold text-dark">🧾 Pricing</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/') }}/certificate">
-                                    <span class="nav-link-title fw-bold text-dark">📜 Certification & Scoring</span>
+                                    <span class="fw-bold text-dark">📜 Certification</span>
                                 </a>
                             </li>
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" href="{{ url("/") }}/ranking">
-                                    <span class="nav-link-title fw-bold text-dark">🏆 웹사이트 랭킹</span>
-                                </a>
-                            </li> --}}
-                            {{-- Auto Generated Menu --}}
                         </ul>
                     </div>
                     <div class="col col-md-auto">

@@ -9,36 +9,36 @@
     <div class="container-xl">
         @include('inc.component.message')
 
-        <!-- 헤더 -->
+        <!-- Header -->
         <div class="row mb-4">
             <div class="col">
-                <h2 class="page-title">인증서 결제 및 발급</h2>
-                <div class="text-muted">웹 테스트 인증서 (Web Test Certificate) 발급을 위한 결제 페이지입니다.</div>
+                <h2 class="page-title">Certificate Payment and Issuance</h2>
+                <div class="text-muted">This is the payment page for issuing Web Test Certificate.</div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-6 offset-lg-3 mb-2">
-                <!-- 인증서 정보 -->
+                <!-- Certificate Information -->
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="mb-2">
                             <span class="badge bg-blue-lt text-blue-lt-fg me-1">{{ $certificate->test_type_name }}</span>
                             <span class="{{ $certificate->grade_color }}">{{ $certificate->overall_grade }}</span>
                         </div>
-                        <h3 class="page-title">웹 테스트 인증서 (Web Test Certificate)</h3>
+                        <h3 class="page-title">Web Test Certificate</h3>
                         <div class="page-pretitle">{{ $certificate->url }}</div>
                         
                         <div class="my-3">
                             <div class="alert alert-info">
                                 <div>
-                                    <h6>📄 인증서에 포함되는 내용</h6>
+                                    <h6>📄 Certificate Contents</h6>
                                     <ul class="mb-0">
-                                        <li>테스트 결과 등급: {{ $certificate->overall_grade }}</li>
-                                        <li>테스트 점수: {{ $certificate->formatted_score }}</li>
-                                        <li>테스트 일시: {{ $certificate->webTest->finished_at ? $certificate->webTest->finished_at->format('Y-m-d H:i:s') : $certificate->webTest->updated_at->format('Y-m-d H:i:s') }}</li>
-                                        <li>QR 코드를 통한 온라인 검증</li>
-                                        <li>PDF 다운로드 및 인쇄 가능</li>
+                                        <li>Test result grade: {{ $certificate->overall_grade }}</li>
+                                        <li>Test score: {{ $certificate->formatted_score }}</li>
+                                        <li>Test date: {{ $certificate->webTest->finished_at ? $certificate->webTest->finished_at->format('Y-m-d H:i:s') : $certificate->webTest->updated_at->format('Y-m-d H:i:s') }}</li>
+                                        <li>Online verification via QR code</li>
+                                        <li>PDF download and printable</li>
                                     </ul>
                                 </div>
                             </div>
@@ -48,48 +48,48 @@
 
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div>
-                                <h4>인증서 발급 비용</h4>
-                                <span class="h4">{{ number_format($amount) }} 원</span>
+                                <h4>Certificate Issuance Fee</h4>
+                                <span class="h4">{{ number_format($amount) }} KRW</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 토스 결제 위젯 -->
+                <!-- Toss Payment Widget -->
                 <div id="payment-method"></div>
                 <div id="agreement"></div>
                 
                 <div class="mt-3">
                     <div class="row">
                         <div class="col-6 mb-2">
-                            <label class="form-label">이름</label>
+                            <label class="form-label">Name</label>
                             <input type="text" class="form-control mb-3" id="customerName"
-                                placeholder="이름을 입력하세요" style="font-size:16px" 
+                                placeholder="Enter your name" style="font-size:16px" 
                                 value="{{ Auth::user()->name }}">
                         </div>
                         <div class="col-6 mb-2">
-                            <label class="form-label">전화번호</label>
+                            <label class="form-label">Phone Number</label>
                             <input type="text" class="form-control mb-3" id="customerPhone"
-                                placeholder="전화번호를 입력하세요" style="font-size:16px">
+                                placeholder="Enter your phone number" style="font-size:16px">
                         </div>
                     </div>
                     <button class="btn btn-primary w-100 btn-lg" id="tossPaymentButton">
-                        {{ number_format($amount) }}원 결제하기
+                        Pay {{ number_format($amount) }} KRW
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 토스 결제 설정 -->
+    <!-- Toss Payment Configuration -->
     @if ($api->toss_mode == 'live')
         <input type="hidden" id="widgetClientKey" value="{{ $api->toss_client_key }}">
     @else
         <input type="hidden" id="widgetClientKey" value="{{ $api->toss_client_key_test }}">
     @endif
-    <input type="hidden" id="customerKey" value="DT{{ Auth::user()->id }}">
+    <input type="hidden" id="customerKey" value="WP{{ Auth::user()->id }}">
     <input type="hidden" id="customerEmail" value="{{ Auth::user()->email }}">
-    <input type="hidden" id="orderName" value="웹 테스트 인증서({{ $certificate->url }})">
+    <input type="hidden" id="orderName" value="Web Test Certificate ({{ $certificate->url }})">
     <input type="hidden" id="totalPrice" value="{{ $amount }}">
     <input type="hidden" id="orderId" value="{{ $orderId }}">
     <input type="hidden" id="certificateId" value="{{ $certificate->id }}">
@@ -130,12 +130,12 @@
             customer_phone = customer_phone.replace(/-/g, '');
             
             if (!customerName || !customer_phone) {
-                alert("이름과 전화번호를 입력해주세요.");
+                alert("Please enter your name and phone number.");
                 return;
             }
             
             if (!/^\d{10,13}$/.test(customer_phone)) {
-                alert("전화번호는 10자리에서 13자리 사이의 숫자여야 합니다.");
+                alert("Phone number must be between 10 and 13 digits.");
                 return;
             }
             
