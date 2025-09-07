@@ -53,7 +53,7 @@
                                         @endif
                                     </div>
 
-                                    @if (!$test->is_saved_permanently)
+                                    @if (!$test->is_saved_permanently && $test->psqc_certification_id === null)
                                         <div class="d-flex align-items-center">
                                                 <span style="cursor: pointer;"
                                                 wire:click.stop="deleteTestHistory({{ $test->id }})"

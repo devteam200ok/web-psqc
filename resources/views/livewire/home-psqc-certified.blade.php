@@ -682,7 +682,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(글로벌 속도 테스트)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -1071,7 +1071,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(K6 부하 테스트)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -1432,7 +1432,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(모바일 성능 테스트)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -1756,7 +1756,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(SSL/TLS 보안 테스트)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -2155,7 +2155,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(SSL/TLS 심층 분석)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -2585,7 +2585,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(보안 헤더 테스트)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -2964,7 +2964,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(보안 취약점 스캔)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -3368,7 +3368,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(최신 CVE 취약점 스캔)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -3762,7 +3762,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(Google Lighthouse 품질 테스트)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -4128,7 +4128,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(웹 접근성 검사)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -4474,7 +4474,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(브라우저 호환성 테스트)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -4881,7 +4881,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(반응형 UI 적합성 테스트)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -5250,7 +5250,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(링크 검증 테스트)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -5680,7 +5680,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(구조화 데이터 검증)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -6145,7 +6145,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(검색엔진 크롤링 검사)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
@@ -6634,7 +6634,7 @@
                                     <div class="mt-4 mb-5">
                                         <div class="text-center">
                                             <h1>
-                                                웹 테스트 인증서 (Web Test Certificate)
+                                                PSQC 종합 인증서 - 세부 검사내역
                                             </h1>
                                             <h2>(메타데이터 완성도 검사)</h2>
                                             <h3>인증번호: {{ $certification->code }}</h3>
