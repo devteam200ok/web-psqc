@@ -489,7 +489,7 @@
                                             <!-- Mobile Performance -->
                                             <tr>
                                                 <td>
-                                                    <a href="/performance/mobile">Mobile Performance</a>
+                                                    <a href="/performance/mobile">Mobile Test</a>
                                                 </td>
                                                 <td class="test-method-content">
                                                     iPhone/Galaxy<br>
@@ -673,7 +673,7 @@
                                             <!-- SSL Deep Dive (sslyze) -->
                                             <tr>
                                                 <td>
-                                                    <a href="/security/sslyze">SSL Deep Dive</a>
+                                                    <a href="/security/sslyze">SSL Advanced</a>
                                                 </td>
                                                 <td class="test-method-content">
                                                     SSLyze deep analysis<br>
@@ -760,7 +760,7 @@
                                             <!-- Security Headers -->
                                             <tr>
                                                 <td>
-                                                    <a href="/security/headers">Security Headers</a>
+                                                    <a href="/security/headers">Headers</a>
                                                 </td>
                                                 <td class="test-method-content">Header completeness</td>
 
@@ -847,7 +847,7 @@
 
                                             <tr>
                                                 <td>
-                                                    <a href="/security/scan">Passive Security Scan</a>
+                                                    <a href="/security/scan">Vulnerability Scan</a>
 
                                                 </td>
 
@@ -938,7 +938,7 @@
 
                                             <tr>
                                                 <td>
-                                                    <a href="/security/nuclei">Latest Vulnerabilities</a>
+                                                    <a href="/security/nuclei">CVE Check</a>
                                                 </td>
 
                                                 <td class="test-method-content">
@@ -1047,7 +1047,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="/quality/lighthouse">Overall Quality</a>
+                                                    <a href="/quality/lighthouse">Lighthouse</a>
                                                 </td>
                                                 <td class="test-method-content">
                                                     Integrated analysis of Performance + SEO + Accessibility<br>
@@ -1128,7 +1128,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="/quality/accessibility">Accessibility Deep Dive</a>
+                                                    <a href="/quality/accessibility">Accessibility</a>
                                                 </td>
                                                 <td class="test-method-content">
                                                     WCAG 2.1 rule‑based<br>
@@ -1209,7 +1209,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="/quality/compatibility">Browser Compatibility</a>
+                                                    <a href="/quality/compatibility">Compatibility</a>
                                                 </td>
                                                 <td class="test-method-content">
                                                     Chrome / Firefox / Safari<br>
@@ -1378,7 +1378,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="/content/links">Link Validation</a>
+                                                    <a href="/content/links">Links</a>
                                                 </td>
                                                 <td class="test-method-content">
                                                     Internal/external/image links<br>
@@ -1525,7 +1525,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="/content/crawl">Site Crawling</a>
+                                                    <a href="/content/crawl">Crawl</a>
                                                 </td>
                                                 <td class="test-method-content">
                                                     robots/sitemap validation<br>
@@ -1706,15 +1706,15 @@
                             <div class="alert alert-info d-block mb-3">
                                 <h6>Step 1: Individual test scores (each out of 100)</h6>
                                 <p class="mb-1">Every individual test is scored on a 100‑point scale.</p>
-                                <small>(e.g., SSL Basics → 85, Mobile Performance → 92, Link Validation → 78)</small>
+                                <small>(e.g., SSL Basics → 85, Mobile Test → 92, Links → 78)</small>
                             </div>
 
                             <div class="alert alert-info d-block mb-3">
                                 <h6>Step 2: Apply weights by area</h6>
-                                <div>Performance = (Speed×1.0 + Load×1.0 + Mobile×1.0) = 300 points</div>
-                                <div>Security = (SSL×0.8 + SSLyze×0.6 + Headers×0.6 + Scan×0.6 + Nuclei×0.4) = 300 points</div>
-                                <div>Quality = (Lighthouse×1.2 + Accessibility×0.7 + Compatibility×0.3 + Responsive×0.3) = 250 points</div>
-                                <div>Content = (Links×0.5 + Structured×0.4 + Crawling×0.4 + Metadata×0.2) = 150 points</div>
+                                <div>Performance = (Global Speed×1.0 + Load Test×1.0 + Mobile Test×1.0) = 300 points</div>
+                                <div>Security = (SSL Basics×0.8 + SSL Advanced×0.6 + Headers×0.6 + Vulnerability Scan×0.6 + CVE Check×0.4) = 300 points</div>
+                                <div>Quality = (Lighthouse×1.2 + Accessibility×0.7 + Compatibility×0.3 + Responsive UI×0.3) = 250 points</div>
+                                <div>Content = (Links×0.5 + Structured Data×0.4 + Crawl×0.4 + Metadata×0.2) = 150 points</div>
                             </div>
 
                             <div class="alert alert-info d-block">
