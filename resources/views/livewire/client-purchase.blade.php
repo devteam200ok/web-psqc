@@ -150,9 +150,9 @@
                             createSubscription: function(data, actions) {
                                 // Use the real PayPal plan IDs from your artisan command
                                 const planIdMap = {
-                                    'starter': 'P-0ND13476R8494264ENC62HKA',
-                                    'pro': 'P-1BN36869S9051911ENC62HKI',
-                                    'agency': 'P-9S950808M2963803CNC62HKY',
+                                    'starter': 'P-1GK17643UU4234139NC62SZA',
+                                    'pro': 'P-2D56045671375634SNC62SZA',
+                                    'agency': 'P-72B636964S9509514NC62SZI',
                                 };
 
                                 return actions.subscription.create({
@@ -178,7 +178,8 @@
                             onError: function(err) {
                                 console.error('PayPal Subscription Error:', err);
                                 alert(
-                                    'An error occurred while processing your subscription. Please try again later.');
+                                    'An error occurred while processing your subscription. Please try again later.'
+                                    );
                                 window.location.href = '{{ url('/') }}/client/purchase?plan=' +
                                     planType;
                             },
@@ -224,7 +225,8 @@
                             onError: function(err) {
                                 console.error('PayPal Error:', err);
                                 alert(
-                                    'An error occurred while processing your payment. Please try again later.');
+                                    'An error occurred while processing your payment. Please try again later.'
+                                    );
                                 window.location.href = '{{ url('/') }}/client/purchase?plan=' +
                                     planType;
                             },
