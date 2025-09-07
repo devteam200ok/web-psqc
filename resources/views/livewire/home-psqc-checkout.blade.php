@@ -17,7 +17,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-8 offset-lg-2 mb-2">
+            <div class="col-lg-6 offset-lg-3 mb-2">
                 <!-- Certificate information -->
                 <div class="card mb-3">
                     <div class="card-body">
@@ -48,7 +48,7 @@
                         <h5 class="mb-3">Test Composition Details</h5>
                         <div class="row g-2">
                             @foreach ($testDetails as $groupLabel => $tests)
-                                <div class="col-12 col-md-6 col-xl-3">
+                                <div class="col-12 col-md-6">
                                     <div class="card">
                                         <div class="card-header py-2">
                                             <h6 class="card-title mb-0 small">{{ $groupLabel }}</h6>
