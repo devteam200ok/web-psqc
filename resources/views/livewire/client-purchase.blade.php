@@ -95,7 +95,8 @@
                         <div id="paypal-button-container"></div>
                     @else
                         <button wire:loading.attr="disabled" wire:click="purchaseForFree" class="btn btn-primary w-100">
-                            Purchase for Free
+                            <span wire:loading.remove>Purchase for Free</span>
+                            <span wire:loading>Processing...</span>
                         </button>
                     @endif
                 </div>
@@ -117,6 +118,7 @@
                 let sdkLoaded = false;
                 const totalPrice = parseFloat(document.getElementById('totalPrice').value || 0);
                 const isSubscription = document.getElementById('isSubscription').value === 'true';
+                const planType = document.getElementById('planType').value;
 
                 if (!sdkLoaded) {
                     sdkLoaded = true;
@@ -129,13 +131,13 @@
                         script.src = 'https://www.paypal.com/sdk/js?client-id={{ $paypal_client_id }}&components=buttons&currency=USD';
                     }
                     
-                    script.onload = () => renderPayPalButtons(totalPrice, isSubscription);
+                    script.onload = () => renderPayPalButtons(totalPrice, isSubscription, planType);
                     document.body.appendChild(script);
                 } else {
-                    renderPayPalButtons(totalPrice, isSubscription);
+                    renderPayPalButtons(totalPrice, isSubscription, planType);
                 }
 
-                function renderPayPalButtons(totalPrice, isSubscription) {
+                function renderPayPalButtons(totalPrice, isSubscription, planType) {
                     if (isSubscription) {
                         // 구독 결제
                         paypal.Buttons({
@@ -146,8 +148,16 @@
                                 label: 'subscribe'
                             },
                             createSubscription: function(data, actions) {
+                                // 주의: 실제 플랜 ID는 PayPal에서 미리 생성한 것을 사용해야 함
+                                // 예: P-STARTER_MONTHLY_PLAN_ID (실제 명령어로 생성된 ID)
+                                const planIdMap = {
+                                    'starter': 'P-STARTER_MONTHLY_PLAN_ID',
+                                    'pro': 'P-PRO_MONTHLY_PLAN_ID', 
+                                    'agency': 'P-AGENCY_MONTHLY_PLAN_ID'
+                                };
+                                
                                 return actions.subscription.create({
-                                    'plan_id': 'P-{{ strtoupper($planType) }}_MONTHLY', // 미리 생성된 플랜 ID 사용
+                                    'plan_id': planIdMap[planType] || 'P-DEFAULT_PLAN_ID',
                                     'custom_id': '{{ $orderId }}',
                                     'application_context': {
                                         'brand_name': '{{ config("app.name") }}',
@@ -157,9 +167,7 @@
                                         'payment_method': {
                                             'payer_selected': 'PAYPAL',
                                             'payee_preferred': 'IMMEDIATE_PAYMENT_REQUIRED'
-                                        },
-                                        'return_url': '{{ url("/") }}/plan/payment/success?plan_type={{ $planType }}',
-                                        'cancel_url': '{{ url("/") }}/plan/payment/cancel?plan_type={{ $planType }}'
+                                        }
                                     }
                                 });
                             },
@@ -172,11 +180,11 @@
                             onError: function(err) {
                                 console.error('PayPal Subscription Error:', err);
                                 alert('An error occurred while processing your subscription. Please try again later.');
-                                window.location.href = '/plan/payment/fail?plan_type={{ $planType }}';
+                                window.location.href = '{{ url("/") }}/client/purchase?plan=' + planType;
                             },
                             onCancel: function(data) {
                                 console.log('Subscription cancelled by user');
-                                window.location.href = '/plan/payment/cancel?plan_type={{ $planType }}';
+                                // 취소 시 현재 페이지 유지
                             }
                         }).render('#paypal-button-container');
                     } else {
@@ -218,11 +226,11 @@
                             onError: function(err) {
                                 console.error('PayPal Error:', err);
                                 alert('An error occurred while processing your payment. Please try again later.');
-                                window.location.href = '/plan/payment/fail?plan_type={{ $planType }}';
+                                window.location.href = '{{ url("/") }}/client/purchase?plan=' + planType;
                             },
                             onCancel: function(data) {
                                 console.log('Payment cancelled by user');
-                                window.location.href = '/plan/payment/cancel?plan_type={{ $planType }}';
+                                // 취소 시 현재 페이지 유지
                             }
                         }).render('#paypal-button-container');
                     }

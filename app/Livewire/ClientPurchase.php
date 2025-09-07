@@ -19,10 +19,9 @@ class ClientPurchase extends Component
     public $amount;
     public $orderId;
 
-    // PayPal 관련 속성
+    // PayPal 관련 속성 (클라이언트 ID만 - Secret은 서버에서만 사용)
     public $paypal_mode;
     public $paypal_client_id;
-    public $paypal_secret;
 
     protected $listeners = [
         'paypal-payment-verified' => 'verifyPaypalPayment',
@@ -120,16 +119,14 @@ class ClientPurchase extends Component
             return redirect()->route('login');
         }
 
-        // PayPal 설정 로드
+        // PayPal 설정 로드 (Client ID만)
         $api = Api::first();
         $this->paypal_mode = $api->paypal_mode;
 
         if ($this->paypal_mode == 'live') {
             $this->paypal_client_id = $api->paypal_client_id_live;
-            $this->paypal_secret = $api->paypal_secret_live;
         } else {
             $this->paypal_client_id = $api->paypal_client_id_sandbox;
-            $this->paypal_secret = $api->paypal_secret_sandbox;
         }
 
         $this->planType = request('plan');
@@ -159,12 +156,19 @@ class ClientPurchase extends Component
 
     private function getPaypalAccessToken()
     {
+        $api = Api::first();
+        
         $baseUrl = $this->paypal_mode == 'live' 
             ? 'https://api-m.paypal.com' 
             : 'https://api-m.sandbox.paypal.com';
 
+        // Secret은 서버에서만 사용
+        $paypal_secret = $this->paypal_mode == 'live' 
+            ? $api->paypal_secret_live 
+            : $api->paypal_secret_sandbox;
+
         $tokenResponse = Http::asForm()
-            ->withBasicAuth($this->paypal_client_id, $this->paypal_secret)
+            ->withBasicAuth($this->paypal_client_id, $paypal_secret)
             ->post("{$baseUrl}/v1/oauth2/token", [
                 'grant_type' => 'client_credentials',
             ]);
@@ -177,81 +181,12 @@ class ClientPurchase extends Component
         return $tokenResponse->json('access_token');
     }
 
-    public function createPaypalSubscriptionPlan()
-    {
-        $accessToken = $this->getPaypalAccessToken();
-        if (!$accessToken) {
-            return null;
-        }
-
-        $baseUrl = $this->paypal_mode == 'live' 
-            ? 'https://api-m.paypal.com' 
-            : 'https://api-m.sandbox.paypal.com';
-
-        // 1. 먼저 Product 생성
-        $productResponse = Http::withToken($accessToken)
-            ->post("{$baseUrl}/v1/catalogs/products", [
-                'id' => 'PLAN_' . strtoupper($this->planType),
-                'name' => $this->planData['name'] . ' Plan',
-                'description' => $this->planData['description'],
-                'type' => 'SERVICE',
-                'category' => 'SOFTWARE'
-            ]);
-
-        if (!$productResponse->ok()) {
-            // Product가 이미 존재할 수 있으므로 로그만 남기고 계속 진행
-            Log::info('PayPal product creation response', $productResponse->json());
-        }
-
-        // 2. Subscription Plan 생성
-        $planResponse = Http::withToken($accessToken)
-            ->post("{$baseUrl}/v1/billing/plans", [
-                'product_id' => 'PLAN_' . strtoupper($this->planType),
-                'name' => $this->planData['name'] . ' Monthly Plan',
-                'description' => $this->planData['description'],
-                'status' => 'ACTIVE',
-                'billing_cycles' => [
-                    [
-                        'frequency' => [
-                            'interval_unit' => 'MONTH',
-                            'interval_count' => 1
-                        ],
-                        'tenure_type' => 'REGULAR',
-                        'sequence' => 1,
-                        'total_cycles' => 0, // 무제한
-                        'pricing_scheme' => [
-                            'fixed_price' => [
-                                'value' => number_format($this->amount, 2, '.', ''),
-                                'currency_code' => 'USD'
-                            ]
-                        ]
-                    ]
-                ],
-                'payment_preferences' => [
-                    'auto_bill_outstanding' => true,
-                    'setup_fee' => [
-                        'value' => '0',
-                        'currency_code' => 'USD'
-                    ],
-                    'setup_fee_failure_action' => 'CONTINUE',
-                    'payment_failure_threshold' => 3
-                ]
-            ]);
-
-        if (!$planResponse->ok()) {
-            Log::error('PayPal plan creation failed', $planResponse->json());
-            return null;
-        }
-
-        return $planResponse->json('id');
-    }
-
     // 구독 결제 검증
     public function verifyPaypalSubscription($subscription_id)
     {
         $accessToken = $this->getPaypalAccessToken();
         if (!$accessToken) {
-            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+            return redirect(url('/') . '/client/purchase?plan=' . $this->planType)->with('error', 'Payment verification failed. Please try again.');
         }
 
         $baseUrl = $this->paypal_mode == 'live' 
@@ -264,7 +199,7 @@ class ClientPurchase extends Component
 
         if (!$subscriptionResponse->ok()) {
             Log::error('PayPal subscription lookup failed', $subscriptionResponse->json());
-            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+            return redirect(url('/') . '/client/purchase?plan=' . $this->planType)->with('error', 'Subscription verification failed. Please try again.');
         }
 
         $data = $subscriptionResponse->json();
@@ -272,7 +207,7 @@ class ClientPurchase extends Component
         // 구독 상태 확인
         if ($data['status'] !== 'ACTIVE') {
             Log::error('PayPal subscription not active', $data);
-            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+            return redirect(url('/') . '/client/purchase?plan=' . $this->planType)->with('error', 'Subscription is not active. Please try again.');
         }
 
         // UserPlan 생성 (구독용)
@@ -283,7 +218,6 @@ class ClientPurchase extends Component
         $userPlan = UserPlan::create([
             'user_id' => Auth::id(),
             'plan_type' => $this->planType,
-            'customerKey' => 'WP' . Auth::id(),
             'customerName' => $data['subscriber']['name']['given_name'] . ' ' . $data['subscriber']['name']['surname'],
             'customerEmail' => $data['subscriber']['email_address'],
             'paypal_subscription_id' => $subscription_id,
@@ -306,7 +240,7 @@ class ClientPurchase extends Component
             'refund_deadline' => $refundDeadline,
         ]);
 
-        return redirect('/plan/payment/success?plan_type=' . $this->planType);
+        return redirect(url('/') . '/client/plan')->with('success', 'Subscription activated successfully!');
     }
 
     // 일회성 결제 검증 (쿠폰용)
@@ -314,7 +248,7 @@ class ClientPurchase extends Component
     {
         $accessToken = $this->getPaypalAccessToken();
         if (!$accessToken) {
-            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+            return redirect(url('/') . '/client/purchase?plan=' . $this->planType)->with('error', 'Payment verification failed. Please try again.');
         }
 
         $baseUrl = $this->paypal_mode == 'live' 
@@ -327,7 +261,7 @@ class ClientPurchase extends Component
 
         if (!$orderResponse->ok()) {
             Log::error('PayPal order lookup failed', $orderResponse->json());
-            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+            return redirect(url('/') . '/client/purchase?plan=' . $this->planType)->with('error', 'Payment verification failed. Please try again.');
         }
 
         $data = $orderResponse->json();
@@ -335,7 +269,7 @@ class ClientPurchase extends Component
         // 검증 1: 상태 확인
         if ($data['status'] !== 'COMPLETED') {
             Log::error('PayPal payment not completed', $data);
-            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+            return redirect(url('/') . '/client/purchase?plan=' . $this->planType)->with('error', 'Payment was not completed. Please try again.');
         }
 
         // 검증 2: 금액/통화 확인
@@ -349,7 +283,7 @@ class ClientPurchase extends Component
                 'actual' => $actualAmount,
                 'currency' => $currency,
             ]);
-            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+            return redirect(url('/') . '/client/purchase?plan=' . $this->planType)->with('error', 'Payment amount verification failed. Please try again.');
         }
 
         // UserPlan 생성 (쿠폰용)
@@ -364,7 +298,6 @@ class ClientPurchase extends Component
         $userPlan = UserPlan::create([
             'user_id' => Auth::id(),
             'plan_type' => $this->planType,
-            'customerKey' => 'WP' . Auth::id(),
             'customerName' => $data['payer']['name']['given_name'] . ' ' . $data['payer']['name']['surname'],
             'customerEmail' => $data['payer']['email_address'],
             'paypal_order_id' => $data['id'],
@@ -387,7 +320,7 @@ class ClientPurchase extends Component
             'refund_deadline' => $refundDeadline,
         ]);
 
-        return redirect('/plan/payment/success?plan_type=' . $this->planType);
+        return redirect(url('/') . '/client/plan')->with('success', 'Payment completed successfully!');
     }
 
     public function purchaseForFree()
@@ -405,7 +338,6 @@ class ClientPurchase extends Component
         $userPlan = UserPlan::create([
             'user_id' => Auth::id(),
             'plan_type' => $this->planType,
-            'customerKey' => 'WP' . Auth::id(),
             'customerName' => Auth::user()->name,
             'customerEmail' => Auth::user()->email,
             'payment_status' => 'paid',
@@ -421,7 +353,7 @@ class ClientPurchase extends Component
             'is_refundable' => false,
         ]);
 
-        return redirect('/plan/payment/success?plan_type=' . $this->planType);
+        return redirect(url('/') . '/client/plan')->with('success', 'Free plan activated successfully!');
     }
 
     public function render()
