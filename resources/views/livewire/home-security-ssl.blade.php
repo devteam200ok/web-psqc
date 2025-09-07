@@ -1,9 +1,9 @@
 @section('title')
-    <title>🔒 SSL 기본 테스트 - testssl.sh · 인증서·프로토콜·취약점 검사 | DevTeam Test</title>
+    <title>🔒 SSL Basic Test – testssl.sh · Certificate · Protocol · Vulnerabilities | Web-PSQC</title>
     <meta name="description"
-        content="testssl.sh 기반 SSL/TLS 보안 진단: 인증서 유효성, 지원 프로토콜, 암호화 강도, 취약점 여부를 종합 검사합니다. HTTPS 보안성을 A+ 등급까지 평가하고 개선 가이드를 제공합니다.">
+        content="SSL/TLS security diagnostics with testssl.sh: validate certificates, supported protocols, cipher strength, and known vulnerabilities. Evaluate HTTPS security up to A+ with actionable guidance.">
     <meta name="keywords"
-        content="SSL 테스트, TLS 검사, testssl.sh, SSL 인증서 검증, 암호화 프로토콜, 보안 취약점, HTTPS 보안성, SSL 등급 평가, DevTeam Test">
+        content="SSL test, TLS scan, testssl.sh, certificate validation, encryption protocols, security vulnerabilities, HTTPS security, SSL grading, Web-PSQC">
     <meta name="author" content="DevTeam Co., Ltd.">
     <meta name="robots" content="index,follow">
 
@@ -12,20 +12,20 @@
     <!-- Open Graph -->
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevTeam Test" />
-    <meta property="og:title" content="SSL 기본 테스트 - testssl.sh · 인증서·프로토콜·취약점 검사 | DevTeam Test" />
+    <meta property="og:site_name" content="Web-PSQC" />
+    <meta property="og:title" content="SSL Basic Test – testssl.sh · Certificate · Protocol · Vulnerabilities" />
     <meta property="og:description"
-        content="testssl.sh로 SSL/TLS 인증서, 프로토콜, 암호화 강도, 취약점을 종합 분석해 HTTPS 설정의 보안 수준을 정밀 평가하고 A+ 등급까지 인증서를 발급받으세요." />
+        content="Analyze certificates, protocols, cipher strength, and vulnerabilities with testssl.sh to evaluate HTTPS security and qualify for an A+ certificate." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="DevTeam Test SSL 보안 테스트" />
+        <meta property="og:image:alt" content="Web-PSQC SSL Security Test" />
     @endif
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="SSL 기본 테스트 - testssl.sh · 인증서·프로토콜·취약점 검사 | DevTeam Test" />
-    <meta name="twitter:description" content="SSL/TLS 인증서·프로토콜·취약점을 testssl.sh로 종합 검사하고 보안 등급과 개선 가이드를 확인하세요." />
+    <meta name="twitter:title" content="SSL Basic Test – testssl.sh · Certificate · Protocol · Vulnerabilities | Web-PSQC" />
+    <meta name="twitter:description" content="Use testssl.sh to scan SSL/TLS certificates, protocols, and vulnerabilities; review grades and improvement guidance." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -45,14 +45,14 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => 'SSL 기본 테스트 - testssl.sh · 인증서·프로토콜·취약점 검사',
+    'name' => 'SSL Basic Test – testssl.sh · Certificate · Protocol · Vulnerabilities',
     'url'  => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
-        'name' => 'DevTeam Test',
+        'name' => 'Web-PSQC',
         'url'  => url('/'),
     ],
-    'description' => 'testssl.sh 도구로 SSL/TLS 인증서, 프로토콜, 암호화 강도, 취약점을 종합 분석하여 HTTPS 보안성을 A+ 등급까지 평가합니다.',
+    'description' => 'Comprehensive analysis of SSL/TLS certificates, protocols, cipher strength, and vulnerabilities using testssl.sh to evaluate HTTPS security up to A+.',
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
 @endsection
@@ -62,8 +62,8 @@
 @endsection
 
 <div class="page-wrapper">
-    {{-- 헤더 (공통 컴포넌트) --}}
-    <x-test-shared.header title="🔒 SSL 기본 테스트" subtitle="testssl.sh · 인증서·프로토콜·취약점 종합 검사" :user-plan-usage="$userPlanUsage"
+    {{-- Header (shared component) --}}
+    <x-test-shared.header title="🔒 SSL Basic Test" subtitle="testssl.sh · Certificate · Protocol · Vulnerabilities" :user-plan-usage="$userPlanUsage"
         :ip-usage="$ipUsage ?? null" :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">
@@ -71,13 +71,13 @@
             @include('inc.component.message')
             <div class="row">
                 <div class="col-xl-8 d-block mb-2">
-                    {{-- URL 폼 --}}
+                    {{-- URL form --}}
                     <div class="card mb-3">
                         <div class="card-body">
-                            <!-- URL 입력 폼 -->
+                            <!-- URL input form -->
                             <div class="row mb-4">
                                 <div class="col-xl-12">
-                                    <label class="form-label">웹사이트 URL</label>
+                                    <label class="form-label">Website URL</label>
                                     <div class="input-group">
                                         <input type="url" wire:model="url" wire:keydown.enter="runTest"
                                             class="form-control @error('url') is-invalid @enderror"
@@ -88,7 +88,7 @@
                                             @if ($isLoading)
                                                 <span class="spinner-border spinner-border-sm me-2"
                                                     role="status"></span>
-                                                테스트 중...
+                                                Running test...
                                             @else
                                                 실행
                                             @endif
@@ -168,39 +168,38 @@
 
                                     <!-- testssl.sh 소개 -->
                                     <div class="mb-4">
-                                        <h4 class="h6 fw-bold mb-2">🔧 testssl.sh란?</h4>
+                                        <h4 class="h6 fw-bold mb-2">🔧 What is testssl.sh?</h4>
                                         <ul class="text-muted small mb-0">
-                                            <li><strong>오픈소스 SSL/TLS 테스터</strong>: GitHub에서 10,000+ 스타를 받은 업계 표준 도구입니다.
+                                            <li><strong>Open‑source SSL/TLS tester</strong>: industry‑standard tool with 10k+ GitHub stars.
                                             </li>
-                                            <li><strong>포괄적 검사</strong>: SSL Labs와 유사하지만 더 상세한 기술적 정보를 제공합니다.</li>
-                                            <li><strong>실시간 분석</strong>: 서버에 직접 연결하여 실제 SSL/TLS 설정을 검증합니다.</li>
-                                            <li><strong>취약점 탐지</strong>: Heartbleed, POODLE, BEAST 등 주요 SSL/TLS 취약점을 자동
-                                                검사합니다.</li>
+                                            <li><strong>Comprehensive coverage</strong>: similar to SSL Labs with deeper technical details.</li>
+                                            <li><strong>Live analysis</strong>: connects directly to your server to validate actual settings.</li>
+                                            <li><strong>Vulnerability detection</strong>: scans for Heartbleed, POODLE, BEAST, and more.</li>
                                         </ul>
                                     </div>
 
                                     <!-- 검사 항목 -->
                                     <div class="mb-4">
-                                        <h4 class="h6 fw-bold mb-2">📋 주요 검사 항목</h4>
+                                        <h4 class="h6 fw-bold mb-2">📋 Key checks</h4>
                                         <div class="row small text-muted">
                                             <div class="col-md-6">
-                                                <div class="mb-2"><strong>🔐 SSL/TLS 프로토콜</strong></div>
+                                                <div class="mb-2"><strong>🔐 SSL/TLS Protocols</strong></div>
                                                 <ul class="mb-3">
-                                                    <li>지원 프로토콜 버전 (SSL 2.0/3.0, TLS 1.0~1.3)</li>
-                                                    <li>취약한 구버전 프로토콜 탐지</li>
-                                                    <li>최신 TLS 1.3 지원 여부</li>
+                                                    <li>Supported protocol versions (SSL 2.0/3.0, TLS 1.0–1.3)</li>
+                                                    <li>Detect vulnerable legacy protocols</li>
+                                                    <li>Check TLS 1.3 support</li>
                                                 </ul>
 
-                                                <div class="mb-2"><strong>📜 SSL 인증서</strong></div>
+                                                <div class="mb-2"><strong>📜 SSL Certificates</strong></div>
                                                 <ul class="mb-3">
-                                                    <li>인증서 유효성 및 만료일</li>
+                                                    <li>Certificate validity/expiry</li>
                                                     <li>인증서 체인 완전성</li>
                                                     <li>Subject Alternative Names (SAN)</li>
                                                     <li>OCSP Stapling 지원</li>
                                                 </ul>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="mb-2"><strong>🔒 암호화 스위트</strong></div>
+                                                <div class="mb-2"><strong>🔒 Cipher Suites</strong></div>
                                                 <ul class="mb-3">
                                                     <li>지원하는 암호화 알고리즘</li>
                                                     <li>Perfect Forward Secrecy (PFS)</li>
@@ -212,21 +211,21 @@
                                                     <li>Heartbleed, POODLE, BEAST</li>
                                                     <li>CRIME, BREACH, FREAK</li>
                                                     <li>DROWN, LOGJAM, SWEET32</li>
-                                                    <li>HTTP 보안 헤더 (HSTS 등)</li>
+                                                    <li>HTTP security headers (HSTS, etc.)</li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- 왜 중요한가 -->
+                                    <!-- Why it matters -->
                                     <div class="mb-4">
-                                        <h4 class="h6 fw-bold mb-2">🎯 왜 SSL/TLS 검사가 중요한가?</h4>
+                                        <h4 class="h6 fw-bold mb-2">🎯 Why is SSL/TLS testing important?</h4>
                                         <ul class="text-muted small mb-0">
-                                            <li><strong>데이터 보호</strong>: 사용자와 서버 간 전송되는 모든 데이터의 암호화 품질을 보장합니다.</li>
-                                            <li><strong>신뢰성 확보</strong>: 브라우저 경고 없이 안전한 HTTPS 연결을 제공합니다.</li>
-                                            <li><strong>규정 준수</strong>: GDPR, PCI-DSS 등 보안 규정 요구사항을 충족합니다.</li>
-                                            <li><strong>SEO 향상</strong>: Google 등 검색엔진에서 HTTPS 사이트를 우대합니다.</li>
-                                            <li><strong>취약점 예방</strong>: 알려진 SSL/TLS 취약점으로부터 사전 보호합니다.</li>
+                                            <li><strong>Data protection</strong>: ensures encryption quality for all data in transit.</li>
+                                            <li><strong>Trust</strong>: delivers HTTPS without browser warnings.</li>
+                                            <li><strong>Compliance</strong>: meets standards like GDPR and PCI‑DSS.</li>
+                                            <li><strong>SEO</strong>: HTTPS is favored by search engines.</li>
+                                            <li><strong>Prevention</strong>: guards against known SSL/TLS vulnerabilities.</li>
                                         </ul>
                                     </div>
 
@@ -235,55 +234,42 @@
                                         <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                             <thead>
                                                 <tr>
-                                                    <th>등급</th>
-                                                    <th>점수</th>
-                                                    <th>보안 기준</th>
+                                                    <th>Grade</th>
+                                                    <th>Score</th>
+                                                    <th>Security criteria</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td><span class="badge badge-a-plus">A+</span></td>
-                                                    <td>90~100</td>
-                                                    <td><strong>최신 TLS만</strong> 사용, <strong>취약점
-                                                            없음</strong><br><strong>강력한 암호화 스위트</strong> 적용<br>인증서 및 체인
-                                                        <strong>완전 정상</strong><br><strong>HSTS</strong> 등 보안 설정
-                                                        <strong>우수</strong>
+                                                    <td>90–100</td>
+                                                    <td><strong>Only latest TLS</strong> used, <strong>no vulnerabilities</strong><br><strong>Strong cipher suites</strong><br>Certificate and chain <strong>fully valid</strong><br><strong>HSTS</strong> and related settings <strong>strong</strong>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-a">A</span></td>
-                                                    <td>80~89</td>
-                                                    <td><strong>TLS 1.2/1.3</strong> 지원, 구버전 차단<br><strong>주요 취약점
-                                                            없음</strong><br>일부 약한 암호나 설정 미흡 가능<br>전반적으로 <strong>안전한
-                                                            수준</strong></td>
+                                                    <td>80–89</td>
+                                                    <td><strong>TLS 1.2/1.3</strong> supported; legacy blocked<br><strong>No major vulnerabilities</strong><br>Possible minor weak ciphers or misconfigs<br><strong>Generally safe</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-b">B</span></td>
-                                                    <td>70~79</td>
-                                                    <td><strong>안전한 프로토콜</strong> 위주<br>약한 암호 스위트 <strong>일부
-                                                            존재</strong><br>testssl.sh 경고(<strong>WEAK</strong>)
-                                                        다수<br><strong>개선 필요</strong></td>
+                                                    <td>70–79</td>
+                                                    <td><strong>Mostly secure protocols</strong><br><strong>Some</strong> weak ciphers present<br>Many testssl.sh <strong>WEAK</strong> warnings<br><strong>Needs improvement</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-c">C</span></td>
-                                                    <td>60~69</td>
-                                                    <td>구버전 TLS <strong>일부 활성</strong><br><strong>취약 암호화</strong> 사용률
-                                                        높음<br>인증서 <strong>만료 임박</strong>/단순 DV<br>취약점 <strong>소수
-                                                            발견</strong></td>
+                                                    <td>60–69</td>
+                                                    <td><strong>Some legacy TLS</strong> enabled<br><strong>High</strong> use of weak crypto<br>Certificate <strong>near expiry</strong>/simple DV<br><strong>Few vulnerabilities</strong> found</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-d">D</span></td>
-                                                    <td>50~59</td>
-                                                    <td><strong>SSLv3/TLS 1.0</strong> 허용<br><strong>취약 암호 다수</strong>
-                                                        활성<br>인증서 체인 <strong>오류/만료 임박</strong><br><strong>다수
-                                                            취약점</strong> 존재</td>
+                                                    <td>50–59</td>
+                                                    <td><strong>SSLv3/TLS 1.0</strong> permitted<br><strong>Many</strong> weak ciphers enabled<br>Certificate chain <strong>errors/near expiry</strong><br><strong>Multiple vulnerabilities</strong> present</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-f">F</span></td>
-                                                    <td>0~49</td>
-                                                    <td>SSL/TLS 설정 <strong>근본적 결함</strong><br><strong>취약 프로토콜</strong>
-                                                        전면 허용<br>인증서 <strong>만료/자가서명</strong><br>testssl.sh
-                                                        <strong>FAIL/VULNERABLE</strong> 다수
+                                                    <td>0–49</td>
+                                                    <td>SSL/TLS configuration <strong>fundamental flaws</strong><br><strong>Vulnerable protocols</strong> broadly allowed<br>Certificate <strong>expired/self‑signed</strong><br>Many testssl.sh <strong>FAIL/VULNERABLE</strong>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -291,18 +277,18 @@
                                     </div>
 
                                     <div class="alert alert-warning d-block mt-3">
-                                        <strong>📋 인증서 발급 조건:</strong><br>
-                                        • B등급 이상 달성<br>
-                                        • 주요 보안 취약점 없음<br>
-                                        • 유효한 SSL 인증서 보유<br>
-                                        • 로그인 필요<br><br>
+                                        <strong>📋 Certificate issuance requirements:</strong><br>
+                                        • Grade <strong>B</strong> or higher<br>
+                                        • No major security vulnerabilities<br>
+                                        • Valid SSL certificate present<br>
+                                        • Sign‑in required<br><br>
 
-                                        <strong>⏰ 검사 시간:</strong> 약 5-10분 (서버 응답속도에 따라 차이)<br>
-                                        <strong>🔄 권장 주기:</strong> 월 1회 정기 검사 (인증서 만료, 새로운 취약점 대응)
+                                        <strong>⏰ Typical duration:</strong> ~5–10 minutes (varies by server response)<br>
+                                        <strong>🔄 Recommended cadence:</strong> monthly checks (certificate expiry, new CVEs)
                                     </div>
                                 </div>
 
-                                <!-- 결과 탭 -->
+                                <!-- Results tab -->
                                 <div class="tab-pane {{ $mainTabActive == 'results' ? 'active show' : '' }}"
                                     id="tabs-results">
                                     @if ($currentTest && $currentTest->status === 'completed' && $currentTest->results)
@@ -361,44 +347,44 @@
                                         </div>
 
                                         <!-- 개요 -->
-                                        <h4>📋 개요</h4>
+                                        <h4>📋 Overview</h4>
                                         <div class="row mb-4">
                                             <div class="col-md-6">
-                                                <h6>기본 정보</h6>
+                                                <h6>Basics</h6>
                                                 <table class="table table-sm">
                                                     <tr>
-                                                        <th>대상 URL</th>
+                                                        <th>Target URL</th>
                                                         <td>{{ $currentTest->url }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>IP 주소</th>
+                                                        <th>IP Address</th>
                                                         <td>{{ $results['ip_address'] ?? 'N/A' }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>포트</th>
+                                                        <th>Port</th>
                                                         <td>{{ $results['port'] ?? '443' }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>서버 배너</th>
+                                                        <th>Server Banner</th>
                                                         <td>{{ $results['server_banner'] ?? 'N/A' }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>테스트 시간</th>
+                                                        <th>Test Time</th>
                                                         <td>{{ $results['scan_time'] ?? 'N/A' }}</td>
                                                     </tr>
                                                 </table>
                                             </div>
                                             <div class="col-md-6">
-                                                <h6>SSL/TLS 요약</h6>
+                                                <h6>SSL/TLS Summary</h6>
                                                 <table class="table table-sm">
                                                     <tr>
-                                                        <th>SSL 등급</th>
+                                                        <th>SSL Grade</th>
                                                         <td><span
                                                                 class="badge {{ $gradeClass }}">{{ $grade }}</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>지원 프로토콜</th>
+                                                        <th>Supported Protocols</th>
                                                         <td>
                                                             @if (isset($results['supported_protocols']) && count($results['supported_protocols']) > 0)
                                                                 {{ implode(', ', $results['supported_protocols']) }}
@@ -553,7 +539,7 @@
                                         <hr>
 
                                         <!-- 취약점 -->
-                                        <h4>🛡️ 취약점
+                                        <h4>🛡️ Vulnerabilities
                                             @if (isset($results['vulnerabilities']) && count($results['vulnerabilities']) > 0)
                                                 @php
                                                     $vulnerableCount = 0;
@@ -564,9 +550,7 @@
                                                     }
                                                 @endphp
                                                 @if ($vulnerableCount > 0)
-                                                    <span
-                                                        class="badge bg-yellow-lt text-yellow-lt-fg ms-2">{{ $vulnerableCount }}개
-                                                        발견</span>
+                                                    <span class="badge bg-yellow-lt text-yellow-lt-fg ms-2">{{ $vulnerableCount }} found</span>
                                                 @endif
                                             @endif
                                         </h4>
@@ -584,11 +568,10 @@
                                                     }
                                                 @endphp
 
-                                                <!-- 고위험 취약점 알림만 유지 -->
+                                                <!-- High-risk vulnerabilities notice -->
                                                 @if ($criticalCount > 0)
                                                     <div class="alert alert-danger mb-4">
-                                                        <h6><strong>{{ $criticalCount }}개의 고위험 취약점</strong>이 포함되어 있습니다.
-                                                            즉시 조치가 필요합니다.</h6>
+                                                        <h6><strong>{{ $criticalCount }} high-risk vulnerabilities</strong> detected. Immediate action is recommended.</h6>
                                                     </div>
                                                 @endif
 
@@ -615,44 +598,44 @@
                                                                     strtoupper($vuln),
                                                                 );
                                                                 $badgeText = !$isVulnerable
-                                                                    ? '안전'
+                                                                    ? 'Safe'
                                                                     : ($severity === 'high'
-                                                                        ? '위험'
-                                                                        : '유의');
+                                                                        ? 'High'
+                                                                        : 'Warn');
 
-                                                                // 취약점별 한글 설명
+                                                                // Vulnerability descriptions (EN)
                                                                 $koreanDesc = match ($vuln) {
                                                                     'heartbleed'
-                                                                        => 'OpenSSL 라이브러리의 메모리 누수 취약점으로, 서버 메모리에서 민감한 정보가 노출될 수 있습니다.',
+                                                                        => 'OpenSSL memory disclosure; sensitive data may leak from server memory.',
                                                                     'ccs'
-                                                                        => 'OpenSSL의 ChangeCipherSpec 메시지 처리 취약점으로, 중간자 공격이 가능할 수 있습니다.',
+                                                                        => 'OpenSSL ChangeCipherSpec processing; enables man‑in‑the‑middle (MITM) attacks.',
                                                                     'rc4'
-                                                                        => 'RC4 암호화 알고리즘의 약점으로 인해 암호화된 데이터가 해독될 위험이 있습니다.',
+                                                                        => 'Weaknesses in RC4 cipher may allow decryption of encrypted data.',
                                                                     'beast'
-                                                                        => 'TLS 1.0의 CBC 모드 취약점으로, 특정 조건에서 암호화가 깨질 수 있습니다.',
+                                                                        => 'TLS 1.0 CBC mode vulnerability; encryption can be broken under certain conditions.',
                                                                     'crime'
-                                                                        => 'TLS 압축을 이용한 공격으로, 압축된 데이터에서 비밀 정보를 추출할 수 있습니다.',
+                                                                        => 'Exploits TLS compression to extract secrets from compressed data.',
                                                                     'breach'
-                                                                        => 'HTTP 압축을 이용한 공격으로, 웹 응답에서 비밀 토큰을 추출할 수 있습니다.',
+                                                                        => 'Uses HTTP compression to extract secret tokens from web responses.',
                                                                     'drown'
-                                                                        => 'SSLv2의 취약점을 이용해 TLS 연결을 공격하는 방법입니다.',
+                                                                        => 'Abuses SSLv2 weaknesses to attack TLS connections.',
                                                                     'freak'
-                                                                        => '약한 RSA 키를 강제로 사용하게 만드는 공격으로, 암호화를 약화시킬 수 있습니다.',
+                                                                        => 'Forces use of weak RSA keys, weakening encryption.',
                                                                     'robot'
-                                                                        => 'RSA 패딩 오라클 공격으로, RSA 개인키를 추출할 수 있는 취약점입니다.',
+                                                                        => 'RSA padding oracle attack; can expose RSA private keys.',
                                                                     'logjam'
-                                                                        => 'Diffie-Hellman 키 교환의 약한 소수를 이용한 공격입니다.',
+                                                                        => 'Targets weak primes in Diffie‑Hellman key exchange.',
                                                                     'poodle'
-                                                                        => 'SSLv3의 패딩 오라클 공격으로, 암호화된 데이터를 해독할 수 있습니다.',
+                                                                        => 'SSLv3 padding oracle enabling decryption of encrypted data.',
                                                                     'lucky13'
-                                                                        => 'CBC 모드 암호화의 타이밍 공격으로, 평문 데이터를 복구할 수 있습니다.',
+                                                                        => 'Timing attack on CBC mode; may recover plaintext.',
                                                                     'sweet32'
-                                                                        => '64비트 블록 암호의 생일 공격으로, 대량의 데이터 전송 시 위험합니다.',
+                                                                        => 'Birthday attack on 64‑bit block ciphers; risky on large transfers.',
                                                                     'winshock'
-                                                                        => 'Windows Schannel의 취약점으로, 원격 코드 실행이 가능할 수 있습니다.',
+                                                                        => 'Windows Schannel vulnerability; may allow remote code execution.',
                                                                     'ticketbleed'
-                                                                        => 'TLS 세션 티켓의 메모리 누수 취약점입니다.',
-                                                                    default => '알려진 SSL/TLS 보안 취약점입니다.',
+                                                                        => 'Memory disclosure in TLS session tickets.',
+                                                                    default => 'Known SSL/TLS security vulnerability.',
                                                                 };
                                                             @endphp
                                                             <div class="mb-3 p-3 border rounded">

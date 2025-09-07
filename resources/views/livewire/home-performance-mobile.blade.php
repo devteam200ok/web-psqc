@@ -1,7 +1,7 @@
 @section('title')
-    <title>📱 모바일 성능 테스트 - Playwright · iPhone/Galaxy · 6종 기기 성능 평가 | DevTeam Test</title>
-    <meta name="description" content="Playwright로 iPhone SE·11·15 Pro, Galaxy S9+·S20 Ultra, Pixel 5 등 6종 기기를 시뮬레이션합니다. Median 응답시간, JS 런타임 에러, 렌더 폭 초과를 종합 분석해 모바일 사용자 경험을 A+ 등급까지 평가/인증합니다.">
-    <meta name="keywords" content="모바일 성능 테스트, Playwright, iPhone 테스트, Galaxy 테스트, 모바일 웹 최적화, JS 런타임 에러, 렌더링 폭 초과, 반응형 테스트, 모바일 UX, DevTeam Test">
+    <title>📱 Mobile Performance Test – Playwright · iPhone/Galaxy · 6 Devices | Web-PSQC</title>
+    <meta name="description" content="Simulate 6 devices including iPhone SE/11/15 Pro, Galaxy S9+/S20 Ultra, Pixel 5 with Playwright. Comprehensively analyze median response time, JS runtime errors, and render width overflow to evaluate/certify mobile user experience up to A+ grade.">
+    <meta name="keywords" content="mobile performance test, Playwright, iPhone test, Galaxy test, mobile web optimization, JS runtime errors, render width overflow, responsive test, mobile UX, Web-PSQC">
     <meta name="author" content="DevTeam Co., Ltd.">
     <meta name="robots" content="index,follow">
 
@@ -9,18 +9,18 @@
 
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevTeam Test" />
-    <meta property="og:title" content="모바일 성능 테스트 - Playwright · iPhone/Galaxy · 6종 기기 성능 평가 | DevTeam Test" />
-    <meta property="og:description" content="실제 모바일 기기 환경을 시뮬레이션하여 Median 응답시간·JS 에러·렌더 폭 초과를 분석합니다. 모바일 성능을 진단하고 A+ 등급까지 인증서를 발급받으세요." />
+    <meta property="og:site_name" content="Web-PSQC" />
+    <meta property="og:title" content="Mobile Performance Test – Playwright · iPhone/Galaxy · 6 Devices" />
+    <meta property="og:description" content="Simulate real mobile devices and analyze median response time, JS errors, and render width overflow. Diagnose mobile performance and qualify for an A+ certificate." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="DevTeam Test - 모바일 성능 테스트" />
+        <meta property="og:image:alt" content="Web-PSQC – Mobile Performance Test" />
     @endif
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="모바일 성능 테스트 - Playwright · iPhone/Galaxy · 6종 기기 성능 평가 | DevTeam Test" />
-    <meta name="twitter:description" content="6종 기기 시뮬레이션으로 모바일 사용자 경험을 정밀 진단. Median·JS 에러·렌더 폭 초과까지 한 번에 확인." />
+    <meta name="twitter:title" content="Mobile Performance Test – Playwright · iPhone/Galaxy · 6 Devices | Web-PSQC" />
+    <meta name="twitter:description" content="Simulate 6 devices to assess mobile UX: median, JS errors, and render width overflow." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -40,14 +40,14 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => '모바일 성능 테스트 - Playwright · iPhone/Galaxy · 6종 기기 성능 평가',
+    'name' => 'Mobile Performance Test – Playwright · iPhone/Galaxy · 6 Devices',
     'url'  => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
-        'name' => 'DevTeam Test',
+        'name' => 'Web-PSQC',
         'url'  => url('/'),
     ],
-    'description' => 'Playwright 기반 6종 모바일 기기 시뮬레이션으로 Median 응답시간·JS 에러·렌더 폭 초과를 분석하고 모바일 성능을 등급화합니다.',
+    'description' => 'Playwright-based simulation of 6 mobile devices to analyze median response time, JS errors, and render width overflow for graded performance.',
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
 @endsection
@@ -57,8 +57,8 @@
 @endsection
 
 <div class="page-wrapper">
-    {{-- 헤더 (공통 컴포넌트) --}}
-    <x-test-shared.header title="📱 모바일 성능 테스트" subtitle="Playwright · iPhone/Galaxy · 6종 기기 성능 평가" :user-plan-usage="$userPlanUsage"
+    {{-- Header (shared component) --}}
+    <x-test-shared.header title="📱 Mobile Performance Test" subtitle="Playwright · iPhone/Galaxy · 6 devices" :user-plan-usage="$userPlanUsage"
         :ip-usage="$ipUsage ?? null" :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">
@@ -66,13 +66,13 @@
             @include('inc.component.message')
             <div class="row">
                 <div class="col-xl-8 d-block mb-2">
-                    {{-- URL 폼 --}}
+                    {{-- URL form --}}
                     <div class="card mb-3">
                         <div class="card-body">
-                            <!-- URL 입력 폼 -->
+                            <!-- URL input form -->
                             <div class="row mb-4">
                                 <div class="col-xl-12">
-                                    <label class="form-label">테스트 URL</label>
+                                    <label class="form-label">Test URL</label>
                                     <div class="input-group">
                                         <input type="url" wire:model="url" wire:keydown.enter="runTest"
                                             class="form-control @error('url') is-invalid @enderror"
@@ -83,9 +83,9 @@
                                             @if ($isLoading)
                                                 <span class="spinner-border spinner-border-sm me-2"
                                                     role="status"></span>
-                                                테스트 중...
+                                                Running test...
                                             @else
-                                                테스트
+                                                Test
                                             @endif
                                         </button>
                                     </div>
@@ -95,10 +95,10 @@
 
                                     @if ($hasProOrAgencyPlan)
                                         <div class="mt-2">
-                                            <a href="javascript:void(0)" wire:click="toggleScheduleForm"
-                                                class="text-primary me-3">검사 예약</a>
+                                        <a href="javascript:void(0)" wire:click="toggleScheduleForm"
+                                            class="text-primary me-3">Schedule Test</a>
                                             <a href="javascript:void(0)" wire:click="toggleRecurringForm"
-                                                class="text-primary">스케쥴 등록</a>
+                                                class="text-primary">Add Recurring Schedule</a>
                                         </div>
                                     @endif
                                 </div>
@@ -107,8 +107,8 @@
                             <div class="row">
                                 <div class="col-12">
                                     <small class="text-muted">
-                                        측정 항목: <strong>Median(재방문)</strong> · <strong>JS 런타임 에러(자사/외부/고유)</strong> ·
-                                        <strong>렌더 폭 초과</strong>
+                                        Metrics: <strong>Median (repeat visit)</strong> · <strong>JS runtime errors (first/third‑party/unique)</strong> ·
+                                        <strong>Render width overflow</strong>
                                     </small>
                                 </div>
                             </div>
@@ -135,46 +135,44 @@
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'information')"
                                         class="nav-link {{ $mainTabActive == 'information' ? 'active' : '' }}"
-                                        data-bs-toggle="tab">테스트 정보</a>
+                                        data-bs-toggle="tab">Test Info</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'results')"
                                         class="nav-link {{ $mainTabActive == 'results' ? 'active' : '' }}"
-                                        data-bs-toggle="tab">결과</a>
+                                        data-bs-toggle="tab">Results</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" wire:click="$set('mainTabActive', 'data')"
                                         class="nav-link {{ $mainTabActive == 'data' ? 'active' : '' }}"
-                                        data-bs-toggle="tab">데이터</a>
+                                        data-bs-toggle="tab">Data</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
-                                <!-- 테스트 정보 탭 -->
+                                <!-- Test Info tab -->
                                 <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                     id="tabs-information">
 
-                                    <h3>모바일 성능 테스트란?</h3>
+                                    <h3>What is the Mobile Performance Test?</h3>
                                     <div class="text-muted small mt-1 mb-4">
-                                        <strong>Playwright</strong>를 사용하여 실제 모바일 기기 환경을 시뮬레이션하고,
-                                        웹사이트의 모바일 성능과 안정성을 정밀하게 측정합니다.
+                                        Using <strong>Playwright</strong>, we simulate real mobile device environments to precisely measure your website’s mobile performance and stability.
                                     </div>
 
                                     <!-- 측정 개요 -->
                                     <div class="mb-4">
-                                        <h4 class="h6 fw-bold mb-2">📊 측정 개요</h4>
+                                        <h4 class="h6 fw-bold mb-2">📊 Measurement Overview</h4>
                                         <ul class="text-muted small mb-0">
-                                            <li><strong>도구</strong>: Playwright (헤드리스 브라우저, CPU 스로틀 ×4 적용)</li>
-                                            <li><strong>실행</strong>: 기기별 총 <strong>4회</strong> 실행 → <strong>1회 웜업
-                                                    제외</strong>, 나머지 <strong>3회의 중간값(Median)</strong> 사용</li>
-                                            <li><strong>주요 지표</strong>:
+                                            <li><strong>Tool</strong>: Playwright (headless browser, CPU throttling ×4)</li>
+                                            <li><strong>Runs</strong>: <strong>4 total</strong> per device → skip <strong>1 warm‑up</strong>; use <strong>median of 3</strong></li>
+                                            <li><strong>Key metrics</strong>:
                                                 <ul class="mt-1">
-                                                    <li>재방문 <strong>Median</strong> 로드 시간 (ms)</li>
-                                                    <li><strong>Long Tasks 합계</strong> - TBT 유사 (50ms 초과 작업의 초과분 합산)
+                                                    <li>Repeat‑visit <strong>median</strong> load time (ms)</li>
+                                                    <li><strong>Long Tasks total</strong> — TBT‑like (sum over 50 ms)
                                                     </li>
-                                                    <li><strong>JS 런타임 에러</strong> - 자사/외부 도메인별 분리 집계</li>
-                                                    <li><strong>렌더 폭 초과</strong> - body 요소가 viewport 너비 초과 여부</li>
+                                                    <li><strong>JS runtime errors</strong> — grouped by first/third‑party</li>
+                                                    <li><strong>Render width overflow</strong> — body exceeds viewport width</li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -182,133 +180,121 @@
 
                                     <!-- 대표 테스트 기기 -->
                                     <div class="mb-4">
-                                        <h4 class="h6 fw-bold mb-2">📱 대표 테스트 기기 (6종)</h4>
+                                        <h4 class="h6 fw-bold mb-2">📱 Representative Test Devices (6)</h4>
                                         <div class="row small text-muted">
                                             <div class="col-md-6">
                                                 <div class="mb-1"><strong>iOS</strong></div>
                                                 <ul class="mb-2">
-                                                    <li>iPhone SE (구형·소형 뷰포트)</li>
-                                                    <li>iPhone 11 (중급·보편 해상도)</li>
-                                                    <li>iPhone 15 Pro (최신·고성능)</li>
+                                                    <li>iPhone SE (older · small viewport)</li>
+                                                    <li>iPhone 11 (mid‑range · common resolution)</li>
+                                                    <li>iPhone 15 Pro (latest · high performance)</li>
                                                 </ul>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-1"><strong>Android</strong></div>
                                                 <ul class="mb-0">
-                                                    <li>Galaxy S9+ (구형)</li>
-                                                    <li>Galaxy S20 Ultra (고해상도)</li>
-                                                    <li>Pixel 5 (표준 Android 레퍼런스)</li>
+                                                    <li>Galaxy S9+ (older)</li>
+                                                    <li>Galaxy S20 Ultra (high resolution)</li>
+                                                    <li>Pixel 5 (reference Android)</li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="text-muted small mt-2">
-                                            ※ Playwright 내장 디바이스 프로필을 사용하며, 부재 시 인접 모델로 안전 대체합니다.
+                                            Note: Uses Playwright’s built‑in device profiles; if unavailable, a close substitute is used.
                                         </div>
                                     </div>
 
                                     <!-- Playwright 소개 -->
                                     <div class="mb-4">
-                                        <h4 class="h6 fw-bold mb-2">🎭 Playwright란?</h4>
+                                        <h4 class="h6 fw-bold mb-2">🎭 What is Playwright?</h4>
                                         <ul class="text-muted small mb-0">
-                                            <li><strong>Microsoft 개발</strong>: 현대적인 웹 자동화 도구로, 실제 브라우저 엔진을 사용하여 정확한 성능
-                                                측정이 가능합니다.</li>
-                                            <li><strong>헤드리스 실행</strong>: UI 없이 백그라운드에서 실행되어 서버 환경에서도 안정적으로 동작합니다.</li>
-                                            <li><strong>CPU 스로틀링</strong>: CPU 성능을 인위적으로 제한(×4)하여 실제 모바일 환경의 성능 제약을
-                                                시뮬레이션합니다.</li>
-                                            <li><strong>정밀한 메트릭 수집</strong>: JavaScript 실행 시간, 에러, 렌더링 성능 등을 정확하게 측정할 수
-                                                있습니다.</li>
+                                            <li><strong>Developed by Microsoft</strong>: a modern web automation tool using real browser engines for accurate measurements.</li>
+                                            <li><strong>Headless execution</strong>: runs without UI in the background — stable in server environments.</li>
+                                            <li><strong>CPU throttling</strong>: limits CPU (×4) to simulate real mobile constraints.</li>
+                                            <li><strong>Precise metrics</strong>: measures JS execution time, errors, and rendering performance.</li>
                                         </ul>
                                     </div>
 
                                     <!-- 왜 구형이 더 빠를 수 있나 -->
                                     <div class="mb-4">
-                                        <h4 class="h6 fw-bold mb-2">❓ 왜 구형 기기가 더 빠르게 보일 수 있나요?</h4>
+                                        <h4 class="h6 fw-bold mb-2">❓ Why can older devices appear faster?</h4>
                                         <ul class="text-muted small mb-0">
-                                            <li><strong>가벼운 자산 제공</strong>: 작은 뷰포트/해상도(User Agent)에 맞춰 더 낮은 용량의
-                                                이미지·레이아웃이 제공될 수 있습니다.</li>
-                                            <li><strong>균일한 CPU 스로틀</strong>: 모든 기기에 동일한 ×4 스로틀을 적용하므로, 순수 "단말 성능 차"보다는
-                                                그 기기에 제공된 리소스 무게가 속도에 더 큰 영향을 줍니다.</li>
-                                            <li><strong>조건부 로딩 차이</strong>: UA/미디어쿼리/임계치 등에 따라 광고·위젯·스크립트가 기기별로 달리 로드될 수
-                                                있습니다.</li>
+                                            <li><strong>Lighter assets served</strong>: smaller viewport/resolution may receive lighter images/layouts.</li>
+                                            <li><strong>Uniform CPU throttle</strong>: same ×4 throttle applied to all, so resource weight matters more than raw device power.</li>
+                                            <li><strong>Conditional loading differences</strong>: ads/widgets/scripts may load differently by UA/media queries/breakpoints.</li>
                                         </ul>
                                     </div>
 
                                     <!-- 테스트의 의미 -->
                                     <div class="mb-4">
-                                        <h4 class="h6 fw-bold mb-2">🎯 이 테스트가 의미 있는 이유</h4>
+                                        <h4 class="h6 fw-bold mb-2">🎯 Why this test matters</h4>
                                         <ul class="text-muted small mb-0">
-                                            <li><strong>모바일 체감 렌더링</strong>을 정조준: 캐시가 채워진 재방문 상황에서 JS/레이아웃 부담을 Median과
-                                                Long Tasks로 파악</li>
-                                            <li><strong>런타임 안정성</strong>: JS 에러를 자사/외부로 구분 집계 → 실제 품질 이슈의 책임 소재 파악 용이
-                                            </li>
-                                            <li><strong>반응형 적합성</strong>: body가 viewport를 넘는지 자동 검출 → 모바일 화면 대응 누락을 조기
-                                                발견</li>
-                                            <li><strong>재현 가능성</strong>: 기기·횟수·스로틀·웨이팅 규칙을 고정해 릴리즈 간 회귀 비교와 목표 관리에 최적
-                                            </li>
+                                            <li><strong>Perceived mobile rendering</strong>: focuses on repeat‑visit median and long tasks to capture JS/layout burden.</li>
+                                            <li><strong>Runtime stability</strong>: separates JS errors by first/third‑party to pinpoint ownership of issues.</li>
+                                            <li><strong>Responsive suitability</strong>: auto‑detects body overflow beyond viewport to catch missing mobile handling.</li>
+                                            <li><strong>Repeatable</strong>: fixed devices/runs/throttle/waiting rules — ideal for regression comparison and goals.</li>
                                         </ul>
                                     </div>
 
-                                    {{-- 등급 기준 안내 --}}
+                                    {{-- Grade criteria --}}
                                     <div class="table-responsive">
                                         <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                             <thead>
                                                 <tr>
-                                                    <th>등급</th>
-                                                    <th>점수</th>
-                                                    <th>성능 기준</th>
+                                                    <th>Grade</th>
+                                                    <th>Score</th>
+                                                    <th>Performance criteria</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td><span class="badge badge-a-plus">A+</span></td>
-                                                    <td>90~100</td>
-                                                    <td>Median 응답시간: <strong>≤ 800ms</strong><br>JS 런타임 에러:
-                                                        <strong>0</strong><br>렌더 폭 초과: <strong>없음</strong>
+                                                    <td>90–100</td>
+                                                    <td>Median response time: <strong>≤ 800 ms</strong><br>JS runtime errors:
+                                                        <strong>0</strong><br>Render width overflow: <strong>None</strong>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-a">A</span></td>
-                                                    <td>80~89</td>
-                                                    <td>Median 응답시간: <strong>≤ 1200ms</strong><br>JS 런타임 에러: <strong>≤
-                                                            1</strong><br>렌더 폭 초과: <strong>없음</strong></td>
+                                                    <td>80–89</td>
+                                                    <td>Median response time: <strong>≤ 1200 ms</strong><br>JS runtime errors: <strong>≤
+                                                            1</strong><br>Render width overflow: <strong>None</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-b">B</span></td>
-                                                    <td>70~79</td>
-                                                    <td>Median 응답시간: <strong>≤ 2000ms</strong><br>JS 런타임 에러: <strong>≤
-                                                            2</strong><br>렌더 폭 초과: <strong>허용</strong></td>
+                                                    <td>70–79</td>
+                                                    <td>Median response time: <strong>≤ 2000 ms</strong><br>JS runtime errors: <strong>≤
+                                                            2</strong><br>Render width overflow: <strong>Allowed</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-c">C</span></td>
-                                                    <td>60~69</td>
-                                                    <td>Median 응답시간: <strong>≤ 3000ms</strong><br>JS 런타임 에러: <strong>≤
-                                                            3</strong><br>렌더 폭 초과: <strong>빈번</strong></td>
+                                                    <td>60–69</td>
+                                                    <td>Median response time: <strong>≤ 3000 ms</strong><br>JS runtime errors: <strong>≤
+                                                            3</strong><br>Render width overflow: <strong>Frequent</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-d">D</span></td>
-                                                    <td>50~59</td>
-                                                    <td>Median 응답시간: <strong>≤ 4000ms</strong><br>JS 런타임 에러: <strong>≤
-                                                            5</strong><br>렌더 폭 초과: <strong>심각</strong></td>
+                                                    <td>50–59</td>
+                                                    <td>Median response time: <strong>≤ 4000 ms</strong><br>JS runtime errors: <strong>≤
+                                                            5</strong><br>Render width overflow: <strong>Severe</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-f">F</span></td>
-                                                    <td>0~49</td>
-                                                    <td>위 기준에 미달</td>
+                                                    <td>0–49</td>
+                                                    <td>Below the above criteria</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
 
                                     <div class="alert alert-info d-block mt-3">
-                                        <div><strong>요약</strong> — 기기 6종 · 각 4회(1 웜업 제외) · CPU ×4 · 지표: Median / Long
-                                            Tasks / JS 에러(자사·외부) / 렌더 폭 초과</div>
-                                        <div class="mt-1">구형이 더 빠르게 측정되어도 정상일 수 있습니다. 이는 가벼운 자산 제공 + 균일 스로틀의 결과이며, 본
-                                            테스트는 실제 사용자 환경에서의 <strong>모바일 렌더링 비용과 안정성</strong>을 지속적으로 추적하는 데 목적이 있습니다.
+                                        <div><strong>Summary</strong> — 6 devices · 4 runs each (1 warm‑up skipped) · CPU ×4 · Metrics: Median / Long Tasks / JS errors (first/third‑party) / Render width overflow</div>
+                                        <div class="mt-1">Older devices reading faster can be normal (lighter assets + uniform throttle). This test aims to continuously track <strong>mobile rendering cost and stability</strong> under realistic conditions.
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- 결과 탭 -->
+                                        <!-- Results tab -->
                                 <div class="tab-pane {{ $mainTabActive == 'results' ? 'active show' : '' }}"
                                     id="tabs-results">
                                     @if ($currentTest && $currentTest->status === 'completed' && $currentTest->results)
@@ -343,23 +329,23 @@
                                         <!-- 종합 결과 -->
                                         <div class="card mb-4">
                                             <div class="card-body">
-                                                <h5 class="card-title mb-3">종합 결과</h5>
+                                                <h5 class="card-title mb-3">Overall Results</h5>
 
                                                 <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
-                                                    <div>Median 평균:
+                                                    <div>Median average:
                                                         <strong>{{ $overall['medianAvgMs'] ?? 0 }}</strong>ms
                                                     </div>
-                                                    <div>Long Tasks 평균:
+                                                    <div>Long Tasks average:
                                                         <strong>{{ $overall['longTasksAvgMs'] ?? 0 }}</strong>ms
                                                     </div>
-                                                    <div>JS 에러(자사):
+                                                    <div>JS errors (first‑party):
                                                         <strong>{{ $overall['jsErrorsFirstPartyTotal'] ?? 0 }}</strong>
                                                     </div>
-                                                    <div>JS 에러(외부):
+                                                    <div>JS errors (third‑party):
                                                         <strong>{{ $overall['jsErrorsThirdPartyTotal'] ?? 0 }}</strong>
                                                     </div>
-                                                    <div>렌더 폭 초과:
-                                                        <strong>{{ !empty($overall['bodyOverflowsViewport']) ? '있음' : '없음' }}</strong>
+                                                    <div>Render width overflow:
+                                                        <strong>{{ !empty($overall['bodyOverflowsViewport']) ? 'Yes' : 'No' }}</strong>
                                                     </div>
                                                 </div>
 
@@ -377,20 +363,20 @@
                                             </div>
                                         </div>
 
-                                        <!-- 기기별 상세 결과 -->
+                                        <!-- Per-device detailed results -->
                                         <div class="mb-4">
-                                            <h5 class="mb-3">기기별 상세 결과</h5>
+                                            <h5 class="mb-3">Per-device Details</h5>
                                             <div class="table-responsive">
                                                 <table class="table table-sm table-vcenter table-nowrap">
                                                     <thead class="table-light">
                                                         <tr>
-                                                            <th>디바이스</th>
+                                                            <th>Device</th>
                                                             <th>Median(ms)</th>
                                                             <th>TBT(LongTasks, ms)</th>
-                                                            <th>JS(자사)</th>
-                                                            <th>JS(외부)</th>
-                                                            <th>JS(고유)</th>
-                                                            <th>렌더 폭 초과</th>
+                                                            <th>JS (first)</th>
+                                                            <th>JS (third)</th>
+                                                            <th>JS (unique)</th>
+                                                            <th>Overflow</th>
                                                             <th>Viewport</th>
                                                         </tr>
                                                     </thead>
@@ -404,7 +390,7 @@
                                                                 <td>{{ $result['jsErrorsFirstPartyCount'] ?? 0 }}</td>
                                                                 <td>{{ $result['jsErrorsThirdPartyCount'] ?? 0 }}</td>
                                                                 <td>{{ $result['jsErrorsUniqueCount'] ?? 0 }}</td>
-                                                                <td>{{ !empty($result['bodyOverflowsViewport']) ? '있음' : '없음' }}
+                                                                <td>{{ !empty($result['bodyOverflowsViewport']) ? 'Yes' : 'No' }}
                                                                 </td>
                                                                 <td>
                                                                     @if (!empty($result['viewport']))
@@ -422,40 +408,36 @@
 
                                         <!-- 지표 설명 -->
                                         <div class="alert alert-info d-block">
-                                            <h6>측정 지표 설명</h6>
-                                            <p class="mb-2"><strong>Median 응답시간:</strong> 재방문 시 페이지 로딩에 걸리는 중간값
-                                                시간입니다.</p>
-                                            <p class="mb-2"><strong>TBT (Long Tasks):</strong> JavaScript 실행으로 인한 메인
-                                                스레드 차단 시간의 합계입니다.</p>
-                                            <p class="mb-2"><strong>JS 에러:</strong> 자사는 테스트 도메인, 외부는 서드파티에서 발생한
-                                                JavaScript 런타임 에러입니다.</p>
-                                            <p class="mb-0"><strong>렌더 폭 초과:</strong> 웹페이지의 body 요소가 모바일 뷰포트 너비를
-                                                초과하는지 여부입니다.</p>
+                                            <h6>Metric descriptions</h6>
+                                            <p class="mb-2"><strong>Median response time:</strong> the median page load time on repeat visit.</p>
+                                            <p class="mb-2"><strong>TBT (Long Tasks):</strong> total main‑thread blocking time from JS execution.</p>
+                                            <p class="mb-2"><strong>JS errors:</strong> first‑party vs third‑party JavaScript runtime errors.</p>
+                                            <p class="mb-0"><strong>Render width overflow:</strong> whether the page body exceeds the mobile viewport width.</p>
                                         </div>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 모바일 성능 결과를 확인할 수 있습니다.</p>
+                                            <h5>No results yet</h5>
+                                            <p class="mb-0">Run a test to view mobile performance results.</p>
                                         </div>
                                     @endif
                                 </div>
 
-                                <!-- 데이터 탭 -->
+                                <!-- Data tab -->
                                 <div class="tab-pane {{ $mainTabActive == 'data' ? 'active show' : '' }}"
                                     id="tabs-data">
                                     @if ($currentTest && $currentTest->status === 'completed' && $currentTest->results)
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5 class="mb-0">Raw JSON Data</h5>
                                             <button type="button" class="btn btn-outline-primary btn-sm"
-                                                onclick="copyJsonToClipboard()" title="JSON 데이터 복사">
-                                                복사
+                                                onclick="copyJsonToClipboard()" title="Copy JSON data">
+                                                Copy
                                             </button>
                                         </div>
                                         <pre class="json-dump" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>아직 결과가 없습니다</h5>
-                                            <p class="mb-0">테스트를 실행하면 Raw JSON 데이터를 확인할 수 있습니다.</p>
+                                            <h5>No data yet</h5>
+                                            <p class="mb-0">Run a test to view the raw JSON data.</p>
                                         </div>
                                     @endif
                                 </div>

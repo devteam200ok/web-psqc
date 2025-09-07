@@ -4,14 +4,14 @@
             <div class="modal-header">
                 <h5 class="modal-title">
                     @if ($page == 'Signin')
-                        로그인
+                        Sign In
                     @elseif ($page == 'Signup')
-                        가입
+                        Sign Up
                     @elseif ($page == 'Forgot Password')
-                        비밀번호 찾기
+                        Reset Password
                     @endif
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form
@@ -24,7 +24,7 @@
                                 : 'sendResetCode')) }}">
 
                     <div class="mb-3">
-                        <label class="form-label">이메일</label>
+                        <label class="form-label">Email</label>
                         <input wire:model.defer="email" type="email"
                             class="form-control @error('email') is-invalid @enderror" placeholder="you@example.com" />
                         @error('email')
@@ -34,7 +34,7 @@
 
                     @if ($page == 'Signup')
                         <div class="mb-3">
-                            <label class="form-label">이름</label>
+                            <label class="form-label">Name</label>
                             <input wire:model.defer="name" type="text"
                                 class="form-control @error('name') is-invalid @enderror" placeholder="Enter your name" />
                             @error('name')
@@ -45,14 +45,14 @@
 
                     @if ($page == 'Forgot Password' && $resetField != false)
                         <div class="mb-3">
-                            <label class="form-label">인증 코드</label>
+                            <label class="form-label">Verification Code</label>
                             <div class="input-group">
                                 <input wire:model.defer="resetCode" type="text"
                                     class="form-control @error('resetCode') is-invalid @enderror"
-                                    placeholder="인증 코드" />
+                                    placeholder="Enter verification code" />
                                 <button wire:loading.attr="disabled" wire:click="verifyResetCode" type="button"
                                     class="btn btn-dark">
-                                    인증 코드 확인
+                                    Verify Code
                                 </button>
                             </div>
                             @error('resetCode')
@@ -65,9 +65,9 @@
                         <div class="mb-2">
                             <label class="form-label">
                                 @if ($page == 'Forgot Password')
-                                    새로운 비밀번호
+                                    New Password
                                 @else
-                                    비밀번호
+                                    Password
                                 @endif
                             </label>
                             <div class="input-group input-group-flat">
@@ -111,16 +111,16 @@
                         @include('inc.component.message')
                         @if ($page == 'Signin')
                             <button type="submit" wire:loading.attr="disabled"
-                                class="btn btn-primary w-100">로그인</button>
+                                class="btn btn-primary w-100">Sign In</button>
                         @elseif ($page == 'Signup')
                             <button type="submit" wire:loading.attr="disabled"
-                                class="btn btn-primary w-100">가입</button>
+                                class="btn btn-primary w-100">Sign Up</button>
                         @elseif ($page == 'Forgot Password' && $resetCode == '')
                             <button type="submit" wire:loading.attr="disabled"
-                                class="btn btn-primary w-100">인증 코드 전송
+                                class="btn btn-primary w-100">Send Verification Code
                             </button>
                         @elseif ($page == 'Forgot Password' && $codeMatch == true)
-                            <button type="submit" wire:loading.attr="disabled" class="btn btn-primary w-100">비밀번호 재설정</button>
+                            <button type="submit" wire:loading.attr="disabled" class="btn btn-primary w-100">Reset Password</button>
                         @endif
                     </div>
                 </form>
@@ -130,13 +130,13 @@
                     <div class="col">
                         <a href="{{ route('github.login') }}" class="btn btn-4 w-100">
                             <i class="ti ti-brand-github me-2" style="font-size:20px"></i>
-                            GitHub로 로그인
+                            Sign in with GitHub
                         </a>
                     </div>
                     <div class="col">
                         <a href="{{ route('google.login') }}" class="btn btn-4 w-100">
                             <i class="ti ti-brand-google me-2" style="font-size:20px"></i>
-                            Google로 로그인
+                            Sign in with Google
                         </a>
                     </div>
                 </div>
@@ -145,10 +145,10 @@
                     <hr class="mb-2">
                     <div class="d-flex">
                         <button type="button" class="btn btn-dark ms-auto" wire:click="quickLogin('client')">
-                            클라이언트로 로그인
+                            Login as Client
                         </button>
                         <button type="button" class="btn btn-dark ms-2" wire:click="quickLogin('admin')">
-                            관리자 로그인
+                            Login as Admin
                         </button>
                     </div>
                     <hr class="mt-2 mb-4">
@@ -156,25 +156,25 @@
 
                 @if ($page == 'Signin')
                     <div class="text-center text-secondary mt-2">
-                        비밀번호를 잊으셨나요?
-                        <span wire:click="setPage('Forgot Password')" class="text-primary" style="cursor: pointer;" tabindex="-1">비밀번호 재설정</span>
+                        Forgot your password?
+                        <span wire:click="setPage('Forgot Password')" class="text-primary" style="cursor: pointer;" tabindex="-1">Reset Password</span>
                     </div>
                 @elseif($page == 'Forgot Password')
                     <div class="text-center text-secondary mt-2">
-                        비밀번호를 기억하시나요?
-                        <span wire:click="setPage('Signin')" class="text-primary" style="cursor: pointer;" tabindex="-1">로그인</span>
+                        Remember your password?
+                        <span wire:click="setPage('Signin')" class="text-primary" style="cursor: pointer;" tabindex="-1">Sign In</span>
                     </div>
                 @endif
 
                 @if ($page == 'Signup')
                     <div class="text-center text-secondary mt-2">
-                        이미 계정이 있으신가요?
-                        <span wire:click="setPage('Signin')" class="text-primary" style="cursor: pointer;" tabindex="-1">로그인</span>
+                        Already have an account?
+                        <span wire:click="setPage('Signin')" class="text-primary" style="cursor: pointer;" tabindex="-1">Sign In</span>
                     </div>
                 @else
                     <div class="text-center text-secondary mt-2">
-                        계정이 없으신가요?
-                        <span wire:click="setPage('Signup')" class="text-primary" style="cursor: pointer;" tabindex="-1">가입</span>
+                        Don't have an account?
+                        <span wire:click="setPage('Signup')" class="text-primary" style="cursor: pointer;" tabindex="-1">Sign Up</span>
                     </div>
                 @endif
             </div>

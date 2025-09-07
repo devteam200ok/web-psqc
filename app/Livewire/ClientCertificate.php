@@ -39,7 +39,7 @@ class ClientCertificate extends Component
     {
         $query = Certificate::query()
             ->where('user_id', auth()->id())
-            ->where('payment_status', 'paid'); // 발급 완료된 인증서만
+            ->where('payment_status', 'paid'); // Only issued certificates
 
         if (!empty($this->dateFrom)) {
             $query->whereDate('issued_at', '>=', $this->dateFrom);

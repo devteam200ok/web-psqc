@@ -4,22 +4,22 @@
 
 @section('css')
     <style>
-        /* PSQC 전용 도메인 관리 사이드바 개선 */
+        /* PSQC dedicated domain management sidebar improvements */
         .psqc-domain-card .domain-list {
             max-height: calc(100vh - 300px);
             overflow-y: auto;
             overflow-x: hidden;
-            /* 가로 스크롤 제거 */
+            /* Remove horizontal scrolling */
         }
 
         .psqc-domain-card .list-group-item small {
             word-break: break-all;
-            /* 긴 URL 줄바꿈 */
+            /* Long URL line break */
         }
 
         .psqc-domain-card .list-group-item {
             white-space: normal;
-            /* 내용이 자연스럽게 줄바꿈되도록 */
+            /* Allow content to wrap naturally */
         }
     </style>
 @endsection
@@ -30,15 +30,15 @@
             <div class="row g-2 align-items-center">
                 <div class="col d-flex align-items-center justify-content-between">
                     <div>
-                        <h2 class="page-title">PSQC 종합 인증서</h2>
-                        <div class="page-pretitle">소유권 인증 도메인 기반 종합 인증 관리</div>
+                        <h2 class="page-title">PSQC Comprehensive Certificate</h2>
+                        <div class="page-pretitle">Comprehensive certification management based on domain ownership verification</div>
                     </div>
                     <div>
                         <div class="btn-list">
                             <button class="btn btn-outline-dark {{ $page == 'history' ? 'active' : '' }}"
-                                wire:click="$set('page', 'history')">발급 내역</button>
+                                wire:click="$set('page', 'history')">Issue History</button>
                             <button class="btn btn-outline-dark {{ $page == 'issue' ? 'active' : '' }}"
-                                wire:click="$set('page', 'issue')">인증서 발행</button>
+                                wire:click="$set('page', 'issue')">Issue Certificate</button>
                         </div>
                     </div>
                 </div>
@@ -56,23 +56,23 @@
                     <div class="card-body">
                         <div class="row g-2 align-items-end">
                             <div class="col-md-4">
-                                <label class="form-label">시작일</label>
+                                <label class="form-label">Start Date</label>
                                 <input type="date" class="form-control" wire:model.change="dateFrom">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">종료일</label>
+                                <label class="form-label">End Date</label>
                                 <input type="date" class="form-control" wire:model.change="dateTo">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">상태</label>
+                                <label class="form-label">Status</label>
                                 <select class="form-select" wire:model.change="status">
-                                    <option value="all">전체</option>
-                                    <option value="valid">유효</option>
-                                    <option value="expired">만료</option>
+                                    <option value="all">All</option>
+                                    <option value="valid">Valid</option>
+                                    <option value="expired">Expired</option>
                                 </select>
                             </div>
                             <div class="col-12 d-flex justify-content-end gap-2 mt-2">
-                                <button class="btn btn-sm btn-secondary" wire:click="clearFilters">필터 초기화</button>
+                                <button class="btn btn-sm btn-secondary" wire:click="clearFilters">Clear Filters</button>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                 <!-- Summary -->
                 <div class="row mb-2">
                     <div class="col">
-                        <div class="text-muted">검색 결과: {{ $certifications->total() }}건</div>
+                        <div class="text-muted">Search Results: {{ $certifications->total() }} certificates</div>
                     </div>
                 </div>
 
@@ -99,16 +99,16 @@
                                                 <span
                                                     class="{{ $certification->status_badge_class }}">{{ $certification->status }}</span>
                                             </div>
-                                            <h3 class="card-title mb-0 mt-2">PSQC 종합 인증서</h3>
+                                            <h3 class="card-title mb-0 mt-2">PSQC Comprehensive Certificate</h3>
                                             <div class="text-muted">{{ $certification->url }}</div>
                                             <div class="text-start text-muted small">
-                                                <div class="mt-2">발급일:
+                                                <div class="mt-2">Issued:
                                                     {{ $certification->issued_at?->format('Y-m-d') }}
                                                 </div>
                                                 <div>
-                                                    만료일: {{ $certification->expires_at?->format('Y-m-d') ?? '없음' }}
+                                                    Expires: {{ $certification->expires_at?->format('Y-m-d') ?? 'Never' }}
                                                     @if (!empty($certification->days_until_expiration))
-                                                        <span>({{ '만료까지 ' . $certification->days_until_expiration . '일' }})
+                                                        <span>({{ $certification->days_until_expiration . ' days until expiration' }})
                                                         </span>
                                                     @endif
                                                 </div>
@@ -116,7 +116,7 @@
                                             <div class="mt-auto pt-3 d-flex justify-content-start gap-2">
                                                 <a href="{{ route('psqc.certified', ['code' => $certification->code]) }}"
                                                     target="_blank" rel="noopener" class="btn btn-sm btn-dark">
-                                                    🔎 상세 보기
+                                                    🔎 View Details
                                                 </a>
                                                 @php
                                                     $pdfRel = "psqc-certification/{$certification->code}.pdf";
@@ -124,12 +124,12 @@
                                                 @if (Storage::disk('local')->exists($pdfRel))
                                                     <a href="{{ route('cert.psqc.download', ['code' => $certification->code]) }}"
                                                         target="_blank" rel="noopener" class="btn btn-sm btn-primary">
-                                                        📥 다운로드
+                                                        📥 Download
                                                     </a>
                                                 @else
                                                     <button wire:click="generatePsqcCertificatePdf('{{ $certification->code }}')" wire:loading.attr="disabled"
                                                         class="btn btn-sm btn-primary">
-                                                        ⏳ 인증서 생성
+                                                        ⏳ Generate Certificate
                                                     </button>
                                                 @endif
                                             </div>
@@ -142,7 +142,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body text-center text-muted">
-                                    표시할 인증서가 없습니다.
+                                    No certificates to display.
                                 </div>
                             </div>
                         </div>
@@ -158,14 +158,13 @@
                     <!-- Main content: Verified domains -->
                     <div class="col-lg-8 col-xl-9">
                         <div class="alert alert-info d-block" role="alert">
-                            <div class="mb-1">🔒 <strong>인증완료 도메인</strong>에 한해 PSQC 종합 인증서 발행이 가능합니다.</div>
-                            <div class="mb-1">📊 <strong>점수 산정</strong>: 최근 <strong>3일</strong> 기준 각 개별 시험의
-                                <strong>최고
-                                    점수</strong>를 합산하여 총점과 등급이 결정됩니다.
+                            <div class="mb-1">🔒 PSQC Comprehensive Certificates can only be issued for <strong>verified domains</strong>.</div>
+                            <div class="mb-1">📊 <strong>Score Calculation</strong>: Total score and grade are determined by combining the
+                                <strong>highest scores</strong> from each individual test within the last <strong>3 days</strong>.
                             </div>
-                            <div class="mb-1">✅ <strong>발행 조건</strong>: 총 <strong>16개 시험</strong>을 모두 완료해야 발행됩니다.
+                            <div class="mb-1">✅ <strong>Issue Requirements</strong>: All <strong>16 tests</strong> must be completed for issuance.
                             </div>
-                            <div>🗓️ <strong>유효기간</strong>: 발행일로부터 <strong>1년</strong>.</div>
+                            <div>🗓️ <strong>Validity Period</strong>: <strong>1 year</strong> from the date of issuance.</div>
                         </div>
                         <div class="row">
                             @php
@@ -182,9 +181,9 @@
                                                     <div class="text-muted small">{{ $card['url'] }}</div>
                                                 </div>
                                                 <div class="text-end">
-                                                    <span class="badge bg-teal-lt text-teal-lt-fg">최근 3일 내 기록
-                                                        기준</span>
-                                                    <div class="mt-1 text-muted small">진행 현황:
+                                                    <span class="badge bg-teal-lt text-teal-lt-fg">Based on records
+                                                        within last 3 days</span>
+                                                    <div class="mt-1 text-muted small">Progress:
                                                         {{ $card['completed'] }} /
                                                         {{ $card['total'] }}</div>
                                                 </div>
@@ -195,21 +194,21 @@
                                             <!-- 16 test rows grouped by PSQC -->
                                             @php
                                                 $groups = [
-                                                    '성능 (P)' => ['p-speed', 'p-load', 'p-mobile'],
-                                                    '보안 (S)' => [
+                                                    'Performance (P)' => ['p-speed', 'p-load', 'p-mobile'],
+                                                    'Security (S)' => [
                                                         's-ssl',
                                                         's-sslyze',
                                                         's-header',
                                                         's-scan',
                                                         's-nuclei',
                                                     ],
-                                                    '품질 (Q)' => [
+                                                    'Quality (Q)' => [
                                                         'q-lighthouse',
                                                         'q-accessibility',
                                                         'q-compatibility',
                                                         'q-visual',
                                                     ],
-                                                    '콘텐츠 (C)' => ['c-links', 'c-structure', 'c-crawl', 'c-meta'],
+                                                    'Content (C)' => ['c-links', 'c-structure', 'c-crawl', 'c-meta'],
                                                 ];
                                             @endphp
                                             <div class="row g-2">
@@ -256,13 +255,13 @@
                                                                                     style="cursor: pointer;">
                                                                                     {{ $test->overall_grade }}
                                                                                     @if ($test->overall_score)
-                                                                                        ({{ number_format($test->overall_score, 1) }}점)
+                                                                                        ({{ number_format($test->overall_score, 1) }} pts)
                                                                                     @endif
                                                                                 </a>
                                                                             @else
                                                                                 <a href="{{ $runUrl }}"
                                                                                     target="_blank" rel="noopener"
-                                                                                    class="btn btn-sm btn-secondary">검사하기</a>
+                                                                                    class="btn btn-sm btn-secondary">Test Now</a>
                                                                             @endif
                                                                         </div>
                                                                     </div>
@@ -294,11 +293,11 @@
                                                         <div class="h3 mb-0">
                                                             <span class="{{ $finalGradeClass }}">
                                                                 {{ $card['final_grade'] }}
-                                                                ({{ number_format($card['final_score'], 1) }}점)
+                                                                ({{ number_format($card['final_score'], 1) }} pts)
                                                             </span>
                                                         </div>
                                                     @else
-                                                        <div class="text-muted">모든 항목 테스트 완료 시 종합 점수가 표시됩니다.</div>
+                                                        <div class="text-muted">Comprehensive score will be displayed when all tests are completed.</div>
                                                     @endif
                                                 </div>
                                                 <!-- 인증서 발급 버튼 부분만 수정 -->
@@ -307,11 +306,11 @@
                                                         <button class="btn btn-primary"
                                                             wire:click="issueCertificate({{ $card['domain_id'] }})"
                                                             wire:loading.attr="disabled">
-                                                            인증서 발급
+                                                            Issue Certificate
                                                         </button>
                                                     @else
                                                         <button class="btn btn-secondary" disabled>
-                                                            인증서 발급
+                                                            Issue Certificate
                                                         </button>
                                                     @endif
                                                 </div>

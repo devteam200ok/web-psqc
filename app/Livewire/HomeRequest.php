@@ -82,14 +82,14 @@ class HomeRequest extends Component
 
         try {
             Mail::send([], [], function ($message) use ($html, $inquiry) {
-                $message->from('info@devteam-test.com', 'DevTeam Test');
+                $message->from('info@web-psqc.com', 'Web-PSQC');
                 $message->to('devteam.200.ok@gmail.com', 'Daniel Ahn');
-                $message->subject('새로운 문의가 도착했습니다');
+                $message->subject('New Inquiry Received');
 
-                // ✅ HTML 본문 설정 (setBody 대신 html 사용)
+                // ✅ Set HTML body (using html instead of setBody)
                 $message->html($html);
 
-                // 선택: 텍스트 대체 본문도 추가
+                // Optional: Add text alternative body
                 $message->text(strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $html)));
 
                 if (!empty($inquiry->file_path)) {
@@ -101,12 +101,12 @@ class HomeRequest extends Component
             });
         } catch (\Throwable $e) {
             report($e);
-            session()->flash('error', '메일 전송에 실패했습니다.');
+            session()->flash('error', 'Failed to send email.');
             return;
         }
 
         $this->reset(['name','email','description','file']);
-        session()->flash('success', '문의 내용이 성공적으로 제출되었습니다.');
+        session()->flash('success', 'Your inquiry has been successfully submitted.');
     }
 
     public function render()

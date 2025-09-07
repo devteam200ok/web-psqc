@@ -1,9 +1,9 @@
 @section('title')
     <title>💳 Pricing & Subscriptions – Free, Plans, Coupons, Certificates | Web-PSQC</title>
     <meta name="description"
-        content="DevTeam Test 요금·구독 안내: 비회원/무료 회원 체험, Starter/Pro/Agency 구독, 1~90일 쿠폰, Report1(개별 인증서)·ReportFull(PSQC 종합 인증서) 발급. QR 진위 검증·PDF/이메일 제공.">
+        content="Web-PSQC pricing: Free guest/member, Starter/Pro/Agency subscriptions, 1–90 day coupons, and certificates (Report1/ReportFull). Includes QR verification and PDF/email delivery.">
     <meta name="keywords"
-        content="DevTeam Test 요금제, 웹사이트 테스트 가격, 구독 플랜, 쿠폰, 인증서, PSQC, 성능 보안 품질 콘텐츠, 웹 성능 테스트, 리포트, 화이트라벨 리포트">
+        content="Web-PSQC pricing, website testing prices, subscription plans, coupons, certificates, PSQC, performance security quality content, web performance testing, reports, white-label reports">
     <meta name="author" content="DevTeam Co., Ltd.">
     <meta name="robots" content="index,follow">
 
@@ -13,14 +13,16 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Web-PSQC" />
     <meta property="og:title" content="Pricing & Subscriptions – Free, Plans, Coupons, Certificates" />
-    <meta property="og:description" content="From free trials to Starter/Pro/Agency, short-term coupons, and individual/comprehensive certificates. Supports QR verification and PDF issuance." />
+    <meta property="og:description"
+        content="From free trials to Starter/Pro/Agency, short-term coupons, and individual/comprehensive certificates. Supports QR verification and PDF issuance." />
     <meta property="og:locale" content="en_US" />
     <meta property="og:image" content="{{ App\Models\Setting::first()->og_image }}" />
-    <meta property="og:image:alt" content="DevTeam Test 요금 및 구독안내" />
+    <meta property="og:image:alt" content="Web-PSQC Pricing & Subscriptions" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="요금 및 구독안내 – 무료·구독·쿠폰·인증서 | DevTeam Test" />
-    <meta name="twitter:description" content="무료·구독·쿠폰·인증서 구성과 혜택을 한눈에. QR 검증 및 PDF/이메일 발급 지원." />
+    <meta name="twitter:title" content="Pricing & Subscriptions – Free, Plans, Coupons, Certificates | Web-PSQC" />
+    <meta name="twitter:description"
+        content="See Free, Subscriptions, Coupons, and Certificates at a glance. Supports QR verification and PDF/email issuance." />
     <meta name="twitter:image" content="{{ App\Models\Setting::first()->og_image }}" />
 
     <script type="application/ld+json">
@@ -41,7 +43,7 @@
             'price' => 29,
             'priceCurrency' => 'USD',
             'category' => 'Subscription',
-            'description' => '월 최대 600회 · 일 최대 60회, 개인 프로젝트 적합, 이메일 알림 포함',
+            'description' => 'Up to 600/month · 60/day, ideal for personal projects, includes email alerts',
             'url' => url('/client/purchase?plan=starter'),
         ],
         [
@@ -50,7 +52,7 @@
             'price' => 69,
             'priceCurrency' => 'USD',
             'category' => 'Subscription',
-            'description' => '월 최대 1,500회 · 일 최대 150회, 검사 예약 및 스케줄러 주기 검사',
+            'description' => 'Up to 1,500/month · 150/day, scheduled scans and scheduler',
             'url' => url('/client/purchase?plan=pro'),
         ],
         [
@@ -59,7 +61,7 @@
             'price' => 199,
             'priceCurrency' => 'USD',
             'category' => 'Subscription',
-            'description' => '월 최대 6,000회 · 일 최대 600회, 다수 도메인/고객 관리, 화이트라벨 리포트',
+            'description' => 'Up to 6,000/month · 600/day, manage multiple domains/clients, white‑label reports',
             'url' => url('/client/purchase?plan=agency'),
         ],
         [
@@ -68,7 +70,7 @@
             'price' => 4.9,
             'priceCurrency' => 'USD',
             'category' => 'Voucher',
-            'description' => '1일 이내 최대 30회, 단기 급테스트, 환불 불가',
+            'description' => 'Up to 30 runs within 1 day, short urgent testing, non‑refundable',
             'url' => url('/client/purchase?plan=test1'),
         ],
         [
@@ -77,7 +79,7 @@
             'price' => 19,
             'priceCurrency' => 'USD',
             'category' => 'Voucher',
-            'description' => '7일 이내 최대 150회, 스프린트 QA, 사용 전 3일 이내 전액 환불',
+            'description' => 'Up to 150 runs within 7 days, sprint QA, full refund within 3 days before use',
             'url' => url('/client/purchase?plan=test7'),
         ],
         [
@@ -86,7 +88,7 @@
             'price' => 39,
             'priceCurrency' => 'USD',
             'category' => 'Voucher',
-            'description' => '30일 이내 최대 500회, 프로젝트 안정화, 사용 전 7일 이내 전액 환불',
+            'description' => 'Up to 500 runs within 30 days, project stabilization, full refund within 7 days before use',
             'url' => url('/client/purchase?plan=test30'),
         ],
         [
@@ -95,7 +97,7 @@
             'price' => 119,
             'priceCurrency' => 'USD',
             'category' => 'Voucher',
-            'description' => '90일 이내 최대 1,300회, 릴리즈 대응, 사용 전 30일 이내 전액 환불',
+            'description' => 'Up to 1,300 runs within 90 days, release readiness, full refund within 30 days before use',
             'url' => url('/client/purchase?plan=test90'),
         ],
         [
@@ -104,15 +106,15 @@
             'price' => 19,
             'priceCurrency' => 'USD',
             'category' => 'Certificate',
-            'description' => '단일 테스트 결과 인증서, 시험방법+Raw Data, QR 진위 검증, PDF/이메일 발송',
+            'description' => 'Certificate for a single test result: test method + raw data, QR verification, PDF/email delivery',
         ],
         [
             '@type' => 'Offer',
-            'name'  => 'ReportFull (PSQC 종합 인증서)',
-            'price' => 59000,
-            'priceCurrency' => 'KRW',
+            'name'  => 'ReportFull (PSQC comprehensive certificate)',
+            'price' => 59,
+            'priceCurrency' => 'USD',
             'category' => 'Certificate',
-            'description' => '모든 개별 인증 항목 보유 시 발행, 최근 3일 내 최고 성적 합산, QR 진위 검증, PDF/이메일 발송',
+            'description' => 'Issued when all individual items are available; aggregates best score within last 3 days; QR verification; PDF/email delivery',
         ],
     ],
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
@@ -126,33 +128,34 @@
     <div class="container-xl">
         @include('inc.component.message')
 
-        {{-- 헤더 --}}
+        {{-- Header --}}
         <div class="row mb-2">
             <div class="col">
-                <h2 class="page-title mb-1">요금 및 구독안내</h2>
-                <div class="text-muted small">무료 체험 → 구독 플랜 → 쿠폰형 → 인증서까지, 사용 패턴에 맞춰 선택하세요.</div>
+                <h2 class="page-title mb-1">Pricing & Subscriptions</h2>
+                <div class="text-muted small">From Free → Subscriptions → Coupons → Certificates — choose what fits your
+                    usage.</div>
             </div>
         </div>
 
-        {{-- 무료(Free) --}}
-        <h3 class="mb-2">무료</h3>
+        {{-- Free --}}
+        <h3 class="mb-2">Free</h3>
         <div class="row row-cards g-2 mb-2">
             <div class="col-md-6">
                 <div class="card h-100 position-relative">
                     <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h4 class="card-title mb-0">비회원</h4>
-                            <!-- 불필요 배지 제거 -->
+                            <h4 class="card-title mb-0">Guest</h4>
+                            <!-- No badge needed -->
                         </div>
-                        <div class="h3 fw-bold mb-1">₩0</div>
-                        <div class="text-muted small mb-2">월 5회 (IP 기준)</div>
+                        <div class="h3 fw-bold mb-1">$0</div>
+                        <div class="text-muted small mb-2">5 per month (per IP)</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 성능/보안/품질/콘텐츠 단일 테스트</li>
-                            <li>• 기본 리포트 미리보기</li>
+                            <li>• Run single tests across Performance/Security/Quality/Content</li>
+                            <li>• Preview a basic report</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                class="text-primary small fw-semibold">회원가입하고 더 사용하기</a>
+                                class="text-primary small fw-semibold">Sign up to use more</a>
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
                                 class="stretched-link"></a>
                         @endguest
@@ -164,17 +167,17 @@
                 <div class="card h-100 position-relative">
                     <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h4 class="card-title mb-0">무료 회원</h4>
+                            <h4 class="card-title mb-0">Free Member</h4>
                         </div>
-                        <div class="h3 fw-bold mb-1">₩0</div>
-                        <div class="text-muted small mb-2">월 20회 (계정 기준)</div>
+                        <div class="h3 fw-bold mb-1">$0</div>
+                        <div class="text-muted small mb-2">20 per month (per account)</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 모든 테스트 카테고리 체험</li>
-                            <li>• 도메인 DB 저장 + 결과 히스토리 저장</li>
+                            <li>• Try all test categories</li>
+                            <li>• Save domains and view results history</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                class="text-primary small fw-semibold">시작하기</a>
+                                class="text-primary small fw-semibold">Get started</a>
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
                                 class="stretched-link"></a>
                         @endguest
@@ -183,7 +186,7 @@
             </div>
         </div>
 
-        {{-- 구독(Subscription) --}}
+        {{-- Subscriptions --}}
         @php
             $activeSubscription = null;
             $activePlanType = null;
@@ -197,7 +200,7 @@
                 $activePlanType = $activeSubscription ? strtolower($activeSubscription->plan_type) : null;
             }
         @endphp
-        <h3 class="mb-2">구독</h3>
+        <h3 class="mb-2">Subscriptions</h3>
         <div class="row row-cards g-2 mb-2">
             <div class="col-md-4">
                 <div class="card h-100 position-relative">
@@ -206,21 +209,21 @@
                             <h4 class="card-title mb-0">Starter</h4>
                         </div>
                         <div class="h3 fw-bold mb-1">$29 <span class="text-muted h6">/mo</span></div>
-                        <div class="text-muted small mb-2">월 최대 600회 · 일 최대 60회</div>
+                        <div class="text-muted small mb-2">Up to 600/month · 60/day</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 개인 프로젝트 적합</li>
-                            <li>• 기본 회원 혜택 +</li>
-                            <li>• <strong>이메일 알림</strong></li>
+                            <li>• Ideal for personal projects</li>
+                            <li>• Includes all Free Member benefits</li>
+                            <li>• <strong>Email alerts</strong></li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                class="text-primary small fw-semibold">구독하기</a>
+                                class="text-primary small fw-semibold">Subscribe</a>
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
                                 class="stretched-link"></a>
                         @else
                             @if (!$activeSubscription)
                                 <a href="{{ url('/') }}/client/purchase?plan=starter"
-                                    class="text-primary small fw-semibold">구독하기</a>
+                                    class="text-primary small fw-semibold">Subscribe</a>
                                 <a href="{{ url('/') }}/client/purchase?plan=starter" class="stretched-link"></a>
                             @endif
                         @endguest
@@ -235,23 +238,23 @@
                             <h4 class="card-title mb-0">Pro</h4>
                         </div>
                         <div class="h3 fw-bold mb-1">$69 <span class="text-muted h6">/mo</span></div>
-                        <div class="text-muted small mb-2">월 최대 1,500회 · 일 최대 150회</div>
+                        <div class="text-muted small mb-2">Up to 1,500/month · 150/day</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 중소규모 사업장/에이전시 적합</li>
-                            <li>• Starter 회원 혜택 +</li>
-                            <li>• <strong>검사 예약</strong> + <strong>스케줄러 주기 검사</strong></li>
+                            <li>• Great for SMBs and agencies</li>
+                            <li>• Includes all Starter benefits</li>
+                            <li>• <strong>Scheduled scans</strong> + built-in <strong>scheduler</strong></li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                class="text-primary small fw-semibold">구독하기</a>
+                                class="text-primary small fw-semibold">Subscribe</a>
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
                                 class="stretched-link"></a>
                         @else
                             @if ($activeSubscription && $activePlanType === 'pro')
-                                <span class="text-success small fw-semibold">현재 구독중</span>
+                                <span class="text-success small fw-semibold">Currently subscribed</span>
                             @elseif(!$activeSubscription)
                                 <a href="{{ url('/') }}/client/purchase?plan=pro"
-                                    class="text-primary small fw-semibold">구독하기</a>
+                                    class="text-primary small fw-semibold">Subscribe</a>
                                 <a href="{{ url('/') }}/client/purchase?plan=pro" class="stretched-link"></a>
                             @endif
                         @endguest
@@ -266,21 +269,21 @@
                             <h4 class="card-title mb-0">Agency</h4>
                         </div>
                         <div class="h3 fw-bold mb-1">$199 <span class="text-muted h6">/mo</span></div>
-                        <div class="text-muted small mb-2">월 최대 6,000회 · 일 최대 600회</div>
+                        <div class="text-muted small mb-2">Up to 6,000/month · 600/day</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 다수 도메인/고객 관리</li>
-                            <li>• Pro 회원 혜택 +</li>
-                            <li>• <strong>화이트라벨 리포트(인증서를 로고 수정)</strong></li>
+                            <li>• Manage multiple domains and clients</li>
+                            <li>• Includes all Pro benefits</li>
+                            <li>• <strong>White-label reports</strong> (custom logo)</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                class="text-primary small fw-semibold">구독하기</a>
+                                class="text-primary small fw-semibold">Subscribe</a>
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
                                 class="stretched-link"></a>
                         @else
                             @if (!$activeSubscription)
                                 <a href="{{ url('/') }}/client/purchase?plan=agency"
-                                    class="text-primary small fw-semibold">구독하기</a>
+                                    class="text-primary small fw-semibold">Subscribe</a>
                                 <a href="{{ url('/') }}/client/purchase?plan=agency" class="stretched-link"></a>
                             @endif
                         @endguest
@@ -290,31 +293,32 @@
         </div>
 
         <div class="text-muted small mb-2">
-            * 구독은 <strong>사용 전 7일 이내 전액 환불</strong> 가능하며, <strong>1회라도 검사를 진행하면 환불이 불가</strong>합니다.<br>
-            * 구독 서비스는 <strong>월 한도 또는 일 한도 중 먼저 도달하는 기준에 따라 사용이 제한</strong>됩니다.
+            * Subscriptions are <strong>fully refundable within 7 days before first use</strong>. <strong>No refunds
+                once any scan has run</strong>.<br>
+            * Usage is limited by whichever comes first: <strong>monthly or daily quota</strong>.
         </div>
 
-        {{-- 쿠폰(Coupons) --}}
-        <h3 class="mb-2">쿠폰</h3>
+        {{-- Coupons --}}
+        <h3 class="mb-2">Coupons</h3>
         <div class="row row-cards g-2 mb-2">
             <div class="col-sm-6 col-lg-3">
                 <div class="card h-100 position-relative">
                     <div class="card-body p-3">
                         <h4 class="card-title mb-1">Test1</h4>
                         <div class="h4 fw-bold mb-1">$4.90</div>
-                        <div class="text-muted small mb-2">1일 이내 최대 30회</div>
+                        <div class="text-muted small mb-2">Up to 30 runs within 1 day</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 단기 급테스트</li>
-                            <li>• 환불 불가</li>
+                            <li>• Short, urgent testing</li>
+                            <li>• Non-refundable</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                class="text-primary small fw-semibold">구매</a>
+                                class="text-primary small fw-semibold">Buy</a>
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
                                 class="stretched-link"></a>
                         @else
                             <a href="{{ url('/client/purchase?plan=test1') }}"
-                                class="text-primary small fw-semibold">구매</a>
+                                class="text-primary small fw-semibold">Buy</a>
                             <a href="{{ url('/client/purchase?plan=test1') }}" class="stretched-link"></a>
                         @endguest
                     </div>
@@ -326,19 +330,19 @@
                     <div class="card-body p-3">
                         <h4 class="card-title mb-1">Test7</h4>
                         <div class="h4 fw-bold mb-1">$19</div>
-                        <div class="text-muted small mb-2">7일 이내 최대 150회</div>
+                        <div class="text-muted small mb-2">Up to 150 runs within 7 days</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 스프린트 QA</li>
-                            <li>• 사용 전 3일 이내 전액 환불 가능</li>
+                            <li>• Sprint QA</li>
+                            <li>• Full refund within 3 days before use</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                class="text-primary small fw-semibold">구매</a>
+                                class="text-primary small fw-semibold">Buy</a>
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
                                 class="stretched-link"></a>
                         @else
                             <a href="{{ url('/client/purchase?plan=test7') }}"
-                                class="text-primary small fw-semibold">구매</a>
+                                class="text-primary small fw-semibold">Buy</a>
                             <a href="{{ url('/client/purchase?plan=test7') }}" class="stretched-link"></a>
                         @endguest
                     </div>
@@ -350,19 +354,19 @@
                     <div class="card-body p-3">
                         <h4 class="card-title mb-1">Test30</h4>
                         <div class="h4 fw-bold mb-1">$39</div>
-                        <div class="text-muted small mb-2">30일 이내 최대 500회</div>
+                        <div class="text-muted small mb-2">Up to 500 runs within 30 days</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 프로젝트 안정화</li>
-                            <li>• 사용 전 7일 이내 전액 환불 가능</li>
+                            <li>• Project stabilization</li>
+                            <li>• Full refund within 7 days before use</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                class="text-primary small fw-semibold">구매</a>
+                                class="text-primary small fw-semibold">Buy</a>
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
                                 class="stretched-link"></a>
                         @else
                             <a href="{{ url('/client/purchase?plan=test30') }}"
-                                class="text-primary small fw-semibold">구매</a>
+                                class="text-primary small fw-semibold">Buy</a>
                             <a href="{{ url('/client/purchase?plan=test30') }}" class="stretched-link"></a>
                         @endguest
                     </div>
@@ -374,19 +378,19 @@
                     <div class="card-body p-3">
                         <h4 class="card-title mb-1">Test90</h4>
                         <div class="h4 fw-bold mb-1">$119</div>
-                        <div class="text-muted small mb-2">90일 이내 최대 1,300회</div>
+                        <div class="text-muted small mb-2">Up to 1,300 runs within 90 days</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 릴리즈 대응</li>
-                            <li>• 사용 전 30일 이내 전액 환불 가능</li>
+                            <li>• Release readiness</li>
+                            <li>• Full refund within 30 days before use</li>
                         </ul>
                         @guest
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                class="text-primary small fw-semibold">구매</a>
+                                class="text-primary small fw-semibold">Buy</a>
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
                                 class="stretched-link"></a>
                         @else
                             <a href="{{ url('/client/purchase?plan=test90') }}"
-                                class="text-primary small fw-semibold">구매</a>
+                                class="text-primary small fw-semibold">Buy</a>
                             <a href="{{ url('/client/purchase?plan=test90') }}" class="stretched-link"></a>
                         @endguest
                     </div>
@@ -394,23 +398,24 @@
             </div>
         </div>
         <div class="text-muted small mb-2">
-            * 쿠폰은 기간 내 총량제이며, <strong>7일/30일/90일권은 사용 전, 명시된 기간 안에 전액 환불 가능</strong>합니다.<br>
-            * <strong>환불 가능 기간 이후 또는 1회라도 사용 시 환불이 불가</strong>합니다.
+            * Coupons are <strong>quota-based within the validity period</strong>. <strong>7/30/90-day coupons are fully
+                refundable before use within the stated window</strong>.<br>
+            * <strong>No refunds after the refundable window or once used</strong>.
         </div>
 
-        {{-- 인증서(Certificates) --}}
-        <h3 class="mb-2">인증서</h3>
+        {{-- Certificates --}}
+        <h3 class="mb-2">Certificates</h3>
         <div class="row row-cards g-2">
             <div class="col-md-6">
                 <div class="card h-100 position-relative">
                     <div class="card-body p-3">
-                        <h4 class="card-title mb-1">Report1 (개별 인증서)</h4>
+                        <h4 class="card-title mb-1">Report1 (Individual Certificate)</h4>
                         <div class="h4 fw-bold mb-1">$19</div>
-                        <div class="text-muted small mb-2">단일 테스트 결과 인증서</div>
+                        <div class="text-muted small mb-2">Certificate for a single test result</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• 시험방법 + <strong>Raw Data</strong> 포함</li>
-                            <li>• <strong>QR 코드</strong>로 진위 검증</li>
-                            <li>• PDF 다운로드 / 이메일 발송</li>
+                            <li>• Includes test method + <strong>raw data</strong></li>
+                            <li>• <strong>QR-code</strong> authenticity verification</li>
+                            <li>• PDF download / Email delivery</li>
                         </ul>
                     </div>
                 </div>
@@ -419,21 +424,21 @@
             <div class="col-md-6">
                 <div class="card h-100 position-relative">
                     <div class="card-body p-3">
-                        <h4 class="card-title mb-1">ReportFull (종합 인증서)</h4>
+                        <h4 class="card-title mb-1">ReportFull (Comprehensive Certificate)</h4>
                         <div class="h4 fw-bold mb-1">$59</div>
-                        <div class="text-muted small mb-2">PSQC 종합 점수 인증</div>
+                        <div class="text-muted small mb-2">PSQC overall score certification</div>
                         <ul class="list-unstyled small mb-2">
-                            <li>• <strong>모든 개별 인증 항목</strong> 검사 데이터가 있을 때 발행</li>
-                            <li>• 최근 <strong>3일 이내</strong>의 결과 중 <strong>최고 성적</strong>으로 합산</li>
-                            <li>• 시험방법 + Raw Data, <strong>QR 진위 검증</strong></li>
-                            <li>• PDF 다운로드 / 이메일 발송</li>
+                            <li>• Issued when <strong>all individual test items</strong> have data</li>
+                            <li>• Aggregates the <strong>best score within the last 3 days</strong></li>
+                            <li>• Test method + raw data, <strong>QR verification</strong></li>
+                            <li>• PDF download / Email delivery</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
         <div class="text-muted small mt-2">
-            * 인증서는 결제 후 즉시 발급되며 환불 불가입니다.
+            * Certificates are issued immediately after payment and are non-refundable.
         </div>
 
     </div>

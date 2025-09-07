@@ -47,7 +47,7 @@ class HomeSignin extends Component
             $user = Auth::user();
             return redirect('/');
         } else {
-            session()->flash('error', '이메일 또는 비밀번호가 올바르지 않습니다.');
+            session()->flash('error', 'Invalid email or password.');
         }
     }
 
@@ -66,17 +66,17 @@ class HomeSignin extends Component
             'role' => 'client',
         ]);
 
-        // ✅ SES로 관리자(devteam.200.ok@gmail.com)에게 알림 메일 발송 (새로운 고객 가입)
+        // ✅ Send notification email to admin via SES (new customer registration)
         try {
-            Mail::raw("새로 가입한 고객 이메일: {$this->email}", function ($message) {
-                $message->from('info@devteam-test.com', 'DevTeam Test');   // SES 검증 발신자
-                $message->to('devteam.200.ok@gmail.com', 'DevTeam Admin');  // 수신자(너)
-                $message->subject('🎉 새로운 고객이 가입했어요! 축하해 🎈');
-                // (선택) 가입자에게 바로 답장하고 싶으면 replyTo 추가
+            Mail::raw("New customer email: {$this->email}", function ($message) {
+                $message->from('info@web-psqc.com', 'Web-PSQC');   // SES verified sender
+                $message->to('devteam.200.ok@gmail.com', 'Web-PSQC Admin');  // Recipient
+                $message->subject('🎉 New Customer Registration! 🎈');
+                // (Optional) Add replyTo if you want to reply directly to the new user
                 // $message->replyTo($this->email, $this->name);
             });
         } catch (\Throwable $e) {
-            report($e); // 실패해도 가입 흐름은 막지 않음
+            report($e); // Don't block registration flow even if email fails
         }
 
         Auth::login($user);
@@ -94,35 +94,35 @@ class HomeSignin extends Component
         $user = User::where('email', $this->email)->first();
 
         if (!$user) {
-            session()->flash('error', '이메일을 찾을 수 없습니다.');
+            session()->flash('error', 'Email not found.');
             return;
         }
 
-        // OTP 생성/저장
+        // Generate and save OTP
         $user->otp = random_int(100000, 999999);
         $user->otp_expires_at = now()->addMinutes(10);
         $user->save();
 
-        // Blade 뷰를 HTML로 렌더링
+        // Render Blade view to HTML
         $mailContent = view('emails.password_reset', [
             'otp' => $user->otp,
         ])->render();
 
         try {
-            // ✅ SES로 발송 (Laravel Mail 사용)
+            // ✅ Send via SES (using Laravel Mail)
             Mail::html($mailContent, function ($message) use ($user) {
-                $message->from('info@devteam-test.com', 'DevTeam Test'); // 발신자(SES에 인증된 도메인)
+                $message->from('info@web-psqc.com', 'Web-PSQC'); // Sender (SES verified domain)
                 $message->to($user->email);
                 $message->subject('Password Reset Code');
-                // 선택: 텍스트 대체 본문
+                // Optional: Text alternative
                 // $message->text('Your verification code: '.$user->otp);
             });
 
             $this->resetField = true;
-            session()->flash('success', '비밀번호 재설정 코드가 이메일로 전송되었습니다. 10분 이내에 입력해 주세요.');
+            session()->flash('success', 'Password reset code has been sent to your email. Please enter it within 10 minutes.');
         } catch (\Throwable $e) {
             report($e);
-            session()->flash('error', '메일 전송에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+            session()->flash('error', 'Failed to send email. Please try again later.');
         }
     }
 
@@ -136,9 +136,9 @@ class HomeSignin extends Component
 
         if ($user && $user->otp == $this->resetCode && now()->lessThanOrEqualTo($user->otp_expires_at)) {
             $this->codeMatch = true;
-            session()->flash('success', '코드가 성공적으로 확인되었습니다.');
+            session()->flash('success', 'Code verified successfully.');
         } else {
-            session()->flash('error', '유효하지 않거나 만료된 코드입니다.');
+            session()->flash('error', 'Invalid or expired code.');
         }
     }
 
@@ -158,10 +158,10 @@ class HomeSignin extends Component
             $user->save();
 
             Auth::login($user);
-            session()->flash('success', '비밀번호가 성공적으로 재설정되었습니다.');
+            session()->flash('success', 'Password has been reset successfully.');
             return redirect('/');
         } else {
-            session()->flash('error', '비밀번호 재설정에 실패했습니다.');
+            session()->flash('error', 'Failed to reset password.');
         }
     }
 

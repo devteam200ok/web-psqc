@@ -66,7 +66,7 @@
             <div class="card-body">
                 <h3 class="card-title"></h3>
                 <div class="markdown">
-                    <h1>서비스 이용약관</h1>
+                    <h1>Terms of Service</h1>
                     {!! App\Models\Setting::first()->terms !!}
                 </div>
             </div>

@@ -10,8 +10,8 @@
         <div class="container-xl px-3">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h2 class="page-title">웹 테스트 인증서</h2>
-                    <div class="page-pretitle">발급받은 인증서를 한 눈에 확인</div>
+                    <h2 class="page-title">Web Test Certificates</h2>
+                    <div class="page-pretitle">View all your issued certificates at a glance</div>
                 </div>
             </div>
         </div>
@@ -26,32 +26,32 @@
                 <div class="card-body">
                     <div class="row g-2 align-items-end">
                         <div class="col-sm-6 col-md-3">
-                            <label class="form-label">시작일</label>
+                            <label class="form-label">Start Date</label>
                             <input type="date" class="form-control" wire:model.change="dateFrom">
                         </div>
                         <div class="col-sm-6 col-md-3">
-                            <label class="form-label">종료일</label>
+                            <label class="form-label">End Date</label>
                             <input type="date" class="form-control" wire:model.change="dateTo">
                         </div>
                         <div class="col-sm-6 col-md-3">
-                            <label class="form-label">상태</label>
+                            <label class="form-label">Status</label>
                             <select class="form-select" wire:model.change="status">
-                                <option value="all">전체</option>
-                                <option value="valid">유효</option>
-                                <option value="expired">만료</option>
+                                <option value="all">All</option>
+                                <option value="valid">Valid</option>
+                                <option value="expired">Expired</option>
                             </select>
                         </div>
                         <div class="col-sm-6 col-md-3">
-                            <label class="form-label">종류</label>
+                            <label class="form-label">Type</label>
                             <select class="form-select" wire:model.change="type">
-                                <option value="all">전체</option>
+                                <option value="all">All</option>
                                 @foreach ($testTypes as $key => $label)
                                     <option value="{{ $key }}">{{ $label }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-12 d-flex justify-content-end gap-2 mt-2">
-                            <button class="btn btn-sm btn-secondary" wire:click="clearFilters">필터 초기화</button>
+                            <button class="btn btn-sm btn-secondary" wire:click="clearFilters">Clear Filters</button>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
             <!-- Summary -->
             <div class="row mb-2">
                 <div class="col">
-                    <div class="text-muted">검색 결과: {{ $certificates->total() }}건</div>
+                    <div class="text-muted">Search Results: {{ $certificates->total() }} certificates</div>
                 </div>
             </div>
 
@@ -73,13 +73,13 @@
                                 @php
                                     $prefix = substr($certificate->test_type, 0, 1);
                                     $groupMap = [
-                                        'p' => ['label' => '성능', 'class' => 'badge bg-teal-lt text-teal-lt-fg'],
-                                        's' => ['label' => '보안', 'class' => 'badge bg-red-lt text-red-lt-fg'],
-                                        'q' => ['label' => '품질', 'class' => 'badge bg-indigo-lt text-indigo-lt-fg'],
-                                        'c' => ['label' => '콘텐츠', 'class' => 'badge bg-cyan-lt text-cyan-lt-fg'],
+                                        'p' => ['label' => 'Performance', 'class' => 'badge bg-teal-lt text-teal-lt-fg'],
+                                        's' => ['label' => 'Security', 'class' => 'badge bg-red-lt text-red-lt-fg'],
+                                        'q' => ['label' => 'Quality', 'class' => 'badge bg-indigo-lt text-indigo-lt-fg'],
+                                        'c' => ['label' => 'Content', 'class' => 'badge bg-cyan-lt text-cyan-lt-fg'],
                                     ];
                                     $groupInfo = $groupMap[$prefix] ?? [
-                                        'label' => '기타',
+                                        'label' => 'Other',
                                         'class' => 'badge bg-azure-lt text-azure-lt-fg',
                                     ];
                                 @endphp
@@ -95,15 +95,15 @@
                                             <span
                                                 class="{{ $certificate->status_badge_class }}">{{ $certificate->status }}</span>
                                         </div>
-                                        <h3 class="card-title mb-0 mt-2">웹 테스트 인증서</h3>
+                                        <h3 class="card-title mb-0 mt-2">Web Test Certificate</h3>
                                         <div class="text-muted">{{ $certificate->url }}</div>
                                         <div class="text-start text-muted small">
-                                            <div class="mt-2">발급일: {{ $certificate->issued_at?->format('Y-m-d') }}
+                                            <div class="mt-2">Issued: {{ $certificate->issued_at?->format('Y-m-d') }}
                                             </div>
                                             <div>
-                                                만료일: {{ $certificate->expires_at?->format('Y-m-d') ?? '없음' }}
+                                                Expires: {{ $certificate->expires_at?->format('Y-m-d') ?? 'Never' }}
                                                 @if (!empty($certificate->days_until_expiration))
-                                                    <span>({{ '만료까지 ' . $certificate->days_until_expiration . '일' }})
+                                                    <span>({{ $certificate->days_until_expiration . ' days until expiration' }})
                                                     </span>
                                                 @endif
                                             </div>
@@ -111,7 +111,7 @@
                                         <div class="mt-auto pt-3 d-flex justify-content-start gap-2">
                                             <a href="{{ route('certified', ['code' => $certificate->code]) }}"
                                                 target="_blank" rel="noopener" class="btn btn-sm btn-dark">
-                                                🔎 상세 보기
+                                                🔎 View Details
                                             </a>
                                             @php
                                                 $pdfRel = "certification/{$certificate->code}.pdf";
@@ -119,13 +119,13 @@
                                             @if (Storage::disk('local')->exists($pdfRel))
                                                 <a href="{{ route('cert.pdf.download', ['code' => $certificate->code]) }}"
                                                     target="_blank" rel="noopener" class="btn btn-sm btn-primary">
-                                                    📥 다운로드
+                                                    📥 Download
                                                 </a>
                                             @else
                                                 <a href="{{ route('certified', ['code' => $certificate->code]) }}"
                                                     target="_blank" rel="noopener"
                                                     class="btn btn-sm btn-outline-secondary">
-                                                    ⏳ PDF 준비 중
+                                                    ⏳ PDF Preparing
                                                 </a>
                                             @endif
                                         </div>
@@ -138,7 +138,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body text-center text-muted">
-                                표시할 인증서가 없습니다.
+                                No certificates to display.
                             </div>
                         </div>
                     </div>

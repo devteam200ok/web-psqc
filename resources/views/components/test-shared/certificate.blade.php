@@ -20,14 +20,14 @@
             </div>
             @if ($currentTest->overall_score)
                 <div class="text-muted h4">
-                    {{ number_format($currentTest->overall_score, 1) }}점
+                    {{ number_format($currentTest->overall_score, 1) }} points
                 </div>
             @endif
         </div>
 
         <div class="mb-3">
             <small class="text-muted">
-                테스트 완료:
+                Test Completed:
                 {{ $currentTest->finished_at ? $currentTest->finished_at->format('Y-m-d H:i:s') : $currentTest->updated_at->format('Y-m-d H:i:s') }}
             </small>
         </div>
@@ -39,28 +39,28 @@
 
             @if ($certificate)
                 <a href="{{ url('/') }}/{{ $certificate->code }}/certified" class="btn btn-dark" target="_blank">
-                    인증서 보기
+                    View Certificate
                 </a>
             @else
                 @if ($canIssueCertificate)
                     <button class="btn btn-primary" wire:click="issueCertificate">
-                        인증서 발급
+                        Issue Certificate
                     </button>
                 @else
                     <button class="btn btn-secondary" disabled>
-                        인증서 발급
+                        Issue Certificate
                     </button>
                     <div class="mt-2">
-                        <small class="text-muted">B등급 이상부터 인증서 발급이 가능합니다</small>
+                        <small class="text-muted">Certificate issuance requires grade B or higher</small>
                     </div>
                 @endif
             @endif
         @else
             <button class="btn btn-secondary" disabled>
-                인증서 발급
+                Issue Certificate
             </button>
             <div class="mt-2">
-                <small class="text-muted">인증서 발급은 로그인이 필요합니다</small>
+                <small class="text-muted">Login required for certificate issuance</small>
             </div>
         @endif
     </div>

@@ -3,24 +3,23 @@
         <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
             <li class="nav-item">
                 <a href="javascript:void(0);" wire:click="$set('sideTabActive', 'history')"
-                    class="nav-link {{ $sideTabActive == 'history' ? 'active' : '' }}" data-bs-toggle="tab">검사 내역</a>
+                    class="nav-link {{ $sideTabActive == 'history' ? 'active' : '' }}" data-bs-toggle="tab">Test History</a>
             </li>
             <li class="nav-item">
                 <a href="javascript:void(0);" wire:click="$set('sideTabActive', 'domain')"
-                    class="nav-link {{ $sideTabActive == 'domain' ? 'active' : '' }}" data-bs-toggle="tab">도메인</a>
+                    class="nav-link {{ $sideTabActive == 'domain' ? 'active' : '' }}" data-bs-toggle="tab">Domains</a>
             </li>
             @if ($hasProOrAgencyPlan)
                 <li class="nav-item">
                     <a href="javascript:void(0);" wire:click="$set('sideTabActive', 'scheduled')"
-                        class="nav-link {{ $sideTabActive == 'scheduled' ? 'active' : '' }}" data-bs-toggle="tab">예약된
-                        검사</a>
+                        class="nav-link {{ $sideTabActive == 'scheduled' ? 'active' : '' }}" data-bs-toggle="tab">Scheduled Tests</a>
                 </li>
             @endif
         </ul>
     </div>
     <div class="card-body">
         <div class="tab-content">
-            <!-- 검사 내역 -->
+            <!-- Test History -->
             <div class="tab-pane {{ $sideTabActive == 'history' ? 'active show' : '' }}" id="tabs-history"
                 style="max-height: calc(100vh - 300px); overflow-y: auto;">
                 @if (Auth::check() && count($testHistory) > 0)
@@ -40,8 +39,7 @@
                                                         class="badge {{ $test->grade_color }}">{{ $test->overall_grade }}</span>
                                                 @endif
                                                 @if ($test->overall_score)
-                                                    <small
-                                                        class="text-muted">{{ number_format($test->overall_score, 1) }}점</small>
+                                                    <small class="text-muted">{{ number_format($test->overall_score, 1) }} pts</small>
                                                 @endif
                                                 <small class="text-muted"> -
                                                     {{ $test->created_at->format('m/d H:i') }}</small>
@@ -57,9 +55,9 @@
 
                                     @if (!$test->is_saved_permanently)
                                         <div class="d-flex align-items-center">
-                                            <span style="cursor: pointer;"
+                                                <span style="cursor: pointer;"
                                                 wire:click.stop="deleteTestHistory({{ $test->id }})"
-                                                wire:confirm="이 검사 내역을 삭제하시겠습니까?">
+                                                wire:confirm="Delete this test history?">
                                                 🗑️
                                             </span>
                                         </div>
@@ -72,23 +70,23 @@
                     @if ($testHistory->count() >= 10)
                         <div class="position-sticky bottom-0 start-0 end-0 border-top bg-white p-2 small text-muted text-center"
                             style="z-index: 1;">
-                            🗂️ 검사 내역은 <strong>최근 30일, 최대 100개</strong>까지만 보관됩니다.<br>
-                            🧾 인증서를 발행받은 시험 성적은 <strong>인증서 유효기간</strong> 동안 보관됩니다.
+                            🗂️ Test history is retained for <strong>30 days, up to 100 items</strong>.<br>
+                            🧾 Results with issued certificates are retained for the <strong>certificate validity period</strong>.
                         </div>
                     @endif
                 @elseif(Auth::check())
                     <div class="text-center text-muted p-4">
-                        <p>아직 검사 내역이 없습니다.</p>
-                        <p>첫 번째 테스트를 실행해보세요!</p>
+                        <p>No recent test history.</p>
+                        <p>Run your first test to see it here.</p>
                     </div>
                 @else
                     <div class="text-center text-muted p-4">
-                        <p>검사 내역을 보려면 로그인이 필요합니다.</p>
+                        <p>Sign in to view test history.</p>
                     </div>
                 @endif
             </div>
 
-            <!-- 도메인 -->
+            <!-- Domains -->
             <div class="tab-pane {{ $sideTabActive == 'domain' ? 'active show' : '' }}" id="tabs-domain"
                 style="max-height: calc(100vh - 300px); overflow-y: auto;">
                 @if (Auth::check())
@@ -132,18 +130,18 @@
                         </div>
                     @else
                         <div class="text-center text-muted p-4">
-                            <p>등록된 도메인이 없습니다.</p>
-                            <p>자주 사용하는 URL을 등록해보세요!</p>
+                            <p>No domains added.</p>
+                            <p>Save your frequently used URLs.</p>
                         </div>
                     @endif
                 @else
                     <div class="text-center text-muted p-4">
-                        <p>도메인 관리는 로그인이 필요합니다.</p>
+                        <p>Sign in to manage domains.</p>
                     </div>
                 @endif
             </div>
 
-            <!-- 예약된 검사 -->
+            <!-- Scheduled Tests -->
             @if ($hasProOrAgencyPlan)
                 <div class="tab-pane {{ $sideTabActive == 'scheduled' ? 'active show' : '' }}" id="tabs-scheduled"
                     style="max-height: calc(100vh - 300px); overflow-y: auto;">
@@ -160,22 +158,21 @@
                                                     {{ $scheduled['scheduled_at_formatted'] }}
                                                 </small>
                                                 @if ($scheduled['is_overdue'])
-                                                    <span class="badge bg-danger-lt text-danger-lt-fg ms-1">지연됨</span>
+                                                    <span class="badge bg-danger-lt text-danger-lt-fg ms-1">Overdue</span>
                                                 @endif
                                             </div>
                                             <div class="mt-1">
                                                 <span class="{{ $scheduled['status_badge_class'] }}">
                                                     {{ $scheduled['status_text'] }}
                                                 </span>
-                                                <small
-                                                    class="text-muted ms-2">{{ $scheduled['test_type_name'] }}</small>
+                                                <small class="text-muted ms-2">{{ $scheduled['test_type_name'] }}</small>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center">
                                             @if ($scheduled['can_be_cancelled'])
                                                 <span style="cursor: pointer;"
                                                     wire:click="cancelScheduledTest({{ $scheduled['id'] }})"
-                                                    wire:confirm="이 예약된 검사를 취소하시겠습니까?">
+                                                    wire:confirm="Cancel this scheduled test?">
                                                     🗑️
                                                 </span>
                                             @endif
@@ -185,13 +182,13 @@
                             </div>
                         @else
                             <div class="text-center text-muted p-4">
-                                <p>예약된 검사가 없습니다.</p>
-                                <p>상단에서 검사를 예약하거나 스케쥴을 등록해보세요.</p>
+                                <p>No scheduled tests.</p>
+                                <p>Schedule a test or add a schedule above.</p>
                             </div>
                         @endif
                     @else
                         <div class="text-center text-muted p-4">
-                            <p>예약된 검사를 보려면 로그인이 필요합니다.</p>
+                            <p>Sign in to view scheduled tests.</p>
                         </div>
                     @endif
                 </div>

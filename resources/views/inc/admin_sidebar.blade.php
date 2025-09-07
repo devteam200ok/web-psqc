@@ -36,10 +36,10 @@
             </div>
         </a>
         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <a href="{{ url('/') }}/{{ auth()->user()->role }}/account/profile" class="dropdown-item">프로필</a>
-            <a href="{{ url('/') }}/{{ auth()->user()->role }}/account/password" class="dropdown-item">비밀번호</a>
+            <a href="{{ url('/') }}/{{ auth()->user()->role }}/account/profile" class="dropdown-item">Profile</a>
+            <a href="{{ url('/') }}/{{ auth()->user()->role }}/account/password" class="dropdown-item">Password</a>
             <div class="dropdown-divider"></div>
-            <a href="{{url('/')}}/admin/logout" class="dropdown-item">로그아웃</a>
+            <a href="{{url('/')}}/admin/logout" class="dropdown-item">Logout</a>
         </div>
 
         <div class="navbar-brand navbar-brand-autodark d-none d-lg-flex">
@@ -58,7 +58,7 @@
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <i class="ti ti-dashboard"></i>
                         </span>
-                        <span class="nav-link-title"> 대시보드 </span>
+                        <span class="nav-link-title"> Dashboard </span>
                     </a>
                 </li>
 
@@ -131,18 +131,18 @@
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <i class="ti ti-user"></i>
                             </span>
-                            <span class="nav-link-title"> 사용자 </span>
+                    <span class="nav-link-title"> Users </span>
                         </a>
                     </li>
 
                     @php
                         $settings = [
-                            'branding' => '브랜딩',
-                            'information' => '회사정보',
+                            'branding' => 'Branding',
+                            'information' => 'Company Information',
                             'seo' => 'SEO',
-                            'api' => 'API 관리',
-                            'privacy' => '개인정보 처리방침',
-                            'terms' => '서비스 이용약관',
+                            'api' => 'API Management',
+                            'privacy' => 'Privacy Policy',
+                            'terms' => 'Terms of Service',
                         ];
                         $baseUrl = url('/admin/setting');
                         $isSettingOpen = str_contains($current_url, '/admin/setting');
@@ -154,7 +154,7 @@
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <i class="ti ti-settings"></i>
                             </span>
-                            <span class="nav-link-title">설정</span>
+                            <span class="nav-link-title">Settings</span>
                         </a>
                         <div class="dropdown-menu {{ $isSettingOpen ? 'show' : '' }}"
                             data-bs-popper="{{ $isSettingOpen ? 'static' : '' }}">
@@ -173,12 +173,12 @@
                     @php
                         $devBase = '/admin/development';
                         $devLinks = [
-                            ['label' => '사용자 메뉴', 'uri' => "{$devBase}/navbar", 'env' => 'local'],
-                            ['label' => '관리자 메뉴', 'uri' => "{$devBase}/menu", 'env' => 'local'],
-                            ['label' => '데이터베이스', 'uri' => "{$devBase}/database", 'env' => 'local'],
-                            ['label' => '로그', 'uri' => "{$devBase}/logs", 'target' => '_blank'],
+                            ['label' => 'User Menu', 'uri' => "{$devBase}/navbar", 'env' => 'local'],
+                            ['label' => 'Admin Menu', 'uri' => "{$devBase}/menu", 'env' => 'local'],
+                            ['label' => 'Database', 'uri' => "{$devBase}/database", 'env' => 'local'],
+                            ['label' => 'Logs', 'uri' => "{$devBase}/logs", 'target' => '_blank'],
                             ['label' => 'PhpInfo', 'uri' => "{$devBase}/php"],
-                            ['label' => '백업', 'uri' => "{$devBase}/backup"],
+                            ['label' => 'Backup', 'uri' => "{$devBase}/backup"],
                         ];
                         $isDevOpen = str_contains($current_url, $devBase);
                     @endphp
@@ -189,7 +189,7 @@
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <i class="ti ti-code-circle-2"></i>
                             </span>
-                            <span class="nav-link-title">시스템</span>
+                            <span class="nav-link-title">System</span>
                         </a>
                         <div class="dropdown-menu {{ $isDevOpen ? 'show' : '' }}">
                             @foreach ($devLinks as $link)
@@ -213,7 +213,7 @@
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <i class="ti ti-home"></i>
                         </span>
-                        <span class="nav-link-title"> 랜딩 페이지 </span>
+                        <span class="nav-link-title"> Landing Page </span>
                     </a>
                 </li>
             </ul>

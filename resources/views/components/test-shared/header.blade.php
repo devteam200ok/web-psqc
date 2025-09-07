@@ -10,7 +10,7 @@
                     </div>
                 </div>
 
-                {{-- 비회원 IP 사용량 표시 --}}
+                {{-- Guest IP usage display --}}
                 @if (!Auth::check() && isset($ipUsage) && $ipUsage)
                     <div class="ms-auto text-end">
                         <div class="mb-1 mb-xl-0 d-xl-inline-block me-xl-2">
@@ -20,43 +20,43 @@
                         </div>
                         <div class="d-xl-inline-block">
                             <span class="badge bg-dark text-white fw-bold fs-5 px-2 py-1">
-                                🔥 {{ $ipUsage->usage }}회 남음
+                                🔥 {{ $ipUsage->usage }} remaining
                             </span>
                         </div>
                     </div>
                 @endif
 
-                {{-- 회원 플랜 사용량 표시 --}}
+                {{-- Member plan usage display --}}
                 @if (Auth::check() && $userPlanUsage)
                     <div class="ms-auto text-end">
                         @if ($userPlanUsage['type'] === 'basic')
-                            {{-- 플랜 없는 회원 - 월간 사용량만 표시 --}}
+                            {{-- Members without plan - monthly usage only --}}
                             <div class="d-xl-inline-block">
                                 <span class="badge bg-secondary text-white fw-bold fs-5 px-2 py-1">
-                                    📅 월간 {{ $userPlanUsage['monthly_remaining'] }}회 남음
+                                    📅 Monthly {{ $userPlanUsage['monthly_remaining'] }} remaining
                                 </span>
                             </div>
                         @elseif ($userPlanUsage['type'] === 'subscription')
-                            {{-- 구독 플랜 - 월간, 일간 표시 --}}
+                            {{-- Subscription plan - monthly, daily display --}}
                             @if ($userPlanUsage['monthly_remaining'] !== null)
                                 <div class="mb-1 mb-xl-0 d-xl-inline-block me-xl-2">
                                     <span class="badge bg-primary text-white fw-bold fs-5 px-2 py-1">
-                                        📊 월간 {{ $userPlanUsage['monthly_remaining'] }}회 남음
+                                        📊 Monthly {{ $userPlanUsage['monthly_remaining'] }} remaining
                                     </span>
                                 </div>
                             @endif
                             @if ($userPlanUsage['daily_remaining'] !== null)
                                 <div class="d-xl-inline-block">
                                     <span class="badge bg-success text-white fw-bold fs-5 px-2 py-1">
-                                        📅 일간 {{ $userPlanUsage['daily_remaining'] }}회 남음
+                                        📅 Daily {{ $userPlanUsage['daily_remaining'] }} remaining
                                     </span>
                                 </div>
                             @endif
                         @else
-                            {{-- 쿠폰만 있는 경우 - 일간 표시 --}}
+                            {{-- Coupon only - daily display --}}
                             <div class="d-xl-inline-block">
                                 <span class="badge bg-warning text-white fw-bold fs-5 px-2 py-1">
-                                    🎫 {{ $userPlanUsage['daily_remaining'] }}회 남음
+                                    🎫 {{ $userPlanUsage['daily_remaining'] }} remaining
                                 </span>
                             </div>
                         @endif

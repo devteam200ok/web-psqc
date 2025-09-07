@@ -17,7 +17,7 @@ class HomePerformanceLoad extends Component
 {
     use ManagesIpUsage, ManagesUserPlanUsage, SharedTestComponents;
 
-    // K6 테스트 특화 프로퍼티
+    // K6 test specific properties
     public $vus = 50;
     public $duration_seconds = 45;
     public $think_time_min = 3;
@@ -29,7 +29,7 @@ class HomePerformanceLoad extends Component
     }
 
     /**
-     * 테스트 타입 반환
+     * Return test type
      */
     protected function getTestType(): string
     {
@@ -37,7 +37,7 @@ class HomePerformanceLoad extends Component
     }
 
     /**
-     * 테스트 설정 반환
+     * Return test configuration
      */
     protected function getTestConfig(): array
     {
@@ -52,17 +52,17 @@ class HomePerformanceLoad extends Component
     }
 
     /**
-     * K6 부하 테스트 실행
+     * Execute K6 load test
      */
     public function runTest()
     {
-        // 로그인 체크
+        // Check login status
         if (!Auth::check()) {
-            session()->flash('error', '부하 테스트는 로그인이 필요합니다. 로그인 후 도메인 등록 및 소유권 인증을 완료해주세요.');
+            session()->flash('error', 'Load testing requires login. Please sign in and complete domain registration and ownership verification.');
             return;
         }
 
-        // K6 테스트에 특화된 검증 규칙 정의 및 실행
+        // Define and execute K6 test specific validation rules
         $this->validate([
             'url' => 'required|url|max:2048',
             'vus' => 'required|integer|min:10|max:100',
@@ -70,20 +70,20 @@ class HomePerformanceLoad extends Component
             'think_time_min' => 'required|integer|min:1|max:30',
             'think_time_max' => 'required|integer|min:1|max:60',
         ], [
-            'url.required' => 'URL을 입력해주세요.',
-            'url.url' => '올바른 URL 형식이 아닙니다.',
-            'vus.required' => 'Virtual Users 수를 입력해주세요.',
-            'vus.min' => 'Virtual Users는 최소 10명 이상이어야 합니다.',
-            'vus.max' => 'Virtual Users는 최대 100명까지 가능합니다.',
-            'duration_seconds.required' => '테스트 시간을 입력해주세요.',
-            'duration_seconds.min' => '테스트 시간은 최소 30초 이상이어야 합니다.',
-            'duration_seconds.max' => '테스트 시간은 최대 100초까지 가능합니다.',
+            'url.required' => 'Please enter a URL.',
+            'url.url' => 'Invalid URL format.',
+            'vus.required' => 'Please enter the number of Virtual Users.',
+            'vus.min' => 'Virtual Users must be at least 10.',
+            'vus.max' => 'Virtual Users can be up to 100 maximum.',
+            'duration_seconds.required' => 'Please enter the test duration.',
+            'duration_seconds.min' => 'Test duration must be at least 30 seconds.',
+            'duration_seconds.max' => 'Test duration can be up to 100 seconds maximum.',
         ]);
 
-        // 도메인 소유권 검증
+        // Domain ownership verification
         $domain = parse_url($this->url, PHP_URL_HOST);
         if (!$domain) {
-            $this->addError('url', '올바른 URL 형식이 아닙니다.');
+            $this->addError('url', 'Invalid URL format.');
             return;
         }
 
@@ -93,7 +93,7 @@ class HomePerformanceLoad extends Component
             ->first();
 
         if (!$verifiedDomain) {
-            $this->addError('url', '해당 도메인에 대한 소유권 인증이 필요합니다. 사이드바의 "도메인" 탭에서 도메인을 등록하고 인증을 완료해주세요.');
+            $this->addError('url', 'Domain ownership verification required. Please register your domain in the "Domains" tab in the sidebar and complete verification.');
             return;
         }
 
@@ -104,19 +104,19 @@ class HomePerformanceLoad extends Component
         }
         
         if ($this->isDuplicateRecentTest($this->url)) {
-            $this->addError('url', '동일한 URL에 대한 테스트가 최근 5분 내에 실행되었습니다.');
+            $this->addError('url', 'A test for the same URL was executed within the last 5 minutes.');
             return;
         }
 
-        // 사용량 체크
+        // Check usage
         if (!$this->canUseService()) {
-            session()->flash('error', '사용 가능한 횟수를 초과했습니다.');
+            session()->flash('error', 'You have exceeded your usage limit.');
             return;
         }
 
         $this->isLoading = true;
 
-        // WebTest 생성
+        // Create WebTest
         $test = WebTest::create([
             'user_id' => Auth::id(),
             'test_type' => $this->getTestType(),
@@ -126,7 +126,7 @@ class HomePerformanceLoad extends Component
             'test_config' => $this->getTestConfig()
         ]);
 
-        // 사용량 차감
+        // Deduct usage
         $this->consumeService($domain, $this->getTestType());
         $this->refreshUsageInfo();
 
@@ -161,11 +161,11 @@ class HomePerformanceLoad extends Component
     }
 
     /**
-     * VU 수와 Duration에 따른 최대 등급 반환
+     * Return maximum grade based on VU count and Duration
      */
     public function getMaxGradeForSettings(): string
     {
-        // VU와 Duration 조건을 모두 만족하는 최고 등급 계산
+        // Calculate highest grade satisfying both VU and Duration conditions
         if ($this->vus >= 100 && $this->duration_seconds >= 60) {
             return 'A+';
         } elseif ($this->vus >= 50 && $this->duration_seconds >= 45) {
@@ -182,7 +182,7 @@ class HomePerformanceLoad extends Component
     }
 
     /**
-     * 설정에 따른 최대 점수 반환
+     * Return maximum score based on settings
      */
     public function getMaxScoreForSettings(): int
     {
@@ -198,7 +198,7 @@ class HomePerformanceLoad extends Component
     }
 
     /**
-     * 인증서 발급 가능 여부 체크
+     * Check if certificate can be issued
      */
     public function canIssueCertificate(): bool
     {

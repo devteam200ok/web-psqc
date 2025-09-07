@@ -1,10 +1,10 @@
 @if ($showScheduleForm)
     <div class="card bg-light mb-3">
         <div class="card-body">
-            <h6 class="card-title">검사 예약</h6>
+            <h6 class="card-title">Schedule Test</h6>
             <div class="row">
                 <div class="col-md-4">
-                    <label class="form-label">날짜</label>
+                    <label class="form-label">Date</label>
                     <input type="date" wire:model="scheduleDate"
                         class="form-control @error('scheduleDate') is-invalid @enderror" min="{{ date('Y-m-d') }}">
                     @error('scheduleDate')
@@ -12,9 +12,9 @@
                     @enderror
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">시</label>
+                    <label class="form-label">Hour</label>
                     <select wire:model="scheduleHour" class="form-select @error('scheduleHour') is-invalid @enderror">
-                        <option value="">시 선택</option>
+                        <option value="">Select Hour</option>
                         @for ($i = 0; $i < 24; $i++)
                             <option value="{{ sprintf('%02d', $i) }}">
                                 {{ sprintf('%02d', $i) }}</option>
@@ -25,10 +25,10 @@
                     @enderror
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">분</label>
+                    <label class="form-label">Minute</label>
                     <select wire:model="scheduleMinute"
                         class="form-select @error('scheduleMinute') is-invalid @enderror">
-                        <option value="">분 선택</option>
+                        <option value="">Select Minute</option>
                         @for ($i = 0; $i < 60; $i += 5)
                             <option value="{{ sprintf('%02d', $i) }}">
                                 {{ sprintf('%02d', $i) }}</option>
@@ -41,7 +41,7 @@
                 <div class="col-md-2">
                     <label class="form-label">&nbsp;</label>
                     <div>
-                        <button wire:click="scheduleTest" class="btn btn-primary">예약</button>
+                        <button wire:click="scheduleTest" class="btn btn-primary">Schedule</button>
                     </div>
                 </div>
             </div>

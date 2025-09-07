@@ -13,14 +13,16 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Web-PSQC" />
     <meta property="og:title" content="Web-PSQC – Comprehensive Web Quality Testing" />
-    <meta property="og:description" content="Diagnose your web across Performance, Security, Quality, and Content with 16 tests — and get an A+ grade certificate." />
+    <meta property="og:description"
+        content="Diagnose your web across Performance, Security, Quality, and Content with 16 tests — and get an A+ grade certificate." />
     <meta property="og:locale" content="en_US" />
     <meta property="og:image" content="{{ App\Models\Setting::first()->og_image }}" />
     <meta property="og:image:alt" content="Web-PSQC Home Preview" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Web-PSQC – Comprehensive Web Quality Testing" />
-    <meta name="twitter:description" content="Global performance, security, quality, and content in one place. 16 tests with certificate issuance." />
+    <meta name="twitter:description"
+        content="Global performance, security, quality, and content in one place. 16 tests with certificate issuance." />
     <meta name="twitter:image" content="{{ App\Models\Setting::first()->og_image }}" />
 
     {{-- JSON-LD (WebSite + Organization + WebPage) --}}
@@ -316,30 +318,38 @@
             @include('inc.component.message')
             <div class="row align-items-center position-relative">
                 <!-- Left text area -->
+                <!-- Left text area -->
                 <div class="col-md-6 mb-4 mb-md-0">
+                    <!-- Desktop title -->
                     <h1 class="hero-title d-none d-md-block mb-4">
-                        Top 2% Web Quality Worldwide<br>For Your Website, Too
+                        Achieve Top 2% Web Quality<br>Trusted by Global Standards
                     </h1>
+                    <!-- Mobile title -->
                     <h2 class="h1 d-md-none mb-4">
-                        Top 2% Web Quality Worldwide<br>For Your Website, Too
+                        Achieve Top 2% Web Quality<br>Trusted by Global Standards
                     </h2>
+
+                    <!-- Desktop subtitle -->
                     <p class="hero-subtitle d-none d-md-block mb-4">
-                        Google ranking, user experience, and security —<br>
-                        diagnose everything in a single run.<br>
-                        A comprehensive PSQC (Performance · Security · Quality · Content)<br>
-                        web quality testing platform: Web-PSQC.
+                        From Google ranking to user experience and security —<br>
+                        diagnose, measure, and improve in just one scan.<br>
+                        Web-PSQC delivers a full-spectrum analysis across<br>
+                        <strong>Performance · Security · Quality · Content</strong>.
                     </p>
+
+                    <!-- Mobile subtitle -->
                     <p class="hero-subtitle d-md-none mb-4">
-                        Google ranking, user experience, and security —
-                        diagnose everything in a single run.
-                        PSQC (Performance · Security · Quality · Content)
-                        comprehensive web quality testing, by Web-PSQC.
+                        Google ranking, UX, and security — all in one scan.<br>
+                        Web-PSQC runs a complete analysis of<br>
+                        <strong>Performance · Security · Quality · Content</strong>.
                     </p>
+
+                    <!-- Call-to-actions -->
                     <a href="#test" class="btn hero-cta-btn me-3">
                         Start Free Test
                     </a>
                     <a href="#pricing" class="btn btn-outline-light">
-                        Pricing
+                        View Pricing
                     </a>
                 </div>
 
@@ -355,33 +365,33 @@
                     <div class="row g-3 position-relative" style="z-index: 2;">
                         <div class="col-6">
                             <div class="hero-card mt-5">
-                                <div class="hero-card-title">⚡ Performance Tests</div>
+                                <div class="hero-card-title">⚡ Performance Insights</div>
                                 <div class="hero-card-desc">
-                                    Global speed, load testing, and mobile performance — all in one
+                                    Benchmark global speed, load capacity, and real-world mobile performance
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="hero-card">
-                                <div class="hero-card-title">🔒 Security Checks</div>
+                                <div class="hero-card-title">🔒 Security Assurance</div>
                                 <div class="hero-card-desc">
-                                    Deep SSL analysis, security headers, and latest vulnerabilities across five checks
+                                    Advanced SSL diagnostics, header checks, and vulnerability scans in one suite
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="hero-card mt-5">
-                                <div class="hero-card-title">✨ Quality Analysis</div>
+                                <div class="hero-card-title">✨ Quality Compliance</div>
                                 <div class="hero-card-desc">
-                                    SEO, accessibility, browser compatibility, and UI regression validation
+                                    Validate SEO, accessibility, cross-browser standards, and UI regression accuracy
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="hero-card">
-                                <div class="hero-card-title">📝 Content Validation</div>
+                                <div class="hero-card-title">📝 Content Integrity</div>
                                 <div class="hero-card-desc">
-                                    Validate link integrity, structured data, and metadata completeness
+                                    Ensure link health, metadata completeness, and structured data consistency
                                 </div>
                             </div>
                         </div>
@@ -397,7 +407,9 @@
         <div class="container px-3 my-5">
             <div class="text-center mb-5">
                 <h2 class="fw-bold mb-3" style="font-size:1.8rem">16 Professional Web Tests</h2>
-                <p class="text-muted mb-4" style="font-size:1rem">We integrate industry-standard tools to measure overall web quality.</p>
+                <p class="text-muted mb-4" style="font-size:1rem">
+                    Industry-standard tooling, integrated into a single PSQC workflow to measure overall web quality.
+                </p>
             </div>
 
             <div class="row g-4">
@@ -411,9 +423,10 @@
                                 <a href="{{ url('/performance/speed') }}" class="text-decoration-none text-dark">Global
                                     Speed</a>
                             </h5>
-                            <a href="{{ url('/') }}/performance/speed" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/performance/speed" class="badge-new"
+                                aria-label="Run Global Speed test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Measure load time across 8 global regions</p>
+                        <p class="text-muted small mb-0">Measure real-world load time across 8 regions and CDNs</p>
                     </div>
 
                     <div class="test-item">
@@ -422,20 +435,22 @@
                                 <a href="{{ url('/performance/load') }}" class="text-decoration-none text-dark">Load
                                     Test</a>
                             </h5>
-                            <a href="{{ url('/') }}/performance/load" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/performance/load" class="badge-new"
+                                aria-label="Run Load Test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Measure concurrent user load with k6</p>
+                        <p class="text-muted small mb-0">Concurrent user capacity and error rate (k6)</p>
                     </div>
 
                     <div class="test-item">
                         <div class="d-flex align-items-center mb-2">
                             <h5 class="fw-bold mb-0 flex-grow-1">
-                                <a href="{{ url('/performance/mobile') }}" class="text-decoration-none text-dark">Mobile
-                                    Performance</a>
+                                <a href="{{ url('/performance/mobile') }}"
+                                    class="text-decoration-none text-dark">Mobile Performance</a>
                             </h5>
-                            <a href="{{ url('/') }}/performance/mobile" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/performance/mobile" class="badge-new"
+                                aria-label="Run Mobile Performance test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Rendering performance across various devices</p>
+                        <p class="text-muted small mb-0">Rendering & interaction metrics across key devices</p>
                     </div>
                 </div>
 
@@ -449,9 +464,10 @@
                                 <a href="{{ url('/security/ssl') }}" class="text-decoration-none text-dark">SSL
                                     Basics</a>
                             </h5>
-                            <a href="{{ url('/') }}/security/ssl" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/security/ssl" class="badge-new"
+                                aria-label="Run SSL Basics test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">SSL certificate and basic security settings</p>
+                        <p class="text-muted small mb-0">Certificate chain, protocol/cipher, and baseline hygiene</p>
                     </div>
 
                     <div class="test-item">
@@ -460,31 +476,34 @@
                                 <a href="{{ url('/security/sslyze') }}" class="text-decoration-none text-dark">SSL
                                     Deep Dive</a>
                             </h5>
-                            <a href="{{ url('/') }}/security/sslyze" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/security/sslyze" class="badge-new"
+                                aria-label="Run SSL Deep Dive test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">In‑depth TLS analysis via SSLyze</p>
+                        <p class="text-muted small mb-0">In-depth TLS configuration analysis (SSLyze)</p>
                     </div>
 
                     <div class="test-item">
                         <div class="d-flex align-items-center mb-2">
                             <h5 class="fw-bold mb-0 flex-grow-1">
-                                <a href="{{ url('/security/headers') }}" class="text-decoration-none text-dark">Security
-                                    Headers</a>
+                                <a href="{{ url('/security/headers') }}"
+                                    class="text-decoration-none text-dark">Security Headers</a>
                             </h5>
-                            <a href="{{ url('/') }}/security/headers" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/security/headers" class="badge-new"
+                                aria-label="Run Security Headers test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Validate HSTS, CSP, and CORS policies</p>
+                        <p class="text-muted small mb-0">Validate HSTS, CSP, CORS, X-Frame-Options, and more</p>
                     </div>
 
                     <div class="test-item">
                         <div class="d-flex align-items-center mb-2">
                             <h5 class="fw-bold mb-0 flex-grow-1">
-                                <a href="{{ url('/security/scan') }}" class="text-decoration-none text-dark">Vulnerability
-                                    Scan</a>
+                                <a href="{{ url('/security/scan') }}"
+                                    class="text-decoration-none text-dark">Vulnerability Scan</a>
                             </h5>
-                            <a href="{{ url('/') }}/security/scan" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/security/scan" class="badge-new"
+                                aria-label="Run Vulnerability Scan">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Dynamic vulnerability detection with OWASP ZAP</p>
+                        <p class="text-muted small mb-0">Dynamic application scanning (OWASP ZAP)</p>
                     </div>
 
                     <div class="test-item">
@@ -493,9 +512,10 @@
                                 <a href="{{ url('/security/nuclei') }}" class="text-decoration-none text-dark">Latest
                                     Vulnerabilities</a>
                             </h5>
-                            <a href="{{ url('/') }}/security/nuclei" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/security/nuclei" class="badge-new"
+                                aria-label="Run Latest Vulnerabilities test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Pattern‑based CVE checks via Nuclei</p>
+                        <p class="text-muted small mb-0">Template-based CVE checks and misconfig detection (Nuclei)</p>
                     </div>
                 </div>
 
@@ -506,12 +526,13 @@
                     <div class="test-item">
                         <div class="d-flex align-items-center mb-2">
                             <h5 class="fw-bold mb-0 flex-grow-1">
-                                <a href="{{ url('/quality/lighthouse') }}" class="text-decoration-none text-dark">Overall
-                                    Quality</a>
+                                <a href="{{ url('/quality/lighthouse') }}"
+                                    class="text-decoration-none text-dark">Lighthouse Audit</a>
                             </h5>
-                            <a href="{{ url('/') }}/quality/lighthouse" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/quality/lighthouse" class="badge-new"
+                                aria-label="Run Lighthouse Audit">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Lighthouse: Performance + SEO + Accessibility + PWA</p>
+                        <p class="text-muted small mb-0">Performance · SEO · Accessibility · PWA (Lighthouse)</p>
                     </div>
 
                     <div class="test-item">
@@ -520,9 +541,10 @@
                                 <a href="{{ url('/quality/accessibility') }}"
                                     class="text-decoration-none text-dark">Accessibility Deep Dive</a>
                             </h5>
-                            <a href="{{ url('/') }}/quality/accessibility" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/quality/accessibility" class="badge-new"
+                                aria-label="Run Accessibility test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Detailed checks with axe‑core (WCAG 2.1)</p>
+                        <p class="text-muted small mb-0">WCAG-aligned checks with axe-core (2.1/2.2-ready)</p>
                     </div>
 
                     <div class="test-item">
@@ -531,27 +553,28 @@
                                 <a href="{{ url('/quality/compatibility') }}"
                                     class="text-decoration-none text-dark">Browser Compatibility</a>
                             </h5>
-                            <a href="{{ url('/') }}/quality/compatibility" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/quality/compatibility" class="badge-new"
+                                aria-label="Run Browser Compatibility test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Rendering tests with Playwright’s 3 engines</p>
+                        <p class="text-muted small mb-0">WebKit · Blink · Gecko rendering checks (Playwright)</p>
                     </div>
 
                     <div class="test-item">
                         <div class="d-flex align-items-center mb-2">
                             <h5 class="fw-bold mb-0 flex-grow-1">
-                                <a href="{{ url('/quality/visual') }}" class="text-decoration-none text-dark">
-                                    Responsive UI
-                                </a>
+                                <a href="{{ url('/quality/visual') }}"
+                                    class="text-decoration-none text-dark">Responsive UI</a>
                             </h5>
-                            <a href="{{ url('/') }}/quality/visual" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/quality/visual" class="badge-new"
+                                aria-label="Run Responsive UI test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Responsive UI checks across key viewports</p>
+                        <p class="text-muted small mb-0">Viewport-based layout & visual regression checks</p>
                     </div>
                 </div>
 
                 <!-- Content Tests -->
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="fw-bold mb-3" style="color: #6f42c1;">📝 Content</h4>
+                    <h4 class="fw-bold mb-3" style="color:#6f42c1;">📝 Content</h4>
 
                     <div class="test-item">
                         <div class="d-flex align-items-center mb-2">
@@ -559,20 +582,22 @@
                                 <a href="{{ url('/content/links') }}" class="text-decoration-none text-dark">Link
                                     Validation</a>
                             </h5>
-                            <a href="{{ url('/') }}/content/links" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/content/links" class="badge-new"
+                                aria-label="Run Link Validation test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Broken links and redirect chains</p>
+                        <p class="text-muted small mb-0">Broken links, redirect chains, and 4xx/5xx detection</p>
                     </div>
 
                     <div class="test-item">
                         <div class="d-flex align-items-center mb-2">
                             <h5 class="fw-bold mb-0 flex-grow-1">
-                                <a href="{{ url('/content/structure') }}" class="text-decoration-none text-dark">Structured
-                                    Data</a>
+                                <a href="{{ url('/content/structure') }}"
+                                    class="text-decoration-none text-dark">Structured Data</a>
                             </h5>
-                            <a href="{{ url('/') }}/content/structure" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/content/structure" class="badge-new"
+                                aria-label="Run Structured Data test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Schema.org markup validity</p>
+                        <p class="text-muted small mb-0">Schema.org validity and rich-result readiness</p>
                     </div>
 
                     <div class="test-item">
@@ -581,19 +606,22 @@
                                 <a href="{{ url('/content/crawl') }}" class="text-decoration-none text-dark">Site
                                     Crawling</a>
                             </h5>
-                            <a href="{{ url('/') }}/content/crawl" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/content/crawl" class="badge-new"
+                                aria-label="Run Site Crawling test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Bulk quality scan across all pages</p>
+                        <p class="text-muted small mb-0">Robots/sitemap validation and bulk page quality scan</p>
                     </div>
 
                     <div class="test-item">
                         <div class="d-flex align-items-center mb-2">
                             <h5 class="fw-bold mb-0 flex-grow-1">
-                                <a href="{{ url('/content/meta') }}" class="text-decoration-none text-dark">Metadata</a>
+                                <a href="{{ url('/content/meta') }}"
+                                    class="text-decoration-none text-dark">Metadata</a>
                             </h5>
-                            <a href="{{ url('/') }}/content/meta" class="badge-new">Test</a>
+                            <a href="{{ url('/') }}/content/meta" class="badge-new"
+                                aria-label="Run Metadata test">Test</a>
                         </div>
-                        <p class="text-muted small mb-0">Validate Open Graph tags and Twitter cards</p>
+                        <p class="text-muted small mb-0">Open Graph, Twitter Cards, and canonical hygiene</p>
                     </div>
                 </div>
             </div>
@@ -605,83 +633,89 @@
         <div class="container my-5">
             <div class="mb-5 text-center">
                 <h2 class="fw-bold text-dark" style="font-size:1.8rem">Four Core PSQC Areas</h2>
-                <p class="text-muted" style="font-size:1rem">Scientifically assess every aspect of your website.</p>
+                <p class="text-muted" style="font-size:1rem">
+                    Scientifically structured evaluation across <strong>Performance · Security · Quality ·
+                        Content</strong>.
+                </p>
             </div>
 
             <div class="row g-4">
                 <!-- Performance -->
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6">
                     <div class="psqc-card">
                         <div class="d-flex">
                             <div class="psqc-icon" style="background: linear-gradient(135deg, #ff6b35, #f7931e);">⚡
                             </div>
-                            <h3 class="fw-bold mb-3 ms-3">Performance<br><small class="text-muted">Performance</small></h3>
+                            <h3 class="fw-bold mb-3 ms-3">Performance</h3>
                         </div>
                         <p class="text-muted mb-3">
-                            • Speed across 8 global regions<br>
-                            • Realistic load simulations<br>
-                            • Responsiveness on mobile and desktop
+                            • Global speed benchmarks (8 regions)<br>
+                            • Load simulation with real concurrency<br>
+                            • Mobile & desktop responsiveness
                         </p>
                         <div class="mt-3">
-                            <span class="badge bg-orange-lt text-orange-lt-fg">3 tests</span>
-                            <span class="badge bg-yellow-lt text-yellow-lt-fg ms-1">300 points</span>
+                            <span class="badge bg-orange-lt text-orange-lt-fg">3 Tests</span>
+                            <span class="badge bg-yellow-lt text-yellow-lt-fg ms-1">300 Points</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Security -->
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6">
                     <div class="psqc-card">
                         <div class="d-flex">
-                            <div class="psqc-icon" style="background: linear-gradient(135deg, #dc3545, #c82333);">🔒</div>
-                            <h3 class="fw-bold mb-3 ms-3">Security<br><small class="text-muted">Security</small></h3>
+                            <div class="psqc-icon" style="background: linear-gradient(135deg, #dc3545, #c82333);">🔒
+                            </div>
+                            <h3 class="fw-bold mb-3 ms-3">Security</h3>
                         </div>
                         <p class="text-muted mb-3">
-                            • SSL certificates and vulnerability checks<br>
-                            • Tests aligned to OWASP Top 10<br>
-                            • Security headers and policy validation
+                            • SSL/TLS validation and certificate checks<br>
+                            • OWASP-aligned vulnerability scans<br>
+                            • Security headers & policy enforcement
                         </p>
                         <div class="mt-3">
-                            <span class="badge bg-red-lt text-red-lt-fg">5 tests</span>
-                            <span class="badge bg-yellow-lt text-yellow-lt-fg ms-1">300 points</span>
+                            <span class="badge bg-red-lt text-red-lt-fg">5 Tests</span>
+                            <span class="badge bg-yellow-lt text-yellow-lt-fg ms-1">300 Points</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Quality -->
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6">
                     <div class="psqc-card">
                         <div class="d-flex">
-                            <div class="psqc-icon" style="background: linear-gradient(135deg, #28a745, #20c997);">✨</div>
-                            <h3 class="fw-bold mb-3 ms-3">Quality<br><small class="text-muted">Quality</small></h3>
+                            <div class="psqc-icon" style="background: linear-gradient(135deg, #28a745, #20c997);">✨
+                            </div>
+                            <h3 class="fw-bold mb-3 ms-3">Quality</h3>
                         </div>
                         <p class="text-muted mb-3">
-                            • Lighthouse‑based quality checks<br>
-                            • WCAG accessibility and compatibility
-                            • SEO and PWA readiness
+                            • Lighthouse-based web quality scores<br>
+                            • Accessibility & browser compatibility<br>
+                            • SEO and PWA readiness checks
                         </p>
                         <div class="mt-3">
-                            <span class="badge bg-green-lt text-green-lt-fg">4 tests</span>
-                            <span class="badge bg-yellow-lt text-yellow-lt-fg ms-1">250 points</span>
+                            <span class="badge bg-green-lt text-green-lt-fg">4 Tests</span>
+                            <span class="badge bg-yellow-lt text-yellow-lt-fg ms-1">250 Points</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Content -->
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6">
                     <div class="psqc-card">
                         <div class="d-flex">
-                            <div class="psqc-icon" style="background: linear-gradient(135deg, #6f42c1, #845ef7);">📝</div>
-                            <h3 class="fw-bold mb-3 ms-3">Content<br><small class="text-muted">Content</small></h3>
+                            <div class="psqc-icon" style="background: linear-gradient(135deg, #6f42c1, #845ef7);">📝
+                            </div>
+                            <h3 class="fw-bold mb-3 ms-3">Content</h3>
                         </div>
                         <p class="text-muted mb-3">
-                            • Check broken links and metadata<br>
-                            • Structured data and SEO analysis<br>
-                            • Full‑site crawl to uncover hidden issues
+                            • Broken links & metadata validation<br>
+                            • Structured data & schema checks<br>
+                            • Full-site crawl to detect hidden issues
                         </p>
                         <div class="mt-3">
-                            <span class="badge bg-purple-lt text-purple-lt-fg">4 tests</span>
-                            <span class="badge bg-yellow-lt text-yellow-lt-fg ms-1">150 points</span>
+                            <span class="badge bg-purple-lt text-purple-lt-fg">4 Tests</span>
+                            <span class="badge bg-yellow-lt text-yellow-lt-fg ms-1">150 Points</span>
                         </div>
                     </div>
                 </div>
@@ -694,17 +728,19 @@
         <div class="container px-3 my-5">
             <div class="text-center mb-4">
                 <h2 class="fw-bold mb-2" style="font-size:1.8rem">Transparent, Flexible Pricing</h2>
-                <p class="text-muted mb-0" style="font-size:1rem">From free trials to certificates — choose a plan that fits your usage.</p>
+                <p class="text-muted mb-0" style="font-size:1rem">
+                    From free trials to certificates—choose a plan that fits your usage.
+                </p>
             </div>
 
             <div class="table-responsive">
-                <table class="table table-vcenter table-nowrap">
+                <table class="table table-vcenter table-nowrap align-middle">
                     <thead>
                         <tr>
                             <th style="width:15%">Type</th>
                             <th style="width:20%">Plan</th>
                             <th style="width:15%">Price</th>
-                            <th style="width:20%">Limits</th>
+                            <th style="width:20%">Usage Limits</th>
                             <th style="width:20%">Key Benefits</th>
                             <th style="width:10%"></th>
                         </tr>
@@ -715,24 +751,26 @@
                             <td rowspan="2"><span class="fw-bold">Free Trial</span></td>
                             <td>Guest</td>
                             <td class="text-primary fw-bold">Free</td>
-                            <td>5 per month per IP</td>
-                            <td>Run single tests, preview basic reports</td>
+                            <td>5 runs / month / IP</td>
+                            <td>Single tests, preview basic reports</td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                        class="text-primary small fw-semibold">Sign up</a>
+                                        class="text-primary small fw-semibold"
+                                        aria-label="Sign up for Guest free trial">Sign up</a>
                                 @endguest
                             </td>
                         </tr>
                         <tr>
                             <td>Free Member</td>
                             <td class="text-primary fw-bold">Free</td>
-                            <td>20 per month per account</td>
-                            <td>Try all categories, save history + domain DB</td>
+                            <td>20 runs / month / account</td>
+                            <td>All categories, save history & domain DB</td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                        class="text-primary small fw-semibold">Sign up</a>
+                                        class="text-primary small fw-semibold" aria-label="Sign up for Free Member">Sign
+                                        up</a>
                                 @endguest
                             </td>
                         </tr>
@@ -741,64 +779,68 @@
                         <tr>
                             <td rowspan="3"><span class="fw-bold">Subscriptions</span></td>
                             <td>Starter</td>
-                            <td>$29/mo</td>
-                            <td>Up to 600/month · 60/day</td>
+                            <td>$29 / mo</td>
+                            <td>Up to 600 / month · 60 / day</td>
                             <td>Member benefits + <strong>Email alerts</strong></td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Buy Starter plan">Buy</a>
                                 @else
                                     <a href="{{ url('/') }}/client/purchase?plan=starter"
-                                        class="text-primary small fw-semibold">Subscribe</a>
+                                        class="text-primary small fw-semibold"
+                                        aria-label="Subscribe to Starter">Subscribe</a>
                                 @endguest
                             </td>
                         </tr>
                         <tr>
-                            <td>Pro</td>
-                            <td>$69/mo</td>
-                            <td>Up to 1,500/month · 150/day</td>
-                            <td>Starter + <strong>scheduled scans + scheduler</strong></td>
+                            <td>
+                                Pro
+                            </td>
+                            <td>$69 / mo</td>
+                            <td>Up to 1,500 / month · 150 / day</td>
+                            <td>Starter + <strong>scheduled scans</strong> (built-in scheduler)</td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Buy Pro plan">Buy</a>
                                 @else
                                     <a href="{{ url('/') }}/client/purchase?plan=pro"
-                                        class="text-primary small fw-semibold">Subscribe</a>
+                                        class="text-primary small fw-semibold" aria-label="Subscribe to Pro">Subscribe</a>
                                 @endguest
                             </td>
                         </tr>
                         <tr>
                             <td>Agency</td>
-                            <td>$199/mo</td>
-                            <td>Up to 6,000/month · 600/day</td>
-                            <td>Pro + <strong>white‑label reports</strong></td>
+                            <td>$199 / mo</td>
+                            <td>Up to 6,000 / month · 600 / day</td>
+                            <td>Pro + <strong>white-label reports</strong></td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Buy Agency plan">Buy</a>
                                 @else
                                     <a href="{{ url('/') }}/client/purchase?plan=agency"
-                                        class="text-primary small fw-semibold">Subscribe</a>
+                                        class="text-primary small fw-semibold"
+                                        aria-label="Subscribe to Agency">Subscribe</a>
                                 @endguest
                             </td>
                         </tr>
 
                         <!-- Coupon Plans -->
                         <tr>
-                            <td rowspan="4"><span class="fw-bold">Coupon‑based</span></td>
+                            <td rowspan="4"><span class="fw-bold">Coupon-based</span></td>
                             <td>Test1</td>
                             <td>$4.90</td>
                             <td>Up to 30 runs within 1 day</td>
-                            <td>Quota within period, <strong>non‑refundable</strong></td>
+                            <td>Quota within period, <strong>non-refundable</strong></td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Buy Test1 coupon">Buy</a>
                                 @else
                                     <a href="{{ url('/client/purchase?plan=test1') }}"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Purchase Test1 coupon">Buy</a>
                                 @endguest
                             </td>
                         </tr>
@@ -806,14 +848,14 @@
                             <td>Test7</td>
                             <td>$19</td>
                             <td>Up to 150 runs within 7 days</td>
-                            <td>Quota within period, <strong>full refund within 3 days before use</strong></td>
+                            <td>Quota within period, <strong>full refund within 3 days before first use</strong></td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Buy Test7 coupon">Buy</a>
                                 @else
                                     <a href="{{ url('/client/purchase?plan=test7') }}"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Purchase Test7 coupon">Buy</a>
                                 @endguest
                             </td>
                         </tr>
@@ -821,14 +863,14 @@
                             <td>Test30</td>
                             <td>$39</td>
                             <td>Up to 500 runs within 30 days</td>
-                            <td>Quota within period, <strong>full refund within 7 days before use</strong></td>
+                            <td>Quota within period, <strong>full refund within 7 days before first use</strong></td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Buy Test30 coupon">Buy</a>
                                 @else
                                     <a href="{{ url('/client/purchase?plan=test30') }}"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Purchase Test30 coupon">Buy</a>
                                 @endguest
                             </td>
                         </tr>
@@ -836,14 +878,14 @@
                             <td>Test90</td>
                             <td>$119</td>
                             <td>Up to 1,300 runs within 90 days</td>
-                            <td>Quota within period, <strong>full refund within 30 days before use</strong></td>
+                            <td>Quota within period, <strong>full refund within 30 days before first use</strong></td>
                             <td class="text-end">
                                 @guest
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signinModal"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Buy Test90 coupon">Buy</a>
                                 @else
                                     <a href="{{ url('/client/purchase?plan=test90') }}"
-                                        class="text-primary small fw-semibold">Buy</a>
+                                        class="text-primary small fw-semibold" aria-label="Purchase Test90 coupon">Buy</a>
                                 @endguest
                             </td>
                         </tr>
@@ -854,18 +896,27 @@
                             <td>Individual</td>
                             <td class="text-success fw-bold">$19</td>
                             <td>Single test</td>
-                            <td><strong>Test method + Raw Data</strong>, <strong>QR authenticity</strong>, PDF/lookup URL</td>
+                            <td>
+                                <strong>Test method + Raw data</strong>, <strong>QR authenticity</strong>, PDF & lookup
+                                URL
+                            </td>
                             <td class="text-end">
-                                <a href="{{ url('/certificate') }}" class="text-primary small fw-semibold">Learn more</a>
+                                <a href="{{ url('/certificate') }}" class="text-primary small fw-semibold"
+                                    aria-label="Learn more about Individual certificate">Learn more</a>
                             </td>
                         </tr>
                         <tr>
                             <td>Comprehensive (PSQC)</td>
                             <td class="text-success fw-bold">$59</td>
                             <td>Comprehensive evaluation</td>
-                            <td><strong>Requires all individual test data</strong>, aggregates <strong>best score in last 3 days</strong>, Raw Data, QR verification</td>
+                            <td>
+                                <strong>Requires all individual test data</strong>,<br>aggregates <strong>best score in
+                                    last 3 days</strong>,
+                                Raw data, QR verification
+                            </td>
                             <td class="text-end">
-                                <a href="{{ url('/certificate') }}" class="text-primary small fw-semibold">Learn more</a>
+                                <a href="{{ url('/certificate') }}" class="text-primary small fw-semibold"
+                                    aria-label="Learn more about Comprehensive PSQC certificate">Learn more</a>
                             </td>
                         </tr>
                     </tbody>
@@ -874,151 +925,161 @@
 
             <!-- Refund Notes -->
             <div class="text-muted small mt-2">
-                * Subscriptions are <strong>fully refundable within 7 days before first use</strong>. <strong>No refunds once any scan has run</strong>.<br>
-                * Usage is limited by whichever comes first: <strong>monthly or daily quota</strong>.
+                * Subscriptions are <strong>fully refundable within 7 days before first use</strong>. <strong>No refunds
+                    once any scan has run</strong>.<br>
+                * Usage is limited by whichever comes first: <strong>monthly or daily quota</strong>. Taxes may apply
+                depending on your region.
             </div>
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section class="py-5" style="background-color: #f8f9fa;">
+    <section class="py-5" style="background-color:#f8f9fa;">
         <div class="container px-3 my-5">
             <div class="text-center">
                 <h2 class="fw-bold mb-3" style="font-size:1.8rem">Frequently Asked Questions (FAQ)</h2>
                 <p class="text-muted mb-4" style="font-size:1rem">
-                    A quick overview of common questions about Web-PSQC
+                    Quick answers to the most common questions about Web-PSQC.
                 </p>
             </div>
 
             <div class="card">
-                <div class="accordion accordion-flush" id="accordion-flush">
+                <div class="accordion accordion-flush" id="faq-accordion">
                     <!-- Q0 -->
                     <div class="accordion-item">
-                        <div class="accordion-header">
+                        <h3 class="accordion-header" id="faq-h0">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-0-flush" aria-expanded="true">
+                                data-bs-target="#faq-c0" aria-expanded="true" aria-controls="faq-c0">
                                 What is Web-PSQC?
-                                <div class="accordion-button-toggle">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                <span class="ms-auto accordion-button-toggle" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M6 9l6 6l6 -6" />
                                     </svg>
-                                </div>
+                                </span>
                             </button>
-                        </div>
-                        <div id="collapse-0-flush" class="accordion-collapse collapse show"
-                            data-bs-parent="#accordion-flush">
+                        </h3>
+                        <div id="faq-c0" class="accordion-collapse collapse show" aria-labelledby="faq-h0"
+                            data-bs-parent="#faq-accordion">
                             <div class="accordion-body">
-                                Web-PSQC is a PSQC‑based platform that comprehensively assesses your website’s Performance, Security, Quality, and Content.
-                                It integrates 16 professional, industry‑standard tests and provides <strong>detailed test methods with raw data</strong>,
-                                along with <strong>certificates verifiable via QR code</strong>.
+                                Web-PSQC is a unified testing platform that evaluates your website across
+                                <strong>Performance, Security, Quality, and Content</strong>.
+                                It integrates <strong>16 professional, industry-standard tests</strong>, provides
+                                <strong>transparent test methods and raw data</strong>, and issues
+                                <strong>QR-verifiable certificates</strong>.
                             </div>
                         </div>
                     </div>
 
                     <!-- Q1 -->
                     <div class="accordion-item">
-                        <div class="accordion-header">
+                        <h3 class="accordion-header" id="faq-h1">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-1-flush" aria-expanded="false">
+                                data-bs-target="#faq-c1" aria-expanded="false" aria-controls="faq-c1">
                                 How is it different from other tools?
-                                <div class="accordion-button-toggle">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                <span class="ms-auto accordion-button-toggle" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M6 9l6 6l6 -6" />
                                     </svg>
-                                </div>
+                                </span>
                             </button>
-                        </div>
-                        <div id="collapse-1-flush" class="accordion-collapse collapse"
-                            data-bs-parent="#accordion-flush">
+                        </h3>
+                        <div id="faq-c1" class="accordion-collapse collapse" aria-labelledby="faq-h1"
+                            data-bs-parent="#faq-accordion">
                             <div class="accordion-body">
-                                1) Runs multiple standard tools <strong>in one go</strong> for a holistic diagnosis · 2) Reflects <strong>global network characteristics</strong> ·
-                                3) Improvement guidance based on <strong>real user impact</strong> ·
-                                4) Transparent certificates including <strong>procedure, raw data, and QR verification</strong> ·
-                                5) Auto‑generated reports with optional expert comments.
+                                1) Runs <strong>multiple standard tools in a single pass</strong> for a holistic view ·
+                                2) Reflects <strong>global network conditions</strong> (multi-region) ·
+                                3) Provides <strong>action-ready guidance</strong> tied to user impact ·
+                                4) Offers <strong>transparent certificates</strong> (procedure, raw data, QR) ·
+                                5) <strong>Auto-generated reports</strong> with optional expert comments.
                             </div>
                         </div>
                     </div>
 
                     <!-- Q2 -->
                     <div class="accordion-item">
-                        <div class="accordion-header">
+                        <h3 class="accordion-header" id="faq-h2">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-2-flush" aria-expanded="false">
+                                data-bs-target="#faq-c2" aria-expanded="false" aria-controls="faq-c2">
                                 How can I use the results?
-                                <div class="accordion-button-toggle">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                <span class="ms-auto accordion-button-toggle" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M6 9l6 6l6 -6" />
                                     </svg>
-                                </div>
+                                </span>
                             </button>
-                        </div>
-                        <div id="collapse-2-flush" class="accordion-collapse collapse"
-                            data-bs-parent="#accordion-flush">
+                        </h3>
+                        <div id="faq-c2" class="accordion-collapse collapse" aria-labelledby="faq-h2"
+                            data-bs-parent="#faq-accordion">
                             <div class="accordion-body">
-                                1) Prioritize improvements · 2) Report to clients and executives · 3) Benchmark against competitors ·
-                                4) Demonstrate technical capability in proposals and grants · 5) Establish internal quality standards.
+                                1) Prioritize fixes by impact · 2) Report to clients/executives ·
+                                3) Benchmark against competitors · 4) Support proposals and grants ·
+                                5) Establish internal <strong>quality SLAs and standards</strong>.
                             </div>
                         </div>
                     </div>
 
                     <!-- Q3 -->
                     <div class="accordion-item">
-                        <div class="accordion-header">
+                        <h3 class="accordion-header" id="faq-h3">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-3-flush" aria-expanded="false">
+                                data-bs-target="#faq-c3" aria-expanded="false" aria-controls="faq-c3">
                                 What does it take to earn an A+ grade?
-                                <div class="accordion-button-toggle">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                <span class="ms-auto accordion-button-toggle" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M6 9l6 6l6 -6" />
                                     </svg>
-                                </div>
+                                </span>
                             </button>
-                        </div>
-                        <div id="collapse-3-flush" class="accordion-collapse collapse"
-                            data-bs-parent="#accordion-flush">
+                        </h3>
+                        <div id="faq-c3" class="accordion-collapse collapse" aria-labelledby="faq-h3"
+                            data-bs-parent="#faq-accordion">
                             <div class="accordion-body">
-                                A total PSQC score of <strong>900+ (out of 1000)</strong> earns an A+ grade.
-                                This aligns with <strong>web quality standards pursued by leading tech companies</strong>,
-                                designed to ensure <strong>great products don’t lose conversions due to performance or security issues</strong>.
+                                A total PSQC score of <strong>900+</strong> (out of 1,000) qualifies for an A+.
+                                The threshold aligns with <strong>best-in-class web quality practices</strong> to ensure
+                                high-performing, secure experiences that protect conversions.
                             </div>
                         </div>
                     </div>
 
                     <!-- Q4 -->
                     <div class="accordion-item">
-                        <div class="accordion-header">
+                        <h3 class="accordion-header" id="faq-h4">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-4-flush" aria-expanded="false">
+                                data-bs-target="#faq-c4" aria-expanded="false" aria-controls="faq-c4">
                                 How long do tests take?
-                                <div class="accordion-button-toggle">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                <span class="ms-auto accordion-button-toggle" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M6 9l6 6l6 -6" />
                                     </svg>
-                                </div>
+                                </span>
                             </button>
-                        </div>
-                        <div id="collapse-4-flush" class="accordion-collapse collapse"
-                            data-bs-parent="#accordion-flush">
+                        </h3>
+                        <div id="faq-c4" class="accordion-collapse collapse" aria-labelledby="faq-h4"
+                            data-bs-parent="#faq-accordion">
                             <div class="accordion-body">
-                                Individual tests usually take <strong>30 seconds to 3 minutes</strong>. The suite includes a <strong>k6 load test</strong>.
-                                A <strong>comprehensive run (all 16 tests for one domain)</strong> typically takes <strong>30–60 minutes</strong>.
-                                You’ll receive an <strong>email notification</strong> upon completion and can review results and reports in the dashboard.
+                                Individual tests usually take <strong>30 seconds–3 minutes</strong> (includes a
+                                <strong>k6 load test</strong>).
+                                A <strong>full run (all 16 tests for one domain)</strong> typically takes <strong>30–60
+                                    minutes</strong>.
+                                You’ll receive an <strong>email notification</strong> when results are ready; all
+                                reports are saved to your dashboard.
                             </div>
                         </div>
                     </div>
 
                 </div>
             </div>
+
         </div>
     </section>
 </div>

@@ -66,7 +66,7 @@
             <div class="card-body">
                 <h3 class="card-title"></h3>
                 <div class="markdown">
-                    <h1>개인정보 처리방침</h1>
+                    <h1>Privacy Policy</h1>
                     {!! App\Models\Setting::first()->privacy !!}
                 </div>
             </div>

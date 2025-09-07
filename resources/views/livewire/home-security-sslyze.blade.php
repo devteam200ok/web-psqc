@@ -1,9 +1,9 @@
 @section('title')
-    <title>🔒 SSL 심화 분석 - SSLyze 기반 TLS 보안 종합 진단 | DevTeam Test</title>
+    <title>🔒 SSL Deep Analysis – Comprehensive TLS Security with SSLyze | Web-PSQC</title>
     <meta name="description"
-        content="SSLyze 기반 SSL/TLS 심층 보안 분석: 프로토콜 호환성, 암호군 강도, 인증서 유효성, OCSP Stapling, HSTS, PFS, 타원곡선 암호 등 핵심 항목을 점검하고 A+ 등급까지 평가합니다.">
+        content="In‑depth SSL/TLS analysis with SSLyze: protocol compatibility, cipher strength, certificate validity, OCSP Stapling, HSTS, PFS, elliptic curves, and more — evaluated up to A+.">
     <meta name="keywords"
-        content="SSL 심화 분석, SSLyze 테스트, TLS 프로토콜, 암호군 검사, 인증서 검증, OCSP Stapling, HSTS, Perfect Forward Secrecy, ECC 암호, SSL 보안 등급, DevTeam Test">
+        content="SSL deep analysis, SSLyze, TLS protocols, cipher suites, certificate validation, OCSP Stapling, HSTS, Perfect Forward Secrecy, ECC, SSL security grade, Web-PSQC">
     <meta name="author" content="DevTeam Co., Ltd.">
     <meta name="robots" content="index,follow">
 
@@ -12,21 +12,21 @@
     <!-- Open Graph -->
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevTeam Test" />
-    <meta property="og:title" content="SSL 심화 분석 - SSLyze 기반 TLS 보안 종합 진단 | DevTeam Test" />
+    <meta property="og:site_name" content="Web-PSQC" />
+    <meta property="og:title" content="SSL Deep Analysis – Comprehensive TLS Security with SSLyze" />
     <meta property="og:description"
-        content="SSLyze로 TLS 프로토콜, 암호군, 인증서, OCSP Stapling, HSTS, ECC 등 세부 항목을 종합 분석하여 SSL/TLS 보안 수준을 A+까지 평가합니다." />
+        content="Analyze TLS protocols, cipher suites, certificates, OCSP Stapling, HSTS, ECC and more with SSLyze to assess SSL/TLS security up to A+." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="DevTeam Test SSLyze 심층 보안 분석" />
+        <meta property="og:image:alt" content="Web-PSQC SSLyze Deep Security Analysis" />
     @endif
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="SSL 심화 분석 - SSLyze 기반 TLS 보안 종합 진단 | DevTeam Test" />
+    <meta name="twitter:title" content="SSL Deep Analysis – Comprehensive TLS Security with SSLyze | Web-PSQC" />
     <meta name="twitter:description"
-        content="SSLyze로 TLS/SSL 설정을 심층 분석: 프로토콜, 암호군, 인증서 상태, HSTS, OCSP Stapling, ECC 등을 점검하여 보안 등급과 개선 가이드를 제공합니다." />
+        content="Use SSLyze to analyze TLS/SSL configuration: protocols, cipher suites, certificate state, HSTS, OCSP Stapling, ECC — with grades and guidance." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -46,14 +46,14 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => 'SSL 심화 분석 - SSLyze 기반 TLS 보안 종합 진단',
+    'name' => 'SSL Deep Analysis – SSLyze‑Based Comprehensive TLS Security',
     'url'  => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
-        'name' => 'DevTeam Test',
+        'name' => 'Web-PSQC',
         'url'  => url('/'),
     ],
-    'description' => 'SSLyze를 활용하여 TLS 프로토콜, 암호군, 인증서 상태, HSTS, OCSP Stapling, ECC를 종합 분석하고 SSL/TLS 보안 수준을 A+까지 평가합니다.',
+    'description' => 'Leverage SSLyze to analyze TLS protocols, cipher suites, certificate status, HSTS, OCSP Stapling, and ECC; assess SSL/TLS security up to A+. ',
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
 @endsection
