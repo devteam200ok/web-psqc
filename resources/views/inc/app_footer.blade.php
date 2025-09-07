@@ -7,21 +7,14 @@
             <div class="col-12 text-muted small d-none d-md-block text-start" style="line-height: 1.6;">
                 <div>
                     <strong>Company:</strong> {{$setting->company}} |
-                    <strong>CEO:</strong> {{$setting->company_ceo}} |
                     <strong>Business Registration:</strong> {{$setting->business_number}} |
-                    <strong>E-commerce Registration:</strong> 2025-Incheon-Yeonsu-2030
-                </div>
-                <div>
-                    <strong>Phone:</strong> +82-10-5448-4986 |
                     <strong>Business Address:</strong> {{$setting->company_address}}
                 </div>
             </div>
 
             <div class="col-12 text-muted small d-block d-md-none text-start" style="line-height: 1.6;">
-                <div><strong>Company:</strong> {{$setting->company}} | <strong>CEO:</strong> {{$setting->company_ceo}}</div>
+                <div><strong>Company:</strong> {{$setting->company}}</div>
                 <div><strong>Business Registration:</strong> {{$setting->business_number}}</div>
-                <div><strong>E-commerce Registration:</strong> 2025-Incheon-Yeonsu-2030</div>
-                <div><strong>Phone:</strong> +82-10-5448-4986</div>
                 <div><strong>Business Address:</strong> {{$setting->company_address}}</div>
             </div>
         </div>

@@ -30,7 +30,7 @@ class ScheduledTest extends Model
         'test_config' => 'array',
     ];
 
-    // 관계 설정
+    // Relationships
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -41,7 +41,7 @@ class ScheduledTest extends Model
         return $this->belongsTo(WebTest::class, 'executed_test_id');
     }
 
-    // 스코프
+    // Scopes
     public function scopePending($query)
     {
         return $query->where('status', 'pending');
@@ -67,15 +67,15 @@ class ScheduledTest extends Model
         return $query->where('test_type', $testType);
     }
 
-    // 접근자
+    // Accessors
     public function getStatusBadgeClassAttribute(): string
     {
         return match ($this->status) {
-            'pending' => 'badge bg-orange-lt text-orange-lt-fg',      // 대기중 - 주황색
-            'executed' => 'badge bg-green-lt text-green-lt-fg',       // 실행됨 - 초록색
-            'failed' => 'badge bg-red-lt text-red-lt-fg',             // 실패 - 빨간색
-            'cancelled' => 'badge bg-azure-lt text-azure-lt-fg',     // 취소됨 - 회색 계열
-            default => 'badge bg-blue-lt text-blue-lt-fg'             // 기본 - 파란색
+            'pending'   => 'badge bg-orange-lt text-orange-lt-fg',   // Pending - Orange
+            'executed'  => 'badge bg-green-lt text-green-lt-fg',     // Executed - Green
+            'failed'    => 'badge bg-red-lt text-red-lt-fg',         // Failed - Red
+            'cancelled' => 'badge bg-azure-lt text-azure-lt-fg',     // Cancelled - Gray/Blue
+            default     => 'badge bg-blue-lt text-blue-lt-fg'        // Default - Blue
         };
     }
 
@@ -98,7 +98,7 @@ class ScheduledTest extends Model
 
         $now = now();
         if ($this->scheduled_at <= $now) {
-            return '실행 대기중';
+            return 'Waiting to be executed';
         }
 
         return $this->scheduled_at->diffForHumans($now);
@@ -109,14 +109,14 @@ class ScheduledTest extends Model
         return $this->status === 'pending' && $this->scheduled_at < now()->subMinutes(5);
     }
 
-    // 수정자
+    // Mutators
     public function setUrlAttribute($value)
     {
         $this->attributes['url'] = $value;
         $this->attributes['domain'] = $this->extractDomain($value);
     }
 
-    // 헬퍼 메서드
+    // Helper methods
     private function extractDomain(string $url): string
     {
         $parsed = parse_url($url);
@@ -153,14 +153,14 @@ class ScheduledTest extends Model
         ]);
     }
 
-    // 정적 메서드
+    // Static methods
     public static function getStatuses(): array
     {
         return [
-            'pending' => '대기중',
-            'executed' => '실행됨',
-            'failed' => '실패',
-            'cancelled' => '취소됨'
+            'pending'   => 'Pending',
+            'executed'  => 'Executed',
+            'failed'    => 'Failed',
+            'cancelled' => 'Cancelled'
         ];
     }
 

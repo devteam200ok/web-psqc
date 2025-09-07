@@ -20,7 +20,7 @@
                         </div>
                         <div class="d-xl-inline-block">
                             <span class="badge bg-dark text-white fw-bold fs-5 px-2 py-1">
-                                🔥 {{ $ipUsage->usage }} remaining
+                                🔥 {{ $ipUsage->usage }} left
                             </span>
                         </div>
                     </div>
@@ -30,33 +30,30 @@
                 @if (Auth::check() && $userPlanUsage)
                     <div class="ms-auto text-end">
                         @if ($userPlanUsage['type'] === 'basic')
-                            {{-- Members without plan - monthly usage only --}}
                             <div class="d-xl-inline-block">
                                 <span class="badge bg-secondary text-white fw-bold fs-5 px-2 py-1">
-                                    📅 Monthly {{ $userPlanUsage['monthly_remaining'] }} remaining
+                                    📅 M: {{ $userPlanUsage['monthly_remaining'] }}
                                 </span>
                             </div>
                         @elseif ($userPlanUsage['type'] === 'subscription')
-                            {{-- Subscription plan - monthly, daily display --}}
                             @if ($userPlanUsage['monthly_remaining'] !== null)
                                 <div class="mb-1 mb-xl-0 d-xl-inline-block me-xl-2">
                                     <span class="badge bg-primary text-white fw-bold fs-5 px-2 py-1">
-                                        📊 Monthly {{ $userPlanUsage['monthly_remaining'] }} remaining
+                                        📊 M: {{ $userPlanUsage['monthly_remaining'] }}
                                     </span>
                                 </div>
                             @endif
                             @if ($userPlanUsage['daily_remaining'] !== null)
                                 <div class="d-xl-inline-block">
                                     <span class="badge bg-success text-white fw-bold fs-5 px-2 py-1">
-                                        📅 Daily {{ $userPlanUsage['daily_remaining'] }} remaining
+                                        📅 D: {{ $userPlanUsage['daily_remaining'] }}
                                     </span>
                                 </div>
                             @endif
                         @else
-                            {{-- Coupon only - daily display --}}
                             <div class="d-xl-inline-block">
                                 <span class="badge bg-warning text-white fw-bold fs-5 px-2 py-1">
-                                    🎫 {{ $userPlanUsage['daily_remaining'] }} remaining
+                                    🎫 C: {{ $userPlanUsage['daily_remaining'] }}
                                 </span>
                             </div>
                         @endif

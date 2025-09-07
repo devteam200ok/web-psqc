@@ -43,13 +43,13 @@ class WebTest extends Model
         'finished_at' => 'datetime',
     ];
 
-    // 관계 설정
+    // Relationships
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    // 스코프
+    // Scopes
     public function scopeCompleted($query)
     {
         return $query->where('status', 'completed');
@@ -103,7 +103,7 @@ class WebTest extends Model
         ]);
     }
 
-    // 접근자
+    // Accessors
     public function getTestDurationAttribute(): ?int
     {
         if (!$this->started_at || !$this->finished_at) {
@@ -143,7 +143,7 @@ class WebTest extends Model
 
     public function getFormattedScoreAttribute(): string
     {
-        return $this->overall_score ? number_format($this->overall_score, 1) . '점' : 'N/A';
+        return $this->overall_score ? number_format($this->overall_score, 1) . ' pts' : 'N/A';
     }
 
     public function getShortDomainAttribute(): string
@@ -151,14 +151,14 @@ class WebTest extends Model
         return str_replace(['https://', 'http://', 'www.'], '', $this->domain);
     }
 
-    // 수정자
+    // Mutators
     public function setUrlAttribute($value)
     {
         $this->attributes['url'] = $value;
         $this->attributes['domain'] = $this->extractDomain($value);
     }
 
-    // ===== Speed Test 전용 메서드들 =====
+    // ===== Speed Test specific methods =====
     
     /**
      * Get status badge class for Livewire component
@@ -239,28 +239,28 @@ class WebTest extends Model
         return $best;
     }
 
-    // ===== 기존 WebTest 메서드들 =====
+    // ===== Legacy WebTest methods =====
 
-    // 헬퍼 메서드
+    // Helper methods
     public static function getTestTypes(): array
     {
         return [
-            'p-speed' => '글로벌 속도', 
-            'p-load' => '부하 테스트',
-            'p-mobile' => '모바일 성능',
-            's-ssl' => 'SSL 기본',
-            's-sslyze' => 'SSL 심화',
-            's-header' => '보안 헤더',
-            's-scan' => '취약점 스캔',
-            's-nuclei' => '최신 취약점',
-            'q-lighthouse' => '종합 품질',
-            'q-accessibility' => '접근성 심화',
-            'q-compatibility' => '브라우저 호환',
-            'q-visual' => '반응형 UI',
-            'c-links' => '링크 검증',
-            'c-structure' => '구조화 데이터',
-            'c-crawl' => '사이트 크롤링',
-            'c-meta' => '메타데이터'
+            'p-speed' => 'Global Speed',
+            'p-load' => 'Load Test',
+            'p-mobile' => 'Mobile Performance',
+            's-ssl' => 'SSL (Basic)',
+            's-sslyze' => 'SSL (Advanced)',
+            's-header' => 'Security Headers',
+            's-scan' => 'Vulnerability Scan',
+            's-nuclei' => 'Latest Vulnerabilities',
+            'q-lighthouse' => 'Overall Quality',
+            'q-accessibility' => 'Accessibility (Advanced)',
+            'q-compatibility' => 'Browser Compatibility',
+            'q-visual' => 'Responsive UI',
+            'c-links' => 'Link Validation',
+            'c-structure' => 'Structured Data',
+            'c-crawl' => 'Site Crawling',
+            'c-meta' => 'Metadata'
         ];
     }
 
@@ -276,19 +276,19 @@ class WebTest extends Model
 
     public function canIssueCertificate(): bool
     {
-        // 기본 조건 확인
+        // Basic conditions
         if (!$this->is_certified || 
             $this->status !== 'completed' || 
             !in_array($this->overall_grade, ['A+', 'A', 'B', 'C'])) {
             return false;
         }
         
-        // 완료 시간이 없으면 발급 불가
+        // Cannot issue if finish time is missing
         if (!$this->finished_at) {
             return false;
         }
         
-        // 3일 이내인지 확인
+        // Must be within 3 days
         return $this->finished_at->diffInDays(now()) <= 3;
     }
 
@@ -314,32 +314,32 @@ class WebTest extends Model
         return $parsed['host'] ?? $url;
     }
 
-    // 사용자별 최근 100개 제한을 위한 메서드 (permanent 제외)
+    // Keep only the latest 100 tests per user (excluding permanent items)
     public static function cleanupOldTests(int $userId): void
     {
-        // 0. 30일 경과한 비영구 저장 항목 정리
+        // 0. Remove non-permanent items older than 30 days
         static::where('user_id', $userId)
             ->whereNull('psqc_certification_id')
             ->where('is_saved_permanently', false)
             ->where('created_at', '<', Carbon::now()->subDays(30))
             ->delete();
 
-        // 1. 해당 사용자의 regular 테스트 개수 확인
+        // 1. Count regular (non-permanent) tests for the user
         $regularTestCount = static::where('user_id', $userId)
             ->where('is_saved_permanently', false)
             ->whereNull('psqc_certification_id')
             ->count();
 
-        // 2. 100개 이하면 정리할 필요 없음
+        // 2. If 100 or fewer, nothing to clean
         if ($regularTestCount <= 100) {
             return;
         }
 
-        // 3. 삭제할 개수 계산
+        // 3. Calculate how many to delete
         $deleteCount = $regularTestCount - 100;
 
-        // 4. 가장 오래된 테스트들을 서브쿼리로 삭제 (메모리 효율적)
-        // MySQL에서 서브쿼리를 사용한 삭제는 메모리를 덜 사용함
+        // 4. Delete the oldest tests via subquery (memory efficient)
+        // In MySQL, DELETE with a subquery uses less memory
         \DB::statement("
             DELETE FROM web_tests 
             WHERE user_id = ? 
@@ -364,23 +364,23 @@ class WebTest extends Model
         $path = data_get($this->results, 'saved_path');
         if (!$path) return null;
 
-        // /storage/app/private/ 이후의 경로만 추출
+        // Extract the path after /storage/app/private/
         $storageRoot = storage_path('app/private') . DIRECTORY_SEPARATOR;
         if (Str::startsWith($path, $storageRoot)) {
             $rel = Str::after($path, $storageRoot);
         } else {
-            // 이미 상대경로라고 가정
+            // Assume it's already a relative path
             $rel = ltrim($path, '/');
         }
 
-        // 이제 local 디스크 기준으로 조회 (/storage/app/private 가 root)
+        // Read using the local disk (/storage/app/private is the root)
         if (!Storage::disk('local')->exists($rel)) {
             return null;
         }
 
         $raw = Storage::disk('local')->get($rel);
 
-        // 메모리 보호 (5MB 이상이면 잘라내기)
+        // Memory guard (truncate if larger than 5MB)
         if (strlen($raw) > 5 * 1024 * 1024) {
             return json_encode(
                 ['error' => 'JSON too large to preview'],
@@ -390,7 +390,7 @@ class WebTest extends Model
 
         $decoded = json_decode($raw, true);
         if ($decoded === null) {
-            // gzip 압축 대응
+            // Handle gzip-compressed data
             $maybe = @gzdecode($raw);
             if ($maybe !== false) {
                 $decoded = json_decode($maybe, true);

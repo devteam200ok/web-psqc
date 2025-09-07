@@ -44,7 +44,7 @@ class PsqcCertification extends Model
     ];
 
     /**
-     * 소유자 (사용자)
+     * Owner (User)
      */
     public function user(): BelongsTo
     {
@@ -52,7 +52,7 @@ class PsqcCertification extends Model
     }
 
     /**
-     * 포함된 개별 WebTest들
+     * Associated individual WebTests
      */
     public function webTests(): HasMany
     {
@@ -60,7 +60,7 @@ class PsqcCertification extends Model
     }
 
     /**
-     * 인증서가 현재 유효한지 여부
+     * Whether the certification is currently valid
      */
     public function getIsCurrentlyValidAttribute(): bool
     {
@@ -77,7 +77,7 @@ class PsqcCertification extends Model
     }
 
     /**
-     * PSQC 인증서 생성 (pending 상태)
+     * Create PSQC certification (pending status)
      */
     public static function createCertification(
         int $userId,
@@ -87,24 +87,24 @@ class PsqcCertification extends Model
         float $finalScore,
         array $tests
     ): self {
-        // 기존 pending 인증서가 있는지 확인
+        // Check if a pending certification already exists
         $existingPending = self::where('user_id', $userId)
             ->where('url', $url)
             ->where('payment_status', 'pending')
-            ->where('created_at', '>=', now()->subHours(1)) // 1시간 이내
+            ->where('created_at', '>=', now()->subHours(1)) // within 1 hour
             ->first();
 
         if ($existingPending) {
             return $existingPending;
         }
 
-        // 메트릭스 구성 (테스트 ID 포함)
+        // Build metrics (including test IDs)
         $metrics = self::buildMetrics($tests);
 
-        // 고유 코드 생성 (12자리)
+        // Generate unique 12-character code
         $code = self::generateUniqueCode();
 
-        // 인증서 생성
+        // Create certification
         $certification = self::create([
             'user_id' => $userId,
             'url' => $url,
@@ -114,19 +114,17 @@ class PsqcCertification extends Model
             'metrics' => $metrics,
             'payment_status' => 'pending',
             'code' => $code,
-            'is_valid' => false, // 결제 완료 후 true로 변경
+            'is_valid' => false, // will be set to true after payment
             'is_revoked' => false,
-            // issued_at, expires_at은 결제 완료 후 설정
+            // issued_at, expires_at will be set after payment
         ]);
 
-        // WebTest 연결은 결제 완료 후에 수행
-        // 여기서는 연결하지 않음
-
+        // Linking WebTests will be done after payment
         return $certification;
     }
 
     /**
-     * 메트릭스 빌드
+     * Build metrics
      */
     private static function buildMetrics(array $tests): array
     {
@@ -135,7 +133,7 @@ class PsqcCertification extends Model
             'security' => [],
             'quality' => [],
             'content' => [],
-            'test_ids' => [], // 연관된 테스트 ID들 (결제 후 연결용)
+            'test_ids' => [], // related test IDs (linked after payment)
         ];
 
         foreach ($tests as $key => $test) {
@@ -157,7 +155,7 @@ class PsqcCertification extends Model
     }
 
     /**
-     * 테스트 타입에서 카테고리 추출
+     * Extract category from test type
      */
     private static function getCategoryFromTestType(string $testType): string
     {
@@ -173,12 +171,12 @@ class PsqcCertification extends Model
     }
 
     /**
-     * 고유 코드 생성
+     * Generate unique code
      */
     private static function generateUniqueCode(): string
     {
         do {
-            // 12자리 영숫자 대문자 코드 생성
+            // Generate 12-character alphanumeric uppercase code
             $code = strtoupper(Str::random(12));
         } while (self::where('code', $code)->exists());
 
@@ -186,19 +184,19 @@ class PsqcCertification extends Model
     }
 
     /**
-     * WebTest 레코드들을 인증서와 연결 (결제 완료 후 호출)
+     * Link WebTest records to the certification (after payment is completed)
      */
     public static function linkWebTests(int $certificationId, array $testIds): void
     {
         if (!empty($testIds)) {
             WebTest::whereIn('id', $testIds)
-                ->whereNull('psqc_certification_id') // 아직 연결되지 않은 것만
+                ->whereNull('psqc_certification_id') // only those not yet linked
                 ->update(['psqc_certification_id' => $certificationId]);
         }
     }
 
     /**
-     * 결제 완료 처리
+     * Handle payment completion
      */
     public function markAsPaid(array $paymentData = []): void
     {
@@ -207,17 +205,17 @@ class PsqcCertification extends Model
             'payment_data' => $paymentData,
             'is_valid' => true,
             'issued_at' => now(),
-            'expires_at' => now()->addYear(), // 1년 유효
+            'expires_at' => now()->addYear(), // valid for 1 year
         ]);
 
-        // metrics에 저장된 test_ids를 사용하여 WebTest 연결
+        // Use stored test_ids in metrics to link WebTests
         if (isset($this->metrics['test_ids']) && !empty($this->metrics['test_ids'])) {
             self::linkWebTests($this->id, $this->metrics['test_ids']);
         }
     }
 
     /**
-     * 결제 실패 처리
+     * Handle payment failure
      */
     public function markAsFailed(array $failureData = []): void
     {
@@ -231,7 +229,7 @@ class PsqcCertification extends Model
     }
 
     /**
-     * 인증서 무효화
+     * Revoke certification
      */
     public function revoke(string $reason = null): void
     {
@@ -260,36 +258,36 @@ class PsqcCertification extends Model
 
     public function getFormattedScoreAttribute(): string
     {
-        return $this->overall_score ? number_format($this->overall_score, 1) . '점' : 'N/A';
+        return $this->overall_score ? number_format($this->overall_score, 1) . ' pts' : 'N/A';
     }
 
     /**
-     * 테스트 타입별 레이블 가져오기
+     * Get labels for test types
      */
     public function getTestTypesAttribute(): array
     {
         return WebTest::getTestTypes();
     }
 
-        public function getStatusAttribute(): string
+    public function getStatusAttribute(): string
     {
         if ($this->payment_status === 'pending') {
-            return '결제 대기';
+            return 'Pending Payment';
         }
         
         if ($this->payment_status === 'failed') {
-            return '결제 실패';
+            return 'Payment Failed';
         }
         
         if (!$this->is_valid) {
-            return '무효화됨';
+            return 'Invalidated';
         }
         
         if ($this->is_expired) {
-            return '만료됨';
+            return 'Expired';
         }
         
-        return '유효';
+        return 'Valid';
     }
 
     public function getStatusBadgeClassAttribute(): string

@@ -18,7 +18,7 @@ class Certificate extends Model
         'test_type',
         'url',
         'domain',
-        'code', // QR 코드용 고유 식별자
+        'code', // Unique identifier for QR code
         'overall_grade',
         'overall_score',
         'payment_status',
@@ -36,7 +36,7 @@ class Certificate extends Model
         'is_valid' => 'boolean',
     ];
 
-    // 관계 설정
+    // Relationships
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -47,7 +47,7 @@ class Certificate extends Model
         return $this->belongsTo(WebTest::class);
     }
 
-    // 스코프
+    // Scopes
     public function scopeValid($query)
     {
         return $query->where('is_valid', true)
@@ -84,7 +84,7 @@ class Certificate extends Model
         return $query->whereIn('overall_grade', $grades);
     }
 
-    // 접근자
+    // Accessors
     public function getGradeColorAttribute(): string
     {
         return match($this->overall_grade) {
@@ -100,7 +100,7 @@ class Certificate extends Model
 
     public function getFormattedScoreAttribute(): string
     {
-        return $this->overall_score ? number_format($this->overall_score, 1) . '점' : 'N/A';
+        return $this->overall_score ? number_format($this->overall_score, 1) . ' pts' : 'N/A';
     }
 
     public function getShortDomainAttribute(): string
@@ -121,22 +121,22 @@ class Certificate extends Model
     public function getStatusAttribute(): string
     {
         if ($this->payment_status === 'pending') {
-            return '결제 대기';
+            return 'Pending Payment';
         }
         
         if ($this->payment_status === 'failed') {
-            return '결제 실패';
+            return 'Payment Failed';
         }
         
         if (!$this->is_valid) {
-            return '무효화됨';
+            return 'Invalidated';
         }
         
         if ($this->is_expired) {
-            return '만료됨';
+            return 'Expired';
         }
         
-        return '유효';
+        return 'Valid';
     }
 
     public function getStatusBadgeClassAttribute(): string
@@ -184,15 +184,15 @@ class Certificate extends Model
     public function getPaymentStatusTextAttribute(): string
     {
         return match($this->payment_status) {
-            'pending' => '결제 대기',
-            'paid' => '결제 완료',
-            'failed' => '결제 실패',
-            'refunded' => '환불됨',
-            default => '알 수 없음'
+            'pending' => 'Pending Payment',
+            'paid' => 'Payment Completed',
+            'failed' => 'Payment Failed',
+            'refunded' => 'Refunded',
+            default => 'Unknown'
         };
     }
 
-    // 수정자
+    // Mutators
     public function setUrlAttribute($value)
     {
         $this->attributes['url'] = $value;
@@ -204,13 +204,13 @@ class Certificate extends Model
         parent::boot();
         
         static::creating(function ($certificate) {
-            // 고유 코드 생성 (QR 코드용)
+            // Generate unique code (for QR)
             $certificate->code = $certificate->generateUniqueCode();
             
-            // 발급일시 설정
+            // Set issue date
             $certificate->issued_at = now();
             
-            // 만료일시는 결제 완료 후 설정하도록 변경
+            // Expiration date is set only after payment is completed
             if ($certificate->payment_status === 'paid') {
                 $certificate->expires_at = now()->addYear();
                 $certificate->is_valid = true;
@@ -221,7 +221,7 @@ class Certificate extends Model
         });
     }
 
-    // 헬퍼 메서드
+    // Helper methods
     private function extractDomain(string $url): string
     {
         $parsed = parse_url($url);
@@ -231,7 +231,7 @@ class Certificate extends Model
     private function generateUniqueCode(): string
     {
         do {
-            // 12자리 랜덤 코드 생성 (숫자와 대문자)
+            // Generate 12-character random code (uppercase letters & digits)
             $code = strtoupper(Str::random(12));
         } while (static::where('code', $code)->exists());
         
@@ -277,15 +277,15 @@ class Certificate extends Model
         ]);
     }
 
-    // WebTest로부터 인증서 생성 (결제 대기 상태)
+    // Generate certificate from WebTest (initially pending payment)
     public static function createFromWebTest(WebTest $webTest): self
     {
-        // 로그인 사용자만 인증서 발급 가능
+        // Only logged-in users can issue a certificate
         if (!$webTest->user_id) {
-            throw new \Exception('로그인이 필요합니다.');
+            throw new \Exception('Login required.');
         }
 
-        // 이미 결제 완료된 인증서가 있는지 확인
+        // Check if a paid and valid certificate already exists
         $existing = static::where('web_test_id', $webTest->id)
                           ->where('payment_status', 'paid')
                           ->where('is_valid', true)
@@ -295,7 +295,7 @@ class Certificate extends Model
             return $existing;
         }
 
-        // 기존 결제 대기 중인 인증서가 있으면 삭제
+        // Remove any existing pending certificates
         static::where('web_test_id', $webTest->id)
               ->where('payment_status', 'pending')
               ->delete();
@@ -311,17 +311,17 @@ class Certificate extends Model
         ]);
     }
 
-    // 만료된/실패한 인증서 정리
+    // Cleanup expired/failed certificates
     public static function cleanupOldCertificates(): int
     {
         $cleaned = 0;
         
-        // 30일 이상 된 결제 실패 인증서 삭제
+        // Delete failed certificates older than 30 days
         $cleaned += static::where('payment_status', 'failed')
                           ->where('created_at', '<', now()->subDays(30))
                           ->delete();
         
-        // 7일 이상 된 결제 대기 인증서 삭제
+        // Delete pending certificates older than 7 days
         $cleaned += static::where('payment_status', 'pending')
                           ->where('created_at', '<', now()->subDays(7))
                           ->delete();

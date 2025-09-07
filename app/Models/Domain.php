@@ -22,13 +22,13 @@ class Domain extends Model
         'verified_at' => 'datetime',
     ];
 
-    // 관계 설정
+    // Relationships
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    // 스코프
+    // Scopes
     public function scopeForUser($query, int $userId)
     {
         return $query->where('user_id', $userId);
@@ -44,13 +44,13 @@ class Domain extends Model
         return $query->where('is_verified', false);
     }
 
-    // 접근자
+    // Accessors
     public function getDisplayNameAttribute(): string
     {
         $parsed = parse_url($this->url);
         $host = $parsed['host'] ?? $this->url;
         
-        // www. 제거 (선택사항)
+        // Remove www. (optional)
         if (str_starts_with($host, 'www.')) {
             $host = substr($host, 4);
         }
@@ -67,10 +67,10 @@ class Domain extends Model
     public function getVerificationStatusAttribute(): string
     {
         if ($this->is_verified) {
-            return '인증완료';
+            return 'Verified';
         }
         
-        return $this->verification_token ? '인증대기' : '미인증';
+        return $this->verification_token ? 'Pending Verification' : 'Unverified';
     }
 
     public function getVerificationStatusClassAttribute(): string
@@ -82,19 +82,19 @@ class Domain extends Model
         return $this->verification_token ? 'badge bg-warning' : 'badge bg-secondary';
     }
 
-    // TXT 레코드용 인증 문자열 생성
+    // Generate TXT record value for domain verification
     public function getTxtRecordValueAttribute(): string
     {
         return "devteam-verification={$this->verification_token}";
     }
 
-    // 파일 인증용 파일명 생성
+    // Generate filename for file-based verification
     public function getVerificationFileNameAttribute(): string
     {
         return "devteam-verification-{$this->verification_token}.txt";
     }
 
-    // 파일 인증용 파일 내용 생성
+    // Generate file content for file-based verification
     public function getVerificationFileContentAttribute(): string
     {
         return "DevTeam Domain Verification\nToken: {$this->verification_token}\nDomain: {$this->domain_only}\nUser ID: {$this->user_id}\nGenerated: " . $this->created_at->toISOString();
@@ -108,7 +108,7 @@ class Domain extends Model
             $domain->verification_token = Str::random(32);
         });
         
-        // creating이 아닌 created 이벤트에서 자동 인증 체크
+        // Run automatic verification check after creation
         static::created(function ($domain) {
             DomainVerificationService::checkExistingVerification($domain);
         });
@@ -124,11 +124,11 @@ class Domain extends Model
         });
     }
 
-    // URL 정규화 및 해시 생성
+    // Normalize URL and generate hash
     public function setUrlAttribute($value)
     {
         try {
-            // https://가 없으면 추가
+            // Prepend https:// if missing
             if (!str_starts_with($value, 'http://') && !str_starts_with($value, 'https://')) {
                 $value = 'https://' . $value;
             }
@@ -141,7 +141,7 @@ class Domain extends Model
         }
     }
 
-    // 도메인 인증 메서드들
+    // Domain verification methods
     public function generateNewVerificationToken(): void
     {
         $this->verification_token = Str::random(32);
@@ -157,7 +157,7 @@ class Domain extends Model
         $this->verification_method = $method;
         $this->save();
         
-        // 관련 도메인 자동 인증
+        // Automatically verify related domains
         DomainVerificationService::verifyRelatedDomains($this);
     }
 
