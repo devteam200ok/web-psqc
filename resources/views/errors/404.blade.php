@@ -214,8 +214,8 @@
                             fill="#232B41" class="tblr-illustrations-not-found-c" />
                     </svg>
                 </div>
-                <p class="empty-title">페이지를 찾을 수 없습니다</p>
-                <p class="empty-subtitle text-secondary">죄송합니다. 찾고 있는 페이지를 찾을 수 없습니다.</p>
+                <p class="empty-title">404 Error</p>
+                <p class="empty-subtitle text-secondary">Sorry, we couldn't find the page you were looking for.</p>
                 <div class="empty-action">
                     <a href="{{url('/')}}" class="btn btn-primary btn-4">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -225,7 +225,7 @@
                             <path d="M5 12l6 6" />
                             <path d="M5 12l6 -6" />
                         </svg>
-                        홈으로 돌아가기
+                        Go to Home
                     </a>
                 </div>
             </div>
