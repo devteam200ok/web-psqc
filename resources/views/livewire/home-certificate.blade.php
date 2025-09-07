@@ -760,7 +760,7 @@
                                             <!-- Security Headers -->
                                             <tr>
                                                 <td>
-                                                    <a href="/security/header">Header</a>
+                                                    <a href="/security/header">Headers</a>
                                                 </td>
                                                 <td class="test-method-content">Header completeness</td>
 
