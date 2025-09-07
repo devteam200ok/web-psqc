@@ -1,25 +1,25 @@
 @section('title')
-    <title>📒 서비스 이용약관 | DevTeam Test</title>
-    <meta name="description" content="DevTeam Test 서비스 이용약관 페이지입니다. 서비스 이용 시 적용되는 권리와 의무, 책임 및 제한 사항을 확인하세요.">
-    <meta name="keywords" content="DevTeam Test 이용약관, Terms of Service, 서비스 약관, 정책, 이용 조건">
-    <meta name="author" content="DevTeam Co., Ltd.">
+    <title>📒 Terms of Service | Web-PSQC</title>
+    <meta name="description" content="Web-PSQC Terms of Service page. Review the rights and obligations, responsibilities, and limitations that apply when using our services.">
+    <meta name="keywords" content="Web-PSQC Terms of Service, Service Agreement, Policies, Usage Conditions">
+    <meta name="author" content="Web-PSQC">
     <meta name="robots" content="index,follow">
     <link rel="canonical" href="{{ url()->current() }}" />
 
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="DevTeam Test" />
-    <meta property="og:title" content="서비스 이용약관 | DevTeam Test" />
-    <meta property="og:description" content="DevTeam Test 서비스 이용약관을 확인하세요." />
+    <meta property="og:site_name" content="Web-PSQC" />
+    <meta property="og:title" content="Terms of Service | Web-PSQC" />
+    <meta property="og:description" content="Review the Web-PSQC Terms of Service." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="DevTeam Test 서비스 이용약관" />
+        <meta property="og:image:alt" content="Web-PSQC Terms of Service" />
     @endif
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="서비스 이용약관 | DevTeam Test" />
-    <meta name="twitter:description" content="DevTeam Test 서비스 이용약관을 확인하세요." />
+    <meta name="twitter:title" content="Terms of Service | Web-PSQC" />
+    <meta name="twitter:description" content="Review the Web-PSQC Terms of Service." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -29,7 +29,7 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'Organization',
-    'name' => 'DevTeam Co., Ltd.',
+    'name' => 'Web-PSQC',
     'url'  => url('/'),
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
@@ -39,11 +39,11 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => '서비스 이용약관',
+    'name' => 'Terms of Service',
     'url'  => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
-        'name' => 'DevTeam Test',
+        'name' => 'Web-PSQC',
         'url'  => url('/'),
     ],
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
