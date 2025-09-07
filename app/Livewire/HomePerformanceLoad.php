@@ -47,7 +47,7 @@ class HomePerformanceLoad extends Component
             'think_time_min' => $this->think_time_min,
             'think_time_max' => $this->think_time_max,
             'test_mode' => 'load_test',
-            'region' => 'seoul'
+            'region' => 'virginia'
         ];
     }
 

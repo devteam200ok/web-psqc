@@ -833,14 +833,14 @@
                                                                     return $output;
                                                                 };
                                                                 $regionLabels = [
-                                                                    'seoul' => '서울',
-                                                                    'tokyo' => '도쿄',
-                                                                    'singapore' => '싱가포르',
-                                                                    'virginia' => '버지니아',
-                                                                    'oregon' => '오레곤',
-                                                                    'frankfurt' => '프랑크푸르트',
-                                                                    'london' => '런던',
-                                                                    'sydney' => '시드니',
+                                            'seoul' => 'Seoul',
+                                            'tokyo' => 'Tokyo',
+                                            'singapore' => 'Singapore',
+                                            'virginia' => 'Virginia',
+                                            'oregon' => 'Oregon',
+                                            'frankfurt' => 'Frankfurt',
+                                            'london' => 'London',
+                                            'sydney' => 'Sydney',
                                                                 ];
                                                             @endphp
 

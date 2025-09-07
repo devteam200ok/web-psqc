@@ -374,7 +374,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th>Region</th>
-                                                        <td>{{ ucfirst($config['region'] ?? 'seoul') }}</td>
+                                                        <td>{{ ucfirst($config['region'] ?? 'virginia') }}</td>
                                                     </tr>
                                                 </table>
                                             </div>

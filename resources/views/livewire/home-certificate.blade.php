@@ -389,13 +389,13 @@
                                                 </td>
                                             </tr>
 
-                                            <!-- Load Test (k6, Seoul region) -->
+                                            <!-- Load Test (k6, Virginia region) -->
                                             <tr>
                                                 <td>
                                                     <a href="/performance/load">Load Test</a>
                                                 </td>
                                                 <td class="test-method-content">
-                                                    Seoul region<br>
+                                                    Virginia region<br>
                                                     k6 load test<br>
                                                     P95 response time<br>
                                                     Stability check
