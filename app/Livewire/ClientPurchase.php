@@ -1,6 +1,5 @@
 <?php
 
-// ===== LIVEWIRE COMPONENT =====
 // app/Livewire/ClientPurchase.php
 
 namespace App\Livewire;
@@ -9,6 +8,8 @@ use App\Models\UserPlan;
 use App\Models\Api;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class ClientPurchase extends Component
@@ -17,6 +18,16 @@ class ClientPurchase extends Component
     public $planData;
     public $amount;
     public $orderId;
+
+    // PayPal 관련 속성
+    public $paypal_mode;
+    public $paypal_client_id;
+    public $paypal_secret;
+
+    protected $listeners = [
+        'paypal-payment-verified' => 'verifyPaypalPayment',
+        'paypal-subscription-verified' => 'verifyPaypalSubscription',
+    ];
 
     // Define plan information
     protected $planTemplates = [
@@ -109,6 +120,18 @@ class ClientPurchase extends Component
             return redirect()->route('login');
         }
 
+        // PayPal 설정 로드
+        $api = Api::first();
+        $this->paypal_mode = $api->paypal_mode;
+
+        if ($this->paypal_mode == 'live') {
+            $this->paypal_client_id = $api->paypal_client_id_live;
+            $this->paypal_secret = $api->paypal_secret_live;
+        } else {
+            $this->paypal_client_id = $api->paypal_client_id_sandbox;
+            $this->paypal_secret = $api->paypal_secret_sandbox;
+        }
+
         $this->planType = request('plan');
         
         if (!$this->planType || !isset($this->planTemplates[$this->planType])) {
@@ -123,6 +146,7 @@ class ClientPurchase extends Component
             $existingSubscription = UserPlan::where('user_id', Auth::id())
                 ->subscription()
                 ->active()
+                ->paid()
                 ->first();
 
             if ($existingSubscription) {
@@ -131,6 +155,273 @@ class ClientPurchase extends Component
         }
 
         $this->orderId = 'PLAN_' . strtoupper($this->planType) . '_' . Auth::id() . '_' . time();
+    }
+
+    private function getPaypalAccessToken()
+    {
+        $baseUrl = $this->paypal_mode == 'live' 
+            ? 'https://api-m.paypal.com' 
+            : 'https://api-m.sandbox.paypal.com';
+
+        $tokenResponse = Http::asForm()
+            ->withBasicAuth($this->paypal_client_id, $this->paypal_secret)
+            ->post("{$baseUrl}/v1/oauth2/token", [
+                'grant_type' => 'client_credentials',
+            ]);
+
+        if (!$tokenResponse->ok()) {
+            Log::error('PayPal token request failed', $tokenResponse->json());
+            return null;
+        }
+
+        return $tokenResponse->json('access_token');
+    }
+
+    public function createPaypalSubscriptionPlan()
+    {
+        $accessToken = $this->getPaypalAccessToken();
+        if (!$accessToken) {
+            return null;
+        }
+
+        $baseUrl = $this->paypal_mode == 'live' 
+            ? 'https://api-m.paypal.com' 
+            : 'https://api-m.sandbox.paypal.com';
+
+        // 1. 먼저 Product 생성
+        $productResponse = Http::withToken($accessToken)
+            ->post("{$baseUrl}/v1/catalogs/products", [
+                'id' => 'PLAN_' . strtoupper($this->planType),
+                'name' => $this->planData['name'] . ' Plan',
+                'description' => $this->planData['description'],
+                'type' => 'SERVICE',
+                'category' => 'SOFTWARE'
+            ]);
+
+        if (!$productResponse->ok()) {
+            // Product가 이미 존재할 수 있으므로 로그만 남기고 계속 진행
+            Log::info('PayPal product creation response', $productResponse->json());
+        }
+
+        // 2. Subscription Plan 생성
+        $planResponse = Http::withToken($accessToken)
+            ->post("{$baseUrl}/v1/billing/plans", [
+                'product_id' => 'PLAN_' . strtoupper($this->planType),
+                'name' => $this->planData['name'] . ' Monthly Plan',
+                'description' => $this->planData['description'],
+                'status' => 'ACTIVE',
+                'billing_cycles' => [
+                    [
+                        'frequency' => [
+                            'interval_unit' => 'MONTH',
+                            'interval_count' => 1
+                        ],
+                        'tenure_type' => 'REGULAR',
+                        'sequence' => 1,
+                        'total_cycles' => 0, // 무제한
+                        'pricing_scheme' => [
+                            'fixed_price' => [
+                                'value' => number_format($this->amount, 2, '.', ''),
+                                'currency_code' => 'USD'
+                            ]
+                        ]
+                    ]
+                ],
+                'payment_preferences' => [
+                    'auto_bill_outstanding' => true,
+                    'setup_fee' => [
+                        'value' => '0',
+                        'currency_code' => 'USD'
+                    ],
+                    'setup_fee_failure_action' => 'CONTINUE',
+                    'payment_failure_threshold' => 3
+                ]
+            ]);
+
+        if (!$planResponse->ok()) {
+            Log::error('PayPal plan creation failed', $planResponse->json());
+            return null;
+        }
+
+        return $planResponse->json('id');
+    }
+
+    // 구독 결제 검증
+    public function verifyPaypalSubscription($subscription_id)
+    {
+        $accessToken = $this->getPaypalAccessToken();
+        if (!$accessToken) {
+            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+        }
+
+        $baseUrl = $this->paypal_mode == 'live' 
+            ? 'https://api-m.paypal.com' 
+            : 'https://api-m.sandbox.paypal.com';
+
+        // PayPal Subscription 조회
+        $subscriptionResponse = Http::withToken($accessToken)
+            ->get("{$baseUrl}/v1/billing/subscriptions/{$subscription_id}");
+
+        if (!$subscriptionResponse->ok()) {
+            Log::error('PayPal subscription lookup failed', $subscriptionResponse->json());
+            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+        }
+
+        $data = $subscriptionResponse->json();
+
+        // 구독 상태 확인
+        if ($data['status'] !== 'ACTIVE') {
+            Log::error('PayPal subscription not active', $data);
+            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+        }
+
+        // UserPlan 생성 (구독용)
+        $startDate = Carbon::now();
+        $endDate = $startDate->copy()->addMonth();
+        $refundDeadline = $startDate->copy()->addDays($this->planData['refund_days']);
+
+        $userPlan = UserPlan::create([
+            'user_id' => Auth::id(),
+            'plan_type' => $this->planType,
+            'customerKey' => 'WP' . Auth::id(),
+            'customerName' => $data['subscriber']['name']['given_name'] . ' ' . $data['subscriber']['name']['surname'],
+            'customerEmail' => $data['subscriber']['email_address'],
+            'paypal_subscription_id' => $subscription_id,
+            'paypal_payer_id' => $data['subscriber']['payer_id'],
+            'paypal_email' => $data['subscriber']['email_address'],
+            'paypal_name' => $data['subscriber']['name']['given_name'] . ' ' . $data['subscriber']['name']['surname'],
+            'paypal_amount' => $this->amount,
+            'paypal_currency' => 'USD',
+            'paypal_paid_at' => now(),
+            'payment_status' => 'paid',
+            'is_subscription' => true,
+            'price' => $this->amount,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'monthly_limit' => $this->planData['monthly_limit'],
+            'daily_limit' => $this->planData['daily_limit'],
+            'status' => 'active',
+            'auto_renew' => true,
+            'is_refundable' => true,
+            'refund_deadline' => $refundDeadline,
+        ]);
+
+        return redirect('/plan/payment/success?plan_type=' . $this->planType);
+    }
+
+    // 일회성 결제 검증 (쿠폰용)
+    public function verifyPaypalPayment($order_id)
+    {
+        $accessToken = $this->getPaypalAccessToken();
+        if (!$accessToken) {
+            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+        }
+
+        $baseUrl = $this->paypal_mode == 'live' 
+            ? 'https://api-m.paypal.com' 
+            : 'https://api-m.sandbox.paypal.com';
+
+        // PayPal Order Lookup
+        $orderResponse = Http::withToken($accessToken)
+            ->get("{$baseUrl}/v2/checkout/orders/{$order_id}");
+
+        if (!$orderResponse->ok()) {
+            Log::error('PayPal order lookup failed', $orderResponse->json());
+            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+        }
+
+        $data = $orderResponse->json();
+
+        // 검증 1: 상태 확인
+        if ($data['status'] !== 'COMPLETED') {
+            Log::error('PayPal payment not completed', $data);
+            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+        }
+
+        // 검증 2: 금액/통화 확인
+        $expectedAmount = number_format($this->amount, 2, '.', '');
+        $actualAmount = $data['purchase_units'][0]['amount']['value'];
+        $currency = $data['purchase_units'][0]['amount']['currency_code'];
+
+        if ($actualAmount != $expectedAmount || $currency !== 'USD') {
+            Log::error('PayPal payment amount mismatch', [
+                'expected' => $expectedAmount,
+                'actual' => $actualAmount,
+                'currency' => $currency,
+            ]);
+            return redirect('/plan/payment/fail?plan_type=' . $this->planType);
+        }
+
+        // UserPlan 생성 (쿠폰용)
+        $startDate = Carbon::now();
+        $endDate = $startDate->copy()->addDays($this->planData['validity_days']);
+
+        $refundDeadline = null;
+        if ($this->planData['refund_days'] > 0) {
+            $refundDeadline = $startDate->copy()->addDays($this->planData['refund_days']);
+        }
+
+        $userPlan = UserPlan::create([
+            'user_id' => Auth::id(),
+            'plan_type' => $this->planType,
+            'customerKey' => 'WP' . Auth::id(),
+            'customerName' => $data['payer']['name']['given_name'] . ' ' . $data['payer']['name']['surname'],
+            'customerEmail' => $data['payer']['email_address'],
+            'paypal_order_id' => $data['id'],
+            'paypal_payer_id' => $data['payer']['payer_id'],
+            'paypal_email' => $data['payer']['email_address'],
+            'paypal_name' => $data['payer']['name']['given_name'] . ' ' . $data['payer']['name']['surname'],
+            'paypal_amount' => $actualAmount,
+            'paypal_currency' => $currency,
+            'paypal_paid_at' => now(),
+            'payment_status' => 'paid',
+            'is_subscription' => false,
+            'price' => $this->amount,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'daily_limit' => $this->planData['daily_limit'],
+            'total_limit' => $this->planData['total_limit'],
+            'status' => 'active',
+            'auto_renew' => false,
+            'is_refundable' => $this->planData['refund_days'] > 0,
+            'refund_deadline' => $refundDeadline,
+        ]);
+
+        return redirect('/plan/payment/success?plan_type=' . $this->planType);
+    }
+
+    public function purchaseForFree()
+    {
+        if ($this->amount != 0) {
+            return;
+        }
+
+        // 무료 플랜 처리
+        $startDate = Carbon::now();
+        $endDate = $this->planData['is_subscription'] 
+            ? $startDate->copy()->addMonth() 
+            : $startDate->copy()->addDays($this->planData['validity_days']);
+
+        $userPlan = UserPlan::create([
+            'user_id' => Auth::id(),
+            'plan_type' => $this->planType,
+            'customerKey' => 'WP' . Auth::id(),
+            'customerName' => Auth::user()->name,
+            'customerEmail' => Auth::user()->email,
+            'payment_status' => 'paid',
+            'is_subscription' => $this->planData['is_subscription'],
+            'price' => 0,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'monthly_limit' => $this->planData['monthly_limit'],
+            'daily_limit' => $this->planData['daily_limit'],
+            'total_limit' => $this->planData['total_limit'],
+            'status' => 'active',
+            'auto_renew' => $this->planData['is_subscription'],
+            'is_refundable' => false,
+        ]);
+
+        return redirect('/plan/payment/success?plan_type=' . $this->planType);
     }
 
     public function render()

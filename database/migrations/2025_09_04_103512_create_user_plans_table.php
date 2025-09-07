@@ -14,13 +14,21 @@ return new class extends Migration
             
             // 플랜 정보
             $table->enum('plan_type', ['starter', 'pro', 'agency', 'test1', 'test7', 'test30', 'test90']);
-            $table->string('next_plan_type')->nullable(); // 다음 플랜 (구독 변경 시)
-            $table->string('customerKey')->nullable(); // 결제 키
             $table->string('customerName')->nullable(); // 고객 이름
             $table->string('customerEmail')->nullable(); // 고객 이메일
-            $table->string('customerPhone')->nullable(); // 고객 전화번호
             $table->boolean('is_subscription');
             $table->integer('price');
+            
+            // PayPal 관련 컬럼
+            $table->string('paypal_order_id')->nullable(); // 일회성 결제용
+            $table->string('paypal_subscription_id')->nullable(); // 구독용
+            $table->string('paypal_plan_id')->nullable(); // PayPal 구독 플랜 ID
+            $table->string('paypal_payer_id')->nullable();
+            $table->string('paypal_email')->nullable();
+            $table->string('paypal_name')->nullable();
+            $table->decimal('paypal_amount', 10, 2)->nullable();
+            $table->string('paypal_currency', 3)->nullable();
+            $table->datetime('paypal_paid_at')->nullable();
             
             // 기간
             $table->datetime('start_date');
@@ -36,7 +44,9 @@ return new class extends Migration
             $table->integer('daily_used_count')->default(0); // 일일 사용량
             
             // 상태
-            $table->enum('status', ['active', 'expired', 'cancelled', 'refunded'])->default('active');
+            $table->enum('status', ['active', 'expired', 'cancelled', 'refunded', 'suspended'])->default('active');
+            $table->enum('payment_status', ['pending', 'paid', 'failed', 'refunded'])->default('pending');
+            $table->integer('payment_failure_count')->default(0); // 결제 실패 횟수
             $table->boolean('auto_renew')->default(true); // 구독 자동갱신 여부
             $table->boolean('is_refundable')->default(true);
             $table->datetime('refund_deadline')->nullable();
@@ -45,6 +55,9 @@ return new class extends Migration
             
             $table->index(['user_id', 'status']);
             $table->index(['user_id', 'is_subscription', 'status']);
+            $table->index(['paypal_order_id']);
+            $table->index(['paypal_subscription_id']);
+            $table->index(['payment_status']);
         });
     }
 

@@ -2,7 +2,6 @@
     @include('inc.component.seo')
 @endsection
 @section('css')
-    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
 @endsection
 
 <div class="page-body px-xl-3">
@@ -47,10 +46,10 @@
                                     <div>
                                         <h6>⚠️ Subscription Information</h6>
                                         <ul class="mb-0">
-                                            <li>Automatically charged monthly</li>
-                                            <li>Full refund available within 7 days before use</li>
+                                            <li>Automatically charged monthly via PayPal</li>
+                                            <li>Full refund available within {{ $planData['refund_days'] }} days before use</li>
                                             <li>No refund once used</li>
-                                            <li>Can cancel subscription anytime</li>
+                                            <li>Can cancel subscription anytime through PayPal</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -77,7 +76,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div>
                                 <h4>{{ $planData['name'] }} Plan</h4>
-                                <span class="h4">{{ number_format($amount) }} KRW{{ $planData['is_subscription'] ? '/month' : '' }}</span>
+                                <span class="h4">{{ number_format($amount) }} USD{{ $planData['is_subscription'] ? '/month' : '' }}</span>
                             </div>
                         </div>
 
@@ -85,104 +84,150 @@
 
                         <div>
                             <h4 class="mt-3">Total Payment Amount</h4>
-                            <span class="h4">{{ number_format($amount) }} KRW</span>
+                            <span class="h4">{{ number_format($amount) }} USD</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Toss Payment Widget -->
-                <div id="payment-method"></div>
-                <div id="agreement"></div>
-                
+                <!-- Payment Section -->
                 <div class="mt-3">
-                    <div class="row">
-                        <div class="col-6 mb-2">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-control mb-3" id="customerName"
-                                placeholder="Enter your name" style="font-size:16px" 
-                                value="{{ Auth::user()->name }}">
-                        </div>
-                        <div class="col-6 mb-2">
-                            <label class="form-label">Phone Number</label>
-                            <input type="text" class="form-control mb-3" id="customerPhone"
-                                placeholder="Enter your phone number" style="font-size:16px">
-                        </div>
-                    </div>
-                    <button class="btn btn-primary w-100 btn-lg" id="tossPaymentButton">
-                        Pay {{ number_format($amount) }} KRW
-                    </button>
+                    @if ($amount != 0)
+                        <div id="paypal-button-container"></div>
+                    @else
+                        <button wire:loading.attr="disabled" wire:click="purchaseForFree" class="btn btn-primary w-100">
+                            Purchase for Free
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toss Payment Configuration -->
-    @if ($api->toss_mode == 'live')
-        <input type="hidden" id="widgetClientKey" value="{{ $api->toss_client_key }}">
-    @else
-        <input type="hidden" id="widgetClientKey" value="{{ $api->toss_client_key_test }}">
-    @endif
-    <input type="hidden" id="customerKey" value="WP{{ Auth::user()->id }}">
-    <input type="hidden" id="customerEmail" value="{{ Auth::user()->email }}">
-    <input type="hidden" id="orderName" value="{{ $planData['name'] }} Plan">
+    <!-- Hidden inputs for PayPal -->
     <input type="hidden" id="totalPrice" value="{{ $amount }}">
-    <input type="hidden" id="orderId" value="{{ $orderId }}">
     <input type="hidden" id="planType" value="{{ $planType }}">
+    <input type="hidden" id="orderId" value="{{ $orderId }}">
+    <input type="hidden" id="isSubscription" value="{{ $planData['is_subscription'] ? 'true' : 'false' }}">
 </div>
 
 @section('js')
-    <script>
-        const button = document.getElementById("tossPaymentButton");
-        
-        const widgetClientKey = document.getElementById("widgetClientKey").value;
-        const customerKey = document.getElementById("customerKey").value;
-        const customerEmail = document.getElementById("customerEmail").value;
-        
-        const totalPrice = document.getElementById("totalPrice").value;
-        const orderName = document.getElementById("orderName").value;
-        const orderId = document.getElementById("orderId").value;
-        const planType = document.getElementById("planType").value;
-        
-        const paymentWidget = PaymentWidget(widgetClientKey, customerKey);
-        
-        const paymentMethodWidget = paymentWidget.renderPaymentMethods(
-            "#payment-method", {
-                value: totalPrice,
-            }, {
-                variantKey: "DEFAULT"
-            }
-        );
-        
-        paymentWidget.renderAgreement(
-            "#agreement", {
-                variantKey: "AGREEMENT"
-            }
-        );
-        
-        button.addEventListener("click", function() {
-            var customerName = document.getElementById("customerName").value;
-            var customer_phone = document.getElementById("customerPhone").value;
-            customer_phone = customer_phone.replace(/-/g, '');
-            
-            if (!customerName || !customer_phone) {
-                alert("Please enter your name and phone number.");
-                return;
-            }
-            
-            if (!/^\d{10,13}$/.test(customer_phone)) {
-                alert("Phone number must be between 10 and 13 digits.");
-                return;
-            }
-            
-            paymentWidget.requestPayment({
-                orderId: orderId,
-                orderName: orderName,
-                successUrl: window.location.origin + "/plan/payment/success?plan_type=" + planType + "&customerName=" + encodeURIComponent(customerName) + "&customerEmail=" + encodeURIComponent(customerEmail) + "&customerMobilePhone=" + encodeURIComponent(customer_phone),
-                failUrl: window.location.origin + "/plan/payment/fail?plan_type=" + planType,
-                customerEmail: customerEmail,
-                customerName: customerName,
-                customerMobilePhone: customer_phone,
+    @if ($amount != 0)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let sdkLoaded = false;
+                const totalPrice = parseFloat(document.getElementById('totalPrice').value || 0);
+                const isSubscription = document.getElementById('isSubscription').value === 'true';
+
+                if (!sdkLoaded) {
+                    sdkLoaded = true;
+                    const script = document.createElement('script');
+                    
+                    // 구독과 일회성 결제에 따라 다른 components 로드
+                    if (isSubscription) {
+                        script.src = 'https://www.paypal.com/sdk/js?client-id={{ $paypal_client_id }}&vault=true&intent=subscription&currency=USD';
+                    } else {
+                        script.src = 'https://www.paypal.com/sdk/js?client-id={{ $paypal_client_id }}&components=buttons&currency=USD';
+                    }
+                    
+                    script.onload = () => renderPayPalButtons(totalPrice, isSubscription);
+                    document.body.appendChild(script);
+                } else {
+                    renderPayPalButtons(totalPrice, isSubscription);
+                }
+
+                function renderPayPalButtons(totalPrice, isSubscription) {
+                    if (isSubscription) {
+                        // 구독 결제
+                        paypal.Buttons({
+                            style: {
+                                layout: 'vertical',
+                                color: 'blue',
+                                shape: 'rect',
+                                label: 'subscribe'
+                            },
+                            createSubscription: function(data, actions) {
+                                return actions.subscription.create({
+                                    'plan_id': 'P-{{ strtoupper($planType) }}_MONTHLY', // 미리 생성된 플랜 ID 사용
+                                    'custom_id': '{{ $orderId }}',
+                                    'application_context': {
+                                        'brand_name': '{{ config("app.name") }}',
+                                        'locale': 'en-US',
+                                        'shipping_preference': 'NO_SHIPPING',
+                                        'user_action': 'SUBSCRIBE_NOW',
+                                        'payment_method': {
+                                            'payer_selected': 'PAYPAL',
+                                            'payee_preferred': 'IMMEDIATE_PAYMENT_REQUIRED'
+                                        },
+                                        'return_url': '{{ url("/") }}/plan/payment/success?plan_type={{ $planType }}',
+                                        'cancel_url': '{{ url("/") }}/plan/payment/cancel?plan_type={{ $planType }}'
+                                    }
+                                });
+                            },
+                            onApprove: function(data, actions) {
+                                // 구독 승인 후 검증
+                                Livewire.dispatch('paypal-subscription-verified', {
+                                    subscription_id: data.subscriptionID
+                                });
+                            },
+                            onError: function(err) {
+                                console.error('PayPal Subscription Error:', err);
+                                alert('An error occurred while processing your subscription. Please try again later.');
+                                window.location.href = '/plan/payment/fail?plan_type={{ $planType }}';
+                            },
+                            onCancel: function(data) {
+                                console.log('Subscription cancelled by user');
+                                window.location.href = '/plan/payment/cancel?plan_type={{ $planType }}';
+                            }
+                        }).render('#paypal-button-container');
+                    } else {
+                        // 일회성 결제 (쿠폰)
+                        paypal.Buttons({
+                            style: {
+                                layout: 'vertical',
+                                color: 'blue',
+                                shape: 'rect',
+                                label: 'paypal'
+                            },
+                            createOrder: function(data, actions) {
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            currency_code: "USD",
+                                            value: totalPrice.toFixed(2)
+                                        },
+                                        description: "{{ $planData['name'] }} Plan",
+                                        custom_id: '{{ $orderId }}'
+                                    }],
+                                    application_context: {
+                                        brand_name: '{{ config("app.name") }}',
+                                        locale: 'en-US',
+                                        landing_page: 'BILLING',
+                                        shipping_preference: 'NO_SHIPPING',
+                                        user_action: 'PAY_NOW'
+                                    }
+                                });
+                            },
+                            onApprove: function(data, actions) {
+                                return actions.order.capture().then(function(details) {
+                                    // 일회성 결제 검증
+                                    Livewire.dispatch('paypal-payment-verified', {
+                                        order_id: details.id
+                                    });
+                                });
+                            },
+                            onError: function(err) {
+                                console.error('PayPal Error:', err);
+                                alert('An error occurred while processing your payment. Please try again later.');
+                                window.location.href = '/plan/payment/fail?plan_type={{ $planType }}';
+                            },
+                            onCancel: function(data) {
+                                console.log('Payment cancelled by user');
+                                window.location.href = '/plan/payment/cancel?plan_type={{ $planType }}';
+                            }
+                        }).render('#paypal-button-container');
+                    }
+                }
             });
-        });
-    </script>
+        </script>
+    @endif
 @endsection
