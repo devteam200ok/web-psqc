@@ -19,7 +19,7 @@ class ClientPurchase extends Component
     public $amount;
     public $orderId;
 
-    // PayPal 관련 속성 (클라이언트 ID만 - Secret은 서버에서만 사용)
+    // PayPal 관련 속성 (Client ID만 - Secret은 서버에서만 사용)
     public $paypal_mode;
     public $paypal_client_id;
 
@@ -181,6 +181,108 @@ class ClientPurchase extends Component
         return $tokenResponse->json('access_token');
     }
 
+    // PayPal 구독 플랜 생성 또는 조회
+    private function getOrCreatePaypalPlan()
+    {
+        $accessToken = $this->getPaypalAccessToken();
+        if (!$accessToken) {
+            return null;
+        }
+
+        $baseUrl = $this->paypal_mode == 'live' 
+            ? 'https://api-m.paypal.com' 
+            : 'https://api-m.sandbox.paypal.com';
+
+        $productId = 'PLAN_' . strtoupper($this->planType);
+
+        // 1. Product 생성 (이미 존재해도 무시)
+        Http::withToken($accessToken)
+            ->post("{$baseUrl}/v1/catalogs/products", [
+                'id' => $productId,
+                'name' => $this->planData['name'] . ' Plan',
+                'description' => $this->planData['description'],
+                'type' => 'SERVICE',
+                'category' => 'SOFTWARE'
+            ]);
+
+        // 2. 기존 플랜 조회
+        $existingPlansResponse = Http::withToken($accessToken)
+            ->get("{$baseUrl}/v1/billing/plans", [
+                'product_id' => $productId,
+                'page_size' => 20
+            ]);
+
+        if ($existingPlansResponse->ok()) {
+            $plans = $existingPlansResponse->json('plans', []);
+            foreach ($plans as $plan) {
+                if ($plan['status'] === 'ACTIVE') {
+                    Log::info('Using existing PayPal plan', ['plan_id' => $plan['id']]);
+                    return $plan['id'];
+                }
+            }
+        }
+
+        // 3. 새 플랜 생성
+        $planResponse = Http::withToken($accessToken)
+            ->post("{$baseUrl}/v1/billing/plans", [
+                'product_id' => $productId,
+                'name' => $this->planData['name'] . ' Monthly Plan',
+                'description' => $this->planData['description'],
+                'status' => 'ACTIVE',
+                'billing_cycles' => [
+                    [
+                        'frequency' => [
+                            'interval_unit' => 'MONTH',
+                            'interval_count' => 1
+                        ],
+                        'tenure_type' => 'REGULAR',
+                        'sequence' => 1,
+                        'total_cycles' => 0,
+                        'pricing_scheme' => [
+                            'fixed_price' => [
+                                'value' => number_format($this->amount, 2, '.', ''),
+                                'currency_code' => 'USD'
+                            ]
+                        ]
+                    ]
+                ],
+                'payment_preferences' => [
+                    'auto_bill_outstanding' => true,
+                    'setup_fee' => [
+                        'value' => '0',
+                        'currency_code' => 'USD'
+                    ],
+                    'setup_fee_failure_action' => 'CONTINUE',
+                    'payment_failure_threshold' => 3
+                ]
+            ]);
+
+        if (!$planResponse->ok()) {
+            Log::error('PayPal plan creation failed', $planResponse->json());
+            return null;
+        }
+
+        $planId = $planResponse->json('id');
+        Log::info('Created new PayPal plan', ['plan_id' => $planId]);
+        return $planId;
+    }
+
+    // PayPal 구독 플랜 ID 조회/생성 (AJAX 호출용)
+    public function getPaypalPlanId()
+    {
+        if (!$this->planData['is_subscription']) {
+            return response()->json(['success' => false, 'message' => 'Not a subscription plan']);
+        }
+
+        $planId = $this->getOrCreatePaypalPlan();
+        
+        if (!$planId) {
+            return response()->json(['success' => false, 'message' => 'Failed to create plan']);
+        }
+
+        return response()->json(['success' => true, 'plan_id' => $planId]);
+    }
+
     // 구독 결제 검증
     public function verifyPaypalSubscription($subscription_id)
     {
@@ -221,6 +323,7 @@ class ClientPurchase extends Component
             'customerName' => $data['subscriber']['name']['given_name'] . ' ' . $data['subscriber']['name']['surname'],
             'customerEmail' => $data['subscriber']['email_address'],
             'paypal_subscription_id' => $subscription_id,
+            'paypal_plan_id' => $data['plan_id'],
             'paypal_payer_id' => $data['subscriber']['payer_id'],
             'paypal_email' => $data['subscriber']['email_address'],
             'paypal_name' => $data['subscriber']['name']['given_name'] . ' ' . $data['subscriber']['name']['surname'],
@@ -358,10 +461,6 @@ class ClientPurchase extends Component
 
     public function render()
     {
-        $api = Api::first();
-        
-        return view('livewire.client-purchase', [
-            'api' => $api
-        ])->layout('layouts.app');
+        return view('livewire.client-purchase')->layout('layouts.app');
     }
 }
