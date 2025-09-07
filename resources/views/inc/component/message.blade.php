@@ -7,7 +7,7 @@
                     <i class="ti ti-info-circle"></i>
                 </div>
                 <strong class="me-auto">
-                    <h4 class="alert-heading">메시지</h4>
+                    <h4 class="alert-heading">Message</h4>
                 </strong>
                 <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -24,7 +24,7 @@
                     <i class="ti ti-check"></i>
                 </div>
                 <strong class="me-auto">
-                    <h4 class="alert-heading">성공</h4>
+                    <h4 class="alert-heading">Success</h4>
                 </strong>
                 <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -41,7 +41,7 @@
                     <i class="ti ti-alert-circle"></i>
                 </div>
                 <strong class="me-auto">
-                    <h4 class="alert-heading">오류</h4>
+                    <h4 class="alert-heading">Error</h4>
                 </strong>
                 <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>

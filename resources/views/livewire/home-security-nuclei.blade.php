@@ -1,9 +1,9 @@
 @section('title')
-    <title>🔍 Nuclei Vulnerability Scan – CVE 2024–2025 | Web-PSQC</title>
+    <title>🔍 Latest Vulnerability Scan - Nuclei CVE 2024-2025 Auto Detection | Web-PSQC</title>
     <meta name="description"
-        content="Automated security scanning with Nuclei: detect 2024–2025 CVEs, misconfigurations, and sensitive data exposures. Assess risk with clear grading.">
-    <meta name="keywords" content="vulnerability scan, Nuclei, CVE 2024, CVE 2025, security assessment, automated scanning, zero-day detection, Web-PSQC">
-    <meta name="author" content="DevTeam Co., Ltd.">
+        content="Nuclei-based security scanner that automatically detects 2024-2025 CVE vulnerabilities, misconfigurations, and sensitive data exposure with security grade assessment. Stay protected against latest security threats.">
+    <meta name="keywords" content="vulnerability scan, Nuclei, CVE 2024, CVE 2025, security assessment, automated scanning, zero-day vulnerability detection, Web-PSQC">
+    <meta name="author" content="Web-PSQC Global">
     <meta name="robots" content="index,follow">
 
     <link rel="canonical" href="{{ url()->current() }}" />
@@ -11,18 +11,18 @@
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Web-PSQC" />
-    <meta property="og:title" content="Nuclei Vulnerability Scan – CVE 2024–2025 | Web-PSQC" />
+    <meta property="og:title" content="Latest Vulnerability Scan - Nuclei CVE 2024-2025 Auto Detection | Web-PSQC" />
     <meta property="og:description"
-        content="Use Nuclei to automatically detect recent CVEs, misconfigurations, and exposures — including 2024–2025 threats." />
+        content="Automatically detect latest CVE vulnerabilities and security misconfigurations with Nuclei. Experience real-time security assessment including 2024-2025 new threats." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property="og:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
-        <meta property="og:image:alt" content="Web-PSQC – Nuclei Vulnerability Scan" />
+        <meta property="og:image:alt" content="Web-PSQC - Latest Vulnerability Scan" />
     @endif
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Nuclei Vulnerability Scan – CVE 2024–2025 | Web-PSQC" />
-    <meta name="twitter:description" content="Nuclei-based detection of latest security issues: CVE 2024–2025, misconfigurations, and data exposures." />
+    <meta name="twitter:title" content="Latest Vulnerability Scan - Nuclei CVE 2024-2025 Auto Detection | Web-PSQC" />
+    <meta name="twitter:description" content="Nuclei-based latest security vulnerability detection. Precise analysis of CVE 2024-2025, misconfigurations, and sensitive data exposure." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -32,7 +32,7 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'Organization',
-    'name' => 'DevTeam Co., Ltd.',
+    'name' => 'Web-PSQC Global',
     'url'  => url('/'),
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
@@ -42,14 +42,14 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => 'Nuclei Vulnerability Scan – CVE 2024–2025',
+    'name' => 'Latest Vulnerability Scan - Nuclei CVE 2024-2025 Auto Detection',
     'url'  => url()->current(),
     'isPartOf' => [
         '@type' => 'WebSite',
-        'name' => 'DevTeam Test',
+        'name' => 'Web-PSQC',
         'url'  => url('/'),
     ],
-    'description' => 'Nuclei-powered scanner that detects recent CVEs (2024–2025), misconfigurations, and sensitive exposures, with risk grading.',
+    'description' => 'Nuclei-based security scanner that detects latest CVE (2024-2025) vulnerabilities, misconfigurations, and sensitive data exposure with security grade assessment.',
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
 @endsection
@@ -59,8 +59,8 @@
 @endsection
 
 <div class="page-wrapper">
-    {{-- Header (shared component) --}}
-    <x-test-shared.header title="🔍 Nuclei Vulnerability Scan" subtitle="CVE 2024–2025 Detection" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
+    {{-- Header (Shared Component) --}}
+    <x-test-shared.header title="🔍 Latest Vulnerability Scan" subtitle="Nuclei 2024-2025 CVE Detection" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
         :ip-address="$ipAddress ?? null" />
 
     <div class="page-body">
@@ -68,14 +68,14 @@
             @include('inc.component.message')
             <div class="row">
                 <div class="col-xl-8 d-block mb-2">
-                    {{-- URL form --}}
+                    {{-- URL Form --}}
                     <div class="card mb-3">
                         <div class="card-body">
                             @if (!Auth::check())
                                 <div class="alert alert-info d-block mb-4">
-                                    <h5>🔐 Sign-in required</h5>
-                                    <p class="mb-2">Security scans require domain ownership verification.</p>
-                                    <p class="mb-0">After signing in, register your domain under the “Domains” tab in the sidebar and complete verification.</p>
+                                    <h5>🔐 Login Required</h5>
+                                    <p class="mb-2">Security scanning requires domain ownership verification.</p>
+                                    <p class="mb-0">Please login and register your domain in the "Domains" tab in the sidebar to verify ownership.</p>
                                 </div>
                             @endif
 
@@ -94,7 +94,7 @@
                                                     role="status"></span>
                                                 Running...
                                             @else
-                                                Run Scan
+                                                Test
                                             @endif
                                         </button>
                                     </div>
@@ -102,15 +102,15 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                     @if (Auth::check())
-                                        <div class="form-text">Only verified domains can be scanned.</div>
+                                        <div class="form-text">Only verified domains can be tested.</div>
                                     @endif
 
                                     @if ($hasProOrAgencyPlan)
                                         <div class="mt-2">
                                             <a href="javascript:void(0)" wire:click="toggleScheduleForm"
-                                                class="text-primary me-3">Schedule Scan</a>
+                                                class="text-primary me-3">Schedule Test</a>
                                             <a href="javascript:void(0)" wire:click="toggleRecurringForm"
-                                                class="text-primary">Set Up Recurring</a>
+                                                class="text-primary">Recurring Schedule</a>
                                         </div>
                                     @endif
                                 </div>
@@ -119,19 +119,19 @@
                     </div>
 
                     @if ($hasProOrAgencyPlan)
-                        {{-- 검사 예약 폼 (공통 컴포넌트) --}}
+                        {{-- Schedule Test Form (Shared Component) --}}
                         <x-test-shared.schedule-form :show-schedule-form="$showScheduleForm" :schedule-date="$scheduleDate" :schedule-hour="$scheduleHour"
                             :schedule-minute="$scheduleMinute" />
 
-                        {{-- 스케쥴 등록 폼 (공통 컴포넌트) --}}
+                        {{-- Recurring Schedule Form (Shared Component) --}}
                         <x-test-shared.recurring-schedule-form :show-recurring-form="$showRecurringForm" :recurring-start-date="$recurringStartDate" :recurring-end-date="$recurringEndDate"
                             :recurring-hour="$recurringHour" :recurring-minute="$recurringMinute" />
                     @endif
 
-                    {{-- Test status (shared component) --}}
+                    {{-- Test Status (Shared Component) --}}
                     <x-test-shared.test-status :current-test="$currentTest" :selected-history-test="$selectedHistoryTest" />
 
-                    {{-- Page-specific content --}}
+                    {{-- Individual Test Specific Content --}}
                     <div class="card">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
@@ -156,36 +156,36 @@
                             <div class="tab-content">
                                 <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                     id="tabs-information">
-                                    <h3>Automated detection of the latest CVEs with Nuclei</h3>
+                                    <h3>Nuclei-based Latest CVE Vulnerability Auto Detection</h3>
                                     <div class="text-muted small mt-1">
-                                        <strong>Tool:</strong> ProjectDiscovery Nuclei — an industry‑standard, template‑based vulnerability scanner with fast execution
+                                        <strong>Testing Tool:</strong> Nuclei by ProjectDiscovery - Industry standard vulnerability scanner providing fast template-based scanning
                                         <br><br>
-                                        <strong>Goals:</strong><br>
-                                        • Detect newly disclosed CVEs (2024–2025)<br>
-                                        • Check recent zero‑day and 1‑day issues<br>
-                                        • Identify misconfigurations and insecure defaults<br>
-                                        • Discover exposed admin panels, debug pages, and backup files<br>
-                                        • Assess subdomain takeover risk<br>
-                                        • Detect sensitive data exposure (API keys, tokens, env vars)
+                                        <strong>Test Purpose:</strong><br>
+                                        • Detect newly published CVE vulnerabilities from 2024-2025<br>
+                                        • Check recently disclosed zero-day and 1-day vulnerabilities<br>
+                                        • Discover misconfigurations and default setting vulnerabilities<br>
+                                        • Detect exposed panels, debug pages, and backup files<br>
+                                        • Check subdomain takeover possibilities<br>
+                                        • Detect sensitive information exposure (API keys, tokens, environment variables)
                                         <br><br>
-                                        <strong>How it works:</strong><br>
-                                        • <strong>Template‑based:</strong> YAML templates focused on recent 2024–2025 vulnerabilities<br>
-                                        • <strong>Non‑intrusive:</strong> Validates signatures without active exploitation<br>
-                                        • <strong>Scope:</strong> Single target URL (no deep crawling)<br>
-                                        • <strong>Priority:</strong> Scans Critical/High first, then Medium/Low<br>
-                                        • <strong>Duration:</strong> ~30 seconds to 3 minutes (varies by templates)<br>
-                                        • <strong>Domain verification:</strong> Only verified domains can be scanned
+                                        <strong>Testing Method:</strong><br>
+                                        • <strong>Template-based:</strong> Utilizes YAML templates specialized for 2024-2025 latest vulnerabilities<br>
+                                        • <strong>Non-intrusive:</strong> Verifies vulnerability signatures without actual attacks<br>
+                                        • <strong>Scope:</strong> Single URL target (no deep crawling)<br>
+                                        • <strong>Priority:</strong> Scans Critical, High first, then Medium, Low sequentially<br>
+                                        • <strong>Duration:</strong> Approximately 30 seconds to 3 minutes (varies by template count)<br>
+                                        • <strong>Domain Verification:</strong> Only verified domains can be scanned
                                         <br><br>
-                                        <strong>Coverage highlights:</strong><br>
-                                        • Major RCEs such as Log4Shell and Spring4Shell<br>
-                                        • Latest WordPress, Joomla, and Drupal plugin issues<br>
+                                        <strong>Latest Vulnerability Coverage:</strong><br>
+                                        • Major RCE vulnerabilities like Log4Shell, Spring4Shell<br>
+                                        • Latest WordPress, Joomla, Drupal plugin vulnerabilities<br>
                                         • Apache, Nginx, IIS web server misconfigurations<br>
-                                        • Exposed Git/SVN/.env files<br>
-                                        • GraphQL and REST API endpoint weaknesses<br>
-                                        • Cloud service misconfigurations (AWS, Azure, GCP)
+                                        • Git, SVN, ENV file exposure<br>
+                                        • GraphQL, REST API endpoint vulnerabilities<br>
+                                        • Cloud service (AWS, Azure, GCP) misconfigurations
                                     </div>
 
-                                    {{-- Grading criteria --}}
+                                    {{-- Grade Criteria Guide --}}
                                     <div class="table-responsive mt-3">
                                         <table class="table table-sm criteria-table table-vcenter table-nowrap">
                                             <thead>
@@ -198,40 +198,33 @@
                                             <tbody>
                                                 <tr>
                                                     <td><span class="badge badge-a-plus">A+</span></td>
-                                                    <td>90–100</td>
-                                                    <td>0 Critical/High and 0 Medium findings<br>No 2024–2025 CVEs detected<br>No open directories/debug pages/sensitive files<br>Security headers/banners minimized</td>
+                                                    <td>90~100</td>
+                                                    <td>0 Critical/High, 0 Medium<br>No 2024-2025 CVE detected<br>No exposed directories/debug/sensitive files<br>Good security headers/banner exposure (minimal information)</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-a">A</span></td>
-                                                    <td>80–89</td>
-                                                    <td>≤1 High and ≤1 Medium<br>No direct exposure to recent CVEs (may require conditions/bypass)<br>Minor configuration warnings (informational)<br>Solid patching/config management</td>
+                                                    <td>80~89</td>
+                                                    <td>High ≤1, Medium ≤1<br>No direct recent CVE exposure (requires bypass/conditions)<br>Minor configuration warnings (informational level)<br>Good patch/configuration management</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-b">B</span></td>
-                                                    <td>70–79</td>
-                                                    <td>≤2 High or ≤3 Medium<br>Some configuration/banner exposure
-Protected admin endpoints present (hard to bypass)
-Tendency to delay patches</td>
+                                                    <td>70~79</td>
+                                                    <td>High ≤2 or Medium ≤3<br>Some configuration/banner exposure exists<br>Protected admin endpoints exist (difficult to bypass)<br>Patch delay tendency (delayed security release adoption)</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-c">C</span></td>
-                                                    <td>60–69</td>
-                                                    <td>≥3 High or many Medium findings<br>Sensitive files/backups/indexing exposed
-Older components inferred (banners/meta)
-Needs systematic patching and hardening</td>
+                                                    <td>60~69</td>
+                                                    <td>High ≥3 or multiple Medium<br>Sensitive files/backups/indexing exposure found<br>Old version components detectable (banner/meta info)<br>Systematic improvement needed in patch/configuration management</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-d">D</span></td>
-                                                    <td>50–59</td>
-                                                    <td>≥1 Critical or easily exploitable High<br>Likely directly affected by recent (2024–2025) CVEs<br>Risky unauthenticated endpoints/files
-Sensitive build/log/env data exposed</td>
+                                                    <td>50~59</td>
+                                                    <td>Critical ≥1 or low-difficulty High exploitation<br>Recent (2024-2025) CVE direct impact estimated<br>Risky endpoints/files accessible without authentication<br>Build/log/environment sensitive information exposure</td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge badge-f">F</span></td>
-                                                    <td>0–49</td>
-                                                    <td>Multiple Critical/High present simultaneously<br>Many recent CVEs unpatched/widely exposed
-Missing basic security controls (headers/access control)
-No overarching security guardrails</td>
+                                                    <td>0~49</td>
+                                                    <td>Multiple Critical/High simultaneously<br>Massive unpatched/widespread exposure of latest CVE<br>Lack of basic security configuration (missing defense headers/access control)<br>Complete absence of security guardrails</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -263,7 +256,7 @@ No overarching security guardrails</td>
 
                                         <x-test-shared.certificate :current-test="$currentTest" />
 
-                                        <!-- Vulnerability summary -->
+                                        <!-- Vulnerability Summary -->
                                         <div class="row mb-4">
                                             <div class="col-12">
                                                 <h5 class="mb-3">Vulnerability Summary</h5>
@@ -321,14 +314,14 @@ No overarching security guardrails</td>
                                                 </div>
                                                 @if (isset($metrics['scan_duration']) && $metrics['scan_duration'] > 0)
                                                     <div class="text-muted small mt-2">
-                                                        Scan time: {{ $metrics['scan_duration'] }}s |
-                                                        Templates matched: {{ $metrics['templates_matched'] ?? 0 }}
+                                                        Scan Time: {{ $metrics['scan_duration'] }} seconds |
+                                                        Templates Matched: {{ $metrics['templates_matched'] ?? 0 }}
                                                     </div>
                                                 @endif
                                             </div>
                                         </div>
 
-                                        <!-- Critical/High vulnerabilities -->
+                                        <!-- Critical/High Vulnerability Details -->
                                         @foreach (['critical' => 'bg-red-lt text-red-lt-fg', 'high' => 'bg-orange-lt text-orange-lt-fg'] as $severity => $badgeClass)
                                             @if (!empty($vulnerabilities[$severity]))
                                                 <div class="card mb-3">
@@ -357,7 +350,7 @@ No overarching security guardrails</td>
                                                                     </div>
                                                                     @if (!empty($vuln['reference']) && is_array($vuln['reference']))
                                                                         <div class="small mt-1">
-                                                                            References:
+                                                                            Reference:
                                                                             @foreach (array_slice($vuln['reference'], 0, 2) as $ref)
                                                                                 <a href="{{ $ref }}"
                                                                                     target="_blank"
@@ -376,7 +369,7 @@ No overarching security guardrails</td>
                                             @endif
                                         @endforeach
 
-                                        <!-- Medium/Low vulnerability summary -->
+                                        <!-- Medium/Low Vulnerability Summary -->
                                         @foreach (['medium' => 'bg-yellow-lt text-yellow-lt-fg', 'low' => 'bg-blue-lt text-blue-lt-fg'] as $severity => $badgeClass)
                                             @if (!empty($vulnerabilities[$severity]))
                                                 <div class="card mb-3">
@@ -391,7 +384,7 @@ No overarching security guardrails</td>
                                                             <table class="table table-sm">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>Vulnerability</th>
+                                                                        <th>Vulnerability Name</th>
                                                                         <th>Template ID</th>
                                                                         <th>Target</th>
                                                                     </tr>
@@ -415,30 +408,30 @@ No overarching security guardrails</td>
                                             @endif
                                         @endforeach
 
-                                        <!-- Severity guide -->
+                                        <!-- Measurement Metrics Explanation -->
                                         <div class="alert alert-info d-block">
-                                            <h6>Severity Guide</h6>
-                                            <p class="mb-2"><strong>Critical:</strong> Immediate RCE, auth bypass, or data exfiltration risk</p>
-                                            <p class="mb-2"><strong>High:</strong> Likely exploitable issues (e.g., SQLi, XSS, SSRF)</p>
-                                            <p class="mb-2"><strong>Medium:</strong> Information disclosure, misconfigurations, outdated software</p>
-                                            <p class="mb-2"><strong>Low:</strong> Low risk items (e.g., directory listing, banner exposure)</p>
-                                            <p class="mb-0"><strong>Info:</strong> Informational findings without direct security impact</p>
+                                            <h6>Measurement Metrics Explanation</h6>
+                                            <p class="mb-2"><strong>Critical:</strong> Immediate remote code execution (RCE), authentication bypass, data breach, and other severe vulnerabilities</p>
+                                            <p class="mb-2"><strong>High:</strong> SQL Injection, XSS, SSRF, and other highly exploitable vulnerabilities</p>
+                                            <p class="mb-2"><strong>Medium:</strong> Information disclosure, misconfigurations, outdated software, and medium-risk issues</p>
+                                            <p class="mb-2"><strong>Low:</strong> Directory listing, banner exposure, and low-risk issues</p>
+                                            <p class="mb-0"><strong>Info:</strong> No direct security impact but informational findings</p>
                                         </div>
 
-                                        <!-- Recommendations -->
+                                        <!-- Improvement Recommendations -->
                                         <div class="alert alert-info d-block">
-                                            <h6>Security recommendations</h6>
-                                            <p class="mb-2"><strong>1. Patch immediately:</strong> Apply fixes or mitigations for Critical/High findings as soon as they are discovered.</p>
-                                            <p class="mb-2"><strong>2. Keep software current:</strong> Maintain up‑to‑date CMS, plugins, and frameworks.</p>
-                                            <p class="mb-2"><strong>3. Harden configurations:</strong> Disable unnecessary services, remove debug modes, and change default accounts.</p>
-                                            <p class="mb-2"><strong>4. Enforce access control:</strong> Restrict admin by IP, enable 2FA, and apply least privilege.</p>
-                                            <p class="mb-2"><strong>5. Monitor continuously:</strong> Review security logs and deploy anomaly detection.</p>
-                                            <p class="mb-0"><strong>6. Scan regularly:</strong> Run vulnerability scans at least monthly to catch new threats early.</p>
+                                            <h6>Security Improvement Recommendations</h6>
+                                            <p class="mb-2"><strong>1. Immediate Patching:</strong> Apply patches immediately for Critical/High vulnerabilities or implement temporary defense measures.</p>
+                                            <p class="mb-2"><strong>2. Regular Updates:</strong> Keep CMS, plugins, and frameworks up to date with the latest versions.</p>
+                                            <p class="mb-2"><strong>3. Configuration Hardening:</strong> Disable unnecessary services, remove debug mode, change default accounts</p>
+                                            <p class="mb-2"><strong>4. Access Control:</strong> Apply IP restrictions to admin pages, enable 2FA, apply principle of least privilege</p>
+                                            <p class="mb-2"><strong>5. Monitoring:</strong> Monitor security logs, establish anomaly detection systems</p>
+                                            <p class="mb-0"><strong>6. Regular Scanning:</strong> Run vulnerability scans at least monthly to detect new threats early</p>
                                         </div>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>No results yet</h5>
-                                            <p class="mb-0">Run a scan to view the latest vulnerability results.</p>
+                                            <h5>No Results Yet</h5>
+                                            <p class="mb-0">Run a test to see the latest vulnerability scan results.</p>
                                         </div>
                                     @endif
                                 </div>
@@ -449,15 +442,15 @@ No overarching security guardrails</td>
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h5 class="mb-0">Raw JSON Data</h5>
                                             <button type="button" class="btn btn-outline-primary btn-sm"
-                                                onclick="copyJsonToClipboard()" title="Copy JSON">
+                                                onclick="copyJsonToClipboard()" title="Copy JSON Data">
                                                 Copy
                                             </button>
                                         </div>
                                         <pre class="json-dump" id="json-data">{{ json_encode($currentTest->results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
                                     @else
                                         <div class="alert alert-info d-block">
-                                            <h5>No results yet</h5>
-                                            <p class="mb-0">Run a scan to view the raw JSON data.</p>
+                                            <h5>No Results Yet</h5>
+                                            <p class="mb-0">Run a test to see the Raw JSON data.</p>
                                         </div>
                                     @endif
                                 </div>
@@ -467,11 +460,11 @@ No overarching security guardrails</td>
                 </div>
 
                 <div class="col-xl-4 mb-2">
-                    {{-- 사이드바 (공통 컴포넌트) --}}
+                    {{-- Sidebar (Shared Component) --}}
                     <x-test-shared.sidebar :side-tab-active="$sideTabActive" :test-history="$testHistory" :selected-history-test="$selectedHistoryTest" :user-domains="$userDomains"
                         :scheduled-tests="$scheduledTests" :has-pro-or-agency-plan="$hasProOrAgencyPlan" />
 
-                    {{-- 도메인 인증 모달 (공통 컴포넌트) --}}
+                    {{-- Domain Verification Modal (Shared Component) --}}
                     <x-test-shared.domain-verification-modal :show-verification-modal="$showVerificationModal" :current-verification-domain="$currentVerificationDomain" :verification-message="$verificationMessage"
                         :verification-message-type="$verificationMessageType" />
                 </div>

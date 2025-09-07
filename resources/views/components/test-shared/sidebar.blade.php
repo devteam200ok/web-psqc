@@ -97,7 +97,7 @@
                                 placeholder="https://example.com/path" wire:keydown.enter="addDomain">
                             <button wire:click="addDomain" wire:loading.attr="disabled" wire:target="addDomain"
                                 class="btn btn-primary" type="button">
-                                추가
+                                Add
                             </button>
                         </div>
                         @error('newDomainUrl')
@@ -121,7 +121,7 @@
                                             {{ $domain['verification_status'] }}
                                         </span>
                                         <span style="cursor: pointer;" wire:click="deleteDomain({{ $domain['id'] }})"
-                                            wire:confirm="이 도메인을 삭제하시겠습니까?">
+                                            wire:confirm="Delete this domain?">
                                             🗑️
                                         </span>
                                     </div>

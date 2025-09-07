@@ -1,20 +1,20 @@
     <script>
-        // 전역 스코프에 함수들 정의
+        // Define helper functions on the global scope
         window.copyJsonToClipboard = function() {
             const jsonElement = document.getElementById('json-data');
             if (jsonElement) {
                 const text = jsonElement.textContent;
 
-                // Clipboard API를 사용 (최신 브라우저)
+                // Use Clipboard API (modern browsers)
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(text).then(() => {
                         window.showCopySuccess();
                     }).catch(err => {
-                        console.error('클립보드 복사 실패:', err);
+                        console.error('Clipboard copy failed:', err);
                         window.fallbackCopyTextToClipboard(text);
                     });
                 } else {
-                    // fallback (구형 브라우저)
+                    // Fallback for older browsers
                     window.fallbackCopyTextToClipboard(text);
                 }
             }
@@ -39,7 +39,7 @@
                     window.showCopyError();
                 }
             } catch (err) {
-                console.error('Fallback: 클립보드 복사 실패', err);
+                console.error('Fallback: clipboard copy failed', err);
                 window.showCopyError();
             }
 
@@ -50,7 +50,7 @@
             const button = document.querySelector('button[onclick="copyJsonToClipboard()"]');
             if (button) {
                 const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-check me-1"></i>복사됨';
+                button.innerHTML = '<i class="fas fa-check me-1"></i>Copied';
                 button.classList.remove('btn-outline-primary');
                 button.classList.add('btn-success');
 
@@ -66,7 +66,7 @@
             const button = document.querySelector('button[onclick="copyJsonToClipboard()"]');
             if (button) {
                 const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-times me-1"></i>실패';
+                button.innerHTML = '<i class="fas fa-times me-1"></i>Failed';
                 button.classList.remove('btn-outline-primary');
                 button.classList.add('btn-danger');
 
@@ -78,7 +78,7 @@
             }
         };
 
-        // DOMContentLoaded 이벤트 리스너
+        // DOMContentLoaded listener
         document.addEventListener('DOMContentLoaded', function() {
             let pollingInterval;
 
