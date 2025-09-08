@@ -105,15 +105,18 @@
                 {{-- File Upload --}}
                 <div class="mb-4" x-data="{ progress: 0 }" x-on:livewire-upload-start="progress = 0"
                     x-on:livewire-upload-progress="progress = $event.detail.progress"
-                    x-on:livewire-upload-finish="progress = 100" x-on:livewire-upload-error="progress = 0">
+                    x-on:livewire-upload-finish="progress = 100"
+                    x-on:livewire-upload-error="progress = 0; alert('File upload failed. Please try again.')">
+
                     <label for="file" class="form-label">
-                        Attachment (Optional) - PDF, JPG, PNG, ZIP / Max 10MB
+                    attachments (Optional) - PDF, JPG, PNG, ZIP / Max 10MB
                     </label>
+
                     <input type="file" id="file" wire:model="file" class="form-control"
-                        accept=".pdf,.jpg,.png,.zip" />
+                        accept=".pdf,.jpg,.jpeg,.png,.zip" />
 
                     {{-- Upload Progress Display --}}
-                    <div class="progress mt-2" x-show="progress > 0">
+                    <div class="progress mt-2" x-show="progress > 0 && progress < 100">
                         <div class="progress-bar" role="progressbar" :style="'width: ' + progress + '%'"
                             aria-valuemin="0" aria-valuemax="100">
                             <span x-text="progress + '%'"></span>
