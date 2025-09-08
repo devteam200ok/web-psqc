@@ -37,6 +37,22 @@ Schedule::call(function () {
    }
 })->dailyAt('00:00');
 
+// 매일 00:10에 비구독 플랜 만료 처리
+Schedule::call(function () {
+    try {
+        $count = UserPlan::query()
+            ->where('status', 'active')
+            ->where('is_subscription', false)
+            ->whereNotNull('end_date')
+            ->where('end_date', '<=', now())
+            ->update(['status' => 'expired']);
+
+        \Log::info("UserPlan expire job: {$count} non-subscription plans marked as expired.");
+    } catch (\Throwable $e) {
+        \Log::error('UserPlan expire job error: ' . $e->getMessage());
+    }
+})->dailyAt('00:10');
+
 // 스케줄된 테스트 처리 - 매 분마다 실행
 Schedule::command('tests:process-scheduled --limit=100')
     ->everyMinute()
