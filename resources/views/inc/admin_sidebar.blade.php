@@ -193,7 +193,7 @@
                         </a>
                         <div class="dropdown-menu {{ $isDevOpen ? 'show' : '' }}">
                             @foreach ($devLinks as $link)
-                                @if (!isset($link['env']) || env('APP_ENV') === $link['env'])
+                                @if (!isset($link['env']) || config('app.env') === $link['env'])
                                     @php
                                         $isActive = str_contains($current_url, $link['uri']);
                                     @endphp

@@ -61,7 +61,7 @@
                 <div class="my-3">
                     <div class="mt-2 input-group">
                         <span class="input-group-text" style="min-width:100px">
-                            {{ env('APP_URL') }}/
+                            {{ config('app.url') }}/
                         </span>
                         <input wire:model="role" type="text" class="form-control" placeholder="role">
                         <span class="input-group-text">/</span>
@@ -150,7 +150,7 @@
                     <div class="my-3">
                         <div class="mt-2 input-group">
                             <span class="input-group-text" style="min-width:240px">
-                                {{ env('APP_URL') }}/{{ $parent->role }}/{{ $parent->url }}/
+                                {{ config('app.url') }}/{{ $parent->role }}/{{ $parent->url }}/
                             </span>
                             <input wire:model="child_url" type="text" class="form-control" placeholder="url">
                         </div>

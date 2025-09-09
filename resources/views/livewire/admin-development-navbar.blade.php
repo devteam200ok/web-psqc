@@ -8,7 +8,7 @@
                 <div class="my-3">
                     <div class="mt-2 input-group">
                         <span class="input-group-text" style="min-width:100px">
-                            {{ env('APP_URL') }}/
+                            {{ config('app.url') }}/
                         </span>
                         <input wire:model="url" type="text" class="form-control" placeholder="url">
                     </div>
