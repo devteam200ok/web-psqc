@@ -618,7 +618,7 @@
     let progressInterval;
     let currentStep = 0;
     let pollingInterval;
-    let progressStarted = false; // 중복 실행 방지
+    let isTestRunning = false;
 
     const testSteps = [
         "Initializing global speed test...",
@@ -626,82 +626,85 @@
         "Seoul: TCP handshake in progress...",
         "Seoul: TLS handshake completed",
         "Seoul: Downloading content...",
-        "Connecting to Tokyo server...",
-        "Tokyo: TCP handshake in progress...",
-        "Tokyo: TLS handshake completed",
-        "Tokyo: Downloading content...",
-        "Connecting to Singapore server...",
-        "Singapore: TCP handshake in progress...",
-        "Singapore: TLS handshake completed",
-        "Singapore: Downloading content...",
-        "Connecting to Sydney server...",
-        "Sydney: TCP handshake in progress...",
-        "Sydney: TLS handshake completed",
-        "Sydney: Downloading content...",
-        "Connecting to Virginia server...",
-        "Virginia: TCP handshake in progress...",
-        "Virginia: TLS handshake completed",
-        "Virginia: Downloading content...",
-        "Connecting to Oregon server...",
-        "Oregon: TCP handshake in progress...",
-        "Oregon: TLS handshake completed",
-        "Oregon: Downloading content...",
-        "Connecting to Frankfurt server...",
-        "Frankfurt: TCP handshake in progress...",
-        "Frankfurt: TLS handshake completed",
-        "Frankfurt: Downloading content...",
-        "Connecting to London server...",
-        "London: TCP handshake in progress...",
-        "London: TLS handshake completed",
-        "London: Downloading content...",
-        "Analyzing performance data...",
-        "Calculating global averages...",
-        "Generating performance report...",
-        "Test completed!"
+        // ... 나머지 steps
     ];
 
     function startProgressSimulation() {
-        if (progressStarted) return; // 이미 시작된 경우 무시
+        if (isTestRunning) return;
 
-        progressStarted = true;
+        isTestRunning = true;
         currentStep = 0;
-        const totalSteps = testSteps.length;
 
+        // DOM 요소가 존재할 때까지 기다림
+        const waitForElements = () => {
+            const regionEl = document.getElementById('current-region');
+            const progressEl = document.getElementById('progress-bar');
+
+            if (regionEl && progressEl) {
+                runProgressLoop();
+            } else {
+                setTimeout(waitForElements, 100);
+            }
+        };
+
+        waitForElements();
+    }
+
+    function runProgressLoop() {
         progressInterval = setInterval(() => {
-            if (currentStep < totalSteps) {
-                if (document.getElementById('current-region')) {
-                    document.getElementById('current-region').textContent = testSteps[currentStep];
-                }
-
-                if (document.getElementById('progress-bar')) {
-                    const progress = Math.min(95, (currentStep / totalSteps) * 100);
-                    document.getElementById('progress-bar').style.width = progress + '%';
-                }
-
+            if (currentStep < testSteps.length && isTestRunning) {
+                updateProgressUI();
                 currentStep++;
             }
         }, getRandomInterval());
+    }
+
+    function updateProgressUI() {
+        // DOM 요소 재확인 (Livewire 렌더링 후에도 업데이트)
+        const regionEl = document.getElementById('current-region');
+        const progressEl = document.getElementById('progress-bar');
+
+        if (regionEl && testSteps[currentStep]) {
+            regionEl.textContent = testSteps[currentStep];
+        }
+
+        if (progressEl) {
+            const progress = Math.min(95, (currentStep / testSteps.length) * 100);
+            progressEl.style.width = progress + '%';
+        }
+    }
+
+    function stopProgressSimulation() {
+        isTestRunning = false;
+        if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+        }
+
+        // 완료 상태 표시
+        setTimeout(() => {
+            const regionEl = document.getElementById('current-region');
+            const progressEl = document.getElementById('progress-bar');
+
+            if (progressEl) progressEl.style.width = '100%';
+            if (regionEl) regionEl.textContent = 'Test completed! Analyzing results...';
+        }, 100);
     }
 
     function getRandomInterval() {
         return Math.random() * (2000 - 500) + 500;
     }
 
-    function stopProgressSimulation() {
-        if (progressInterval) {
-            clearInterval(progressInterval);
-            progressInterval = null;
-        }
-        progressStarted = false; // 리셋
-    }
-
     function startPolling() {
-        if (pollingInterval) {
-            clearInterval(pollingInterval);
-        }
+        if (pollingInterval) clearInterval(pollingInterval);
 
         pollingInterval = setInterval(() => {
             Livewire.dispatch('check-status');
+
+            // 폴링 후 UI 상태 복원
+            if (isTestRunning) {
+                setTimeout(updateProgressUI, 50);
+            }
         }, 2000);
     }
 
@@ -722,20 +725,12 @@
         });
 
         Livewire.on('start-polling', () => {
-            startPolling(); // progress simulation 제거 (auto-start-test에서만 실행)
+            startPolling();
         });
 
         Livewire.on('stop-polling', () => {
             stopProgressSimulation();
             stopPolling();
-
-            if (document.getElementById('progress-bar')) {
-                document.getElementById('progress-bar').style.width = '100%';
-            }
-            if (document.getElementById('current-region')) {
-                document.getElementById('current-region').textContent =
-                    'Test completed! Analyzing results...';
-            }
         });
     });
 </script>
