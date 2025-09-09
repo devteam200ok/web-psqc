@@ -83,7 +83,7 @@ trait SharedTestComponents
     {
         if(isset($_GET['start']) && ($_GET['start'] == '1' || $_GET['start'] == 'true')) {
             $this->start = true;
-            $this->runTest();
+            // runTest() 호출 제거 - mount()에서 처리
         }
     }
 

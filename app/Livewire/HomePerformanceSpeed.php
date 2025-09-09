@@ -19,6 +19,11 @@ class HomePerformanceSpeed extends Component
     public function mount()
     {
         $this->initializeSharedComponents();
+        
+        // URL과 start 플래그가 모두 있을 때만 자동 실행 예약
+        if ($this->start && !empty($this->url)) {
+            $this->dispatch('auto-start-test');
+        }
     }
 
     /**

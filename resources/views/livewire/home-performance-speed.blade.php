@@ -617,6 +617,7 @@
 <script>
     let progressInterval;
     let currentStep = 0;
+    let pollingInterval;
 
     const testSteps = [
         "Initializing global speed test...",
@@ -664,12 +665,14 @@
 
         progressInterval = setInterval(() => {
             if (currentStep < totalSteps) {
-                // 텍스트 업데이트
-                document.getElementById('current-region').textContent = testSteps[currentStep];
+                if (document.getElementById('current-region')) {
+                    document.getElementById('current-region').textContent = testSteps[currentStep];
+                }
 
-                // 진행률 업데이트 (0-95%까지만, 완료는 실제 결과가 나올 때)
-                const progress = Math.min(95, (currentStep / totalSteps) * 100);
-                document.getElementById('progress-bar').style.width = progress + '%';
+                if (document.getElementById('progress-bar')) {
+                    const progress = Math.min(95, (currentStep / totalSteps) * 100);
+                    document.getElementById('progress-bar').style.width = progress + '%';
+                }
 
                 currentStep++;
             }
@@ -677,7 +680,6 @@
     }
 
     function getRandomInterval() {
-        // 0.5초 ~ 2초 사이 랜덤 간격
         return Math.random() * (2000 - 500) + 500;
     }
 
@@ -688,17 +690,45 @@
         }
     }
 
-    // Livewire 이벤트 리스너
+    function startPolling() {
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+        }
+
+        pollingInterval = setInterval(() => {
+            Livewire.dispatch('check-status');
+        }, 2000);
+    }
+
+    function stopPolling() {
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+            pollingInterval = null;
+        }
+    }
+
     document.addEventListener('livewire:init', () => {
+        Livewire.on('auto-start-test', () => {
+            setTimeout(() => {
+                startProgressSimulation();
+                startPolling();
+                @this.call('runTest');
+            }, 500);
+        });
+
         Livewire.on('start-polling', () => {
             startProgressSimulation();
+            startPolling();
         });
 
         Livewire.on('stop-polling', () => {
             stopProgressSimulation();
-            // 완료 시 100% 표시
+            stopPolling();
+
             if (document.getElementById('progress-bar')) {
                 document.getElementById('progress-bar').style.width = '100%';
+            }
+            if (document.getElementById('current-region')) {
                 document.getElementById('current-region').textContent =
                     'Test completed! Analyzing results...';
             }
