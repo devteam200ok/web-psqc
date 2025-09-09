@@ -618,6 +618,7 @@
     let progressInterval;
     let currentStep = 0;
     let pollingInterval;
+    let progressStarted = false; // 중복 실행 방지
 
     const testSteps = [
         "Initializing global speed test...",
@@ -660,6 +661,9 @@
     ];
 
     function startProgressSimulation() {
+        if (progressStarted) return; // 이미 시작된 경우 무시
+
+        progressStarted = true;
         currentStep = 0;
         const totalSteps = testSteps.length;
 
@@ -688,6 +692,7 @@
             clearInterval(progressInterval);
             progressInterval = null;
         }
+        progressStarted = false; // 리셋
     }
 
     function startPolling() {
@@ -717,8 +722,7 @@
         });
 
         Livewire.on('start-polling', () => {
-            startProgressSimulation();
-            startPolling();
+            startPolling(); // progress simulation 제거 (auto-start-test에서만 실행)
         });
 
         Livewire.on('stop-polling', () => {
