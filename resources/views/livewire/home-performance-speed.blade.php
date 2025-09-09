@@ -13,7 +13,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Web-PSQC" />
     <meta property="og:title" content="⚡ Global Speed Test - Loading Speed Measurement Across 8 Regions - Web-PSQC" />
-    <meta property="og:description" content="Simultaneously measure website performance across 8 global regions to analyze global user experience and receive performance certificates up to A+ grade." />
+    <meta property="og:description"
+        content="Simultaneously measure website performance across 8 global regions to analyze global user experience and receive performance certificates up to A+ grade." />
     @php $setting = \App\Models\Setting::first(); @endphp
     @if ($setting && $setting->og_image)
         <meta property='og:image' content='{{ url('/') }}/storage/{{ $setting->og_image }}' />
@@ -22,7 +23,8 @@
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="⚡ Global Speed Test - Loading Speed Measurement Across 8 Regions - Web-PSQC" />
-    <meta name="twitter:description" content="Simultaneous TTFB/LoadTime measurement across 8 regions, result grading and certificate issuance support." />
+    <meta name="twitter:description"
+        content="Simultaneous TTFB/LoadTime measurement across 8 regions, result grading and certificate issuance support." />
     @if ($setting && $setting->og_image)
         <meta name="twitter:image" content="{{ url('/') }}/storage/{{ $setting->og_image }}" />
     @endif
@@ -46,12 +48,43 @@
 @endsection
 @section('css')
 @include('components.test-shared.css')
+<style>
+    #loading-progress {
+        border-left: 4px solid #0066cc;
+        animation: pulse-border 2s infinite;
+    }
+
+    @keyframes pulse-border {
+        0% {
+            border-left-color: #0066cc;
+        }
+
+        50% {
+            border-left-color: #0099ff;
+        }
+
+        100% {
+            border-left-color: #0066cc;
+        }
+    }
+
+    .progress-bar {
+        transition: width 0.3s ease;
+        background: linear-gradient(90deg, #0066cc, #0099ff);
+    }
+
+    #current-region {
+        font-family: 'Courier New', monospace;
+        color: #495057;
+        min-height: 1.2em;
+    }
+</style>
 @endsection
 
 <div class="page-wrapper">
 {{-- 헤더 (공통 컴포넌트) --}}
-<x-test-shared.header title="Global Speed" subtitle="Measure load speed across 8 regions" :user-plan-usage="$userPlanUsage" :ip-usage="$ipUsage ?? null"
-    :ip-address="$ipAddress ?? null" />
+<x-test-shared.header title="Global Speed" subtitle="Measure load speed across 8 regions" :user-plan-usage="$userPlanUsage"
+    :ip-usage="$ipUsage ?? null" :ip-address="$ipAddress ?? null" />
 
 <div class="page-body">
     <div class="container-xl">
@@ -95,6 +128,25 @@
                                 @endif
                             </div>
                         </div>
+                        <!-- URL 입력 폼 아래에 추가 -->
+                        @if ($isLoading)
+                            <div class="mt-3 p-3 bg-light rounded" id="loading-progress">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                    <span class="fw-bold">Testing in progress...</span>
+                                </div>
+                                <div class="small text-muted mb-2">
+                                    <span id="current-region">Initializing global speed test...</span>
+                                </div>
+                                <div class="progress mb-2" style="height: 6px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%"
+                                        id="progress-bar"></div>
+                                </div>
+                                <div class="small text-muted">
+                                    Estimated time: 30-60 seconds | Testing across 8 global regions
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -136,18 +188,23 @@
                         <div class="tab-content">
                             <div class="tab-pane {{ $mainTabActive == 'information' ? 'active show' : '' }}"
                                 id="tabs-information">
-                                <h3>8 Regions: Seoul, Tokyo, Sydney, Singapore, Frankfurt, Virginia, Oregon, London</h3>
+                                <h3>8 Regions: Seoul, Tokyo, Sydney, Singapore, Frankfurt, Virginia, Oregon, London
+                                </h3>
                                 <div class="text-muted small mt-1">
-                                    Simulate real global user access speeds through 8 regions distributed across major internet hubs worldwide (Asia, North America, Europe, Oceania).
+                                    Simulate real global user access speeds through 8 regions distributed across
+                                    major internet hubs worldwide (Asia, North America, Europe, Oceania).
                                     <br><br>
                                     • Asia (Seoul, Tokyo, Singapore) → Covers East & Southeast Asia<br>
                                     • Oceania (Sydney) → Australia and Pacific region<br>
                                     • North America (Virginia, Oregon) → East & West coast hubs<br>
                                     • Europe (Frankfurt, London) → Western & Central European major hubs
                                     <br><br>
-                                    These 8 regions are core hubs commonly operated by global infrastructure providers like Cloudflare, AWS, and GCP, representing the majority of worldwide internet traffic.
+                                    These 8 regions are core hubs commonly operated by global infrastructure
+                                    providers like Cloudflare, AWS, and GCP, representing the majority of worldwide
+                                    internet traffic.
                                     <br><br>
-                                    <strong>Web-PSQC</strong> sends API requests to self-built testing servers in each region, aggregates all results, and generates reports.<br>
+                                    <strong>Web-PSQC</strong> sends API requests to self-built testing servers in
+                                    each region, aggregates all results, and generates reports.<br>
                                     This process takes approximately <strong>30 seconds to 2 minutes</strong>.
                                 </div>
                                 {{-- 등급 기준 안내 --}}
@@ -164,32 +221,42 @@
                                             <tr>
                                                 <td><span class="badge badge-a-plus">A+</span></td>
                                                 <td>90~100</td>
-                                                <td>Origin: TTFB ≤ 200ms, Load ≤ 1.5s<br>Global Average: TTFB ≤ 800ms, Load
-                                                    ≤ 2.5s<br>All Regions: TTFB ≤ 1.5s, Load ≤ 3s<br>Repeat Visit Improvement: 80%+</td>
+                                                <td>Origin: TTFB ≤ 200ms, Load ≤ 1.5s<br>Global Average: TTFB ≤
+                                                    800ms, Load
+                                                    ≤ 2.5s<br>All Regions: TTFB ≤ 1.5s, Load ≤ 3s<br>Repeat Visit
+                                                    Improvement: 80%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-a">A</span></td>
                                                 <td>80~89</td>
-                                                <td>Origin: TTFB ≤ 400ms, Load ≤ 2.5s<br>Global Average: TTFB ≤ 1.2s, Load ≤
-                                                    3.5s<br>All Regions: TTFB ≤ 2s, Load ≤ 4s<br>Repeat Visit Improvement: 60%+</td>
+                                                <td>Origin: TTFB ≤ 400ms, Load ≤ 2.5s<br>Global Average: TTFB ≤
+                                                    1.2s, Load ≤
+                                                    3.5s<br>All Regions: TTFB ≤ 2s, Load ≤ 4s<br>Repeat Visit
+                                                    Improvement: 60%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-b">B</span></td>
                                                 <td>70~79</td>
-                                                <td>Origin: TTFB ≤ 800ms, Load ≤ 3.5s<br>Global Average: TTFB ≤ 1.6s, Load ≤
-                                                    4.5s<br>All Regions: TTFB ≤ 2.5s, Load ≤ 5.5s<br>Repeat Visit Improvement: 50%+</td>
+                                                <td>Origin: TTFB ≤ 800ms, Load ≤ 3.5s<br>Global Average: TTFB ≤
+                                                    1.6s, Load ≤
+                                                    4.5s<br>All Regions: TTFB ≤ 2.5s, Load ≤ 5.5s<br>Repeat Visit
+                                                    Improvement: 50%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-c">C</span></td>
                                                 <td>60~69</td>
-                                                <td>Origin: TTFB ≤ 1.2s, Load ≤ 4.5s<br>Global Average: TTFB ≤ 2.0s, Load ≤
-                                                    5.5s<br>All Regions: TTFB ≤ 3.0s, Load ≤ 6.5s<br>Repeat Visit Improvement: 37.5%+</td>
+                                                <td>Origin: TTFB ≤ 1.2s, Load ≤ 4.5s<br>Global Average: TTFB ≤ 2.0s,
+                                                    Load ≤
+                                                    5.5s<br>All Regions: TTFB ≤ 3.0s, Load ≤ 6.5s<br>Repeat Visit
+                                                    Improvement: 37.5%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-d">D</span></td>
                                                 <td>50~59</td>
-                                                <td>Origin: TTFB ≤ 1.6s, Load ≤ 6.0s<br>Global Average: TTFB ≤ 2.5s, Load ≤
-                                                    7.0s<br>All Regions: TTFB ≤ 3.5s, Load ≤ 8.5s<br>Repeat Visit Improvement: 25%+</td>
+                                                <td>Origin: TTFB ≤ 1.6s, Load ≤ 6.0s<br>Global Average: TTFB ≤ 2.5s,
+                                                    Load ≤
+                                                    7.0s<br>All Regions: TTFB ≤ 3.5s, Load ≤ 8.5s<br>Repeat Visit
+                                                    Improvement: 25%+</td>
                                             </tr>
                                             <tr>
                                                 <td><span class="badge badge-f">F</span></td>
@@ -342,7 +409,8 @@
                                                                 @if ($eligibleRegions)
                                                                     <span
                                                                         class="text-muted">({{ $improvedRegions }}
-                                                                        / {{ $eligibleRegions }} regions improved)</span>
+                                                                        / {{ $eligibleRegions }} regions
+                                                                        improved)</span>
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -439,50 +507,71 @@
 
                                     <!-- 추가 정보 -->
                                     <div class="alert alert-info d-block">
-                                        <strong>Display Format:</strong> <span class="fw-bold">First Visit</span> value → <span
-                                            class="fw-bold">Repeat Visit</span> value (Δ difference)<br>
-                                        <span class="text-success">Green = Improved (faster repeat visit)</span> | <span
-                                            class="text-danger">Red = Degraded (slower repeat visit)</span>
+                                        <strong>Display Format:</strong> <span class="fw-bold">First Visit</span>
+                                        value → <span class="fw-bold">Repeat Visit</span> value (Δ difference)<br>
+                                        <span class="text-success">Green = Improved (faster repeat visit)</span> |
+                                        <span class="text-danger">Red = Degraded (slower repeat visit)</span>
                                     </div>
 
                                     <div class="alert alert-light d-block">
                                         <h6>Performance Metrics Explained</h6>
-                                        <p class="mb-2"><strong>TTFB (Time To First Byte):</strong> Time from when the user sends a request until receiving the first response byte from the server</p>
-                                        <p class="mb-2"><strong>Load Time:</strong> Time for all resources (HTML, CSS, JS, images) to be loaded and the page to be fully displayed</p>
-                                        <p class="mb-0"><strong>Repeat Visit Performance:</strong> Faster loading speeds on repeat visits due to browser cache, Keep-Alive connections, and CDN caching</p>
+                                        <p class="mb-2"><strong>TTFB (Time To First Byte):</strong> Time from
+                                            when the user sends a request until receiving the first response byte
+                                            from the server</p>
+                                        <p class="mb-2"><strong>Load Time:</strong> Time for all resources (HTML,
+                                            CSS, JS, images) to be loaded and the page to be fully displayed</p>
+                                        <p class="mb-0"><strong>Repeat Visit Performance:</strong> Faster loading
+                                            speeds on repeat visits due to browser cache, Keep-Alive connections,
+                                            and CDN caching</p>
                                     </div>
 
                                     <!-- 추가 정보 -->
                                     <div class="alert alert-info d-block">
                                         <strong>💡 Why are repeat visits faster?</strong><br>
-                                        - Browser Cache: Static resources like images, JS, and CSS are cached, eliminating the need to re-download.<br>
-                                        - Keep-Alive & Session Reuse: Server connections are maintained, skipping handshake/SSL authentication processes.<br>
-                                        - CDN Caching Effect: Resources are fetched from globally distributed CDN caches, reducing latency.<br>
-                                        As a result, <span class="fw-bold">Repeat Visit Performance</span> typically shows much shorter loading times than first visits.
+                                        - Browser Cache: Static resources like images, JS, and CSS are cached,
+                                        eliminating the need to re-download.<br>
+                                        - Keep-Alive & Session Reuse: Server connections are maintained, skipping
+                                        handshake/SSL authentication processes.<br>
+                                        - CDN Caching Effect: Resources are fetched from globally distributed CDN
+                                        caches, reducing latency.<br>
+                                        As a result, <span class="fw-bold">Repeat Visit Performance</span>
+                                        typically shows much shorter loading times than first visits.
                                     </div>
 
                                     <div class="alert alert-secondary d-block">
                                         <strong>📌 Difference between TTFB and Load Time</strong><br>
-                                        - <strong>TTFB (Time To First Byte)</strong>: Time from when a user sends a request until receiving the first response byte from the server.<br>
-                                        - <strong>Load Time</strong>: Time for all resources (HTML, CSS, JS, images) to be loaded and the page to be fully displayed.<br><br>
+                                        - <strong>TTFB (Time To First Byte)</strong>: Time from when a user sends a
+                                        request until receiving the first response byte from the server.<br>
+                                        - <strong>Load Time</strong>: Time for all resources (HTML, CSS, JS, images)
+                                        to be loaded and the page to be fully displayed.<br><br>
 
                                         <strong>🌍 Network Round-Trip (RTT) Structure</strong><br>
-                                        • TCP handshake + TLS handshake + actual data request/response → Minimum 3 round trips required.<br>
-                                        • Therefore, <u>regions physically farther from the origin server</u> accumulate more latency.<br><br>
+                                        • TCP handshake + TLS handshake + actual data request/response → Minimum 3
+                                        round trips required.<br>
+                                        • Therefore, <u>regions physically farther from the origin server</u>
+                                        accumulate more latency.<br><br>
 
                                         <strong>📊 Minimum Regional Latency</strong><br>
                                         - Same continent (e.g., Seoul→Tokyo/Singapore): TTFB of tens to ~200ms.<br>
-                                        - Inter-continental (Seoul→US/Europe): Fiber optic round-trip alone adds 150-250ms+.<br>
-                                        - Including TLS/data requests: <u>minimum TTFB of 400-600ms+</u> can occur.<br>
-                                        - Load Time can extend to several seconds depending on resource size and count, especially with many images/JS files <u>5+ seconds</u> is common.<br><br>
+                                        - Inter-continental (Seoul→US/Europe): Fiber optic round-trip alone adds
+                                        150-250ms+.<br>
+                                        - Including TLS/data requests: <u>minimum TTFB of 400-600ms+</u> can
+                                        occur.<br>
+                                        - Load Time can extend to several seconds depending on resource size and
+                                        count, especially with many images/JS files <u>5+ seconds</u> is
+                                        common.<br><br>
 
-                                        In other words, <span class="fw-bold">regions physically farthest from origin (e.g., Korean server → US East/Europe)</span> will inevitably have <u>minimum TTFB of hundreds of ms</u> and <u>Load Time of 2-5+ seconds</u> regardless of optimization.
+                                        In other words, <span class="fw-bold">regions physically farthest from
+                                            origin (e.g., Korean server → US East/Europe)</span> will inevitably
+                                        have <u>minimum TTFB of hundreds of ms</u> and <u>Load Time of 2-5+
+                                            seconds</u> regardless of optimization.
                                         To reduce this, CDN, caching, and Edge server deployment are essential.
                                     </div>
                                 @else
                                     <div class="alert alert-info d-block">
                                         <h5>No Results Yet</h5>
-                                        <p class="mb-0">Run a test to see global performance results by region.</p>
+                                        <p class="mb-0">Run a test to see global performance results by region.
+                                        </p>
                                     </div>
                                 @endif
                             </div>
@@ -525,4 +614,95 @@
 
 @section('js')
 @include('components.test-shared.js')
+<script>
+    let progressInterval;
+    let currentStep = 0;
+
+    const testSteps = [
+        "Initializing global speed test...",
+        "Connecting to Seoul server...",
+        "Seoul: TCP handshake in progress...",
+        "Seoul: TLS handshake completed",
+        "Seoul: Downloading content...",
+        "Connecting to Tokyo server...",
+        "Tokyo: TCP handshake in progress...",
+        "Tokyo: TLS handshake completed",
+        "Tokyo: Downloading content...",
+        "Connecting to Singapore server...",
+        "Singapore: TCP handshake in progress...",
+        "Singapore: TLS handshake completed",
+        "Singapore: Downloading content...",
+        "Connecting to Sydney server...",
+        "Sydney: TCP handshake in progress...",
+        "Sydney: TLS handshake completed",
+        "Sydney: Downloading content...",
+        "Connecting to Virginia server...",
+        "Virginia: TCP handshake in progress...",
+        "Virginia: TLS handshake completed",
+        "Virginia: Downloading content...",
+        "Connecting to Oregon server...",
+        "Oregon: TCP handshake in progress...",
+        "Oregon: TLS handshake completed",
+        "Oregon: Downloading content...",
+        "Connecting to Frankfurt server...",
+        "Frankfurt: TCP handshake in progress...",
+        "Frankfurt: TLS handshake completed",
+        "Frankfurt: Downloading content...",
+        "Connecting to London server...",
+        "London: TCP handshake in progress...",
+        "London: TLS handshake completed",
+        "London: Downloading content...",
+        "Analyzing performance data...",
+        "Calculating global averages...",
+        "Generating performance report...",
+        "Test completed!"
+    ];
+
+    function startProgressSimulation() {
+        currentStep = 0;
+        const totalSteps = testSteps.length;
+
+        progressInterval = setInterval(() => {
+            if (currentStep < totalSteps) {
+                // 텍스트 업데이트
+                document.getElementById('current-region').textContent = testSteps[currentStep];
+
+                // 진행률 업데이트 (0-95%까지만, 완료는 실제 결과가 나올 때)
+                const progress = Math.min(95, (currentStep / totalSteps) * 100);
+                document.getElementById('progress-bar').style.width = progress + '%';
+
+                currentStep++;
+            }
+        }, getRandomInterval());
+    }
+
+    function getRandomInterval() {
+        // 0.5초 ~ 2초 사이 랜덤 간격
+        return Math.random() * (2000 - 500) + 500;
+    }
+
+    function stopProgressSimulation() {
+        if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+        }
+    }
+
+    // Livewire 이벤트 리스너
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('start-polling', () => {
+            startProgressSimulation();
+        });
+
+        Livewire.on('stop-polling', () => {
+            stopProgressSimulation();
+            // 완료 시 100% 표시
+            if (document.getElementById('progress-bar')) {
+                document.getElementById('progress-bar').style.width = '100%';
+                document.getElementById('current-region').textContent =
+                    'Test completed! Analyzing results...';
+            }
+        });
+    });
+</script>
 @endsection

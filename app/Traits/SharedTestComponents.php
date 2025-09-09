@@ -20,6 +20,7 @@ trait SharedTestComponents
     
     // Common properties
     public $url = '';
+    public $start = false;
     public $currentTest = null;
     public $isLoading = false;
 
@@ -65,6 +66,7 @@ trait SharedTestComponents
         $this->loadUserDomains();
         $this->loadScheduledTests();
         $this->refreshUsageInfo();
+        $this->getStart();
     }
 
     /**
@@ -74,6 +76,14 @@ trait SharedTestComponents
     {
         if(isset($_GET['url'])) {
             $this->url = $_GET['url'];
+        }
+    }
+
+    protected function getStart()
+    {
+        if(isset($_GET['start']) && ($_GET['start'] == '1' || $_GET['start'] == 'true')) {
+            $this->start = true;
+            $this->runTest();
         }
     }
 

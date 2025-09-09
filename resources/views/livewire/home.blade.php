@@ -98,7 +98,7 @@
         }
 
         .hero-cta-btn {
-            font-size: 1.125rem;
+            font-size: 1rem;
             padding: 0.75rem 1.5rem;
             font-weight: 600;
             border: none;
@@ -309,6 +309,23 @@
             margin-right: 1rem;
             flex-shrink: 0;
         }
+
+        .hero-url-input {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero-url-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .hero-url-input:focus {
+            border-color: #845ef7;
+            box-shadow: 0 0 0 0.2rem rgba(132, 94, 247, 0.25);
+            background: rgba(255, 255, 255, 0.15);
+        }
     </style>
 @endsection
 <div>
@@ -344,13 +361,16 @@
                         <strong>Performance · Security · Quality · Content</strong>.
                     </p>
 
-                    <!-- Call-to-actions -->
-                    <a href="#test" class="btn hero-cta-btn me-3">
-                        Start Free Test
-                    </a>
-                    <a href="#pricing" class="btn btn-outline-light">
-                        View Pricing
-                    </a>
+                    <!-- Replace existing CTA buttons with this -->
+                    <div class="input-group" style="max-width: 500px;">
+                        <input type="url" class="form-control hero-url-input"
+                            placeholder="Enter your URL.." id="speedTestUrl"
+                            style="font-size: 1rem; padding: 0.75rem;color:rgb(233, 233, 233)">
+                        <button class="btn hero-cta-btn" type="button" onclick="startSpeedTest()"
+                            style="padding: 0.75rem 1rem;">
+                            Speed Test
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Right feature cards -->
@@ -1082,4 +1102,37 @@
     </section>
 </div>
 @section('js')
+    <script>
+        function startSpeedTest() {
+            const urlInput = document.getElementById('speedTestUrl');
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                urlInput.focus();
+                return;
+            }
+
+            // URL 형식 간단 검증
+            if (!url.includes('.')) {
+                alert('올바른 URL을 입력해주세요 (예: example.com)');
+                return;
+            }
+
+            // https:// 자동 추가
+            let formattedUrl = url;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                formattedUrl = 'https://' + url;
+            }
+
+            // 페이지 이동
+            window.location.href = `/performance/speed?url=${encodeURIComponent(formattedUrl)}&start=true`;
+        }
+
+        // Enter 키 지원
+        document.getElementById('speedTestUrl').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startSpeedTest();
+            }
+        });
+    </script>
 @endsection
