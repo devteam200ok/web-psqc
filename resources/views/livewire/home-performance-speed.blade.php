@@ -130,7 +130,7 @@
                         </div>
                         <!-- URL 입력 폼 아래에 추가 -->
                         @if ($isLoading)
-                            <div class="mt-3 p-3 bg-light rounded" id="loading-progress">
+                            <div class="mt-3 p-3 bg-light rounded" id="loading-progress" wire:ignore>
                                 <div class="d-flex align-items-center mb-2">
                                     <div class="spinner-border spinner-border-sm me-2" role="status"></div>
                                     <span class="fw-bold">Testing in progress...</span>
@@ -618,7 +618,6 @@
     let progressInterval;
     let currentStep = 0;
     let pollingInterval;
-    let isTestRunning = false;
 
     const testSteps = [
         "Initializing global speed test...",
@@ -626,85 +625,71 @@
         "Seoul: TCP handshake in progress...",
         "Seoul: TLS handshake completed",
         "Seoul: Downloading content...",
-        // ... 나머지 steps
+        "Connecting to Tokyo server...",
+        "Tokyo: TCP handshake in progress...",
+        "Tokyo: TLS handshake completed",
+        "Tokyo: Downloading content...",
+        "Connecting to Singapore server...",
+        "Singapore: TCP handshake in progress...",
+        "Singapore: TLS handshake completed",
+        "Singapore: Downloading content...",
+        "Connecting to Sydney server...",
+        "Sydney: TCP handshake in progress...",
+        "Sydney: TLS handshake completed",
+        "Sydney: Downloading content...",
+        "Connecting to Virginia server...",
+        "Virginia: TCP handshake in progress...",
+        "Virginia: TLS handshake completed",
+        "Virginia: Downloading content...",
+        "Connecting to Oregon server...",
+        "Oregon: TCP handshake in progress...",
+        "Oregon: TLS handshake completed",
+        "Oregon: Downloading content...",
+        "Connecting to Frankfurt server...",
+        "Frankfurt: TCP handshake in progress...",
+        "Frankfurt: TLS handshake completed",
+        "Frankfurt: Downloading content...",
+        "Connecting to London server...",
+        "London: TCP handshake in progress...",
+        "London: TLS handshake completed",
+        "London: Downloading content...",
+        "Analyzing performance data...",
+        "Calculating global averages...",
+        "Generating performance report...",
+        "Test completed!"
     ];
 
     function startProgressSimulation() {
-        if (isTestRunning) return;
-
-        isTestRunning = true;
         currentStep = 0;
 
-        // DOM 요소가 존재할 때까지 기다림
-        const waitForElements = () => {
-            const regionEl = document.getElementById('current-region');
-            const progressEl = document.getElementById('progress-bar');
-
-            if (regionEl && progressEl) {
-                runProgressLoop();
-            } else {
-                setTimeout(waitForElements, 100);
-            }
-        };
-
-        waitForElements();
-    }
-
-    function runProgressLoop() {
         progressInterval = setInterval(() => {
-            if (currentStep < testSteps.length && isTestRunning) {
-                updateProgressUI();
+            if (currentStep < testSteps.length) {
+                document.getElementById('current-region').textContent = testSteps[currentStep];
+                const progress = Math.min(95, (currentStep / testSteps.length) * 100);
+                document.getElementById('progress-bar').style.width = progress + '%';
                 currentStep++;
             }
         }, getRandomInterval());
-    }
-
-    function updateProgressUI() {
-        // DOM 요소 재확인 (Livewire 렌더링 후에도 업데이트)
-        const regionEl = document.getElementById('current-region');
-        const progressEl = document.getElementById('progress-bar');
-
-        if (regionEl && testSteps[currentStep]) {
-            regionEl.textContent = testSteps[currentStep];
-        }
-
-        if (progressEl) {
-            const progress = Math.min(95, (currentStep / testSteps.length) * 100);
-            progressEl.style.width = progress + '%';
-        }
-    }
-
-    function stopProgressSimulation() {
-        isTestRunning = false;
-        if (progressInterval) {
-            clearInterval(progressInterval);
-            progressInterval = null;
-        }
-
-        // 완료 상태 표시
-        setTimeout(() => {
-            const regionEl = document.getElementById('current-region');
-            const progressEl = document.getElementById('progress-bar');
-
-            if (progressEl) progressEl.style.width = '100%';
-            if (regionEl) regionEl.textContent = 'Test completed! Analyzing results...';
-        }, 100);
     }
 
     function getRandomInterval() {
         return Math.random() * (2000 - 500) + 500;
     }
 
+    function stopProgressSimulation() {
+        if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+        }
+
+        document.getElementById('progress-bar').style.width = '100%';
+        document.getElementById('current-region').textContent = 'Test completed! Analyzing results...';
+    }
+
     function startPolling() {
         if (pollingInterval) clearInterval(pollingInterval);
-
         pollingInterval = setInterval(() => {
             Livewire.dispatch('check-status');
-
-            // 폴링 후 UI 상태 복원
-            if (isTestRunning) {
-                setTimeout(updateProgressUI, 50);
-            }
         }, 2000);
     }
 
