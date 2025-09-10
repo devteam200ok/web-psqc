@@ -48,37 +48,6 @@
 @endsection
 @section('css')
 @include('components.test-shared.css')
-<style>
-    #loading-progress {
-        border-left: 4px solid #0066cc;
-        animation: pulse-border 2s infinite;
-    }
-
-    @keyframes pulse-border {
-        0% {
-            border-left-color: #0066cc;
-        }
-
-        50% {
-            border-left-color: #0099ff;
-        }
-
-        100% {
-            border-left-color: #0066cc;
-        }
-    }
-
-    .progress-bar {
-        transition: width 0.3s ease;
-        background: linear-gradient(90deg, #0066cc, #0099ff);
-    }
-
-    #current-region {
-        font-family: 'Courier New', monospace;
-        color: #495057;
-        min-height: 1.2em;
-    }
-</style>
 @endsection
 
 <div class="page-wrapper">
@@ -612,34 +581,7 @@
 @section('js')
 @include('components.test-shared.js')
 <script>
-    let progressInterval;
     let pollingInterval;
-
-    function startProgressSimulation() {
-        let progress = 0;
-
-        progressInterval = setInterval(() => {
-            if (progress < 95) {
-                const increment = Math.random() * 4.5 + 1;
-                progress = Math.min(95, progress + increment);
-                document.getElementById('progress-bar').style.width = progress + '%';
-            }
-        }, getRandomInterval());
-    }
-
-    function getRandomInterval() {
-        // 400ms ~ 3000ms (기존 200-1500ms에서 2배로 증가)
-        return Math.random() * (3000 - 400) + 400;
-    }
-
-    function stopProgressSimulation() {
-        if (progressInterval) {
-            clearInterval(progressInterval);
-            progressInterval = null;
-        }
-
-        document.getElementById('progress-bar').style.width = '100%';
-    }
 
     function startPolling() {
         if (pollingInterval) clearInterval(pollingInterval);
@@ -658,7 +600,6 @@
     document.addEventListener('livewire:init', () => {
         Livewire.on('auto-start-test', () => {
             setTimeout(() => {
-                startProgressSimulation();
                 startPolling();
                 @this.call('runTest');
             }, 500);
@@ -669,7 +610,6 @@
         });
 
         Livewire.on('stop-polling', () => {
-            stopProgressSimulation();
             stopPolling();
         });
     });
