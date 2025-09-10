@@ -19,19 +19,19 @@ class SslyzeTestService
         }
         
         try {
-            // 보안 검증
+            // Security validation
             $securityErrors = UrlSecurityValidator::validateWithDnsCheck($url);
             if (!empty($securityErrors)) {
-                throw new \Exception('보안 검증 실패: ' . implode(', ', $securityErrors));
+                throw new \Exception('Security validation failed: ' . implode(', ', $securityErrors));
             }
             
-            // 테스트 상태를 running으로 업데이트
+            // Update test status to running
             $test->update(['status' => 'running']);
             
-            // SSLyze 테스트 실행
+            // Execute SSLyze test
             $results = $this->performSslyzeTest($url);
             
-            // 결과 파싱 및 저장
+            // Parse and save results
             $this->parseAndSaveResults($test, $results);
             
         } catch (\Exception $e) {
@@ -53,16 +53,16 @@ class SslyzeTestService
         $relativePath = $dir . '/sslyze-' . Str::uuid() . '.json';
         $absolutePath = $disk->path($relativePath);
         
-        // URL에서 host와 port 추출
+        // Extract host and port from URL
         $parts = parse_url(trim($url));
         if (!$parts || empty($parts['host'])) {
-            throw new \InvalidArgumentException('유효한 URL을 입력하세요.');
+            throw new \InvalidArgumentException('Please enter a valid URL.');
         }
         $host = $parts['host'];
         $port = $parts['port'] ?? 443;
         $target = $host . ':' . $port;
         
-        // sslyze 실행
+        // Execute sslyze
         $cmd = [
             'sslyze',
             "--json_out={$absolutePath}",
@@ -86,21 +86,21 @@ class SslyzeTestService
         if (!$process->isSuccessful()) {
             $stderr = trim($process->getErrorOutput());
             $stdout = trim($process->getOutput());
-            throw new \RuntimeException($stderr !== '' ? $stderr : ($stdout !== '' ? $stdout : 'sslyze 실행 실패'));
+            throw new \RuntimeException($stderr !== '' ? $stderr : ($stdout !== '' ? $stdout : 'sslyze execution failed'));
         }
         
-        // 결과 읽기
+        // Read results
         $json = null;
         if ($disk->exists($relativePath)) {
             $json = $disk->get($relativePath);
         } elseif (is_file($absolutePath)) {
             $json = file_get_contents($absolutePath);
         } else {
-            throw new \RuntimeException("결과 파일을 찾을 수 없습니다: {$relativePath}");
+            throw new \RuntimeException("Result file not found: {$relativePath}");
         }
         
         if (empty($json)) {
-            throw new \RuntimeException('빈 JSON 파일이 생성되었습니다.');
+            throw new \RuntimeException('Empty JSON file was generated.');
         }
         
         return [
@@ -111,7 +111,7 @@ class SslyzeTestService
     }
     
     /**
-     * JSON 인코딩 가능한 값으로 정리
+     * Clean up values to be JSON encodable
      */
     private function sanitizeForJson($data)
     {
@@ -142,31 +142,31 @@ class SslyzeTestService
         $data = json_decode($json, true);
         
         if (!$data || !isset($data['server_scan_results'][0])) {
-            throw new \Exception('JSON 파싱 실패 또는 빈 결과');
+            throw new \Exception('JSON parsing failed or empty results');
         }
         
         $result = $data['server_scan_results'][0];
         $scan = $result['scan_result'] ?? [];
         
-        // 상세 분석
+        // Detailed analysis
         $analysis = $this->performDetailedAnalysis($scan);
         
-        // 메트릭 추출 (WebTest metrics 필드용)
+        // Extract metrics (for WebTest metrics field)
         $metrics = $this->extractMetrics($analysis);
         
-        // 등급 및 점수 계산
+        // Calculate grade and score
         $gradeData = $this->calculateGradeAndScore($analysis);
         
-        // JSON 인코딩을 위한 데이터 정리
+        // Sanitize data for JSON encoding
         $sanitizedAnalysis = $this->sanitizeForJson($analysis);
         $sanitizedMetrics = $this->sanitizeForJson($metrics);
         $sanitizedIssues = $this->sanitizeForJson($gradeData['issues']);
         $sanitizedRecommendations = $this->sanitizeForJson($gradeData['recommendations']);
         
-        // raw_json은 원본 데이터가 너무 클 수 있으므로 필요한 부분만 저장
+        // raw_json might be too large, so save only necessary parts
         $sanitizedRawJson = $this->sanitizeRawJson($data);
         
-        // WebTest 업데이트
+        // Update WebTest
         $test->update([
             'status' => 'completed',
             'finished_at' => now(),
@@ -183,25 +183,25 @@ class SslyzeTestService
             ]
         ]);
         
-        // 사용자별 테스트 정리
+        // Clean up old tests per user
         if ($test->user_id) {
             WebTest::cleanupOldTests($test->user_id);
         }
     }
     
     /**
-     * Raw JSON 데이터에서 필요한 부분만 추출하고 정리
+     * Extract and sanitize only necessary parts from raw JSON data
      */
     private function sanitizeRawJson($data)
     {
-        // 기본 정보만 유지
+        // Keep only basic information
         $sanitized = [
             'server_info' => $data['server_info'] ?? null,
             'scan_status' => $data['server_scan_results'][0]['scan_status'] ?? null,
             'connectivity_status' => $data['server_scan_results'][0]['server_location']['connectivity_status'] ?? null,
         ];
         
-        // 주요 스캔 결과 요약
+        // Major scan results summary
         if (isset($data['server_scan_results'][0]['scan_result'])) {
             $scanResult = $data['server_scan_results'][0]['scan_result'];
             $sanitized['scan_summary'] = [
@@ -241,22 +241,22 @@ class SslyzeTestService
             $versions['tls_1_3'] = $scan['tls_1_3_cipher_suites']['result']['is_tls_version_supported'];
         }
         
-        // 구식 버전 확인
+        // Check for obsolete versions
         $oldVersions = ['ssl_2_0_cipher_suites', 'ssl_3_0_cipher_suites', 'tls_1_0_cipher_suites', 'tls_1_1_cipher_suites'];
         foreach ($oldVersions as $version) {
             if (isset($scan[$version]['result']['is_tls_version_supported']) && 
                 $scan[$version]['result']['is_tls_version_supported']) {
                 $versionName = str_replace('_cipher_suites', '', strtoupper(str_replace('_', ' ', $version)));
-                $issues[] = "구식 프로토콜 {$versionName} 지원됨";
+                $issues[] = "Obsolete protocol {$versionName} supported";
             }
         }
         
         if (!($versions['tls_1_2'] ?? false) && !($versions['tls_1_3'] ?? false)) {
-            $issues[] = '현대적 TLS 버전(1.2/1.3) 미지원';
+            $issues[] = 'Modern TLS versions (1.2/1.3) not supported';
         }
         
         if (!($versions['tls_1_3'] ?? false)) {
-            $issues[] = 'TLS 1.3 미지원';
+            $issues[] = 'TLS 1.3 not supported';
         }
         
         return [
@@ -273,13 +273,13 @@ class SslyzeTestService
             'weak_ciphers' => []
         ];
         
-        // TLS 1.2 암호군 분석
+        // TLS 1.2 cipher suite analysis
         if (isset($scan['tls_1_2_cipher_suites']['result']['accepted_cipher_suites'])) {
             $ciphers = $scan['tls_1_2_cipher_suites']['result']['accepted_cipher_suites'];
             $analysis['tls_1_2'] = $this->analyzeTls12Ciphers($ciphers);
         }
         
-        // TLS 1.3 암호군 분석
+        // TLS 1.3 cipher suite analysis
         if (isset($scan['tls_1_3_cipher_suites']['result']['accepted_cipher_suites'])) {
             $ciphers = $scan['tls_1_3_cipher_suites']['result']['accepted_cipher_suites'];
             $analysis['tls_1_3'] = [
@@ -303,23 +303,23 @@ class SslyzeTestService
             $name = $cipher['cipher_suite']['name'] ?? '';
             $keySize = $cipher['cipher_suite']['key_size'] ?? 0;
             
-            // PFS 확인
+            // Check PFS
             if (strpos($name, 'ECDHE') !== false || strpos($name, 'DHE') !== false) {
                 $pfs_count++;
             }
             
-            // 약한 암호 확인
+            // Check weak ciphers
             if (strpos($name, 'RC4') !== false || strpos($name, 'DES') !== false || 
                 strpos($name, 'NULL') !== false || strpos($name, 'EXPORT') !== false || 
                 strpos($name, 'anon') !== false || $keySize < 128) {
                 $weak++;
                 $weak_ciphers[] = $name;
-                if (count($issues) < 3) { // 최대 3개만 표시
-                    $issues[] = "약한 암호군: {$name}";
+                if (count($issues) < 3) { // Show maximum 3
+                    $issues[] = "Weak cipher suite: {$name}";
                 }
             } elseif (strpos($name, 'CBC') !== false && strpos($name, 'SHA1') !== false) {
-                // CBC with SHA1은 경고 수준
-                $issues[] = "구식 암호군: {$name}";
+                // CBC with SHA1 is warning level
+                $issues[] = "Obsolete cipher suite: {$name}";
             } else {
                 $strong++;
             }
@@ -329,11 +329,11 @@ class SslyzeTestService
         $pfs_ratio = $total > 0 ? round(($pfs_count / $total) * 100, 1) : 0;
         
         if ($weak > 0) {
-            $issues[] = "총 {$weak}개의 약한 암호군 감지";
+            $issues[] = "Total {$weak} weak cipher suites detected";
         }
         
         if ($pfs_ratio < 100) {
-            $issues[] = "PFS 지원율 {$pfs_ratio}% (100% 권장)";
+            $issues[] = "PFS support rate {$pfs_ratio}% (100% recommended)";
         }
         
         return [
@@ -352,7 +352,7 @@ class SslyzeTestService
         $analysis = ['issues' => [], 'details' => []];
         
         if (!isset($scan['certificate_info']['result']['certificate_deployments'][0])) {
-            $analysis['issues'][] = '인증서 정보를 찾을 수 없음';
+            $analysis['issues'][] = 'Certificate information not found';
             return $analysis;
         }
         
@@ -360,11 +360,11 @@ class SslyzeTestService
         $cert = $deployment['received_certificate_chain'][0] ?? null;
         
         if (!$cert) {
-            $analysis['issues'][] = '인증서 체인 정보 없음';
+            $analysis['issues'][] = 'No certificate chain information';
             return $analysis;
         }
         
-        // 만료일 확인
+        // Check expiry date
         $notAfter = $cert['not_valid_after'] ?? '';
         if ($notAfter) {
             $expiryDate = new \DateTime($notAfter);
@@ -375,15 +375,15 @@ class SslyzeTestService
             $analysis['details']['days_to_expiry'] = $daysToExpiry;
             
             if ($daysToExpiry <= 0) {
-                $analysis['issues'][] = "인증서 만료됨";
+                $analysis['issues'][] = "Certificate expired";
             } elseif ($daysToExpiry <= 14) {
-                $analysis['issues'][] = "인증서 만료 임박 ({$daysToExpiry}일 남음)";
+                $analysis['issues'][] = "Certificate expiry imminent ({$daysToExpiry} days left)";
             } elseif ($daysToExpiry <= 30) {
-                $analysis['issues'][] = "인증서 갱신 권장 ({$daysToExpiry}일 남음)";
+                $analysis['issues'][] = "Certificate renewal recommended ({$daysToExpiry} days left)";
             }
         }
         
-        // 공개키 분석
+        // Public key analysis
         $keyAlgo = $cert['public_key']['algorithm'] ?? '';
         $keySize = $cert['public_key']['key_size'] ?? 0;
         
@@ -392,26 +392,26 @@ class SslyzeTestService
         
         if ($keyAlgo === 'RSAPublicKey') {
             if ($keySize < 2048) {
-                $analysis['issues'][] = "RSA 키 크기 부족 ({$keySize}비트, 최소 2048비트 필요)";
+                $analysis['issues'][] = "Insufficient RSA key size ({$keySize} bits, minimum 2048 bits required)";
             } elseif ($keySize < 3072) {
-                $analysis['issues'][] = "RSA 키 크기 권장 미달 ({$keySize}비트, 3072비트 권장)";
+                $analysis['issues'][] = "RSA key size below recommendation ({$keySize} bits, 3072 bits recommended)";
             }
         }
         
-        // 서명 알고리즘
+        // Signature algorithm
         $sigAlgo = $cert['signature_hash_algorithm']['name'] ?? '';
         $analysis['details']['signature_algorithm'] = $sigAlgo;
         
         if (strpos(strtolower($sigAlgo), 'sha1') !== false || strpos(strtolower($sigAlgo), 'md5') !== false) {
-            $analysis['issues'][] = "약한 서명 알고리즘 사용: {$sigAlgo}";
+            $analysis['issues'][] = "Weak signature algorithm used: {$sigAlgo}";
         }
         
-        // 인증서 체인 검증
+        // Certificate chain validation
         $chainLength = count($deployment['received_certificate_chain'] ?? []);
         $analysis['details']['chain_length'] = $chainLength;
         
         if ($chainLength < 2) {
-            $analysis['issues'][] = '인증서 체인 불완전 (중간 인증서 누락 가능성)';
+            $analysis['issues'][] = 'Incomplete certificate chain (possible missing intermediate certificate)';
         }
         
         return $analysis;
@@ -430,14 +430,14 @@ class SslyzeTestService
             $analysis['certificate_status'] = $certStatus;
             
             if ($status === 'SUCCESSFUL' && $certStatus === 'GOOD') {
-                // OCSP Stapling 정상
+                // OCSP Stapling normal
             } elseif ($status !== 'SUCCESSFUL') {
-                $analysis['issues'][] = 'OCSP Stapling 비활성 또는 실패';
+                $analysis['issues'][] = 'OCSP Stapling disabled or failed';
             } else {
-                $analysis['issues'][] = "인증서 상태 이상: {$certStatus}";
+                $analysis['issues'][] = "Certificate status abnormal: {$certStatus}";
             }
         } else {
-            $analysis['issues'][] = 'OCSP Stapling 미구성';
+            $analysis['issues'][] = 'OCSP Stapling not configured';
         }
         
         return $analysis;
@@ -452,19 +452,19 @@ class SslyzeTestService
             $analysis['hsts'] = $hsts;
             
             $maxAge = $hsts['max_age'] ?? 0;
-            if ($maxAge < 15552000) { // 6개월
-                $analysis['issues'][] = 'HSTS max-age 값이 낮음 (최소 6개월 권장)';
+            if ($maxAge < 15552000) { // 6 months
+                $analysis['issues'][] = 'HSTS max-age value is low (minimum 6 months recommended)';
             }
             
             if (!($hsts['include_subdomains'] ?? false)) {
-                $analysis['issues'][] = 'HSTS includeSubDomains 미설정';
+                $analysis['issues'][] = 'HSTS includeSubDomains not set';
             }
             
             if (!($hsts['preload'] ?? false)) {
-                $analysis['issues'][] = 'HSTS preload 미설정';
+                $analysis['issues'][] = 'HSTS preload not set';
             }
         } else {
-            $analysis['issues'][] = 'HSTS 헤더 미설정';
+            $analysis['issues'][] = 'HSTS header not set';
         }
         
         return $analysis;
@@ -482,14 +482,14 @@ class SslyzeTestService
             $has_modern = array_intersect($modern_curves, $analysis['supported']);
             
             if (empty($has_modern)) {
-                $analysis['issues'][] = '현대적 타원곡선 미지원';
+                $analysis['issues'][] = 'Modern elliptic curves not supported';
             }
             
-            // 약한 곡선 체크
+            // Check weak curves
             $weak_curves = ['secp192r1', 'secp224r1'];
             $has_weak = array_intersect($weak_curves, $analysis['supported']);
             if (!empty($has_weak)) {
-                $analysis['issues'][] = '약한 타원곡선 지원: ' . implode(', ', $has_weak);
+                $analysis['issues'][] = 'Weak elliptic curves supported: ' . implode(', ', $has_weak);
             }
         }
         
@@ -500,28 +500,28 @@ class SslyzeTestService
     {
         $metrics = [];
         
-        // TLS 버전 메트릭
+        // TLS version metrics
         $metrics['tls_1_2_supported'] = $analysis['tls_versions']['supported_versions']['tls_1_2'] ?? false;
         $metrics['tls_1_3_supported'] = $analysis['tls_versions']['supported_versions']['tls_1_3'] ?? false;
         
-        // 암호군 메트릭
+        // Cipher suite metrics
         if (isset($analysis['cipher_suites']['tls_1_2'])) {
             $metrics['cipher_total'] = $analysis['cipher_suites']['tls_1_2']['total'];
             $metrics['cipher_weak'] = $analysis['cipher_suites']['tls_1_2']['weak'];
             $metrics['pfs_ratio'] = $analysis['cipher_suites']['tls_1_2']['pfs_ratio'];
         }
         
-        // 인증서 메트릭
+        // Certificate metrics
         if (isset($analysis['certificate']['details'])) {
             $metrics['cert_days_to_expiry'] = $analysis['certificate']['details']['days_to_expiry'] ?? null;
             $metrics['cert_key_size'] = $analysis['certificate']['details']['key_size'] ?? null;
             $metrics['cert_key_algo'] = $analysis['certificate']['details']['key_algorithm'] ?? null;
         }
         
-        // OCSP 메트릭
+        // OCSP metrics
         $metrics['ocsp_stapling'] = ($analysis['ocsp']['status'] ?? '') === 'SUCCESSFUL';
         
-        // HSTS 메트릭
+        // HSTS metrics
         $metrics['hsts_enabled'] = isset($analysis['http_headers']['hsts']);
         if ($metrics['hsts_enabled']) {
             $metrics['hsts_max_age'] = $analysis['http_headers']['hsts']['max_age'] ?? 0;
@@ -537,41 +537,41 @@ class SslyzeTestService
         $score = 0;
         $maxScore = 100;
         
-        // 1. TLS 버전 평가 (25점)
+        // 1. TLS version evaluation (25 points)
         $tlsScore = 0;
         $tls12 = $analysis['tls_versions']['supported_versions']['tls_1_2'] ?? false;
         $tls13 = $analysis['tls_versions']['supported_versions']['tls_1_3'] ?? false;
         
         if ($tls13 && $tls12) {
-            $tlsScore = 25; // TLS 1.3과 1.2 모두 지원
+            $tlsScore = 25; // Both TLS 1.3 and 1.2 supported
         } elseif ($tls12) {
-            $tlsScore = 15; // TLS 1.2만 지원
+            $tlsScore = 15; // Only TLS 1.2 supported
         }
         
-        // 구식 프로토콜 감점
+        // Deduct points for obsolete protocols
         $oldProtocolCount = count($analysis['tls_versions']['issues']);
         $tlsScore -= min($oldProtocolCount * 5, 15);
         
         $score += max(0, $tlsScore);
         
-        // 2. 암호군 평가 (25점)
+        // 2. Cipher suite evaluation (25 points)
         $cipherScore = 0;
         if (isset($analysis['cipher_suites']['tls_1_2'])) {
             $tls12Ciphers = $analysis['cipher_suites']['tls_1_2'];
             
-            // PFS 비율 (10점)
+            // PFS ratio (10 points)
             $pfsRatio = $tls12Ciphers['pfs_ratio'] ?? 0;
             $cipherScore += ($pfsRatio / 100) * 10;
             
-            // 약한 암호 감점
+            // Deduct points for weak ciphers
             $weakCount = $tls12Ciphers['weak'] ?? 0;
             if ($weakCount === 0) {
-                $cipherScore += 10; // 약한 암호 없음
+                $cipherScore += 10; // No weak ciphers
             } else {
                 $cipherScore -= min($weakCount * 3, 15);
             }
             
-            // TLS 1.3 암호군 보너스
+            // TLS 1.3 cipher suite bonus
             if (($analysis['cipher_suites']['tls_1_3']['total'] ?? 0) > 0) {
                 $cipherScore += 5;
             }
@@ -579,51 +579,51 @@ class SslyzeTestService
         
         $score += max(0, $cipherScore);
         
-        // 3. 인증서 평가 (20점)
+        // 3. Certificate evaluation (20 points)
         $certScore = 20;
         $certIssues = $analysis['certificate']['issues'] ?? [];
         
         foreach ($certIssues as $issue) {
-            if (strpos($issue, '만료') !== false) {
-                if (strpos($issue, '만료됨') !== false) {
-                    $certScore = 0; // 만료된 인증서
-                } elseif (strpos($issue, '임박') !== false) {
+            if (strpos($issue, 'expir') !== false) {
+                if (strpos($issue, 'expired') !== false) {
+                    $certScore = 0; // Expired certificate
+                } elseif (strpos($issue, 'imminent') !== false) {
                     $certScore -= 10;
                 } else {
                     $certScore -= 5;
                 }
-            } elseif (strpos($issue, '키 크기') !== false) {
+            } elseif (strpos($issue, 'key size') !== false) {
                 $certScore -= 5;
-            } elseif (strpos($issue, '약한 서명') !== false) {
+            } elseif (strpos($issue, 'Weak signature') !== false) {
                 $certScore -= 8;
-            } elseif (strpos($issue, '체인') !== false) {
+            } elseif (strpos($issue, 'chain') !== false) {
                 $certScore -= 5;
             }
         }
         
-        // 키 알고리즘 보너스
+        // Key algorithm bonus
         $keyAlgo = $analysis['certificate']['details']['key_algorithm'] ?? '';
         $keySize = $analysis['certificate']['details']['key_size'] ?? 0;
         
         if ($keyAlgo === 'ECPublicKey' && $keySize >= 256) {
-            $certScore += 3; // ECDSA 보너스
+            $certScore += 3; // ECDSA bonus
         } elseif ($keyAlgo === 'RSAPublicKey' && $keySize >= 3072) {
-            $certScore += 2; // RSA 3072+ 보너스
+            $certScore += 2; // RSA 3072+ bonus
         }
         
         $score += max(0, min(20, $certScore));
         
-        // 4. OCSP Stapling 평가 (10점)
+        // 4. OCSP Stapling evaluation (10 points)
         if (($analysis['ocsp']['status'] ?? '') === 'SUCCESSFUL' && 
             ($analysis['ocsp']['certificate_status'] ?? '') === 'GOOD') {
             $score += 10;
         } elseif (empty($analysis['ocsp']['issues'])) {
-            $score += 5; // 부분 지원
+            $score += 5; // Partial support
         }
         
-        // 5. HTTP 보안 헤더 평가 (10점)
+        // 5. HTTP security headers evaluation (10 points)
         if (isset($analysis['http_headers']['hsts'])) {
-            $hstsScore = 5; // 기본 HSTS
+            $hstsScore = 5; // Basic HSTS
             $hsts = $analysis['http_headers']['hsts'];
             
             if (($hsts['max_age'] ?? 0) >= 15552000) {
@@ -639,7 +639,7 @@ class SslyzeTestService
             $score += $hstsScore;
         }
         
-        // 6. 타원곡선 평가 (10점)
+        // 6. Elliptic curves evaluation (10 points)
         if (!empty($analysis['elliptic_curves']['supported'])) {
             $curveScore = 5;
             $modern_curves = ['X25519', 'secp256r1', 'secp384r1'];
@@ -652,7 +652,7 @@ class SslyzeTestService
                 $curveScore += 3;
             }
             
-            // 약한 곡선 감점
+            // Deduct points for weak curves
             if (!empty($analysis['elliptic_curves']['issues'])) {
                 $curveScore -= 3;
             }
@@ -660,17 +660,17 @@ class SslyzeTestService
             $score += max(0, $curveScore);
         }
         
-        // 이슈 수집
+        // Collect issues
         foreach ($analysis as $category => $data) {
             if (isset($data['issues'])) {
                 $issues = array_merge($issues, $data['issues']);
             }
         }
         
-        // 권장사항 생성
+        // Generate recommendations
         $recommendations = $this->generateRecommendations($analysis);
         
-        // 등급 계산
+        // Calculate grade
         $grade = $this->determineGrade($score);
         
         return [
@@ -683,7 +683,7 @@ class SslyzeTestService
     
     private function determineGrade(float $score): string
     {
-        // 첨부된 등급 기준에 맞춰 조정
+        // Adjusted to match attached grade criteria
         if ($score >= 90) {
             return 'A+';
         } elseif ($score >= 80) {
@@ -703,75 +703,75 @@ class SslyzeTestService
     {
         $recommendations = [];
         
-        // TLS 권장사항
+        // TLS recommendations
         if (!($analysis['tls_versions']['supported_versions']['tls_1_3'] ?? false)) {
-            $recommendations[] = 'TLS 1.3을 활성화하여 최신 보안 표준을 준수하세요.';
+            $recommendations[] = 'Enable TLS 1.3 to comply with the latest security standards.';
         }
         
         if (!empty($analysis['tls_versions']['issues'])) {
             foreach ($analysis['tls_versions']['issues'] as $issue) {
-                if (strpos($issue, '구식 프로토콜') !== false) {
-                    $recommendations[] = '구식 프로토콜(SSL 3.0, TLS 1.0/1.1)을 비활성화하세요.';
+                if (strpos($issue, 'Obsolete protocol') !== false) {
+                    $recommendations[] = 'Disable obsolete protocols (SSL 3.0, TLS 1.0/1.1).';
                     break;
                 }
             }
         }
         
-        // 암호군 권장사항
+        // Cipher suite recommendations
         if (isset($analysis['cipher_suites']['tls_1_2'])) {
             $pfsRatio = $analysis['cipher_suites']['tls_1_2']['pfs_ratio'] ?? 0;
             if ($pfsRatio < 100) {
-                $recommendations[] = '모든 암호군에서 Perfect Forward Secrecy(PFS)를 지원하도록 설정하세요.';
+                $recommendations[] = 'Configure all cipher suites to support Perfect Forward Secrecy (PFS).';
             }
             
             if (($analysis['cipher_suites']['tls_1_2']['weak'] ?? 0) > 0) {
-                $recommendations[] = '약한 암호군(RC4, DES, NULL, EXPORT)을 비활성화하세요.';
+                $recommendations[] = 'Disable weak cipher suites (RC4, DES, NULL, EXPORT).';
             }
         }
         
-        // 인증서 권장사항
+        // Certificate recommendations
         if (!empty($analysis['certificate']['details'])) {
             $keyAlgo = $analysis['certificate']['details']['key_algorithm'] ?? '';
             $keySize = $analysis['certificate']['details']['key_size'] ?? 0;
             
             if ($keyAlgo === 'RSAPublicKey' && $keySize < 3072) {
-                $recommendations[] = 'RSA 인증서의 키 크기를 3072비트 이상으로 업그레이드하거나 ECDSA 인증서로 전환을 고려하세요.';
+                $recommendations[] = 'Upgrade RSA certificate key size to 3072 bits or higher, or consider switching to ECDSA certificate.';
             }
             
             $daysToExpiry = $analysis['certificate']['details']['days_to_expiry'] ?? 0;
             if ($daysToExpiry <= 30 && $daysToExpiry > 0) {
-                $recommendations[] = '인증서 만료가 가까워지고 있습니다. 갱신을 준비하세요.';
+                $recommendations[] = 'Certificate expiry is approaching. Prepare for renewal.';
             }
         }
         
-        // OCSP 권장사항
+        // OCSP recommendations
         if (($analysis['ocsp']['status'] ?? '') !== 'SUCCESSFUL') {
-            $recommendations[] = 'OCSP Stapling을 활성화하여 인증서 상태 확인 성능을 개선하세요.';
+            $recommendations[] = 'Enable OCSP Stapling to improve certificate status checking performance.';
         }
         
-        // HSTS 권장사항
+        // HSTS recommendations
         if (!isset($analysis['http_headers']['hsts'])) {
-            $recommendations[] = 'HSTS(HTTP Strict Transport Security) 헤더를 설정하세요.';
+            $recommendations[] = 'Configure HSTS (HTTP Strict Transport Security) header.';
         } else {
             $hsts = $analysis['http_headers']['hsts'];
             if (($hsts['max_age'] ?? 0) < 31536000) {
-                $recommendations[] = 'HSTS max-age를 최소 1년(31536000초)로 설정하세요.';
+                $recommendations[] = 'Set HSTS max-age to at least 1 year (31536000 seconds).';
             }
             if (!($hsts['include_subdomains'] ?? false)) {
-                $recommendations[] = 'HSTS에 includeSubDomains 지시어를 추가하세요.';
+                $recommendations[] = 'Add includeSubDomains directive to HSTS.';
             }
             if (!($hsts['preload'] ?? false)) {
-                $recommendations[] = 'HSTS Preload 목록 등록을 고려하세요.';
+                $recommendations[] = 'Consider registering for HSTS Preload list.';
             }
         }
         
-        // 타원곡선 권장사항
+        // Elliptic curves recommendations
         if (!empty($analysis['elliptic_curves']['issues'])) {
-            $recommendations[] = '현대적 타원곡선(X25519, secp256r1, secp384r1)을 지원하세요.';
+            $recommendations[] = 'Support modern elliptic curves (X25519, secp256r1, secp384r1).';
         }
         
         if (empty($recommendations)) {
-            $recommendations[] = '현재 SSL/TLS 설정이 우수합니다. 정기적인 모니터링을 지속하세요.';
+            $recommendations[] = 'Your current SSL/TLS configuration is excellent. Continue regular monitoring.';
         }
         
         return array_unique($recommendations);
