@@ -673,7 +673,7 @@
     }
 
     function getRandomInterval() {
-        return Math.random() * (2000 - 500) + 500;
+        return Math.random() * (1500 - 200) + 200;
     }
 
     function stopProgressSimulation() {
