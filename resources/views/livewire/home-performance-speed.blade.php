@@ -97,22 +97,6 @@
                                 @endif
                             </div>
                         </div>
-                        <!-- URL 입력 폼 아래에 추가 -->
-                        @if ($isLoading)
-                            <div class="mt-3 p-3 bg-light rounded" id="loading-progress" wire:ignore>
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
-                                    <span class="fw-bold">Testing in progress...</span>
-                                </div>
-                                <div class="progress mb-2" style="height: 6px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 0%"
-                                        id="progress-bar"></div>
-                                </div>
-                                <div class="small text-muted">
-                                    Estimated time: 30-60 seconds | Testing across 8 global regions
-                                </div>
-                            </div>
-                        @endif
                     </div>
                 </div>
 
