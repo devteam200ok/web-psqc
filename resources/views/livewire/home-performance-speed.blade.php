@@ -135,9 +135,6 @@
                                     <div class="spinner-border spinner-border-sm me-2" role="status"></div>
                                     <span class="fw-bold">Testing in progress...</span>
                                 </div>
-                                <div class="small text-muted mb-2">
-                                    <span id="current-region">Initializing global speed test...</span>
-                                </div>
                                 <div class="progress mb-2" style="height: 6px;">
                                     <div class="progress-bar" role="progressbar" style="width: 0%"
                                         id="progress-bar"></div>
@@ -616,58 +613,17 @@
 @include('components.test-shared.js')
 <script>
     let progressInterval;
-    let currentStep = 0;
     let pollingInterval;
 
-    const testSteps = [
-        "Initializing global speed test...",
-        "Connecting to Seoul server...",
-        "Seoul: TCP handshake in progress...",
-        "Seoul: TLS handshake completed",
-        "Seoul: Downloading content...",
-        "Connecting to Tokyo server...",
-        "Tokyo: TCP handshake in progress...",
-        "Tokyo: TLS handshake completed",
-        "Tokyo: Downloading content...",
-        "Connecting to Singapore server...",
-        "Singapore: TCP handshake in progress...",
-        "Singapore: TLS handshake completed",
-        "Singapore: Downloading content...",
-        "Connecting to Sydney server...",
-        "Sydney: TCP handshake in progress...",
-        "Sydney: TLS handshake completed",
-        "Sydney: Downloading content...",
-        "Connecting to Virginia server...",
-        "Virginia: TCP handshake in progress...",
-        "Virginia: TLS handshake completed",
-        "Virginia: Downloading content...",
-        "Connecting to Oregon server...",
-        "Oregon: TCP handshake in progress...",
-        "Oregon: TLS handshake completed",
-        "Oregon: Downloading content...",
-        "Connecting to Frankfurt server...",
-        "Frankfurt: TCP handshake in progress...",
-        "Frankfurt: TLS handshake completed",
-        "Frankfurt: Downloading content...",
-        "Connecting to London server...",
-        "London: TCP handshake in progress...",
-        "London: TLS handshake completed",
-        "London: Downloading content...",
-        "Analyzing performance data...",
-        "Calculating global averages...",
-        "Generating performance report...",
-        "Test completed!"
-    ];
-
     function startProgressSimulation() {
-        currentStep = 0;
+        let progress = 0;
 
         progressInterval = setInterval(() => {
-            if (currentStep < testSteps.length) {
-                document.getElementById('current-region').textContent = testSteps[currentStep];
-                const progress = Math.min(95, (currentStep / testSteps.length) * 100);
+            if (progress < 95) {
+                // 1-8% 사이 랜덤 증가
+                const increment = Math.random() * 8 + 1;
+                progress = Math.min(95, progress + increment);
                 document.getElementById('progress-bar').style.width = progress + '%';
-                currentStep++;
             }
         }, getRandomInterval());
     }
@@ -683,7 +639,6 @@
         }
 
         document.getElementById('progress-bar').style.width = '100%';
-        document.getElementById('current-region').textContent = 'Test completed! Analyzing results...';
     }
 
     function startPolling() {
