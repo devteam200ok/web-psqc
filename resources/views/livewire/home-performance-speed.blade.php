@@ -615,19 +615,22 @@
     let progressInterval;
     let pollingInterval;
 
-    function getRandomInterval() {
-        return Math.random() * (1500 - 200) + 200; // 기존과 동일한 간격
-    }
-
     function startProgressSimulation() {
         let progress = 0;
+
         progressInterval = setInterval(() => {
             if (progress < 95) {
-                const increment = Math.random() * 3.5 + 0.5; // 절반 증가량
+                // 0.5-4% 사이 랜덤 증가 (기존 1-8%에서 절반으로 감소)
+                const increment = Math.random() * 4.5 + 1;
                 progress = Math.min(95, progress + increment);
                 document.getElementById('progress-bar').style.width = progress + '%';
             }
         }, getRandomInterval());
+    }
+
+    function getRandomInterval() {
+        // 400ms ~ 3000ms (기존 200-1500ms에서 2배로 증가)
+        return Math.random() * (3000 - 400) + 400;
     }
 
     function stopProgressSimulation() {
