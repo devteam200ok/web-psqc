@@ -620,7 +620,6 @@
 
         progressInterval = setInterval(() => {
             if (progress < 95) {
-                // 0.5-4% 사이 랜덤 증가 (기존 1-8%에서 절반으로 감소)
                 const increment = Math.random() * 4.5 + 1;
                 progress = Math.min(95, progress + increment);
                 document.getElementById('progress-bar').style.width = progress + '%';
