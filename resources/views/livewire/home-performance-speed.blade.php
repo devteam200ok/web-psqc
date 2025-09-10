@@ -620,8 +620,8 @@
 
         progressInterval = setInterval(() => {
             if (progress < 95) {
-                // 1-8% 사이 랜덤 증가
-                const increment = Math.random() * 8 + 1;
+                // 0.5-4% 사이 랜덤 증가 (기존 1-8%에서 절반으로 감소)
+                const increment = Math.random() * 3.5 + 0.5;
                 progress = Math.min(95, progress + increment);
                 document.getElementById('progress-bar').style.width = progress + '%';
             }
@@ -629,7 +629,8 @@
     }
 
     function getRandomInterval() {
-        return Math.random() * (1500 - 200) + 200;
+        // 400ms ~ 3000ms (기존 200-1500ms에서 2배로 증가)
+        return Math.random() * (3000 - 400) + 400;
     }
 
     function stopProgressSimulation() {
