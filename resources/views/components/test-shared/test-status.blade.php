@@ -25,12 +25,12 @@
         @endif
 
         @if ($currentTest->status === 'failed' && $currentTest->error_message)
-            <div class="alert alert-danger mt-2">
+            <div class="alert alert-danger d-block mt-2">
                 <strong>Test could not be completed.</strong><br>
                 Please first check if your website is accessible for external testing. (firewall, access restrictions,
                 server status, etc.)<br>
                 System administrators are analyzing failure logs and working to resolve issues quickly.<br>
-                <span class="text-success"><strong>Credits used for failed tests are automatically
+                <span class="text-primary"><strong>Credits used for failed tests are automatically
                         restored.</strong></span>
             </div>
         @endif
