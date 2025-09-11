@@ -851,7 +851,7 @@
                         <tr>
                             <td rowspan="4"><span class="fw-bold">Coupon-based</span></td>
                             <td>Test1</td>
-                            <td>$4.90</td>
+                            <td>$5</td>
                             <td>Up to 30 runs within 1 day</td>
                             <td>Quota within period</td>
                             <td class="text-end">
