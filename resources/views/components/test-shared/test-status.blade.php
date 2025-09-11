@@ -8,8 +8,7 @@
             <p><strong>Test Date:</strong> {{ $currentTest->created_at->format('Y-m-d H:i:s') }}</p>
             @if ($currentTest->overall_grade)
                 <p><strong>Grade:</strong>
-                    <span
-                        class="badge {{ $currentTest->grade_color }}">{{ $currentTest->overall_grade }}</span>
+                    <span class="badge {{ $currentTest->grade_color }}">{{ $currentTest->overall_grade }}</span>
                     @if ($currentTest->overall_score)
                         ({{ number_format($currentTest->overall_score, 1) }} points)
                     @endif
@@ -26,7 +25,14 @@
         @endif
 
         @if ($currentTest->status === 'failed' && $currentTest->error_message)
-            <div class="alert alert-danger mt-2">{{ $currentTest->error_message }}</div>
+            <div class="alert alert-danger mt-2">
+                <strong>Test could not be completed.</strong><br>
+                Please first check if your website is accessible for external testing. (firewall, access restrictions,
+                server status, etc.)<br>
+                System administrators are analyzing failure logs and working to resolve issues quickly.<br>
+                <span class="text-success"><strong>Credits used for failed tests are automatically
+                        restored.</strong></span>
+            </div>
         @endif
     </div>
 @endif
